@@ -28,6 +28,15 @@
     {{data}}
     <router-link v-bind:to="'/result/'+pollId">Check result</router-link>
   </div>
+  <div id="mapcontainer">
+
+    <div id="map" v-on:click="setLocation">
+
+      <div v-bind:style="{left: location.x + 'px', top: location.y + 'px'}">
+        T
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -44,7 +53,9 @@ export default {
       answers: ["", ""],
       questionNumber: 0,
       data: {},
-      uiLabels: {}
+      uiLabels: {},
+      location: { x: 0,
+        y: 0}
     }
   },
   created: function () {
@@ -71,7 +82,45 @@ export default {
     },
     runQuestion: function () {
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})
+    },
+    setLocation: function(event){
+      var offset = {x: event.currentTarget.getBoundingClientRect().left,
+        y: event.currentTarget.getBoundingClientRect().top};
+
+      this.location={x: event.clientX - 10 - offset.x,
+        y: event.clientY - 10 - offset.y
+      }
+
     }
   }
 }
 </script>
+<style>
+#map {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  background: url();
+  background-repeat: no-repeat;
+  width:1920px;
+  height: 1078px;
+  cursor: crosshair;
+}
+#map div {
+  position: absolute;
+  background: black;
+  color: white;
+  border-radius: 10px;
+  width:20px;
+  height:20px;
+  text-align: center;
+}
+#mapcontainer{
+  width: 800px;
+  height: 450px;
+  overflow:scroll;
+  margin-bottom: 20px;
+  border:groove
+}
+
+</style>
