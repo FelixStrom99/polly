@@ -33,7 +33,7 @@
     <div id="map" v-on:click="setLocation">
 
       <div v-bind:style="{left: location.x + 'px', top: location.y + 'px'}">
-        T
+        O
       </div>
     </div>
   </div>
@@ -122,5 +122,4 @@ export default {
   margin-bottom: 20px;
   border:groove
 }
-
 </style>
