@@ -21,7 +21,9 @@ export default {
     return {
       question: {
         q: "",
-        a: []
+        a: [],
+        location: { x: 0,
+          y: 0}
       },
       pollId: "inactive poll"
     }
