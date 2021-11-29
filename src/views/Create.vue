@@ -1,5 +1,6 @@
 <template>
   <div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg">
     Poll link: 
     <input type="text" v-model="pollId">
     <button v-on:click="createPoll">
@@ -9,6 +10,7 @@
       {{uiLabels.question}}:
       <input type="text" v-model="question">
       <div>
+        <img src="">
         Answers:
         <input v-for="(_, i) in answers" 
                v-model="answers[i]" 
