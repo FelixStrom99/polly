@@ -5,6 +5,7 @@ function sockets(io, socket, data) {
     socket.emit('init', data.getUILabels(lang));
   });
 
+
   socket.on('switchLanguage', function(lang) {
     socket.emit('init', data.getUILabels(lang));
   });
