@@ -24,7 +24,11 @@ Data.prototype.createPoll = function(pollId, lang="en") {
     poll.lang = lang;  
     poll.questions = [];
     poll.answers = [];
-    poll.currentQuestion = 0;              
+    poll.currentQuestion = 0;
+
+    poll.locationQuestions = [];
+    poll.currentLocationQuestion=0;
+    poll.locations=[];
     this.polls[pollId] = poll;
     console.log("poll created", pollId, poll);
   }
@@ -38,7 +42,23 @@ Data.prototype.addQuestion = function(pollId, q) {
     poll.questions.push(q);
   }
 }
+Data.prototype.addLocationQuestion = function(pollId,lq){
+  const poll = this.polls[pollId];
+  console.log("locationquestion added to",pollId,lq)
+  if (typeof poll !== 'undefined') {
+  poll.locations.push(lq)
+}}
 
+Data.prototype.getLocations = function(pollId) {
+  const poll = this.polls[pollId];
+  if (typeof poll !== 'undefined') {
+    const locations = poll.locations[poll.currentLocationQuestion];
+    if (typeof poll.locationQuestions[poll.currentLocationQuestion] !== 'undefined') {
+      return {lq: poll.locationQuestions[poll.currentLocationQuestion].lq, location: locations};
+    }
+  }
+  return {}
+}
 Data.prototype.getQuestion = function(pollId, qId=null) {
   const poll = this.polls[pollId];
   console.log("question requested for ", pollId, qId);
@@ -80,6 +100,3 @@ Data.prototype.getAnswers = function(pollId) {
   return {}
 }
 module.exports = Data;
-
-
-

@@ -5,13 +5,34 @@
     <button v-on:click="createPoll">
       Create poll
     </button>
+
+    <div>
+      Fråga för location:
+      <input type="text" v-model="locationQuestion">
+      </div>
+    <div>
+      <input type="number" v-model="locationQuestionNumber">
+      </div>
+    <button v-on:click="addLocationQuestion">
+      Add locationQuestion
+    </button>
+  <div id="mapcontainer">
+
+    <div id="map" v-on:click="setLocation">
+
+      <div v-bind:style="{left: location.x + 'px', top: location.y + 'px'}">
+        X
+      </div>
+    </div>
+  </div>
     <div>
       {{uiLabels.question}}:
       <input type="text" v-model="question">
       <div>
+        <img src="">
         Answers:
-        <input v-for="(_, i) in answers" 
-               v-model="answers[i]" 
+        <input v-for="(_, i) in answers"
+               v-model="answers[i]"
                v-bind:key="'answer'+i">
         <button v-on:click="addAnswer">
           Add answer alternative
@@ -28,6 +49,11 @@
     {{data}}
     <router-link v-bind:to="'/result/'+pollId">Check result</router-link>
   </div>
+
+  <button type="button" v-on:click="addLocation">
+    Confirm Correct Location
+  </button>
+  {{location}}
 </template>
 
 <script>
@@ -42,9 +68,14 @@ export default {
       pollId: "",
       question: "",
       answers: ["", ""],
+      locationQuestion: "",
+      location: { x: 0,
+        y: 0},
       questionNumber: 0,
+      locationQuestionNumber: 0,
       data: {},
-      uiLabels: {}
+      uiLabels: {},
+
     }
   },
   created: function () {
@@ -61,17 +92,57 @@ export default {
   },
   methods: {
     createPoll: function () {
-      socket.emit("createPoll", {pollId: this.pollId, lang: this.lang })
+      socket.emit("createPoll", {pollId: this.pollId, lang: this.lang})
     },
+    addLocationQuestion: function () {
+        socket.emit("addLocationQuestion",{pollId: this.pollId, lq: this.locationQuestion,location: this.location })
+                            },
     addQuestion: function () {
-      socket.emit("addQuestion", {pollId: this.pollId, q: this.question, a: this.answers } )
+      socket.emit("addQuestion", {pollId: this.pollId, q: this.question, a: this.answers })
     },
     addAnswer: function () {
       this.answers.push("");
     },
     runQuestion: function () {
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})
+    },
+    setLocation: function(event){
+      var offset = {x: event.currentTarget.getBoundingClientRect().left,
+        y: event.currentTarget.getBoundingClientRect().top};
+
+      this.location={x: event.clientX - 10 - offset.x,
+        y: event.clientY - 10 - offset.y
+      }
+
     }
   }
 }
 </script>
+<style>
+#map {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  background: url("https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg");
+  background-repeat: no-repeat;
+  width:1133px;
+  height: 1382px;
+  cursor: crosshair;
+}
+#map div {
+  position: absolute;
+  background: black;
+  color: white;
+  border-radius: 10px;
+  width:20px;
+  height:20px;
+  text-align: center;
+}
+#mapcontainer{
+  width: 800px;
+  height: 450px;
+  overflow:scroll;
+  margin-bottom: 20px;
+  border:groove
+}
+</style>
