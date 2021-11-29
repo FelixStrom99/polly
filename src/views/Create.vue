@@ -1,6 +1,5 @@
 <template>
   <div>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg">
     Poll link: 
     <input type="text" v-model="pollId">
     <button v-on:click="createPoll">
@@ -102,10 +101,10 @@ export default {
   position: relative;
   margin: 0;
   padding: 0;
-  background: url();
+  background: url("https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg");
   background-repeat: no-repeat;
-  width:1920px;
-  height: 1078px;
+  width:1133px;
+  height: 1382px;
   cursor: crosshair;
 }
 #map div {
