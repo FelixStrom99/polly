@@ -1,4 +1,33 @@
 <template>
+  <section>
+    <div>
+      <h1>Create game</h1>
+      <button v-on:click="createPoll">
+        Save
+      </button>
+    </div>
+  </section>
+  <section class="ChooseMap">
+
+    <div>
+      <input type="text" v-model="pollId" placeholder="Enter title...">
+    </div>
+    <div class="maps">
+      <div>
+        <figure>
+          <h1>Uppsala</h1>
+          <img url="https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg"
+               style="height:200px; width:200px;">
+        </figure>
+        <figure>
+          <h1>Stockholm</h1>
+          <img url="https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg"
+               style="height:200px; width:200px;">
+        </figure>
+      </div>
+    </div>
+  </section>
+
   <div>
     Poll link: 
     <input type="text" v-model="pollId">
