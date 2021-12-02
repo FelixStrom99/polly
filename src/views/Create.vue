@@ -1,20 +1,31 @@
 <template>
-  <section>
+  <section v-if="firstStage===true">
     <div>
       <h1>Create game</h1>
       <div>
+<<<<<<< HEAD
         <input type="text" v-model="pollId"  placeholder="Enter title...">
+=======
+        <input type="text" v-model="pollId" placeholder="Enter title...">
+>>>>>>> 764f56b1d19b0d6fd98395dbb8721e7e2584d03c
       </div>
       <button v-on:click="createPoll">
         Save
       </button>
     </div>
   </section>
+<<<<<<< HEAD
   <section class="ChooseMap">
     <div>
       {{pollId}}
     </div>
     <div class="maps">
+=======
+  <section class="ChooseMap" v-else-if="firstStage===false">
+
+
+    <div class="maps" >
+>>>>>>> 764f56b1d19b0d6fd98395dbb8721e7e2584d03c
       <div>
         <figure class="maps a">
           <h1>Uppsala</h1>
@@ -112,6 +123,7 @@ export default {
       locationQuestionNumber: 0,
       data: {},
       uiLabels: {},
+      firstStage:true
 
     }
   },
@@ -130,6 +142,7 @@ export default {
   methods: {
     createPoll: function () {
       socket.emit("createPoll", {pollId: this.pollId, lang: this.lang})
+      this.firstStage=false
     },
     addLocationQuestion: function () {
         socket.emit("addLocationQuestion",{pollId: this.pollId, lq: this.locationQuestion,location: this.location })
