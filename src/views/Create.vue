@@ -2,25 +2,32 @@
   <section>
     <div>
       <h1>Create game</h1>
+      <div>
+        <input type="text" v-model="pollId"  placeholder="Enter title...">
+      </div>
       <button v-on:click="createPoll">
         Save
       </button>
     </div>
   </section>
   <section class="ChooseMap">
-
     <div>
-      <input type="text" v-model="pollId" placeholder="Enter title...">
+      {{pollId}}
     </div>
     <div class="maps">
       <div>
-        <figure>
+        <figure class="maps a">
           <h1>Uppsala</h1>
           <img url="https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg"
                style="height:200px; width:200px;">
         </figure>
-        <figure>
+        <figure class="maps b">
           <h1>Stockholm</h1>
+          <img url="https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg"
+               style="height:200px; width:200px;">
+        </figure>
+        <figure class="maps c">
+          <h1>Sundsvall</h1>
           <img url="https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg"
                style="height:200px; width:200px;">
         </figure>
@@ -95,6 +102,7 @@ export default {
     return {
       lang: "",
       pollId: "",
+      title:"",
       question: "",
       answers: ["", ""],
       locationQuestion: "",
@@ -148,6 +156,27 @@ export default {
 }
 </script>
 <style>
+
+.maps {
+  display: grid;
+  grid-gap:10px;
+  background-color: #434241;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.a {
+  grid-column: 1;
+}
+
+.b {
+  grid-column: 2;
+}
+
+.c {
+  grid-column: 3;
+}
+
 #map {
   position: relative;
   margin: 0;
