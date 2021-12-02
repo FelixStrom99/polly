@@ -11,17 +11,13 @@
     </div>
   </section>
 
-<<<<<<< HEAD
-  <section class="ChooseMap" v-else-if="firstStage===false">
-=======
+
+
 
   <section class="ChooseMap" v-else-if="firstStage===false && secondStage===true">
-
->>>>>>> f2f2cdedb6b081dfab560204e86ad753a0b64d04
     <div>
       {{ pollId }}
     </div>
-<<<<<<< HEAD
     <div class="maps" >
         <div  class="map-item">
           <figure>
@@ -44,30 +40,6 @@
                  style="height:200px; width:200px;">
           </figure>
         </div>
-=======
-    <div class="maps">
-
-      <div>
-        <figure class="maps a">
-          <h1>Uppsala</h1>
-          <img
-              url="https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg"
-              style="height:200px; width:200px;">
-        </figure>
-        <figure class="maps b">
-          <h1>Stockholm</h1>
-          <img
-              url="https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg"
-              style="height:200px; width:200px;">
-        </figure>
-        <figure class="maps c">
-          <h1>Sundsvall</h1>
-          <img
-              url="https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg"
-              style="height:200px; width:200px;">
-        </figure>
-      </div>
->>>>>>> f2f2cdedb6b081dfab560204e86ad753a0b64d04
     </div>
     <button v-on:click="nextSection">
       Go forward bitch
@@ -211,12 +183,12 @@ export default {
 
 .maps {
   display: grid;
-<<<<<<< HEAD
+
   grid-template-columns: auto auto auto;
   grid-gap:5px;
-=======
+
   grid-gap: 10px;
->>>>>>> f2f2cdedb6b081dfab560204e86ad753a0b64d04
+
   background-color: #434241;
   border-radius: 5px;
   padding: 10px;

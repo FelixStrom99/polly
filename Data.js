@@ -47,26 +47,50 @@ Data.prototype.addLocationQuestion = function(pollId,lq){
   console.log("locationquestion added to",pollId,lq)
   if (typeof poll !== 'undefined') {
   poll.locations.push(lq)
+    console.log("vad är detta",poll.locations)
 }}
 
 Data.prototype.getLocations = function(pollId) {
   const poll = this.polls[pollId];
+  console.log("question requested for location ", pollId)
   if (typeof poll !== 'undefined') {
     const locations = poll.locations[poll.currentLocationQuestion];
-    if (typeof poll.locationQuestions[poll.currentLocationQuestion] !== 'undefined') {
-      return {lq: poll.locationQuestions[poll.currentLocationQuestion].lq, location: locations};
+    console.log("crasha den på 1 ", locations)
+    if (typeof locations !== 'undefined') {
+
+      return {lq: locations.lq, location: [locations.location.x, locations.location.y]};
+
     }
+    console.log(poll.locationQuestions[poll.currentLocationQuestion])
   }
   return {}
 }
+/*poll.locationQuestions[poll.currentLocationQuestion]*/
+/*{lq: poll.locationQuestions[poll.currentLocationQuestion].lq, location: locations};*/
+
+/*Data.prototype.getLocations = function(pollId,qId=null) {
+  const poll = this.polls[pollId];
+  console.log("question requested for location ", pollId, qId);
+  if (typeof poll !== 'undefined') {
+    if (qId !== null) {
+      poll.currentLocationQuestion = qId;
+    }
+    console.log(poll.locationQuestions[poll.currentLocationQuestion])
+      return poll.locationQuestions[poll.currentLocationQuestion];
+  }
+  return []
+}*/
+
 Data.prototype.getQuestion = function(pollId, qId=null) {
   const poll = this.polls[pollId];
-  console.log("question requested for ", pollId, qId);
+  console.log("question requested for normal ", pollId, qId);
   if (typeof poll !== 'undefined') {
     if (qId !== null) {
       poll.currentQuestion = qId;
     }
+    console.log(poll.questions[poll.currentQuestion])
     return poll.questions[poll.currentQuestion];
+
   }
   return []
 }
