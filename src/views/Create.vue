@@ -3,46 +3,40 @@
     <div>
       <h1>Create game</h1>
       <div>
-<<<<<<< HEAD
-        <input type="text" v-model="pollId"  placeholder="Enter title...">
-=======
         <input type="text" v-model="pollId" placeholder="Enter title...">
->>>>>>> 764f56b1d19b0d6fd98395dbb8721e7e2584d03c
       </div>
       <button v-on:click="createPoll">
         Save
       </button>
     </div>
   </section>
-<<<<<<< HEAD
-  <section class="ChooseMap">
+
+  <section class="ChooseMap" v-else-if="firstStage===false">
     <div>
       {{pollId}}
     </div>
-    <div class="maps">
-=======
-  <section class="ChooseMap" v-else-if="firstStage===false">
-
-
     <div class="maps" >
->>>>>>> 764f56b1d19b0d6fd98395dbb8721e7e2584d03c
-      <div>
-        <figure class="maps a">
-          <h1>Uppsala</h1>
-          <img url="https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg"
-               style="height:200px; width:200px;">
-        </figure>
-        <figure class="maps b">
-          <h1>Stockholm</h1>
-          <img url="https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg"
-               style="height:200px; width:200px;">
-        </figure>
-        <figure class="maps c">
-          <h1>Sundsvall</h1>
-          <img url="https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg"
-               style="height:200px; width:200px;">
-        </figure>
-      </div>
+        <div  class="map-item">
+          <figure>
+            <h1>Uppsala</h1>
+            <img url="https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg"
+                 style="height:200px; width:200px;">
+          </figure>
+        </div>
+        <div  class="map-item">
+          <figure>
+            <h1>Stockholm</h1>
+            <img url="https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg"
+                 style="height:200px; width:200px;">
+          </figure>
+        </div >
+        <div class="map-item">
+          <figure>
+            <h1>Sundsvall</h1>
+            <img url="https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg"
+                 style="height:200px; width:200px;">
+          </figure>
+        </div>
     </div>
   </section>
 
@@ -172,22 +166,21 @@ export default {
 
 .maps {
   display: grid;
-  grid-gap:10px;
+  grid-template-columns: auto auto auto;
+  grid-gap:5px;
   background-color: #434241;
   border-radius: 5px;
   padding: 10px;
 }
 
-.a {
-  grid-column: 1;
-}
-
-.b {
-  grid-column: 2;
-}
-
-.c {
-  grid-column: 3;
+.map-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+  width: 400px;
 }
 
 #map {
