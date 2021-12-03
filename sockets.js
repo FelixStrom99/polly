@@ -15,7 +15,7 @@ function sockets(io, socket, data) {
   });
 
   socket.on('addLocationQuestion', function(l){
-    data.addLocationQuestion(l.pollId,{lq: l.lq, location: l.location})
+    data.addLocationQuestion(l.pollId,{lq: l.lq, location: l.location, image: l.image} )
     socket.emit('dataUpdate',data.getLocations(l.pollId))
   });
 

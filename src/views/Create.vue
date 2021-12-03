@@ -147,8 +147,7 @@ export default {
       data: {},
       uiLabels: {},
       range_from_location: "",
-
-
+      imgUrl: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg",
       firstStage: true,
       secondStage:true
 
@@ -177,7 +176,7 @@ export default {
       this.secondStage = false
     },
     addLocationQuestion: function () {
-      socket.emit("addLocationQuestion", {pollId: this.pollId, lq: this.locationQuestion, location: this.location})
+      socket.emit("addLocationQuestion", {pollId: this.pollId, lq: this.locationQuestion, location: this.location,image: this.imgUrl})
     },
     addQuestion: function () {
       socket.emit("addQuestion", {pollId: this.pollId, q: this.question, a: this.answers})

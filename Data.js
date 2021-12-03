@@ -58,7 +58,7 @@ Data.prototype.getLocations = function(pollId) {
     console.log("crasha den på 1 ", locations)
     if (typeof locations !== 'undefined') {
 
-      return {lq: locations.lq, location: [locations.location.x, locations.location.y]};
+      return {lq: locations.lq, location: [locations.location.x, locations.location.y], image: locations.image};
 
     }
     console.log(poll.locationQuestions[poll.currentLocationQuestion])
