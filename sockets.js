@@ -5,6 +5,7 @@ function sockets(io, socket, data) {
     socket.emit('init', data.getUILabels(lang));
   });
 
+
   socket.on('switchLanguage', function(lang) {
     socket.emit('init', data.getUILabels(lang));
   });
@@ -26,7 +27,8 @@ function sockets(io, socket, data) {
   socket.on('joinPoll', function(pollId) {
     socket.join(pollId);
     socket.emit('newQuestion', data.getQuestion(pollId))
-    socket.emit('dataUpdate', data.getAnswers(pollId));
+    socket.emit('dataUpdate', data.getAnswers(pollId))
+    socket.emit('newLocationQuestion', data.getLocations(pollId));
   });
 
   socket.on('runQuestion', function(d) {
