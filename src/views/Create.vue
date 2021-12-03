@@ -1,11 +1,11 @@
 <template>
+
   <div>
     Poll link: 
     <input type="text" v-model="pollId">
     <button v-on:click="createPoll">
       Create poll
     </button>
-
     <div>
       Fråga för location:
       <input type="text" v-model="locationQuestion">
@@ -17,14 +17,27 @@
       Add locationQuestion
     </button>
   <div id="mapcontainer">
-
     <div id="map" v-on:click="setLocation">
-
-      <div v-bind:style="{left: location.x + 'px', top: location.y + 'px'}">
-        X
+      <div v-bind:style="{left: location.x-60 + 'px', top: location.y-60 + 'px'}" class="disable">    <!--modifieras i x och y led för att nålen ska prickas rätt -->
+        <object data="/svg_files/PinMap/Pin_Map.svg" type="image/svg+xml">
+          <img src="yourfallback.jpg" />
+        </object>
       </div>
     </div>
   </div>
+    <div style="float: right" >
+      <input type="range" min="0" max="100" value="50" id="slider" name="range" oninput="document.getElementById('range_from_location').innerHTML = this.value">
+      <div id="selector">
+        <div id="selectbutton">
+          <object data="/svg_files/range_slider/Selector.svg" type="image/svg+xml">
+            <img src="yourfallback.jpg" />
+          </object>
+        </div>
+
+
+      </div>
+
+    </div>
     <div>
       {{uiLabels.question}}:
       <input type="text" v-model="question">
@@ -75,6 +88,8 @@ export default {
       locationQuestionNumber: 0,
       data: {},
       uiLabels: {},
+      range_from_location: "",
+
 
     }
   },
@@ -90,7 +105,9 @@ export default {
     socket.on("pollCreated", (data) =>
       this.data = data)
   },
+
   methods: {
+
     createPoll: function () {
       socket.emit("createPoll", {pollId: this.pollId, lang: this.lang})
     },
@@ -119,6 +136,9 @@ export default {
 }
 </script>
 <style>
+.disable{
+  pointer-events: none;
+}
 #map {
   position: relative;
   margin: 0;
@@ -131,12 +151,29 @@ export default {
 }
 #map div {
   position: absolute;
-  background: black;
-  color: white;
-  border-radius: 10px;
-  width:20px;
-  height:20px;
-  text-align: center;
+
+
+}
+#slider{
+  height: 8px;
+  outline: none
+}
+#selector{
+  height: 104px;
+  width: 50px;
+  position: absolute;
+  bottom:-10px ;
+  left:50% ;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+#selectbutton{
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+  position:absolute;
+  bottom: 0px;
+
 }
 #mapcontainer{
   width: 800px;
@@ -145,4 +182,5 @@ export default {
   margin-bottom: 20px;
   border:groove
 }
+
 </style>
