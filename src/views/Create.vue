@@ -1,7 +1,5 @@
 <template>
-<<<<<<< HEAD
 
-=======
   <section v-if="firstStage===true">
     <div>
       <h1>Create game</h1>
@@ -49,7 +47,6 @@
     </button>
   </section>
 <section v-else-if="secondStage===false">
->>>>>>> bd89bb1dfcd767c38c251f401119c6c0ca7d31e4
   <div>
     Poll link:
     <input type="text" v-model="pollId">
@@ -66,7 +63,6 @@
     <button v-on:click="addLocationQuestion">
       Add locationQuestion
     </button>
-<<<<<<< HEAD
   <div id="mapcontainer">
     <div id="map" v-on:click="setLocation">
       <div v-bind:style="{left: location.x-60 + 'px', top: location.y-60 + 'px'}" class="disable">    <!--modifieras i x och y led för att nålen ska prickas rätt -->
@@ -89,17 +85,7 @@
       </div>
 
     </div>
-=======
-    <div id="mapcontainer">
-
-      <div id="map" v-on:click="setLocation">
-
-        <div v-bind:style="{left: location.x + 'px', top: location.y + 'px'}">
-          X
-        </div>
-      </div>
-    </div>
->>>>>>> bd89bb1dfcd767c38c251f401119c6c0ca7d31e4
+    
     <div>
       {{ uiLabels.question }}:
       <input type="text" v-model="question">
@@ -155,13 +141,9 @@ export default {
       locationQuestionNumber: 0,
       data: {},
       uiLabels: {},
-<<<<<<< HEAD
       range_from_location: "",
-
-=======
       firstStage: true,
       secondStage:true
->>>>>>> bd89bb1dfcd767c38c251f401119c6c0ca7d31e4
 
     }
   },
@@ -215,20 +197,15 @@ export default {
 }
 </script>
 <style>
-<<<<<<< HEAD
 .disable{
   pointer-events: none;
 }
-=======
 
 .maps {
   display: grid;
-
   grid-template-columns: auto auto auto;
   grid-gap:5px;
-
   grid-gap: 10px;
-
   background-color: #434241;
   border-radius: 5px;
   padding: 10px;
@@ -244,7 +221,6 @@ export default {
   width: 400px;
 }
 
->>>>>>> bd89bb1dfcd767c38c251f401119c6c0ca7d31e4
 #map {
   position: relative;
   margin: 0;
@@ -258,7 +234,6 @@ export default {
 
 #map div {
   position: absolute;
-<<<<<<< HEAD
 
 
 }
@@ -281,15 +256,12 @@ export default {
   border-radius: 50%;
   position:absolute;
   bottom: 0px;
-
-=======
   background: black;
   color: white;
   border-radius: 10px;
   width: 20px;
   height: 20px;
   text-align: center;
->>>>>>> bd89bb1dfcd767c38c251f401119c6c0ca7d31e4
 }
 
 #mapcontainer {
