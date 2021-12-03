@@ -65,21 +65,7 @@ Data.prototype.getLocations = function(pollId) {
   }
   return {}
 }
-/*poll.locationQuestions[poll.currentLocationQuestion]*/
-/*{lq: poll.locationQuestions[poll.currentLocationQuestion].lq, location: locations};*/
 
-/*Data.prototype.getLocations = function(pollId,qId=null) {
-  const poll = this.polls[pollId];
-  console.log("question requested for location ", pollId, qId);
-  if (typeof poll !== 'undefined') {
-    if (qId !== null) {
-      poll.currentLocationQuestion = qId;
-    }
-    console.log(poll.locationQuestions[poll.currentLocationQuestion])
-      return poll.locationQuestions[poll.currentLocationQuestion];
-  }
-  return []
-}*/
 
 Data.prototype.getQuestion = function(pollId, qId=null) {
   const poll = this.polls[pollId];
