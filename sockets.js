@@ -14,6 +14,11 @@ function sockets(io, socket, data) {
     socket.emit('pollCreated', data.createPoll(d.pollId, d.lang));
   });
 
+  socket.on('addLocationQuestion', function(l){
+    data.addLocationQuestion(l.pollId,{lq: l.lq, location: l.location})
+    socket.emit('dataUpdate',data.getLocations(l.pollId))
+  });
+
   socket.on('addQuestion', function(d) {
     data.addQuestion(d.pollId, {q: d.q, a: d.a});
     socket.emit('dataUpdate', data.getAnswers(d.pollId));
@@ -22,7 +27,8 @@ function sockets(io, socket, data) {
   socket.on('joinPoll', function(pollId) {
     socket.join(pollId);
     socket.emit('newQuestion', data.getQuestion(pollId))
-    socket.emit('dataUpdate', data.getAnswers(pollId));
+    socket.emit('dataUpdate', data.getAnswers(pollId))
+    socket.emit('newLocationQuestion', data.getLocations(pollId));
   });
 
   socket.on('runQuestion', function(d) {

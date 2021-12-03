@@ -12,10 +12,6 @@
   </header>
 
   <section>
-
-
-
-
     <section>
 
       <div id="nav">
