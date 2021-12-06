@@ -18,7 +18,7 @@
         <div>
           <div v-if="play">
             <button>
-              <router-link v-bind:to="'/poll/'+id" tag="button">{{ uiLabels.participatePoll }}</router-link>
+              <router-link class="routerLink" v-bind:to="'/poll/'+id" tag="button">{{ uiLabels.participatePoll }}</router-link>
             </button>
             <label>
               Write poll id:
@@ -33,7 +33,7 @@
 
 
         <button>
-          <router-link v-bind:to="'/create/'+lang">{{ uiLabels.createPoll }}</router-link>
+          <router-link class="routerLink" v-bind:to="'/create/'+lang">{{ uiLabels.createPoll }}</router-link>
         </button>
 
       </div>
@@ -92,13 +92,16 @@ export default {
 
 </script>
 
-
 <style>
 * {
   font-family: Helvetica;
   font-style: normal;
   font-weight: 100;
 }
+.routerLink {
+  text-decoration: none;
+}
+
 .theme {
   background: linear-gradient(-45deg, #ee9052, #d22736, #1682a8, #22d999);
   background-size: 400% 400%;
@@ -127,9 +130,11 @@ button{
   text-align: center;
   border: none;
   border-radius: 12px;
-  margintop: 1px;
-  marginright: 2px;
-
+  margintop: 10px;
+  marginright: 10px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
 
 
@@ -140,30 +145,17 @@ button{
 }
 
 .buttom {
-  margin-top: 500px;
+  margin-top: 50em;
 }
 
 .container {
 }
-
-
-
-
-
-#LangButton {
-  margintop: 10px;
-  marginright: 10px;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
-
 #nav {
-  display: grid;
-  grid-gap: 300px;
-  margin-left: 325px;
-  grid-template-columns: 100px 100px 100px;
-  padding: 50px;
+  display: flex;
+  justify-content: center;
+  grid-gap: 10em;
+  grid-template-columns: 10em 10em 10em;
+  padding: 2em;
 }
 
 #headertext {
