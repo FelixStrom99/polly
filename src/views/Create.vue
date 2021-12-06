@@ -13,8 +13,6 @@
   </section>
 
 
-
-
   <section class="ChooseMap" v-else-if="firstStage===false && secondStage===true">
     <div>
       {{ pollId }}
@@ -57,12 +55,10 @@
       Fråga för location:
       <input type="text" v-model="locationQuestion">
     </div>
-    <div>
-      <input type="number" v-model="locationQuestionNumber">
-    </div>
     <button v-on:click="addLocationQuestion">
       Add locationQuestion
     </button>
+
   <div id="mapcontainer">
     <div id="map" v-on:click="setLocation">
       <div v-bind:style="{left: location.x-60 + 'px', top: location.y-60 + 'px'}" class="disable">    <!--modifieras i x och y led för att nålen ska prickas rätt -->
@@ -80,7 +76,6 @@
       </div>
 
     </div>
-    
     <div>
       {{ uiLabels.question }}:
       <input type="text" v-model="question">
@@ -100,26 +95,37 @@
         <button v-on:click="deleteAnswer">
           Delete answer alternative
         </button>
-        <p>Choose which answer is right</p>
-        <input type="number" v-model="correctAnswer">
       </div>
     </div>
     <button v-on:click="addQuestion">
       Add question
     </button>
-    <input type="number" v-model="questionNumber">
-    <button v-on:click="runQuestion">
-      Run question
-    </button>
+
     {{ data }}
     <router-link v-bind:to="'/result/'+pollId">Check result</router-link>
   </div>
 
-  <button type="button" v-on:click="addLocation">
+ <!-- <button type="button" v-on:click="addLocation">
     Confirm Correct Location
-  </button>
+  </button>-->
   {{ location }}
 </section>
+
+ <section>
+   <div>
+   <input type="number" v-model="questionNumber">
+   <button v-on:click="runQuestion">
+     Run Follow-up Question
+   </button>
+   </div>
+   <div>
+     <input type="number" v-model="locationQuestionNumber">
+     <button v-on:click="runLocationQuestion">
+       Run Location-Question
+     </button>
+   </div>
+ </section>
+
 </template>
 
 <script>
@@ -147,6 +153,9 @@ export default {
       data: {},
       uiLabels: {},
       range_from_location: "",
+
+      imgUrl: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg",
+
       firstStage: true,
       secondStage:true
 
@@ -175,7 +184,7 @@ export default {
       this.secondStage = false
     },
     addLocationQuestion: function () {
-      socket.emit("addLocationQuestion", {pollId: this.pollId, lq: this.locationQuestion, location: this.location})
+      socket.emit("addLocationQuestion", {pollId: this.pollId, lq: this.locationQuestion, location: this.location,image: this.imgUrl})
     },
     addQuestion: function () {
       socket.emit("addQuestion", {pollId: this.pollId, q: this.question, a: this.answers, correct: this.checkBox})
@@ -195,6 +204,9 @@ export default {
     runQuestion: function () {
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})
     },
+    runLocationQuestion: function () {
+      socket.emit("runLocationQuestion", {pollId: this.pollId, locationQuestionNumber: this.locationQuestionNumber})
+    },
     setLocation: function (event) {
       var offset = {
         x: event.currentTarget.getBoundingClientRect().left,
@@ -211,9 +223,17 @@ export default {
 }
 </script>
 <style>
+
+
 .disable{
   pointer-events: none;
 }
+
+
+.disable{
+  pointer-events: none;
+}
+
 
 .maps {
   display: grid;
@@ -235,6 +255,8 @@ export default {
   width: 400px;
 }
 
+
+
 #map {
   position: relative;
   margin: 0;
@@ -248,6 +270,7 @@ export default {
 
 #map div {
   position: absolute;
+
 
 
 }
@@ -276,6 +299,8 @@ export default {
   width: 20px;
   height: 20px;
   text-align: center;
+
+
 }
 
 #mapcontainer {

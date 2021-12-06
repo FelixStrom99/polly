@@ -1,10 +1,12 @@
 <template>
-  <div>
+  <header>
+
+  </header>
+  <p> {{LocationQuestion.lq}}</p>
+
+  <div class="container">
     <figure>
-      <p> {{LocationQuestion.lq}}</p>
-      <img
-          url="https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg"
-          style="height:200px; width:200px;">
+      <img id="map" v-bind:src="LocationQuestion.image">
     </figure>
   </div>
 </template>
@@ -25,5 +27,18 @@ export default {
 </script>
 
 <style scoped>
+.container{
+  width: 500px;
+  height: 500px;
+  overflow:scroll;
+
+}
+#map{
+  border: ridge 3px;
+  border-radius: 20px;
+
+}
+
+
 
 </style>
