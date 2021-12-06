@@ -5,7 +5,9 @@
     <div class="container"><br>
       <h1 id="headertext">MapQuiz</h1>
       <p>Welcome!</p>
-      <button id="LangButton" style  v-on:click="switchLanguage">{{uiLabels.changeLanguage}}</button>
+      <button id="LangButton" style  v-on:click="switchLanguage">
+        <img src="https://www.pngitem.com/pimgs/m/31-311934_transparent-languages-clipart-language-icon-svg-hd-png.png" style="width:1em" >
+        {{uiLabels.changeLanguage}}</button>
     </div>
   </header>
 
@@ -16,7 +18,7 @@
         <div>
           <div v-if="play">
             <button>
-              <router-link v-bind:to="'/poll/'+id" tag="button">{{ uiLabels.participatePoll }}</router-link>
+              <router-link class="routerLink" v-bind:to="'/poll/'+id" tag="button">{{ uiLabels.participatePoll }}</router-link>
             </button>
             <label>
               Write poll id:
@@ -31,7 +33,7 @@
 
 
         <button>
-          <router-link v-bind:to="'/create/'+lang">{{ uiLabels.createPoll }}</router-link>
+          <router-link class="routerLink" v-bind:to="'/create/'+lang">{{ uiLabels.createPoll }}</router-link>
         </button>
 
       </div>
@@ -46,11 +48,6 @@
 
 
   </section>
-
-
-  <footer class="buttom">
-    please do not sue us Glöggkrök incorperated
-  </footer>
 
   </main>
 </template>
@@ -95,17 +92,49 @@ export default {
 
 </script>
 
-
 <style>
-
-.theme {
-  background-color: rgb(18, 50, 255);
-  color: white;
+* {
+  font-family: Helvetica;
+  font-style: normal;
+  font-weight: 100;
+}
+.routerLink {
+  text-decoration: none;
 }
 
+.theme {
+  background: linear-gradient(-45deg, #ee9052, #d22736, #1682a8, #22d999);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+
+}
+button{
+  font-size:100%;
+  text-align: center;
+  border: none;
+  border-radius: 12px;
+}
 #LangButton {
-  margintop: 1px;
-  marginright: 2px;
+  font-size:100%;
+  text-align: center;
+  border: none;
+  border-radius: 12px;
+  margintop: 10px;
+  marginright: 10px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
 
 
@@ -116,36 +145,22 @@ export default {
 }
 
 .buttom {
-  margin-top: 500px;
+  margin-top: 50em;
 }
 
 .container {
 }
-
-
-
-
-
-#LangButton {
-  margintop: 10px;
-  marginright: 10px;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
-
 #nav {
-  display: grid;
-  grid-gap: 300px;
-  margin-left: 325px;
-  grid-template-columns: 100px 100px 100px;
-  padding: 50px;
+  display: flex;
+  justify-content: center;
+  grid-gap: 10em;
+  grid-template-columns: 10em 10em 10em;
+  padding: 2em;
 }
 
 #headertext {
-  font-size: 300%;
+  font-size: 500%;
+  color: white;
 
 }
-
-
 </style>
