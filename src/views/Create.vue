@@ -71,17 +71,11 @@
     <div style="float: right" >
       <input type="range" min="0" max="100" value="50" id="slider" name="range" oninput="document.getElementById('range_from_location').innerHTML = this.value">
       <div id="selector">
-        <div id="selectbutton">
-          <object data="/svg_files/range_slider/Selector.svg" type="image/svg+xml">
-            <img src="yourfallback.jpg" />
-          </object>
-        </div>
 
 
       </div>
 
     </div>
-
     <div>
       {{ uiLabels.question }}:
       <input type="text" v-model="question">
@@ -91,8 +85,15 @@
         <input v-for="(_, i) in answers"
                v-model="answers[i]"
                v-bind:key="'answer'+i">
+        <input type="checkbox" v-for="(_, i) in checkBox"
+               v-model="checkBox[i]"
+               v-bind:key="'checkBox'+i">
+        {{this.answers.length}}
         <button v-on:click="addAnswer">
           Add answer alternative
+        </button>
+        <button v-on:click="deleteAnswer">
+          Delete answer alternative
         </button>
       </div>
     </div>
@@ -141,6 +142,7 @@ export default {
       title: "",
       question: "",
       answers: ["", ""],
+      checkBox: [false, false],
       locationQuestion: "",
       location: {
         x: 0,
@@ -184,10 +186,19 @@ export default {
       socket.emit("addLocationQuestion", {pollId: this.pollId, lq: this.locationQuestion, location: this.location,image: this.imgUrl})
     },
     addQuestion: function () {
-      socket.emit("addQuestion", {pollId: this.pollId, q: this.question, a: this.answers})
+      socket.emit("addQuestion", {pollId: this.pollId, q: this.question, a: this.answers, correct: this.checkBox})
     },
     addAnswer: function () {
-      this.answers.push("");
+      if (this.answers.length <= 3) {
+        this.answers.push("");
+        this.checkBox.push(false);
+      }
+    },
+    deleteAnswer: function () {
+      if (this.answers.length >= 3){
+        this.answers.pop();
+        this.checkBox.pop();
+      }
     },
     runQuestion: function () {
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})
@@ -254,7 +265,6 @@ export default {
 
 #map div {
   position: absolute;
-
 }
 #slider{
   height: 8px;
@@ -281,6 +291,7 @@ export default {
   width: 20px;
   height: 20px;
   text-align: center;
+
 }
 
 #mapcontainer {

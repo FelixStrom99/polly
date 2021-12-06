@@ -18,21 +18,21 @@ Data.prototype.getUILabels = function (lang = "en") {
     return ui;
 }
 
-Data.prototype.createPoll = function (pollId, lang = "en") {
-    if (typeof this.polls[pollId] === "undefined") {
-        let poll = {};
-        poll.lang = lang;
-        poll.questions = [];
-        poll.answers = [];
-        poll.currentQuestion = 0;
-
-        poll.locationQuestions = [];
-        poll.currentLocationQuestion = 0;
-        poll.locations = [];
-        this.polls[pollId] = poll;
-        console.log("poll created", pollId, poll);
-    }
-    return this.polls[pollId];
+Data.prototype.createPoll = function(pollId, lang="en") {
+  if (typeof this.polls[pollId] === "undefined") {
+    let poll = {};
+    poll.lang = lang;  
+    poll.questions = [];
+    poll.answers = [];
+    poll.correct = [];
+    poll.currentQuestion = 0;
+    poll.locationQuestions = [];
+    poll.currentLocationQuestion=0;
+    poll.locations=[];
+    this.polls[pollId] = poll;
+    console.log("poll created", pollId, poll);
+  }
+  return this.polls[pollId];
 }
 
 Data.prototype.addQuestion = function (pollId, q) {
