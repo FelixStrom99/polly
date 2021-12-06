@@ -1,9 +1,12 @@
 <template>
+  <header>
+
+  </header>
   <p> {{LocationQuestion.lq}}</p>
+
   <div class="container">
     <figure>
-      <img
-          v-bind:src="LocationQuestion.image">
+      <img id="map" v-bind:src="LocationQuestion.image">
     </figure>
   </div>
 </template>
@@ -25,10 +28,12 @@ export default {
 
 <style scoped>
 .container{
-  width: 1000px;
+  width: 500px;
   height: 500px;
   overflow:scroll;
-  margin-bottom: 20px;
+
+}
+#map{
   border: ridge 3px;
   border-radius: 20px;
 

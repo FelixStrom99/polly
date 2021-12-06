@@ -13,8 +13,6 @@
   </section>
 
 
-
-
   <section class="ChooseMap" v-else-if="firstStage===false && secondStage===true">
     <div>
       {{ pollId }}
@@ -246,8 +244,6 @@ export default {
 
 #map div {
   position: absolute;
-
-
 
 }
 #slider{
