@@ -42,17 +42,19 @@ export default {
     this.pollId = this.$route.params.id
     socket.emit('joinPoll', this.pollId)
     socket.on("newQuestion", q =>
-      this.question = q
+      this.question = q,
+    console.log("test1",this.question)
     )
     socket.on("newLocationQuestion", l =>
-       this.LocationQuestion=l
+       this.LocationQuestion=l,
+        console.log("test2",this.LocationQuestion)
     )
 
   },
   methods: {
     submitAnswer: function (answer) {
       socket.emit("submitAnswer", {pollId: this.pollId, answer: answer})
-    }
+    },
   }
 }
 </script>

@@ -16,7 +16,7 @@ function sockets(io, socket, data) {
 
   socket.on('addLocationQuestion', function(l){
     data.addLocationQuestion(l.pollId,{lq: l.lq, location: l.location, image: l.image} )
-    socket.emit('dataUpdate',data.getLocations(l.pollId))
+   //* socket.emit('dataUpdate',data.getLocations(l.pollId))
   });
 
   socket.on('addQuestion', function(d) {
@@ -34,6 +34,11 @@ function sockets(io, socket, data) {
   socket.on('runQuestion', function(d) {
     io.to(d.pollId).emit('newQuestion', data.getQuestion(d.pollId, d.questionNumber));
     io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId));
+  });
+
+  socket.on('runLocationQuestion', function(lq) {
+    io.to(lq.pollId).emit('newLocationQuestion', data.getLocations(lq.pollId, lq.locationQuestionNumber));
+    io.to(lq.pollId).emit('dataUpdate', data.getAnswers(lq.pollId));
   });
 
   socket.on('submitAnswer', function(d) {

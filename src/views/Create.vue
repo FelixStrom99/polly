@@ -58,9 +58,6 @@
       Fråga för location:
       <input type="text" v-model="locationQuestion">
     </div>
-    <div>
-      <input type="number" v-model="locationQuestionNumber">
-    </div>
     <button v-on:click="addLocationQuestion">
       Add locationQuestion
     </button>
@@ -108,19 +105,32 @@
     <button v-on:click="addQuestion">
       Add question
     </button>
-    <input type="number" v-model="questionNumber">
-    <button v-on:click="runQuestion">
-      Run question
-    </button>
+
     {{ data }}
     <router-link v-bind:to="'/result/'+pollId">Check result</router-link>
   </div>
 
-  <button type="button" v-on:click="addLocation">
+ <!-- <button type="button" v-on:click="addLocation">
     Confirm Correct Location
-  </button>
+  </button>-->
   {{ location }}
 </section>
+
+ <section>
+   <div>
+   <input type="number" v-model="questionNumber">
+   <button v-on:click="runQuestion">
+     Run Follow-up Question
+   </button>
+   </div>
+   <div>
+     <input type="number" v-model="locationQuestionNumber">
+     <button v-on:click="runLocationQuestion">
+       Run Location-Question
+     </button>
+   </div>
+ </section>
+
 </template>
 
 <script>
@@ -186,6 +196,9 @@ export default {
     },
     runQuestion: function () {
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})
+    },
+    runLocationQuestion: function () {
+      socket.emit("runLocationQuestion", {pollId: this.pollId, locationQuestionNumber: this.locationQuestionNumber})
     },
     setLocation: function (event) {
       var offset = {
