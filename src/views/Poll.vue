@@ -3,12 +3,14 @@
     {{pollId}}
     <Question v-bind:question="question"
               v-on:answer="submitAnswer"/>
-    {{question.correct}}
+
   </div>
+  {{correctans}}
   {{LocationQuestion.location}}
   <div>
     <LocationQuestion v-bind:LocationQuestion="LocationQuestion"  />
   </div>
+
 </template>
 
 <script>
@@ -26,6 +28,7 @@ export default {
   },
   data: function () {
     return {
+      correctans:"",
       question: {
         q: "",
         a: [],
@@ -56,6 +59,13 @@ export default {
   methods: {
     submitAnswer: function (answer) {
       socket.emit("submitAnswer", {pollId: this.pollId, answer: answer})
+
+      if (this.question.correct[this.question.a.indexOf(answer)]===true){
+        this.correctans ="true"
+      }
+      else{
+        this.correctans="false"
+      }
     },
   }
 }
