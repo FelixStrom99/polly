@@ -125,6 +125,14 @@ button{
   border: none;
   border-radius: 12px;
 }
+button:hover{
+  background-color:lightgrey;
+  cursor:pointer;
+}
+button:active{
+  position: relative;
+  top: 1px;
+}
 #LangButton {
   font-size:100%;
   text-align: center;

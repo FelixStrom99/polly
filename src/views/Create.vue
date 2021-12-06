@@ -45,10 +45,6 @@
     </button>
   </section>
 <section v-else-if="secondStage===false">
-<<<<<<< HEAD
-
-=======
->>>>>>> 302068b94d144560ec06510e0d28b3d421ac96f6
   <div>
     Poll link:
     <input type="text" v-model="pollId">
@@ -62,10 +58,7 @@
     <button v-on:click="addLocationQuestion">
       Add locationQuestion
     </button>
-<<<<<<< HEAD
 
-=======
->>>>>>> 302068b94d144560ec06510e0d28b3d421ac96f6
   <div id="mapcontainer">
     <div id="map" v-on:click="setLocation">
       <div v-bind:style="{left: location.x-60 + 'px', top: location.y-60 + 'px'}" class="disable">    <!--modifieras i x och y led för att nålen ska prickas rätt -->
@@ -88,14 +81,7 @@
       </div>
 
     </div>
-<<<<<<< HEAD
 
-
-
-
-=======
-    
->>>>>>> 302068b94d144560ec06510e0d28b3d421ac96f6
     <div>
       {{ uiLabels.question }}:
       <input type="text" v-model="question">
@@ -165,10 +151,8 @@ export default {
       data: {},
       uiLabels: {},
       range_from_location: "",
-<<<<<<< HEAD
       imgUrl: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg",
-=======
->>>>>>> 302068b94d144560ec06510e0d28b3d421ac96f6
+
       firstStage: true,
       secondStage:true
 
@@ -227,17 +211,15 @@ export default {
 }
 </script>
 <style>
-<<<<<<< HEAD
 
 .disable{
   pointer-events: none;
 }
 
-=======
 .disable{
   pointer-events: none;
 }
->>>>>>> 302068b94d144560ec06510e0d28b3d421ac96f6
+
 
 .maps {
   display: grid;
@@ -259,10 +241,6 @@ export default {
   width: 400px;
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 302068b94d144560ec06510e0d28b3d421ac96f6
 #map {
   position: relative;
   margin: 0;
@@ -276,10 +254,6 @@ export default {
 
 #map div {
   position: absolute;
-<<<<<<< HEAD
-=======
-
->>>>>>> 302068b94d144560ec06510e0d28b3d421ac96f6
 
 }
 #slider{
@@ -301,21 +275,12 @@ export default {
   border-radius: 50%;
   position:absolute;
   bottom: 0px;
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 302068b94d144560ec06510e0d28b3d421ac96f6
   background: black;
   color: white;
   border-radius: 10px;
   width: 20px;
   height: 20px;
   text-align: center;
-<<<<<<< HEAD
-
-=======
->>>>>>> 302068b94d144560ec06510e0d28b3d421ac96f6
 }
 
 #mapcontainer {
