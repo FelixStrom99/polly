@@ -137,7 +137,6 @@ export default {
       question: "",
       answers: ["", ""],
       checkBox: [false, false],
-      correctAnswer: 0,
       locationQuestion: "",
       location: {
         x: 0,
@@ -179,7 +178,7 @@ export default {
       socket.emit("addLocationQuestion", {pollId: this.pollId, lq: this.locationQuestion, location: this.location})
     },
     addQuestion: function () {
-      socket.emit("addQuestion", {pollId: this.pollId, q: this.question, a: this.answers, correct: this.correctAnswer})
+      socket.emit("addQuestion", {pollId: this.pollId, q: this.question, a: this.answers, correct: this.checkBox})
     },
     addAnswer: function () {
       if (this.answers.length <= 3) {

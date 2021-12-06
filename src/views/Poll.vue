@@ -3,6 +3,7 @@
     {{pollId}}
     <Question v-bind:question="question"
               v-on:answer="submitAnswer"/>
+    {{question.correct}}
   </div>
   {{LocationQuestion.location}}
   <div>
@@ -28,6 +29,7 @@ export default {
       question: {
         q: "",
         a: [],
+        correct: [],
       },
       LocationQuestion:{
         lq:"",

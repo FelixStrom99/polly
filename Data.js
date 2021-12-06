@@ -24,8 +24,8 @@ Data.prototype.createPoll = function(pollId, lang="en") {
     poll.lang = lang;  
     poll.questions = [];
     poll.answers = [];
+    poll.correct = [];
     poll.currentQuestion = 0;
-
     poll.locationQuestions = [];
     poll.currentLocationQuestion=0;
     poll.locations=[];
