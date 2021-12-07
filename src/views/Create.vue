@@ -13,36 +13,56 @@
   </section>
 
 
-  <section class="ChooseMap" v-else-if="firstStage===false && secondStage===true">
+  <section class="theme  ChooseMap" v-else-if="firstStage===false && secondStage===true">
     <div>
       {{ pollId }}
     </div>
+
     <div class="maps" >
-        <div  class="map-item">
-          <figure>
-            <h1>Uppsala</h1>
-            <img url="https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg"
-                 style="height:200px; width:200px;">
+
+        <div  class="map-item" id="background_pic_uppsala"  v-on:click="nextSection" style="cursor: pointer;">
+          <figure >
+            <h1 class="city_name_charachter_spec" >Uppsala</h1>
           </figure>
         </div>
-        <div  class="map-item">
-          <figure>
-            <h1>Stockholm</h1>
-            <img url="https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg"
-                 style="height:200px; width:200px;">
+
+      <div  class="map-item"
+            id="background_pic_stockholm"
+            v-on:click="nextSection" style="cursor: pointer;">
+          <figure  >
+            <h1 class="city_name_charachter_spec">Stockholm</h1>
           </figure>
-        </div >
-        <div class="map-item">
-          <figure>
-            <h1>Sundsvall</h1>
-            <img url="https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg"
-                 style="height:200px; width:200px;">
+      </div>
+
+
+        <div class="map-item" id="background_pic_sundsvall" v-on:click="nextSection" style="cursor: pointer;">
+          <figure >
+            <h1 class="city_name_charachter_spec">Sundsvall</h1>
           </figure>
         </div>
+
+      <div class="map-item" id="background_pic_västerås"  v-on:click="nextSection" style="cursor: pointer;">
+        <figure >
+          <h1 class="city_name_charachter_spec">Västerås</h1>
+        </figure>
+      </div>
+
+      <div class="map-item" id="background_pic_göteborg"  v-on:click="nextSection" style="cursor: pointer;">
+        <figure >
+          <h1 class="city_name_charachter_spec">Göteborg</h1>
+        </figure>
+      </div>
+
+      <div class="map-item" id="background_pic_malmö"  v-on:click="nextSection" style="cursor: pointer;">
+        <figure >
+          <h1 class="city_name_charachter_spec">Malmö</h1>
+        </figure>
+      </div>
+
+
+
     </div>
-    <button v-on:click="nextSection">
-      Go forward bitch
-    </button>
+  
   </section>
 <section v-else-if="secondStage===false">
   <div>
@@ -109,22 +129,23 @@
     Confirm Correct Location
   </button>-->
   {{ location }}
-</section>
 
- <section>
-   <div>
-   <input type="number" v-model="questionNumber">
-   <button v-on:click="runQuestion">
-     Run Follow-up Question
-   </button>
-   </div>
-   <div>
-     <input type="number" v-model="locationQuestionNumber">
-     <button v-on:click="runLocationQuestion">
-       Run Location-Question
-     </button>
-   </div>
- </section>
+  <section>
+    <div>
+      <input type="number" v-model="questionNumber">
+      <button v-on:click="runQuestion">
+        Run Follow-up Question
+      </button>
+    </div>
+    <div>
+      <input type="number" v-model="locationQuestionNumber">
+      <button v-on:click="runLocationQuestion">
+        Run Location-Question
+      </button>
+    </div>
+  </section>
+
+</section>
 
 </template>
 
@@ -231,31 +252,80 @@ export default {
   pointer-events: none;
 }
 
+.city_name_charachter_spec{
+  font-family: sans-serif;
+  text-align: center;
+  font-weight: bold;
+
+
+}
+
+
 
 .maps {
+
   display: grid;
   grid-template-columns: auto auto auto;
   grid-gap:5px;
   grid-gap: 10px;
-  background-color: #434241;
+  background: none;
+  outline: none;
   border-radius: 5px;
   padding: 10px;
 }
 
 .map-item {
-  background-color: rgba(255, 255, 255, 0.8);
+
   border: 1px solid rgba(0, 0, 0, 0.8);
   border-radius: 10px;
   padding: 20px;
   font-size: 30px;
-  text-align: center;
   width: 400px;
+  height: 300px;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  text-align: center;
 }
+
+#background_pic_uppsala{
+  background-image: url("https://www.liveit.se/images/std/uppsala-lan.jpg");
+  background-size: cover;
+  background-position: center;
+}
+#background_pic_stockholm{
+  background-image: url("https://media.istockphoto.com/photos/old-town-in-stockholm-sweden-picture-id521418487?k=20&m=521418487&s=612x612&w=0&h=w820j5TprwQZer-NQhlrJ17c6UT-LFPDXQe3M7jqdks=");
+  background-size: cover;
+  background-position: center;
+}
+#background_pic_sundsvall{
+  background-image: url("https://www.energi.se/siteassets/artiklar/2020-6/nyheter/sundsvall-219.jpg?w=1440&h=0&quality=100&format=jpg&mode=crop");
+  background-size: cover;
+  background-position: center;
+}
+
+#background_pic_västerås{
+  background-image: url("https://www.happydays.nu/storage/img/hotels/stemning/6999/gen/good-morning-vasteras-20.jpg?1601458565 ");
+  background-size: cover;
+  background-position: center;
+}
+#background_pic_göteborg{
+  background-image: url("https://goteborgco.se/wp-content/uploads/2019/12/tradgardsforeningen_167-11-2048x947.jpg");
+  background-size: cover;
+  background-position: center;
+
+}
+#background_pic_malmö{
+  background-image: url("https://diagnostisktcentrumhud.se/wp-content/uploads/2021/04/shutterstock_1456864457.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
 
 #map {
   position: relative;
-  margin: 0;
-  padding: 0;
+  padding: 10px;
   background: url("https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg");
   background-repeat: no-repeat;
   width: 1133px;
