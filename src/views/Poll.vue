@@ -5,9 +5,11 @@
               v-on:answer="submitAnswer"/>
     {{question.correct}}
   </div>
-  <div  id="map" v-on:click="userSetLocation">
-    {{LocationQuestion.location}}
-    <LocationQuestion id="mapItem" v-bind:LocationQuestion="LocationQuestion"  />
+  <h2> {{LocationQuestion.lq}}</h2>
+  <div id="mapcontainer">
+    <div   v-on:click="userSetLocation">
+      <LocationQuestion  v-bind:LocationQuestion="LocationQuestion"  />
+    </div>
   </div>
   {{UserLocation}}
 </template>
@@ -76,9 +78,15 @@ export default {
 </script>
 
 <style>
-
-#mapItem{
-
+#mapcontainer {
+  width: 800px;
+  height: 450px;
+  overflow: scroll;
+  margin-bottom: 20px;
+  border: groove
 }
+
+
+
 
 </style>
