@@ -62,12 +62,17 @@ Data.prototype.getLocations = function (pollId, qId = null) {
 
         }
 
-        const locations = poll.locations[poll.currentLocationQuestion];
+        if (poll.locations[poll.currentLocationQuestion]!==undefined){
+            return poll.locations[poll.currentLocationQuestion];
+        }
+       else {
 
-        return {lq: locations.lq, location: [locations.location.x, locations.location.y], image: locations.image};
+            return {}
+        }
 
+       //* return {lq: locations.lq, location: [locations.location.x, locations.location.y], image: locations.image};
     }
-    return {}
+
 }
 
 
@@ -79,10 +84,17 @@ Data.prototype.getQuestion = function (pollId, qId = null) {
             poll.currentQuestion = qId;
         }
         console.log(poll.questions[poll.currentQuestion])
-        return poll.questions[poll.currentQuestion];
+
+        if ( poll.questions[poll.currentQuestion]!==undefined){
+            return poll.questions[poll.currentQuestion];
+        }
+        else {
+
+            return []
+        }
 
     }
-    return []
+
 }
 
 Data.prototype.submitAnswer = function (pollId, answer) {
@@ -106,7 +118,7 @@ Data.prototype.submitLocationAnswer = function (pollId, answer) {
     console.log("answer submitted for ", pollId, answer);
     if (typeof poll !== 'undefined') {
         poll.locationAnswer.push(answer)
-        console.log("answers looks like ", answer);
+       
     }
 }
 Data.prototype.getAnswers = function (pollId) {
