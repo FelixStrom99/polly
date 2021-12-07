@@ -13,9 +13,13 @@
     </div>
   </div>
   {{UserLocation}}
+  <button v-on:click="submitLocationAnswer()">
+    submit answer
+  </button>
+
 
   {{LocationQuestion.location}}
-  
+
 
 </template>
 
@@ -85,7 +89,11 @@ export default {
       x: event.clientX - 10 - offset.x,
       y: event.clientY - 10 - offset.y
     }
-  }
+  },
+    submitLocationAnswer: function(){
+      socket.emit("submitLocationAnswer", {pollId: this.pollId, locationAnswer: this.UserLocation})
+    }
+
   }
 }
 </script>

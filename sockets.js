@@ -46,6 +46,12 @@ function sockets(io, socket, data) {
     io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId));
   });
 
+  socket.on('submitLocationAnswer', function(d) {
+    data.submitAnswer(d.pollId, d.locationAnswer);
+    console.log(d)
+   /* io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId));*/
+  });
+
   socket.on('resetAll', () => {
     data = new Data();
     data.initializeData();
