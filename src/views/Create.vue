@@ -104,8 +104,7 @@
     {{ data }}
     <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
   </div>
-  <div>
-
+    </div>
   </div>
   <div class=" create alternative-right-side">
     <!-- <input type="range" min="0" max="100" value="50" id="slider" name="range" oninput="document.getElementById('range_from_location').innerHTML = this.value">
