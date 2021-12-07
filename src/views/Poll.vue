@@ -5,15 +5,10 @@
               v-on:answer="submitAnswer"/>
     {{question.correct}}
   </div>
-  <div>
-    {{LocationQuestion.location}}
-
-  </div>
   <div  id="map" v-on:click="userSetLocation">
-
-    <LocationQuestion v-bind:LocationQuestion="LocationQuestion"  />
-
-</div>
+    {{LocationQuestion.location}}
+    <LocationQuestion id="mapItem" v-bind:LocationQuestion="LocationQuestion"  />
+  </div>
   {{UserLocation}}
 </template>
 
@@ -79,3 +74,11 @@ export default {
   }
 }
 </script>
+
+<style>
+
+#mapItem{
+
+}
+
+</style>
