@@ -44,6 +44,8 @@
       Go forward bitch
     </button>
   </section>
+
+
 <section class="create-the-questions" v-else-if="secondStage===false">
   <h1>{{pollId}}</h1>
   <div class="create overview-left-side">
@@ -67,7 +69,9 @@
             </object>
           </div>
         </div>
-    <div class="create question" v-if="createQuestion">
+      </div>
+      </div>
+    <div class="create question" v-if="createMultipleChoiceQuestion">
       {{ uiLabels.question }}:
       <input type="text" v-model="question">
       <div class="question-multiple">
@@ -97,14 +101,7 @@
         Add question
       </button>
     </div>
-    <router-link v-bind:to="'/result/'+pollId">Check result</router-link>
-    <button v-on:click="addQuestion">
-      {{ uiLabels.addQuestion }}:
-    </button>
-    {{ data }}
     <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
-  </div>
-    </div>
   </div>
   <div class=" create alternative-right-side">
     <!-- <input type="range" min="0" max="100" value="50" id="slider" name="range" oninput="document.getElementById('range_from_location').innerHTML = this.value">
@@ -119,7 +116,6 @@
 </section>
 
  <section class="lowerside">
-  {{ location }}
    <div>
     <input type="number" v-model="questionNumber">
     <button v-on:click="runQuestion">
@@ -133,8 +129,6 @@
      </button>
    </div>
  </section>
-
-
 </template>
 
 <script>
@@ -160,7 +154,7 @@ export default {
       questionNumber: 0,
       locationQuestionNumber: 0,
       createLocationQuestion: true,
-      createQuestion: false,
+      createMultipleChoiceQuestion: false,
       data: {},
       uiLabels: {},
       range_from_location: "",
@@ -213,11 +207,11 @@ export default {
     },
     showLocationQuestion: function () {
       this.createLocationQuestion = true;
-      this.createQuestion = false;
+      this.createMultipleChoiceQuestion = false;
     },
     showMultipleQuestion: function () {
           this.createLocationQuestion = false;
-          this.createQuestion = true;
+          this.createMultipleChoiceQuestion = true;
     },
     runQuestion: function () {
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})
