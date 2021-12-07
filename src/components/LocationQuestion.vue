@@ -1,7 +1,5 @@
 <template>
-  <header>
 
-  </header>
       <img id="map" v-bind:src="LocationQuestion.image">
 </template>
 
