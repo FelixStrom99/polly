@@ -2,12 +2,12 @@
 
   <section v-if="firstStage===true" >
     <div>
-      <h1>Create game</h1>
+      <h1> {{ uiLabels.createPoll }}</h1>
       <div>
         <input type="text" v-model="pollId" placeholder="Enter title...">
       </div>
       <button v-on:click="createPoll">
-        Save
+        {{ uiLabels.save }}
       </button>
     </div>
   </section>
@@ -15,7 +15,7 @@
 
   <section class="ChooseMap" v-else-if="firstStage===false && secondStage===true">
     <div>
-      {{ pollId }}
+     <h1> {{ pollId }} </h1>
     </div>
     <div class="maps" >
         <div  class="map-item">
@@ -46,17 +46,13 @@
   </section>
 <section v-else-if="secondStage===false" class="theme">
   <div>
-    Poll link:
-    <input type="text" v-model="pollId">
-    <button v-on:click="createPoll">
-      Create poll
-    </button>
+    {{uiLabels.pollLink }}:
+    <h1>{{pollId}}</h1>
     <div>
-      Fråga för location:
-      <input type="text" v-model="locationQuestion">
+      {{ uiLabels.locationQuestion }}:<input type="text" v-model="locationQuestion">
     </div>
     <button v-on:click="addLocationQuestion">
-      Add locationQuestion
+      {{uiLabels.addLocationQuestion }}
     </button>
 
   <div id="mapcontainer">
@@ -81,12 +77,11 @@
       <input type="text" v-model="question">
       <div>
         <img src="">
-        Answers:
+        {{ uiLabels.answers}}:
         <input v-for="(_, i) in answers"
                v-model="answers[i]"
                v-bind:key="'answer'+i"
                class="textbox"
-
                 >
         <div>
         <input type="checkbox" v-for="(_, i) in checkBox"
@@ -96,20 +91,20 @@
         </div>
         <div>
         <button v-on:click="addAnswer">
-          Add answer
+          {{ uiLabels.addAnswer}}:
         </button>
         <button v-on:click="deleteAnswer">
-          Delete answer
+          {{ uiLabels.deleteAnswer }}:
         </button>
         </div>
       </div>
     </div>
     <button v-on:click="addQuestion">
-      Add question
+      {{ uiLabels.addQuestion }}:
     </button>
 
     {{ data }}
-    <router-link v-bind:to="'/result/'+pollId">Check result</router-link>
+    <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
   </div>
 
  <!-- <button type="button" v-on:click="addLocation">
@@ -325,7 +320,10 @@ textbox:hover{
   margin-bottom: 20px;
   margin-left: auto;
   margin-right: auto;
-  position: center
+  position: center;
 }
+  .routerLink {
+    text-decoration: none;
+  }
 
 </style>

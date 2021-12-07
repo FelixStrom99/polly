@@ -21,12 +21,12 @@
               <router-link class="routerLink" v-bind:to="'/poll/'+id" tag="button">{{ uiLabels.participatePoll }}</router-link>
             </button>
             <label>
-              Write poll id:
+              {{ uiLabels.writePollId }}:
               <input type="text" v-model="id">
             </label>
           </div>
           <div v-else>
-            <button id="test1" v-on:click="showPlay">Play</button>
+            <button id="test1" v-on:click="showPlay">{{ uiLabels.play }}</button>
           </div>
         </div>
 
