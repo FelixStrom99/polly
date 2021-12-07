@@ -1,9 +1,19 @@
 {
 	"sales-pitch": "Svar. Helt. Enkelt.",
 	"invite": "Bjud in deltagare med den här länken:",
-	"createPoll": "Skapa röstning",
-	"participatePoll": "Delta i röstning",
+	"createPoll": "Skapa spel",
+	"participatePoll": "Delta i spel",
 	"question": "Fråga",
 	"changeLanguage": "Change to English",
-	"locationQuestion": "Fråga för karta"
+	"locationQuestion": "Fråga för karta",
+	"answers": "Svar",
+	"play": "Spela",
+	"addQuestion": "Lägg till fråga",
+	"addAnswer": "Lägg till svar",
+	"deleteAnswer": "Ta bort svar",
+	"writePollId": "Skriv in spel ID",
+	"save": "Spara",
+	"enterTitle": "Skriv in titel...",
+	"addLocationQuestion": "Lägg till kartfråga",
+	"pollLink":"Länk till spel"
 }
