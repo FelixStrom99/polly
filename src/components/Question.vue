@@ -6,7 +6,7 @@
 </template>
 <script>
 export default {
-  name: 'Bars',
+  name: "Question",
   props: {
     question: Object
   },
