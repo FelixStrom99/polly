@@ -13,9 +13,11 @@
     </div>
   </div>
   {{UserLocation}}
-  <button v-on:click="submitLocationAnswer()">
+  <button v-on:click="submitLocationAnswer(), checkDistance()">
     submit answer
   </button>
+  Distans:
+  {{distance}}
 
 
   {{LocationQuestion.location}}
@@ -52,7 +54,10 @@ export default {
       },
       pollId: "inactive poll",
       UserLocation:
-          {x:0, y:0}
+          {x:0, y:0},
+      distance:0,
+      answerLocation: {
+        x:0, y:0}
     }
   },
   created: function () {
@@ -92,8 +97,15 @@ export default {
   },
     submitLocationAnswer: function(){
       socket.emit("submitLocationAnswer", {pollId: this.pollId, locationAnswer: this.UserLocation})
+    },
+    checkDistance: function(){
+      var holderX1 = this.LocationQuestion.location[0] // holder is used to remove the undefined elements .x and .y for some reason
+      var holderY1 = this.LocationQuestion.location[1]
+      var x2 = this.UserLocation.x
+      var y2 = this.UserLocation.y
+      var distanceSquared = Math.pow(holderX1-x2,2) + Math.pow(holderY1-y2,2)
+      this.distance = Math.sqrt(distanceSquared)
     }
-
   }
 }
 </script>
