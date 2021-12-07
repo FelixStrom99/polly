@@ -1,13 +1,13 @@
 <template>
 
-  <section v-if="firstStage===true">
+  <section v-if="firstStage===true" >
     <div>
-      <h1>Create game</h1>
+      <h1> {{ uiLabels.createPoll }}</h1>
       <div>
         <input type="text" v-model="pollId" placeholder="Enter title...">
       </div>
       <button v-on:click="createPoll">
-        Save
+        {{ uiLabels.save }}
       </button>
     </div>
   </section>
@@ -15,7 +15,7 @@
 
   <section class="ChooseMap" v-else-if="firstStage===false && secondStage===true">
     <div>
-      {{ pollId }}
+     <h1> {{ pollId }} </h1>
     </div>
     <div class="maps" >
         <div  class="map-item">
@@ -53,10 +53,11 @@
   </div>
   <div class="create lq-and-q">
     <div class="location-question" v-if="createLocationQuestion">
-      Fråga för location:
-      <input type="text" v-model="locationQuestion">
+      <div>
+        {{ uiLabels.locationQuestion }}:<input type="text" v-model="locationQuestion">
+      </div>
       <button v-on:click="addLocationQuestion">
-        Add locationQuestion
+        {{uiLabels.addLocationQuestion }}
       </button>
       <div id="mapcontainer">
         <div id="map" v-on:click="setLocation">
@@ -66,33 +67,42 @@
             </object>
           </div>
         </div>
-      </div>
-    </div>
     <div class="create question" v-if="createQuestion">
       {{ uiLabels.question }}:
       <input type="text" v-model="question">
       <div class="question-multiple">
         <img src="">
-        Answers:
+        {{ uiLabels.answers}}:
         <input v-for="(_, i) in answers"
                v-model="answers[i]"
-               v-bind:key="'answer'+i">
+               v-bind:key="'answer'+i"
+               class="textbox"
+                >
+        <div>
         <input type="checkbox" v-for="(_, i) in checkBox"
                v-model="checkBox[i]"
                v-bind:key="'checkBox'+i">
         {{this.answers.length}}
+        </div>
+        <div>
         <button v-on:click="addAnswer">
-          Add answer alternative
+          {{ uiLabels.addAnswer}}:
         </button>
         <button v-on:click="deleteAnswer">
-          Delete answer alternative
+          {{ uiLabels.deleteAnswer }}:
         </button>
+        </div>
       </div>
       <button v-on:click="addQuestion">
         Add question
       </button>
     </div>
     <router-link v-bind:to="'/result/'+pollId">Check result</router-link>
+    <button v-on:click="addQuestion">
+      {{ uiLabels.addQuestion }}:
+    </button>
+    {{ data }}
+    <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
   </div>
   <div>
 
@@ -104,13 +114,13 @@
     <button v-on:click="showLocationQuestion">Location question</button>
     <button v-on:click="showMultipleQuestion">Multiple choice question</button>
   </div>
-
  <!-- <button type="button" v-on:click="addLocation">
     Confirm Correct Location
   </button>-->
 </section>
 
  <section class="lowerside">
+  {{ location }}
    <div>
     <input type="number" v-model="questionNumber">
     <button v-on:click="runQuestion">
@@ -124,6 +134,7 @@
      </button>
    </div>
  </section>
+
 
 </template>
 
@@ -277,6 +288,22 @@ export default {
   pointer-events: none;
 }
 
+.textbox{
+  font-size: large;
+  font-weight: bold;
+  padding:1.25rem;
+  margin:5px;
+  background: #ffffff;
+  opacity: 90%;
+  outline: black;
+  border: 2px  ;
+  border-radius: 15px;
+  transition: border-color .5s;
+}
+textbox:hover{
+
+}
+
 
 .maps {
   display: grid;
@@ -286,6 +313,7 @@ export default {
   background-color: #434241;
   border-radius: 5px;
   padding: 10px;
+
 }
 
 .map-item {
@@ -325,6 +353,7 @@ export default {
   left:50% ;
   transform: translateX(-50%);
   z-index: 2;
+  
 }
 #selectbutton{
   height: 48px;
@@ -347,6 +376,12 @@ export default {
   overflow: scroll;
   margin-bottom: 20px;
   border: groove;
+  margin-left: auto;
+  margin-right: auto;
+  position: center;
 }
+  .routerLink {
+    text-decoration: none;
+  }
 
 </style>
