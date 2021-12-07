@@ -1,6 +1,6 @@
 <template>
 
-  <section v-if="firstStage===true">
+  <section v-if="firstStage===true" >
     <div>
       <h1>Create game</h1>
       <div>
@@ -44,7 +44,7 @@
       Go forward bitch
     </button>
   </section>
-<section v-else-if="secondStage===false">
+<section v-else-if="secondStage===false" class="theme">
   <div>
     Poll link:
     <input type="text" v-model="pollId">
@@ -62,7 +62,7 @@
   <div id="mapcontainer">
     <div id="map" v-on:click="setLocation">
       <div v-bind:style="{left: location.x-60 + 'px', top: location.y-60 + 'px'}" class="disable">    <!--modifieras i x och y led för att nålen ska prickas rätt -->
-        <object data="/svg_files/PinMap/Pin_Map.svg" type="image/svg+xml">
+        <object data="/svg_files/PinMap/Pin_Map.svg" type="image/svg+xml" class="range_ellipse">
           <img src="yourfallback.jpg" />
         </object>
       </div>
@@ -84,17 +84,24 @@
         Answers:
         <input v-for="(_, i) in answers"
                v-model="answers[i]"
-               v-bind:key="'answer'+i">
+               v-bind:key="'answer'+i"
+               class="textbox"
+
+                >
+        <div>
         <input type="checkbox" v-for="(_, i) in checkBox"
                v-model="checkBox[i]"
                v-bind:key="'checkBox'+i">
         {{this.answers.length}}
+        </div>
+        <div>
         <button v-on:click="addAnswer">
-          Add answer alternative
+          Add answer
         </button>
         <button v-on:click="deleteAnswer">
-          Delete answer alternative
+          Delete answer
         </button>
+        </div>
       </div>
     </div>
     <button v-on:click="addQuestion">
@@ -109,9 +116,7 @@
     Confirm Correct Location
   </button>-->
   {{ location }}
-</section>
 
- <section>
    <div>
    <input type="number" v-model="questionNumber">
    <button v-on:click="runQuestion">
@@ -125,6 +130,7 @@
      </button>
    </div>
  </section>
+
 
 </template>
 
@@ -231,6 +237,22 @@ export default {
   pointer-events: none;
 }
 
+.textbox{
+  font-size: large;
+  font-weight: bold;
+  padding:1.25rem;
+  margin:5px;
+  background: #ffffff;
+  opacity: 90%;
+  outline: black;
+  border: 2px  ;
+  border-radius: 15px;
+  transition: border-color .5s;
+}
+textbox:hover{
+
+}
+
 
 .maps {
   display: grid;
@@ -240,6 +262,7 @@ export default {
   background-color: #434241;
   border-radius: 5px;
   padding: 10px;
+
 }
 
 .map-item {
@@ -278,6 +301,7 @@ export default {
   left:50% ;
   transform: translateX(-50%);
   z-index: 2;
+  
 }
 #selectbutton{
   height: 48px;
@@ -299,7 +323,9 @@ export default {
   height: 450px;
   overflow: scroll;
   margin-bottom: 20px;
-  border: groove
+  margin-left: auto;
+  margin-right: auto;
+  position: center
 }
 
 </style>
