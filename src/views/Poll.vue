@@ -5,10 +5,11 @@
               v-on:answer="submitAnswer"/>
     {{question.correct}}
   </div>
-  {{LocationQuestion.location}}
-  <div>
-    <LocationQuestion v-bind:LocationQuestion="LocationQuestion"  />
+  <div  id="map" v-on:click="userSetLocation">
+    {{LocationQuestion.location}}
+    <LocationQuestion id="mapItem" v-bind:LocationQuestion="LocationQuestion"  />
   </div>
+  {{UserLocation}}
 </template>
 
 <script>
@@ -37,7 +38,9 @@ export default {
           y: 0},
         image: "",
       },
-      pollId: "inactive poll"
+      pollId: "inactive poll",
+      UserLocation:
+          {x:0, y:0}
     }
   },
   created: function () {
@@ -57,6 +60,25 @@ export default {
     submitAnswer: function (answer) {
       socket.emit("submitAnswer", {pollId: this.pollId, answer: answer})
     },
+  userSetLocation: function (event) {
+    var offset = {
+      x: event.currentTarget.getBoundingClientRect().left,
+      y: event.currentTarget.getBoundingClientRect().top
+    }
+
+    this.UserLocation = {
+      x: event.clientX - 10 - offset.x,
+      y: event.clientY - 10 - offset.y
+    }
+  }
   }
 }
 </script>
+
+<style>
+
+#mapItem{
+
+}
+
+</style>

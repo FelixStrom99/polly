@@ -31,11 +31,15 @@ export default {
   width: 500px;
   height: 500px;
   overflow:scroll;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 
 }
 #map{
   border: ridge 3px;
   border-radius: 20px;
+
 
 }
 
