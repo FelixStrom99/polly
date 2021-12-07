@@ -3,6 +3,8 @@
     {{question}}
   </div>
   <Bars v-bind:data="data"/>
+  {{locationQuestion}}
+  {{locationData}}
 </template>
 
 <script>
@@ -20,7 +22,10 @@ export default {
     return {
       question: "",
       data: {
-      }
+      },
+      locationQuestion:"",
+      locationData:[]
+
     }
   },
   created: function () {
@@ -34,6 +39,12 @@ export default {
       this.question = update.q;
       this.data = {};
     })
+    socket.on("locationDataUpdate", update=>{
+      this.locationData=update.a
+      this.locationQuestion=update.q
+      console.log(this.locationQuestion)
+        }
+    )
   }
 }
 </script>

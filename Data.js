@@ -18,21 +18,22 @@ Data.prototype.getUILabels = function (lang = "en") {
     return ui;
 }
 
-Data.prototype.createPoll = function(pollId, lang="en") {
-  if (typeof this.polls[pollId] === "undefined") {
-    let poll = {};
-    poll.lang = lang;  
-    poll.questions = [];
-    poll.answers = [];
-    poll.correct = [];
-    poll.currentQuestion = 0;
-    poll.locationQuestions = [];
-    poll.currentLocationQuestion=0;
-    poll.locations=[];
-    this.polls[pollId] = poll;
-    console.log("poll created", pollId, poll);
-  }
-  return this.polls[pollId];
+Data.prototype.createPoll = function (pollId, lang = "en") {
+    if (typeof this.polls[pollId] === "undefined") {
+        let poll = {};
+        poll.lang = lang;
+        poll.questions = [];
+        poll.answers = [];
+        poll.locationAnswer = [];
+        poll.correct = [];
+        poll.currentQuestion = 0;
+        poll.locationQuestions = [];
+        poll.currentLocationQuestion = 0;
+        poll.locations = [];
+        this.polls[pollId] = poll;
+        console.log("poll created", pollId, poll);
+    }
+    return this.polls[pollId];
 }
 
 Data.prototype.addQuestion = function (pollId, q) {
@@ -63,7 +64,7 @@ Data.prototype.getLocations = function (pollId, qId = null) {
 
         const locations = poll.locations[poll.currentLocationQuestion];
 
-            return {lq: locations.lq, location: [locations.location.x, locations.location.y], image: locations.image};
+        return {lq: locations.lq, location: [locations.location.x, locations.location.y], image: locations.image};
 
     }
     return {}
@@ -100,13 +101,31 @@ Data.prototype.submitAnswer = function (pollId, answer) {
         console.log("answers looks like ", answers, typeof answers);
     }
 }
-
+Data.prototype.submitLocationAnswer = function (pollId, answer) {
+    const poll = this.polls[pollId];
+    console.log("answer submitted for ", pollId, answer);
+    if (typeof poll !== 'undefined') {
+        poll.locationAnswer.push(answer)
+        console.log("answers looks like ", answer);
+    }
+}
 Data.prototype.getAnswers = function (pollId) {
     const poll = this.polls[pollId];
     if (typeof poll !== 'undefined') {
         const answers = poll.answers[poll.currentQuestion];
         if (typeof poll.questions[poll.currentQuestion] !== 'undefined') {
             return {q: poll.questions[poll.currentQuestion].q, a: answers};
+        }
+    }
+    return {}
+}
+Data.prototype.getLocationAnswers = function (pollId) {
+    const poll = this.polls[pollId];
+    if (typeof poll !== 'undefined') {
+
+        if (typeof poll.locations[poll.currentQuestion] !== 'undefined') {
+
+            return {q: poll.locations[poll.currentLocationQuestion].lq, a: poll.locationAnswer};
         }
     }
     return {}
