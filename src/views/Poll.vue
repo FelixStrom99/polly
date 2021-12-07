@@ -15,10 +15,7 @@
   {{UserLocation}}
 
   {{LocationQuestion.location}}
-  <div>
-    <LocationQuestion v-bind:LocationQuestion="LocationQuestion"  />
-  </div>
-
+  
 
 </template>
 
