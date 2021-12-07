@@ -133,10 +133,6 @@
  <!-- <button type="button" v-on:click="addLocation">
     Confirm Correct Location
   </button>-->
-
-  {{ location }}
-
-
   <section class="lowerside">
     <div>
       <input type="number" v-model="questionNumber">
