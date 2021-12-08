@@ -118,7 +118,7 @@ Data.prototype.submitLocationAnswer = function (pollId, answer) {
     console.log("answer submitted for ", pollId, answer);
     if (typeof poll !== 'undefined') {
         poll.locationAnswer.push(answer)
-       
+
     }
 }
 Data.prototype.getAnswers = function (pollId) {
