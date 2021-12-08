@@ -15,5 +15,6 @@
 	"save": "Save",
 	"enterTitle": "Enter title...",
 	"addLocationQuestion": "Add location question",
-	"pollLink":"Game link"
+	"pollLink":"Game link",
+	"welcome": "Welcome!"
 }

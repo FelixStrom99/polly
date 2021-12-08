@@ -36,7 +36,7 @@
 
 
         <div class="map-item" id="background_pic_sundsvall" v-on:click="nextSection" style="cursor: pointer;">
-          <figure >
+          <figure>
             <h1 class="city_name_charachter_spec">Sundsvall</h1>
           </figure>
         </div>
@@ -287,6 +287,9 @@ export default {
 </script>
 <style>
 
+template{
+
+}
 .create-the-questions {
   background-color: #1682a8;
 }
