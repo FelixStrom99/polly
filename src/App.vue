@@ -16,8 +16,6 @@
 
 #nav a {
   padding:0.4em;
-  font-weight: bold;
-  color: blue;
 }
 
 #nav a.router-link-exact-active {

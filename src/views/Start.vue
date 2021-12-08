@@ -41,14 +41,12 @@
       </div>
     </section>
 
-
     <footer class="bottom">
       please do not sue us Glöggkrök incorperated
     </footer>
-
-
-
-
+    <button >
+      <router-link class="routerLink" v-bind:to="'/testsite/'">TESTSITE</router-link>
+    </button>
   </section>
 
   </main>
@@ -101,9 +99,7 @@ export default {
   font-weight: 100;
 }
 .routerLink {
-  color:inherit !important;
-  font-style:normal !important;
-  font-weight:100 !important;
+  color:inherit;
   text-decoration: none;
 
 
