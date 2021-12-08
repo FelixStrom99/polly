@@ -1,10 +1,21 @@
 <template>
   <div>
-    {{question}}
+{{question}}
   </div>
   <Bars v-bind:data="data"/>
-  {{locationQuestion}}
-  {{locationData}}
+  <div>
+
+  </div>
+  <div id="mapcontainer">
+    <div id="dots">
+    <div v-for="(location,key) in locationData" v-bind:style="{ left: location.x + 'px', top: location.y + 'px'}" v-bind:key="'dots'+ key">
+T
+
+    </div>
+    </div>
+  </div>
+  {{ locationQuestion }}
+  {{ locationData }}
 </template>
 
 <script>
@@ -24,7 +35,7 @@ export default {
       data: {
       },
       locationQuestion:"",
-      locationData:[]
+      locationData:null
 
     }
   },
@@ -40,11 +51,42 @@ export default {
       this.data = {};
     })
     socket.on("locationDataUpdate", update=>{
-      this.locationData=update.a
-      this.locationQuestion=update.q
+      this.locationData=update.la
+      this.locationQuestion=update.lq
       console.log(this.locationQuestion)
-        }
-    )
-  }
+
+
+
+  })
+}
 }
 </script>
+<style>
+/*#mapcontainer {
+  width: 800px;
+  height: 450px;
+  overflow: scroll;
+  margin-bottom: 20px;
+  border: groove
+}*/
+#dots {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  background: url("https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg");
+  background-repeat: no-repeat;
+  width:1920px;
+  height: 1078px;
+  cursor: crosshair;
+}
+
+#dots div {
+  position: absolute;
+  background: deeppink;
+  color: white;
+  border-radius: 10px;
+  width:20px;
+  height:20px;
+  text-align: center;
+}
+</style>

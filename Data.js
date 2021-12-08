@@ -137,7 +137,7 @@ Data.prototype.getLocationAnswers = function (pollId) {
 
         if (typeof poll.locations[poll.currentQuestion] !== 'undefined') {
 
-            return {q: poll.locations[poll.currentLocationQuestion].lq, a: poll.locationAnswer};
+            return {lq: poll.locations[poll.currentLocationQuestion].lq, la: poll.locationAnswer};
         }
     }
     return {}
