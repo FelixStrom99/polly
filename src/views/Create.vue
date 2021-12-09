@@ -96,35 +96,6 @@
           </div>
         </div>
       </div>
-      <div class="create question" v-if="createMultipleChoiceQuestion">
-        {{ uiLabels.question }}:
-        <input type="text" v-model="question">
-        <div class="question-multiple">
-          <img src="">
-          {{ uiLabels.answers }}:
-          <input v-for="(_, i) in answers"
-                 v-model="answers[i]"
-                 v-bind:key="'answer'+i"
-                 class="textbox">
-          <div>
-            <input type="checkbox" v-for="(_, i) in checkBox"
-                   v-model="checkBox[i]"
-                   v-bind:key="'checkBox'+i">
-            {{ this.answers.length }}
-          </div>
-          <div>
-            <button v-on:click="addAnswer">
-              {{ uiLabels.addAnswer }}:
-            </button>
-            <button v-on:click="deleteAnswer">
-              {{ uiLabels.deleteAnswer }}:
-            </button>
-          </div>
-        </div>
-        <button v-on:click="addQuestion">
-          Add question
-        </button>
-      </div>
     <div class="create question" v-if="createMultipleChoiceQuestion">
       {{ uiLabels.question }}:
       <input type="text" v-model="question">
@@ -176,6 +147,7 @@
 
       </div>
     </div>
+      </div>
     <div class=" create alternative-right-side">
       <!-- <input type="range" min="0" max="100" value="50" id="slider" name="range" oninput="document.getElementById('range_from_location').innerHTML = this.value">
       -->
@@ -205,7 +177,6 @@
         </button>
       </div>
       <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
-    </div>
     </div>
   </section>
 
