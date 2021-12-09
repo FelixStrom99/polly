@@ -4,7 +4,7 @@
   <header>
     <div class="container"><br>
       <h1 id="headertext">MapQuiz</h1>
-      <p>Welcome!</p>
+      <h2> {{uiLabels.welcome}} </h2>
       <button id="LangButton" style  v-on:click="switchLanguage">
         <img src="https://www.pngitem.com/pimgs/m/31-311934_transparent-languages-clipart-language-icon-svg-hd-png.png" style="width:1em" >
         {{uiLabels.changeLanguage}}</button>
@@ -17,36 +17,36 @@
       <div id="nav">
         <div>
           <div v-if="play">
-            <button>
+            <button class="playButtons">
               <router-link class="routerLink" v-bind:to="'/poll/'+id" tag="button">{{ uiLabels.participatePoll }}</router-link>
             </button>
+              <div id="pollID">
             <label>
               {{ uiLabels.writePollId }}:
               <input type="text" v-model="id">
             </label>
-          </div>
+              </div>
+            </div>
           <div v-else>
-            <button id="test1" v-on:click="showPlay">{{ uiLabels.play }}</button>
+            <button class="playButtons" v-on:click="showPlay">{{ uiLabels.play }}</button>
           </div>
         </div>
 
 
 
-        <button>
+        <button class="playButtons">
           <router-link class="routerLink" v-bind:to="'/create/'+lang">{{ uiLabels.createPoll }}</router-link>
         </button>
 
       </div>
     </section>
 
-
-    <footer class="buttom">
+    <footer class="bottom">
       please do not sue us Glöggkrök incorperated
     </footer>
-
-
-
-
+    <button >
+      <router-link class="routerLink" v-bind:to="'/testsite/'">TESTSITE</router-link>
+    </button>
   </section>
 
   </main>
@@ -99,7 +99,10 @@ export default {
   font-weight: 100;
 }
 .routerLink {
+  color:inherit;
   text-decoration: none;
+
+
 }
 
 .theme {
@@ -146,14 +149,18 @@ button:active{
   right: 20px;
 }
 
-
+.playButtons{
+  height:auto;
+  width:auto;
+  font-size:200%;
+}
 
 .format{
   background-color: rgb(18, 50, 255);
   color: white;
 }
 
-.buttom {
+.bottom {
   margin-top: 50em;
 }
 
@@ -170,6 +177,11 @@ button:active{
 #headertext {
   font-size: 500%;
   color: white;
+  text-shadow: 10px 10px 10px black;
 
+}
+#pollID{
+  position:relative;
+  top:1em;
 }
 </style>

@@ -15,5 +15,6 @@
 	"save": "Spara",
 	"enterTitle": "Skriv in titel...",
 	"addLocationQuestion": "Lägg till kartfråga",
-	"pollLink":"Länk till spel"
+	"pollLink":"Länk till spel",
+	"welcome": "Välkommen!"
 }

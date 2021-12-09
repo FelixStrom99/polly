@@ -7,9 +7,14 @@
   </div>
 
   <h2> {{LocationQuestion.lq}}</h2>
+
   <div id="mapcontainer">
-    <div   v-on:click="userSetLocation">
+    <div id ="map" v-on:click="userSetLocation">
+
       <LocationQuestion  v-bind:LocationQuestion="LocationQuestion"  />
+      <div id ="dots" v-bind:style="{left: UserLocation.x + 'px', top: UserLocation.y + 'px'}">
+        T
+      </div>
     </div>
   </div>
   {{UserLocation}}
@@ -19,7 +24,6 @@
 distans: {{distance}}
 
   {{LocationQuestion.location}}
-
 
 </template>
 
@@ -64,8 +68,10 @@ export default {
     console.log("test1",this.question)
     )
     socket.on("newLocationQuestion", l =>
-       this.LocationQuestion=l,
+
+            this.LocationQuestion=l,
         console.log("test2",this.LocationQuestion)
+
     )
 
   },
@@ -95,13 +101,13 @@ export default {
       socket.emit("submitLocationAnswer", {pollId: this.pollId, locationAnswer: this.UserLocation})
     },
     checkDistance: function(){
-      var holderX1 = this.LocationQuestion.location[0] // holder is used to remove the undefined elements .x and .y for some reason
-      var holderY1 = this.LocationQuestion.location[1]
+      var holderX1 = this.LocationQuestion.location.x // holder is used to remove the undefined elements .x and .y for some reason
+      var holderY1 = this.LocationQuestion.location.y
       var x2 = this.UserLocation.x
       var y2 = this.UserLocation.y
       var distanceSquared = Math.pow(holderX1-x2,2) + Math.pow(holderY1-y2,2)
       this.distance = Math.sqrt(distanceSquared)
-    }
+    },
   }
 }
 </script>
@@ -115,6 +121,22 @@ export default {
   border: groove
 }
 
+#map{
+  background-repeat: no-repeat;
+  cursor: crosshair;
+  position: relative;
+
+}
+
+#dots{
+  position: absolute;
+  background: #f10808;
+  color: #f10808;
+  border-radius: 15px;
+  width: 10px;
+  height: 10px;
+  text-align: center;
+}
 
 
 
