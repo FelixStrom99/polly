@@ -187,22 +187,7 @@
       </div>
       <!-- <button v-on:click="showLocationQuestion">Location question</button>
       <button v-on:click="showMultipleQuestion">Multiple choice question</button> -->
-
-
-    <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
-  </div>
-  <div class=" create alternative-right-side">
-    <!-- <input type="range" min="0" max="100" value="50" id="slider" name="range" oninput="document.getElementById('range_from_location').innerHTML = this.value">
-    -->
-    <h1>Här ska vi ha knappar med lite rolig funktionalitet</h1>
-    <button type="button" class="collapsible" v-on:click="expandAndCollapseBox">Add a new question</button>
-    <div class="content">
-      <button v-on:click="showLocationQuestion">Location question</button>
-      <button v-on:click="showMultipleQuestion">Multiple choice question</button>
     </div>
-    <!-- <button v-on:click="showLocationQuestion">Location question</button>
-    <button v-on:click="showMultipleQuestion">Multiple choice question</button> -->
-  </div>
  <!-- <button type="button" v-on:click="addLocation">
     Confirm Correct Location
   </button>-->
@@ -219,6 +204,7 @@
           Run Location-Question
         </button>
       </div>
+      <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
     </div>
     </div>
   </section>
