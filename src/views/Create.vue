@@ -58,11 +58,6 @@
           <h1 class="city_name_charachter_spec">Malmö</h1>
         </figure>
       </div>
-<<<<<<< HEAD
-
-
-=======
->>>>>>> bdf387372e808bfd162ee4efc67b4d1ddf42b0e0
     </div>
 
   </section>
