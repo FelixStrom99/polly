@@ -1,37 +1,72 @@
+
 <template>
-  <main class="theme">
-    <div>
-      <iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-              src="https://www.openstreetmap.org/export/embed.html?bbox=17.53443315625191%2C59.82979244010069%2C17.73871019482613%2C59.88883631266539&amp;layer=mapnik"
-              style="border: 1px solid black"></iframe>
+  <div id="app">
+    <div class="cell cell-map">
+      <MapContainer :geojson="geojson"> </MapContainer>
     </div>
-  </main>
+    <div class="cell cell-edit">
+      <Edit :geojson="geojson" v-on:change="geojson = $event">
+      </Edit>
+    </div>
+
+  </div>
 </template>
 
 <script>
+import MapContainer from "../components/MapContainer";
+import Edit from "../components/Edit"
 export default {
-  name: "TestSite"
+  name: 'TestSite',
+  components:{
+  MapContainer,
+  Edit
+},
+
+data: () => ({
+  // this is the initial GeoJSON data
+  geojson: {
+    type: 'Feature',
+    properties: {},
+    geometry: {
+      type: 'Point',
+      coordinates: [17.634533732789, 59.858428961541]
+    }
+  }
+})
 }
 </script>
-
-<style scoped>
-.theme {
-
-  background: linear-gradient(-45deg, #ee9052, #d22736, #1682a8, #22d999);
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
+<style>
+html, body {
+  height: 100%;
+  margin: 0;
 }
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
 
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 100vh;
+  grid-auto-rows: 1fr;
+  grid-gap: 1rem;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.cell {
+  border-radius: 4px;
+  background-color: lightgrey;
+}
+
+.cell-map {
+  grid-column: 1;
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+
+.cell-edit {
+  grid-column: 2;
+  grid-row: 1;
+  width:200px;
 }
 
 </style>
