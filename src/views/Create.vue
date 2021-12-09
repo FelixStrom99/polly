@@ -349,7 +349,7 @@ export default {
   font-family: sans-serif;
   font-weight: 600;
   outline: none;
-  border: none;
+
 
 
 
