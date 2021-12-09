@@ -131,23 +131,15 @@
 
 
       <div class="answer-alternative-size-wrapper" >
-
-        <div id="Answer-Box-symbol-prop" >
-
+        <div id="Answer-Box-symbol-prop">
         </div>
 
-        <div class="Answer-Box-textarea"  >
-
-          <input
-                  class="Answer-Box-textarea-prop"
-                 placeholder="Answer 1"
-                 >
-
-
+        <div class="Answer-Box-textarea">
+          <input class="Answer-Box-textarea-prop"
+                 placeholder="Answer 1">
         </div>
 
-      <div class="Answer-Box-checkbox"  >
-
+      <div class="Answer-Box-checkbox" >
         <input type="checkbox"
                 class="Answer-Box-checkbox-prop
                 animation_rubberband">
@@ -370,7 +362,6 @@ template{
 }
 
 .Answer-Box-checkbox-prop{
-  margin-right: 15%;
   height: 100%;
    -webkit-transform: scale(2);
   transform: scale(2);
