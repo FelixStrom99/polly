@@ -4,36 +4,25 @@
     <div class="cell cell-map">
       <MapContainer :geojson="geojson"> </MapContainer>
     </div>
-    <div class="cell cell-edit">
-      <Edit :geojson="geojson" v-on:change="geojson = $event">
-      </Edit>
-    </div>
+
 
   </div>
 </template>
 
 <script>
 import MapContainer from "../components/MapContainer";
-import Edit from "../components/Edit"
+
 export default {
   name: 'TestSite',
   components:{
   MapContainer,
-  Edit
 },
 
   data: function () {
     return {
 
       // this is the initial GeoJSON data
-      geojson: {
-        type: 'Feature',
-        properties: {},
-        geometry: {
-          type: 'Point',
-          coordinates: [17.634533732789, 59.858428961541]
-        }
-      }
+
     }
   }
 }
