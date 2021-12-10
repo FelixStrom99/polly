@@ -63,7 +63,7 @@
   </section>
 
 
-  <section class="create-the-questions" v-else-if="secondStage===false">
+  <section class="create-the-questions-container" v-else-if="secondStage===false">
     <header>
       <h1>{{ pollId }}</h1>
 
@@ -96,7 +96,7 @@
           </div>
         </div>
       </div>
-    <div class="create question" v-if="createMultipleChoiceQuestion">
+    <div class="create question-page" v-if="createMultipleChoiceQuestion">
       {{ uiLabels.question }}:
       <input type="text" v-model="question">
       <div class="question-multiple">
@@ -129,10 +129,9 @@
         <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link>
       </button>
       </div>
-
-      <div class="answer-alternative-size-wrapper" >
+      <div class="Answer-box-wrapper">
+      <div class="answer-alternative-size-wrapper"   v-for="(_, i) in answers" v-bind:key="'answers'+i">
         <div id="Answer-Box-symbol-prop" >
-
         </div>
         <div class="Answer-Box-textarea"  >
           <input class="Answer-Box-textarea-prop"
@@ -144,9 +143,25 @@
                 class="Answer-Box-checkbox-prop
                 animation_rubberband">
       </div>
-
       </div>
+      </div>
+
     </div>
+      <div class="lowerside">
+        <div>
+          <input type="number" v-model="questionNumber">
+          <button v-on:click="runQuestion">
+            Run Follow-up Question
+          </button>
+        </div>
+        <div>
+          <input type="number" v-model="locationQuestionNumber">
+          <button v-on:click="runLocationQuestion">
+            Run Location-Question
+          </button>
+        </div>
+        <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
+      </div>
       </div>
     <div class=" create alternative-right-side">
       <!-- <input type="range" min="0" max="100" value="50" id="slider" name="range" oninput="document.getElementById('range_from_location').innerHTML = this.value">
@@ -163,21 +178,7 @@
  <!-- <button type="button" v-on:click="addLocation">
     Confirm Correct Location
   </button>-->
-    <div class="lowerside">
-      <div>
-        <input type="number" v-model="questionNumber">
-        <button v-on:click="runQuestion">
-          Run Follow-up Question
-        </button>
-      </div>
-      <div>
-        <input type="number" v-model="locationQuestionNumber">
-        <button v-on:click="runLocationQuestion">
-          Run Location-Question
-        </button>
-      </div>
-      <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
-    </div>
+
   </section>
 
 
@@ -312,29 +313,32 @@ export default {
 <style>
 
 
-.create-the-questions {
+.create-the-questions-container {
+  display: flex;
   background-color: #1682a8;
+  height: 99vh;
 }
 
 .create {
-  background-color: antiquewhite;
-  height: 35em;
+background-color: white;
+  height: 99vh;
+
 }
 
 .overview-left-side {
-  display: inline-block;
-  float: left;
-  left: 150px;
-  width: 20%;
-  border: 3px solid green;
+  flex-basis: 20%;
+  justify-content: space-evenly;
+
+
 }
 
 .lq-and-q {
-  display: inline-block;
-  float: left;
-  width: 60%;
-  margin: 0;
-  padding: 0;
+background-color: #d22736;
+  justify-content: space-evenly;
+  flex-basis: 60%;
+
+
+
 }
 
 
@@ -349,6 +353,7 @@ export default {
   font-family: sans-serif;
   font-weight: 600;
   outline: none;
+  border: none
 
 
 
@@ -367,11 +372,10 @@ border-radius: 5px;
 
 
 .alternative-right-side {
-  display: inline-block;
-  float: right;
-  right: 200px;
-  width: 19%;
-  border: 3px solid green;
+  justify-content: space-evenly;
+  flex-basis: 20%;
+
+
 
 }
 .animation_rubberband{
@@ -409,13 +413,25 @@ border-radius: 5px;
 
 }
 
+.question-page{
+  background-color: blue;
+}
+.Answer-box-wrapper{
+  padding-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 40px;
+  justify-content: center;
+  height: 40vh;
+}
 .collapsible {
   background-color: #ee9052;
   color: #444;
   cursor: pointer;
   padding: 18px;
-  width: 100%;
+  overflow: hidden;
   border: none;
+
   text-align: left;
   outline: none;
   font-size: 15px;
@@ -469,13 +485,17 @@ textbox:hover {
 
 }
 .answer-alternative-size-wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  align-content: center;
+  wrap: flex;
   border: solid 2px ;
   border-color: rgba(82, 77, 77, 0.55);
   background-color: white;
-  height: 30%;
+  height:60%;
   width: 35%;
+  min-width: 35%;
   border-radius: 10px ;
-  display: grid;
   color: #444;
 
 
@@ -485,7 +505,7 @@ textbox:hover {
   background-color: rgba(6, 236, 4, 0.73);
   border-radius: 7px 0px 0px 7px ;
   height: 100%;
-  width: 100%;
+  width: 20%;
 }
 .Answer-Box-textarea {
   border-left: solid 2px ;
@@ -528,10 +548,8 @@ textbox:hover {
   font-size: 30px;
   width: 400px;
   height: 300px;
-
   margin-left: auto;
   margin-right: auto;
-
   text-align: center;
 }
 
@@ -621,8 +639,10 @@ textbox:hover {
 }
 
 #mapcontainer {
-  width: 600px;
-  height: 450px;
+  width: 95%;
+  max-width: 600px;
+  max-height: 450px;
+  height: 100%;
   overflow: scroll;
   margin-bottom: 20px;
   border: groove;
