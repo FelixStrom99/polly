@@ -125,6 +125,7 @@ Data.prototype.getAnswers = function (pollId) {
     const poll = this.polls[pollId];
     if (typeof poll !== 'undefined') {
         const answers = poll.answers[poll.currentQuestion]
+        console.log("hej",answers)
         if (typeof poll.questionSequence[poll.currentQuestion] !== 'undefined') {
 
             return {q: poll.questionSequence[poll.currentQuestion].q, a: answers};

@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div v-for=" (question,i) in question"
+  v-bind:key="question[i]">
 {{question}}
   </div>
   <Bars v-bind:data="data"/>
