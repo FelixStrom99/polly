@@ -44,11 +44,15 @@ export default {
     // the GeoJSON data is now taken as an input
     geojson: Object
   },
-  data: () => ({
+  data: function () {
+    return {
     // store OL objects on the component instance
     olMap: null,
-    vectorLayer: null
-  }),
+    vectorLayer: null,
+    evt_coordinate:{x:0,
+    y:0}
+
+  }},
   mounted() {
     this.vectorLayer = new VectorLayer({
       source: new VectorSource({
@@ -72,8 +76,12 @@ export default {
     })
 
     this.olMap.on('click', (event) => {
-      var evt_coordinate = transform(event.coordinate, 'EPSG:3857', 'EPSG:4326');
-      console.log(evt_coordinate)
+      let myTarget = JSON.parse(JSON.stringify(transform(event.coordinate, 'EPSG:3857', 'EPSG:4326')));
+
+      this.evt_coordinate.x= myTarget[0];
+      this.evt_coordinate.y= myTarget[1];
+      console.log(this.evt_coordinate.x)
+      console.log(this.evt_coordinate.y)
     });
 
     // we’re calling `updateSource` to show the object initially

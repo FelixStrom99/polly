@@ -22,17 +22,20 @@ export default {
   Edit
 },
 
-data: () => ({
-  // this is the initial GeoJSON data
-  geojson: {
-    type: 'Feature',
-    properties: {},
-    geometry: {
-      type: 'Point',
-      coordinates: [17.634533732789, 59.858428961541]
+  data: function () {
+    return {
+
+      // this is the initial GeoJSON data
+      geojson: {
+        type: 'Feature',
+        properties: {},
+        geometry: {
+          type: 'Point',
+          coordinates: [17.634533732789, 59.858428961541]
+        }
+      }
     }
   }
-})
 }
 </script>
 <style>
