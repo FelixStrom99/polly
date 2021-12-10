@@ -45,6 +45,7 @@ export default {
     socket.on("dataUpdate", (update) => {
       this.data = update.a;
       this.question = update.q;
+      console.log("hej",this.data)
     });
     socket.on("newQuestion", update => {
       this.question = update.q;
@@ -53,8 +54,7 @@ export default {
     socket.on("locationDataUpdate", update=>{
       this.locationData=update.la
       this.locationQuestion=update.lq
-      console.log("babe2",this.locationData)
-      console.log("babe",this.locationQuestion)
+
 
 
 

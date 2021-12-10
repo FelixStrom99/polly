@@ -2,16 +2,16 @@
   <div>
     {{ pollId }}
 
-    <Question v-bind:question="question"
-              v-on:answer="submitAnswer"/>
+    <!--<Question v-bind:question="question"
+              v-on:answer="submitAnswer"/> -->
 
-    <!--<Question v-for="(soloQuestion,i) in question"
-               v-bind:soloQuestion="soloQuestion"
-               v-bind:key="soloQuestion.q[i]"
-               v-on:answer="submitAnswer"/> -->
+    <Question v-for="question in questions"
+               v-bind:question="question"
+               v-bind:key="question.q"
+               v-on:answer="submitAnswer"/>
 
   </div>
-{{correctans}}
+  {{ correctans }}
   <h2> {{ LocationQuestion.lq }}</h2>
 
   <div id="mapcontainer">
@@ -50,12 +50,7 @@ export default {
   data: function () {
     return {
       correctans: "",
-      question: {
-        q: [],
-        a: [],
-        correct: [],
-
-      },
+      questions: [],
       LocationQuestion: {
         lq: "",
         location: {
@@ -74,10 +69,8 @@ export default {
     this.pollId = this.$route.params.id
     socket.emit('joinPoll', this.pollId)
     socket.on("newQuestion", q =>
-            this.question=this.LocationQuestion = q,
-
+        this.createQuestionArray(q),
     )
-
 
     /*  socket.on("newLocationQuestion", l =>
 
@@ -87,23 +80,28 @@ export default {
       )*/
 
   },
-  methods: {
-    createQuestionArray: function (){
-      var questionArray=[]
-      for (let i = 0; i < this.question.q.length; i++) {
-        questionArray[i]={q:this.question.q[i],a:5}
 
+  methods: {
+    createQuestionArray: function (Data) {
+      var questionArray = []
+      for (let i = 0; i < Data.q.length; i++) {
+        questionArray[i] = {q: (Data.q[i])[i], a: (Data.a[i])[i]}
       }
-      console.log("test",questionArray)
+      this.questions = questionArray
+      this.LocationQuestion.lq=Data.lq
+      this.LocationQuestion.location=Data.location
+      this.LocationQuestion.image=Data.image
+      console.log("test", this.questions)
+
     },
     submitAnswer: function (answer) {
+      console.log("g",answer)
       socket.emit("submitAnswer", {pollId: this.pollId, answer: answer})
-      this.createQuestionArray()
-      if (this.question.correct[this.question.a.indexOf(answer)] === true) {
+    /*  if (this.question.correct[this.question.a.indexOf(answer)] === true) {
         this.correctans = "true"
       } else {
         this.correctans = "false"
-      }
+      }*/
     },
     userSetLocation: function (event) {
       var offset = {
