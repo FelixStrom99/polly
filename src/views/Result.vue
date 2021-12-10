@@ -53,7 +53,8 @@ export default {
     socket.on("locationDataUpdate", update=>{
       this.locationData=update.la
       this.locationQuestion=update.lq
-      console.log(this.locationQuestion)
+      console.log("babe2",this.locationData)
+      console.log("babe",this.locationQuestion)
 
 
 
