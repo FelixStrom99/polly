@@ -2,8 +2,7 @@
   <div>
     {{ pollId }}
 
-    <!--<Question v-bind:question="question"
-              v-on:answer="submitAnswer"/> -->
+
 
     <Question v-for="question in questions"
                v-bind:question="question"
@@ -11,7 +10,7 @@
                v-on:answer="submitAnswer"/>
 
   </div>
-  {{ correctans }}
+  {{ result }}
   <h2> {{ LocationQuestion.lq }}</h2>
 
   <div id="mapcontainer">
@@ -49,7 +48,8 @@ export default {
   },
   data: function () {
     return {
-      correctans: "",
+      result:"",
+      correctans: [],
       questions: [],
       LocationQuestion: {
         lq: "",
@@ -70,6 +70,7 @@ export default {
     socket.emit('joinPoll', this.pollId)
     socket.on("newQuestion", q =>
         this.createQuestionArray(q),
+
     )
 
     /*  socket.on("newLocationQuestion", l =>
@@ -83,6 +84,11 @@ export default {
 
   methods: {
     createQuestionArray: function (Data) {
+      this.questions=[]
+      this.correctans=[]
+      this.LocationQuestion.lq=""
+      this.LocationQuestion.location={x:0,y:0}
+      this.correctans=[]
       var questionArray = []
       for (let i = 0; i < Data.q.length; i++) {
         questionArray[i] = {q: (Data.q[i])[i], a: (Data.a[i])[i]}
@@ -91,18 +97,31 @@ export default {
       this.LocationQuestion.lq=Data.lq
       this.LocationQuestion.location=Data.location
       this.LocationQuestion.image=Data.image
-      console.log("test", this.questions)
+      this.correctans=Data.correct
+
 
     },
-    submitAnswer: function (answer) {
-      console.log("g",answer)
+    submitAnswer: function (answer,title) {
+
       socket.emit("submitAnswer", {pollId: this.pollId, answer: answer})
-    /*  if (this.question.correct[this.question.a.indexOf(answer)] === true) {
-        this.correctans = "true"
-      } else {
-        this.correctans = "false"
-      }*/
+      for (let i = 0; i < this.questions.length; i++) {
+
+        if ((this.questions[i]).q===title){
+          console.log("babe",this.correctans[i],"körv",((this.questions[i]).a).indexOf(answer))
+          if ((this.correctans[i])[i][((this.questions[i]).a).indexOf(answer)]===true){
+            this.result ="true"
+          }
+          else{
+            this.result="false"
+          }
+
+
+        }
+
+
+      }
     },
+
     userSetLocation: function (event) {
       var offset = {
         x: event.currentTarget.getBoundingClientRect().left,
