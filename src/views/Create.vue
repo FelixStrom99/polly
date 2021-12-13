@@ -63,8 +63,8 @@
   </section>
 
 
-  <section class="create-the-questions" v-else-if="secondStage===false">
-    <header>
+  <section class="create-the-questions-container theme" v-else-if="secondStage===false">
+    <header class="header-create-prop">
       <h1>{{ pollId }}</h1>
 
     </header>
@@ -77,7 +77,7 @@
         </div>
       </div>
     </div>
-    <div class="create lq-and-q">
+    <div class="create lq-and-q theme" >
       <div class="location-question" v-if="createLocationQuestion">
         <div>
           {{ uiLabels.locationQuestion }}:<input type="text" v-model="locationQuestion">
@@ -90,13 +90,15 @@
             <div v-bind:style="{left: location.x-60 + 'px', top: location.y-60 + 'px'}" class="disable">
               <!--modifieras i x och y led för att nålen ska prickas rätt -->
               <object data="/svg_files/PinMap/Pin_Map.svg" type="image/svg+xml">
-                <img src="yourfallback.jpg"/>
+
               </object>
             </div>
           </div>
         </div>
+
+        <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
       </div>
-    <div class="create question" v-if="createMultipleChoiceQuestion">
+    <div class="create theme" v-if="createMultipleChoiceQuestion">
       {{ uiLabels.question }}:
       <input type="text" v-model="question">
       <div class="question-multiple">
@@ -129,14 +131,13 @@
           </button>
         </div>
       </div>
-
-      <div class="answer-alternative-size-wrapper" >
+      <div class="Answer-box-wrapper">
+      <div class="answer-alternative-size-wrapper"   v-for="(_, i) in answers" v-bind:key="'answers'+i">
         <div id="Answer-Box-symbol-prop" >
-
         </div>
         <div class="Answer-Box-textarea"  >
           <input class="Answer-Box-textarea-prop"
-                 placeholder="Answer 1">
+                 placeholder="Answer">
         </div>
 
       <div class="Answer-Box-checkbox" >
@@ -144,15 +145,30 @@
                 class="Answer-Box-checkbox-prop
                 animation_rubberband">
       </div>
-
       </div>
+      </div>
+
     </div>
+      <div class="lowerside">
+        <div>
+          <input type="number" v-model="questionNumber">
+          <button v-on:click="runQuestion">
+            Run Follow-up Question
+          </button>
+        </div>
+        <div>
+          <input type="number" v-model="locationQuestionNumber">
+          <button v-on:click="runLocationQuestion">
+            Run Location-Question
+          </button>
+        </div>
+        <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
+      </div>
       </div>
     <div class=" create alternative-right-side">
-      <!-- <input type="range" min="0" max="100" value="50" id="slider" name="range" oninput="document.getElementById('range_from_location').innerHTML = this.value">
-      -->
+
       <h1>Här ska vi ha knappar med lite rolig funktionalitet</h1>
-      <div type="button" class="collapsible" v-on:click="expandAndCollapseBox">Add a new question</div>
+      <div type="button" class="collapsible" v-on:click="expandAndCollapseBox">Add new question</div>
       <div class="content">
         <button v-on:click="showLocationQuestion">Location question</button>
         <button v-on:click="showMultipleQuestion">Multiple choice question</button>
@@ -163,21 +179,7 @@
  <!-- <button type="button" v-on:click="addLocation">
     Confirm Correct Location
   </button>-->
-    <div class="lowerside">
-      <div>
-        <input type="number" v-model="questionNumber">
-        <button v-on:click="runQuestion">
-          Run Follow-up Question
-        </button>
-      </div>
-      <div>
-        <input type="number" v-model="locationQuestionNumber">
-        <button v-on:click="runLocationQuestion">
-          Run Location-Question
-        </button>
-      </div>
-      <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
-    </div>
+
   </section>
 
 
@@ -216,7 +218,11 @@ export default {
       secondStage: true,
       index:0,
       finalQuestion:[],
+<<<<<<< HEAD
       finalCorrect:[],
+=======
+      finalCorrect:[]
+>>>>>>> c7e404b515343bd73a34d6e1cdbb5b02ffabf318
     }
   },
   created: function () {
@@ -246,9 +252,13 @@ export default {
       console.log("1",this.finalQuestion)
       this.finalQuestion=[]
       this.finalAnswers=[]
+<<<<<<< HEAD
       this.finalCorrect=[]
       this.index=0
       console.log("2",this.finalQuestion)
+=======
+      this.finalCorrect=[]*/
+>>>>>>> c7e404b515343bd73a34d6e1cdbb5b02ffabf318
     },
     addQuestion: function () {
       var index= this.index
@@ -326,33 +336,46 @@ export default {
 <style>
 
 
-.create-the-questions {
+.create-the-questions-container {
+  display: flex;
   background-color: #1682a8;
+  height: 99vh;
 }
 
 .create {
-  background-color: antiquewhite;
-  height: 35em;
+  height: 99vh;
+
 }
 
 .overview-left-side {
-  display: inline-block;
-  float: left;
-  left: 150px;
-  width: 20%;
-  border: 3px solid green;
+  border-radius: 5% 5% 5% 5%;
+  background-color: rgba(255, 255, 255, 0.54);
+  flex-basis: 15%;
+  justify-content: space-evenly;
+
+
 }
 
 .lq-and-q {
-  display: inline-block;
-  float: left;
-  width: 60%;
-  margin: 0;
-  padding: 0;
+
+  justify-content: space-evenly;
+  flex-basis: 70%;
+
+
+
 }
 
 
-
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 25px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
 .Answer-Box-textarea-prop{
 
   width: 100%;
@@ -363,6 +386,7 @@ export default {
   font-family: sans-serif;
   font-weight: 600;
   outline: none;
+  border: none
 
 
 
@@ -381,11 +405,12 @@ border-radius: 5px;
 
 
 .alternative-right-side {
-  display: inline-block;
-  float: right;
-  right: 200px;
-  width: 19%;
-  border: 3px solid green;
+  border-radius: 5% 5% 5% 5%;
+  background-color: rgba(255, 255, 255, 0.54);
+  justify-content: space-evenly;
+  flex-basis: 15%;
+
+
 
 }
 .animation_rubberband{
@@ -423,28 +448,46 @@ border-radius: 5px;
 
 }
 
+
+.Answer-box-wrapper{
+  padding-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 40px;
+  justify-content: center;
+  height: 40vh;
+}
 .collapsible {
-  background-color: #ee9052;
+  background-color: rgba(67, 140, 111, 0.58);
   color: #444;
+  text-align: center;
   cursor: pointer;
   padding: 18px;
-  width: 100%;
-  border: none;
+  border-width:thin;
+  border-color: #444444;
+  overflow: hidden;
+ border-radius: 10%;
   text-align: left;
   outline: none;
   font-size: 15px;
 }
 
 .active, .collapsible:hover {
-  background-color: #1682a8;
+  background-color: rgba(61, 133, 104, 0.38);
 }
 
 .content {
-  padding: 0 18px;
+  margin-right: 2%;
+  margin-left:2% ;
+  margin-bottom: 2%;
+  border-radius: 10%;
   background-color: white;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.2s ease-out;
+  transition: max-height 0.3s ease-out;
+}
+.header-create-prop{
+  height: 10vh;
 }
 
 .lowerside {
@@ -483,13 +526,17 @@ textbox:hover {
 
 }
 .answer-alternative-size-wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  align-content: center;
+  wrap: flex;
   border: solid 2px ;
   border-color: rgba(82, 77, 77, 0.55);
   background-color: white;
-  height: 30%;
+  height:60%;
   width: 35%;
+  min-width: 35%;
   border-radius: 10px ;
-  display: grid;
   color: #444;
 
 
@@ -499,7 +546,7 @@ textbox:hover {
   background-color: rgba(6, 236, 4, 0.73);
   border-radius: 7px 0px 0px 7px ;
   height: 100%;
-  width: 100%;
+  width: 20%;
 }
 .Answer-Box-textarea {
   border-left: solid 2px ;
@@ -542,10 +589,8 @@ textbox:hover {
   font-size: 30px;
   width: 400px;
   height: 300px;
-
   margin-left: auto;
   margin-right: auto;
-
   text-align: center;
 }
 
@@ -635,8 +680,10 @@ textbox:hover {
 }
 
 #mapcontainer {
-  width: 600px;
-  height: 450px;
+  width: 95%;
+  max-width: 600px;
+  max-height: 450px;
+  height: 100%;
   overflow: scroll;
   margin-bottom: 20px;
   border: groove;
