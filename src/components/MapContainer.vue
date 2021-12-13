@@ -3,6 +3,7 @@
        style="width: 100%; height: 100%">
   </div>
   <button type="button" v-on:click="submitLocation"> SUBMIT LOCATION</button>
+  <input type="range" v-model="this.userPoint.properties.radius" max="40" min="5">
 </template>
 
 <script>
@@ -14,7 +15,7 @@ import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 import GeoJSON from 'ol/format/GeoJSON'
 import { transform } from 'ol/proj'
-/*import {Fill, Style} from 'ol/style' */
+import {Fill, Style, Circle, Stroke} from 'ol/style'
 
 
 
@@ -25,41 +26,63 @@ import 'ol/ol.css'
 export default {
   name: 'MapContainer',
   components: {},
-
   data: function () {
     return {
-    // store OL objects on the component instance
-    olMap: null,
-    vectorLayer: null,
-    evt_coordinate:{x:0,
-    y:0},
-    userPoint: {
-      type: 'Feature',
-      properties: {},
-      geometry: {
-        type: 'Point',
-        coordinates: []
-      }
-    },
-    lineString:{
-      type: 'Feature',
-      properties: {},
-      geometry: {
-        type: 'LineString',
-        coordinates: []
-      }
-    },
-    correctPoint: {
-      type: 'Feature',
-      properties: {},
-      geometry: {
-        type: 'Point',
-        coordinates: []
+      // store OL objects on the component instance
+      olMap: null,
+      vectorLayer: null,
+      evt_coordinate:{x:0,
+        y:0},
+      userPoint: {
+        type: 'Feature',
+        properties: {
+          radius: 10,
+          color: 'red'
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: []
+        }
       },
+      userPointFeature: null,
+      lineString:{
+        type: 'Feature',
+        properties: {
+          color: 'green'
+        },
+        geometry: {
+          type: 'LineString',
+          coordinates: []
+        }
+      },
+      correctPoint: {
+        type: 'Feature',
+        properties: {
+          radius: 10,
+          color: 'green'
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: []
+        },
 
+      }
+
+    }},
+  computed: {
+    userPointProperties: function () {
+      return this.userPoint.properties;
     }
-
-  }},
+  },
+  watch: {
+    userPointProperties: {
+      handler: function (newVal) {
+        this.userPointFeature.getStyle().getImage().setRadius(newVal.radius);
+        this.vectorLayer.changed();
+      },
+      deep: true
+    }
+  },
   mounted() {
     this.vectorLayer = new VectorLayer({
       source: new VectorSource({
@@ -83,49 +106,71 @@ export default {
     }),
 
 
-    this.olMap.on('click', (event) => {
-      let myTarget = JSON.parse(JSON.stringify(transform(event.coordinate, 'EPSG:3857', 'EPSG:4326')));
+        this.olMap.on('click', (event) => {
+          let myTarget = JSON.parse(JSON.stringify(transform(event.coordinate, 'EPSG:3857', 'EPSG:4326')));
 
-      this.evt_coordinate.x= myTarget[0];
-      this.evt_coordinate.y= myTarget[1];
-      console.log(this.evt_coordinate.x)
-      console.log(this.evt_coordinate.y)
-      this.userPoint.geometry.coordinates=[this.evt_coordinate.x,this.evt_coordinate.y]
-      this.addPoint(this.userPoint)
+          this.evt_coordinate.x= myTarget[0];
+          this.evt_coordinate.y= myTarget[1];
+          console.log(this.evt_coordinate.x)
+          console.log(this.evt_coordinate.y)
+          this.userPoint.geometry.coordinates=[this.evt_coordinate.x,this.evt_coordinate.y]
+          this.addPoint(this.userPoint)
 
-    });
+        });
 
   },
 
   methods: {
+    pointStyle({radius, color}) {
+      return new Style( {
+        image: new Circle({
+          radius: radius,
+          fill: new Fill({
+            color: color,
+          }),
+          stroke: new Stroke({
+            color: color,
+            width: 2
+          })
+        })
+      })
+    },
+    lineStyle({color}) {
+      return new Style( {
+        stroke: new Stroke({
+          color: color,
+          width: 5
+        })
+      })
+    },
     addPoint(geojson) {
 
       const source = this.vectorLayer.getSource()
 
-      const features = new GeoJSON({
+      this.userPointFeature = new GeoJSON({
         featureProjection: 'EPSG:3857',
-      }).readFeatures(geojson)
-
+      }).readFeature(geojson)
+      this.userPointFeature.setStyle(this.pointStyle(this.userPointProperties));
       source.clear();
-      source.addFeatures(features);
+      source.addFeature(this.userPointFeature);
 
     },
-      updateSource(geojson) {
+    updateSource(geojson, styleFn) {
 
       const source = this.vectorLayer.getSource()
 
-      const features = new GeoJSON({
+      const feature = new GeoJSON({
         featureProjection: 'EPSG:3857',
-      }).readFeatures(geojson)
-
-      source.addFeatures(features);
+      }).readFeature(geojson)
+      feature.setStyle(styleFn(geojson.properties));
+      source.addFeature(feature);
 
     },
     submitLocation(){
       this.lineString.geometry.coordinates=[[this.evt_coordinate.x,this.evt_coordinate.y],[17.62696027384439,59.86043406543544]]
-      this.updateSource(this.lineString)
+      this.updateSource(this.lineString, this.lineStyle)
       this.correctPoint.geometry.coordinates=[17.62696027384439,59.86043406543544]
-      this.updateSource(this.correctPoint)
+      this.updateSource(this.correctPoint, this.pointStyle)
     }
   }
 }
