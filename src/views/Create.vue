@@ -63,8 +63,8 @@
   </section>
 
 
-  <section class="create-the-questions-container" v-else-if="secondStage===false">
-    <header>
+  <section class="create-the-questions-container theme" v-else-if="secondStage===false">
+    <header class="header-create-prop">
       <h1>{{ pollId }}</h1>
 
     </header>
@@ -77,7 +77,7 @@
         </div>
       </div>
     </div>
-    <div class="create lq-and-q">
+    <div class="create lq-and-q theme" >
       <div class="location-question" v-if="createLocationQuestion">
         <div>
           {{ uiLabels.locationQuestion }}:<input type="text" v-model="locationQuestion">
@@ -90,13 +90,15 @@
             <div v-bind:style="{left: location.x-60 + 'px', top: location.y-60 + 'px'}" class="disable">
               <!--modifieras i x och y led för att nålen ska prickas rätt -->
               <object data="/svg_files/PinMap/Pin_Map.svg" type="image/svg+xml">
-                <img src="yourfallback.jpg"/>
+
               </object>
             </div>
           </div>
         </div>
+
+        <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
       </div>
-    <div class="create question-page" v-if="createMultipleChoiceQuestion">
+    <div class="create theme" v-if="createMultipleChoiceQuestion">
       {{ uiLabels.question }}:
       <input type="text" v-model="question">
       <div class="question-multiple">
@@ -135,7 +137,7 @@
         </div>
         <div class="Answer-Box-textarea"  >
           <input class="Answer-Box-textarea-prop"
-                 placeholder="Answer 1">
+                 placeholder="Answer">
         </div>
 
       <div class="Answer-Box-checkbox" >
@@ -164,10 +166,9 @@
       </div>
       </div>
     <div class=" create alternative-right-side">
-      <!-- <input type="range" min="0" max="100" value="50" id="slider" name="range" oninput="document.getElementById('range_from_location').innerHTML = this.value">
-      -->
+
       <h1>Här ska vi ha knappar med lite rolig funktionalitet</h1>
-      <div type="button" class="collapsible" v-on:click="expandAndCollapseBox">Add a new question</div>
+      <div type="button" class="collapsible" v-on:click="expandAndCollapseBox">Add new question</div>
       <div class="content">
         <button v-on:click="showLocationQuestion">Location question</button>
         <button v-on:click="showMultipleQuestion">Multiple choice question</button>
@@ -320,29 +321,39 @@ export default {
 }
 
 .create {
-background-color: white;
   height: 99vh;
 
 }
 
 .overview-left-side {
-  flex-basis: 20%;
+  border-radius: 5% 5% 5% 5%;
+  background-color: rgba(255, 255, 255, 0.54);
+  flex-basis: 15%;
   justify-content: space-evenly;
 
 
 }
 
 .lq-and-q {
-background-color: #d22736;
+
   justify-content: space-evenly;
-  flex-basis: 60%;
+  flex-basis: 70%;
 
 
 
 }
 
 
-
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 25px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
 .Answer-Box-textarea-prop{
 
   width: 100%;
@@ -372,8 +383,10 @@ border-radius: 5px;
 
 
 .alternative-right-side {
+  border-radius: 5% 5% 5% 5%;
+  background-color: rgba(255, 255, 255, 0.54);
   justify-content: space-evenly;
-  flex-basis: 20%;
+  flex-basis: 15%;
 
 
 
@@ -413,9 +426,7 @@ border-radius: 5px;
 
 }
 
-.question-page{
-  background-color: blue;
-}
+
 .Answer-box-wrapper{
   padding-top: 15px;
   display: flex;
@@ -425,28 +436,36 @@ border-radius: 5px;
   height: 40vh;
 }
 .collapsible {
-  background-color: #ee9052;
+  background-color: rgba(67, 140, 111, 0.58);
   color: #444;
+  text-align: center;
   cursor: pointer;
   padding: 18px;
+  border-width:thin;
+  border-color: #444444;
   overflow: hidden;
-  border: none;
-
+ border-radius: 10%;
   text-align: left;
   outline: none;
   font-size: 15px;
 }
 
 .active, .collapsible:hover {
-  background-color: #1682a8;
+  background-color: rgba(61, 133, 104, 0.38);
 }
 
 .content {
-  padding: 0 18px;
+  margin-right: 2%;
+  margin-left:2% ;
+  margin-bottom: 2%;
+  border-radius: 10%;
   background-color: white;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.2s ease-out;
+  transition: max-height 0.3s ease-out;
+}
+.header-create-prop{
+  height: 10vh;
 }
 
 .lowerside {

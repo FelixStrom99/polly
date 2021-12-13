@@ -2,11 +2,13 @@
   <main class="theme">
 
   <header>
+
     <div class="container"><br>
       <h1 id="headertext">MapQuiz</h1>
       <h2> {{uiLabels.welcome}} </h2>
       <button id="LangButton" style  v-on:click="switchLanguage">
-        <img src="https://www.pngitem.com/pimgs/m/31-311934_transparent-languages-clipart-language-icon-svg-hd-png.png" style="width:1em" >
+        <object data="/svg_files/Language_symbol/language-symbol.svg" type="image/svg+xml" style="float: left">
+        </object>
         {{uiLabels.changeLanguage}}</button>
     </div>
   </header>
@@ -138,6 +140,8 @@ button:active{
   top: 1px;
 }
 #LangButton {
+  width:10%;
+  height: 5%;
   font-size:100%;
   text-align: center;
   border: none;
