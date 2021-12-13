@@ -124,10 +124,10 @@
         <button v-on:click="deleteAnswer">
           {{ uiLabels.deleteAnswer }}:
         </button>
+          <button v-on:click="addQuestion">
+            Add question
+          </button>
         </div>
-      <button>
-        <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link>
-      </button>
       </div>
 
       <div class="answer-alternative-size-wrapper" >
@@ -216,12 +216,20 @@ export default {
       imgUrl: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg",
 
       firstStage: true,
+<<<<<<< HEAD
 
       secondStage: true,
 
 
       index:0,
 
+=======
+      secondStage: true,
+
+      index:0,
+      finalQuestion:[],
+      finalCorrect:[]
+>>>>>>> dca1b87f69d89dc26068320db23d5b8dd453e9e7
     }
   },
   created: function () {
@@ -247,20 +255,29 @@ export default {
       this.secondStage = false
     },
     addLocationQuestion: function () {
+<<<<<<< HEAD
 
+=======
+>>>>>>> dca1b87f69d89dc26068320db23d5b8dd453e9e7
       socket.emit("addLocationQuestion", {
         pollId: this.pollId,
         lq: this.locationQuestion,
         location: this.location,
         image: this.imgUrl
       })
+<<<<<<< HEAD
 
+=======
+>>>>>>> dca1b87f69d89dc26068320db23d5b8dd453e9e7
       socket.emit("addQuestion",{pollId: this.pollId, q: this.finalQuestion, a: this.finalAnswers, correct: this.finalCorrect,lq: this.locationQuestion, location: this.location,image: this.imgUrl})
       console.log(this.finalQuestion)
       /*this.finalQuestion=[]
       this.finalAnswers=[]
       this.finalCorrect=[]*/
+<<<<<<< HEAD
 
+=======
+>>>>>>> dca1b87f69d89dc26068320db23d5b8dd453e9e7
     },
     addQuestion: function () {
       var index= this.index
