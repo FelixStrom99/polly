@@ -15,7 +15,8 @@ import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 import GeoJSON from 'ol/format/GeoJSON'
 import { transform } from 'ol/proj'
-import {Fill, Style, Circle, Stroke} from 'ol/style'
+import {Fill, Style, Stroke,Icon} from 'ol/style'
+/*import {Circle} from 'ol/style'*/
 
 
 
@@ -121,10 +122,16 @@ export default {
   },
 
   methods: {
-    pointStyle({radius, color}) {
+    pointStyle({color}) {
       return new Style( {
-        image: new Circle({
-          radius: radius,
+      /*  image: new Circle({
+          radius: radius,           */
+        image: new Icon({
+          anchor: [0.5, 69],
+          anchorXUnits: 'fraction',
+          anchorYUnits: 'pixels',
+          src: '/svg_files/PinMap/Pin_Map.svg',
+        }),
           fill: new Fill({
             color: color,
           }),
@@ -133,7 +140,6 @@ export default {
             width: 2
           })
         })
-      })
     },
     lineStyle({color}) {
       return new Style( {
