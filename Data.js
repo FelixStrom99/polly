@@ -40,7 +40,7 @@ Data.prototype.addQuestion = function (pollId, q) {
     const poll = this.polls[pollId];
     console.log("question added to", pollId, q);
     if (typeof poll !== 'undefined') {
-      /*  poll.questions.push(q);*/
+
         poll.questionSequence.push(q)
 
     }
@@ -126,7 +126,7 @@ Data.prototype.getAnswers = function (pollId) {
     const poll = this.polls[pollId];
     if (typeof poll !== 'undefined') {
         const answers = poll.answers[poll.currentQuestion]
-        console.log("hej",poll.questions)
+        console.log("hej",answers)
         if (typeof poll.questionSequence[poll.currentQuestion] !== 'undefined') {
 
             return {q: poll.questionSequence[poll.currentQuestion].q, a: answers};
