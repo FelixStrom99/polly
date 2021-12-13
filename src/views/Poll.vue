@@ -84,11 +84,6 @@ export default {
 
   methods: {
     createQuestionArray: function (Data) {
-      this.questions=[]
-      this.correctans=[]
-      this.LocationQuestion.lq=""
-      this.LocationQuestion.location={x:0,y:0}
-      this.correctans=[]
       var questionArray = []
       for (let i = 0; i < Data.q.length; i++) {
         questionArray[i] = {q: (Data.q[i])[i], a: (Data.a[i])[i]}
