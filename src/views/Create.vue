@@ -124,10 +124,10 @@
         <button v-on:click="deleteAnswer">
           {{ uiLabels.deleteAnswer }}:
         </button>
+          <button v-on:click="addQuestion">
+            Add question
+          </button>
         </div>
-      <button>
-        <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link>
-      </button>
       </div>
 
       <div class="answer-alternative-size-wrapper" >
