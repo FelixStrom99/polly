@@ -195,8 +195,9 @@ export default {
       lang: "",
       pollId: "",
       title: "",
-      question: "",
+      question: [""],
       answers: ["", ""],
+      finalAnswers:[],
       checkBox: [false, false],
       locationQuestion: "",
       location: {
@@ -213,8 +214,15 @@ export default {
       imgUrl: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg",
 
       firstStage: true,
+<<<<<<< HEAD
       secondStage: true
 
+=======
+      secondStage:true,
+      index:0,
+      finalQuestion:[],
+      finalCorrect:[]
+>>>>>>> addeTestar
     }
   },
   created: function () {
@@ -240,15 +248,34 @@ export default {
       this.secondStage = false
     },
     addLocationQuestion: function () {
+<<<<<<< HEAD
       socket.emit("addLocationQuestion", {
         pollId: this.pollId,
         lq: this.locationQuestion,
         location: this.location,
         image: this.imgUrl
       })
+=======
+      socket.emit("addQuestion",{pollId: this.pollId, q: this.finalQuestion, a: this.finalAnswers, correct: this.finalCorrect,lq: this.locationQuestion, location: this.location,image: this.imgUrl})
+      console.log(this.finalQuestion)
+      /*this.finalQuestion=[]
+      this.finalAnswers=[]
+      this.finalCorrect=[]*/
+>>>>>>> addeTestar
     },
     addQuestion: function () {
-      socket.emit("addQuestion", {pollId: this.pollId, q: this.question, a: this.answers, correct: this.checkBox})
+      var index= this.index
+      var newAnswer={[index]:this.answers}
+      this.finalAnswers.push(newAnswer)
+      var newQuestion={[index]:this.question}
+      this.finalQuestion.push(newQuestion)
+      var newCorrect={[index]:this.checkBox}
+      this.finalCorrect.push(newCorrect)
+      console.log(this.finalQuestion)
+      this.index+=1
+      this.answers=["",""]
+      this.question=""
+      this.checkBox=[false,false]
     },
     addAnswer: function () {
       if (this.answers.length <= 3) {
