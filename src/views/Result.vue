@@ -1,6 +1,8 @@
 <template>
-  <div>
-{{question}}
+  <div v-for="(title,i) in question"
+       v-bind:title="title"
+       v-bind:key="title[i]">
+     {{title[i]}}
   </div>
   <Bars v-bind:data="data"/>
   <div>
@@ -45,6 +47,7 @@ export default {
     socket.on("dataUpdate", (update) => {
       this.data = update.a;
       this.question = update.q;
+      console.log("hej",this.data)
     });
     socket.on("newQuestion", update => {
       this.question = update.q;
@@ -53,7 +56,7 @@ export default {
     socket.on("locationDataUpdate", update=>{
       this.locationData=update.la
       this.locationQuestion=update.lq
-      console.log(this.locationQuestion)
+
 
 
 
