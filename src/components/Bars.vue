@@ -1,5 +1,5 @@
 <template>
-<div class="wrapper">
+<div class="answer-alternative-size-wrapper">
   <div class="bar" v-for="(item, key) in data" v-bind:key="key">
     <div v-bind:style="{height: item + 'px'}">
       <span> {{item}} </span>
@@ -48,7 +48,7 @@ export default {
   background-color:yellow;
 }
 
-.wrapper {
+.answer-alternative-size-wrapper {
   padding:3em;
 }
 </style>

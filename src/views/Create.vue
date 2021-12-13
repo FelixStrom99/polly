@@ -1,6 +1,6 @@
 <template>
 
-  <section v-if="firstStage===true" >
+  <section v-if="firstStage===true">
     <div>
       <h1> {{ uiLabels.createPoll }}</h1>
       <div>
@@ -15,93 +15,92 @@
 
   <section class="theme  ChooseMap" v-else-if="firstStage===false && secondStage===true">
     <div>
-     <h1> {{ pollId }} </h1>
+      <h1> {{ pollId }} </h1>
     </div>
 
-    <div class="maps" >
+    <div class="maps">
 
-        <div  class="map-item" id="background_pic_uppsala"  v-on:click="nextSection" style="cursor: pointer;">
-          <figure >
-            <h1 class="city_name_charachter_spec" >Uppsala</h1>
-          </figure>
-        </div>
+      <div class="map-item" id="background_pic_uppsala" v-on:click="nextSection" style="cursor: pointer;">
+        <figure>
+          <h1 class="city_name_charachter_spec">Uppsala</h1>
+        </figure>
+      </div>
 
-      <div  class="map-item"
-            id="background_pic_stockholm"
-            v-on:click="nextSection" style="cursor: pointer;">
-          <figure  >
-            <h1 class="city_name_charachter_spec">Stockholm</h1>
-          </figure>
+      <div class="map-item"
+           id="background_pic_stockholm"
+           v-on:click="nextSection" style="cursor: pointer;">
+        <figure>
+          <h1 class="city_name_charachter_spec">Stockholm</h1>
+        </figure>
       </div>
 
 
-        <div class="map-item" id="background_pic_sundsvall" v-on:click="nextSection" style="cursor: pointer;">
-          <figure>
-            <h1 class="city_name_charachter_spec">Sundsvall</h1>
-          </figure>
-        </div>
+      <div class="map-item" id="background_pic_sundsvall" v-on:click="nextSection" style="cursor: pointer;">
+        <figure>
+          <h1 class="city_name_charachter_spec">Sundsvall</h1>
+        </figure>
+      </div>
 
-      <div class="map-item" id="background_pic_västerås"  v-on:click="nextSection" style="cursor: pointer;">
-        <figure >
+      <div class="map-item" id="background_pic_västerås" v-on:click="nextSection" style="cursor: pointer;">
+        <figure>
           <h1 class="city_name_charachter_spec">Västerås</h1>
         </figure>
       </div>
 
-      <div class="map-item" id="background_pic_göteborg"  v-on:click="nextSection" style="cursor: pointer;">
-        <figure >
+      <div class="map-item" id="background_pic_göteborg" v-on:click="nextSection" style="cursor: pointer;">
+        <figure>
           <h1 class="city_name_charachter_spec">Göteborg</h1>
         </figure>
       </div>
 
-      <div class="map-item" id="background_pic_malmö"  v-on:click="nextSection" style="cursor: pointer;">
-        <figure >
+      <div class="map-item" id="background_pic_malmö" v-on:click="nextSection" style="cursor: pointer;">
+        <figure>
           <h1 class="city_name_charachter_spec">Malmö</h1>
         </figure>
       </div>
-
-
-
     </div>
-  
+
   </section>
 
 
-<section class="create-the-questions" v-else-if="secondStage===false">
-  <header>
-    <h1>{{pollId}}</h1>
+  <section class="create-the-questions" v-else-if="secondStage===false">
+    <header>
+      <h1>{{ pollId }}</h1>
 
-  </header>
-  <div class="create overview-left-side">
-    <h1>Här ska överblicken av alternativen vara</h1>
+    </header>
+    <div class="create overview-left-side">
+      <h1>Här ska överblicken av alternativen vara</h1>
       <div class="question-boxes">
-        <button type="button" class="collapsible" v-on:click="expandAndCollapseBox">Open Question 1</button>
+        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox">Open Question 1</div>
         <div class="content">
           <p>Här kommer information om frågan fram</p>
         </div>
       </div>
-  </div>
-  <div class="create lq-and-q">
-    <div class="location-question" v-if="createLocationQuestion">
-      <div>
-        {{ uiLabels.locationQuestion }}:<input type="text" v-model="locationQuestion">
-      </div>
-      <button v-on:click="addLocationQuestion">
-        {{uiLabels.addLocationQuestion }}
-      </button>
-      <div id="mapcontainer">
-        <div id="map" v-on:click="setLocation">
-          <div v-bind:style="{left: location.x-60 + 'px', top: location.y-60 + 'px'}" class="disable">    <!--modifieras i x och y led för att nålen ska prickas rätt -->
-            <object data="/svg_files/PinMap/Pin_Map.svg" type="image/svg+xml">
-              <img src="yourfallback.jpg" />
-            </object>
+    </div>
+    <div class="create lq-and-q">
+      <div class="location-question" v-if="createLocationQuestion">
+        <div>
+          {{ uiLabels.locationQuestion }}:<input type="text" v-model="locationQuestion">
+        </div>
+        <button v-on:click="addLocationQuestion">
+          {{ uiLabels.addLocationQuestion }}
+        </button>
+        <div id="mapcontainer">
+          <div id="map" v-on:click="setLocation">
+            <div v-bind:style="{left: location.x-60 + 'px', top: location.y-60 + 'px'}" class="disable">
+              <!--modifieras i x och y led för att nålen ska prickas rätt -->
+              <object data="/svg_files/PinMap/Pin_Map.svg" type="image/svg+xml">
+                <img src="yourfallback.jpg"/>
+              </object>
+            </div>
           </div>
         </div>
-      </div>
       </div>
     <div class="create question" v-if="createMultipleChoiceQuestion">
       {{ uiLabels.question }}:
       <input type="text" v-model="question">
       <div class="question-multiple">
+
         <img src="">
         {{ uiLabels.answers}}:
         <input v-for="(_, i) in answers"
@@ -109,12 +108,15 @@
                v-bind:key="'answer'+i"
                class="textbox"
                 >
+
         <div>
         <input type="checkbox" v-for="(_, i) in checkBox"
                v-model="checkBox[i]"
                v-bind:key="'checkBox'+i">
         {{this.answers.length}}
         </div>
+
+
         <div>
         <button v-on:click="addAnswer">
           {{ uiLabels.addAnswer}}:
@@ -123,44 +125,60 @@
           {{ uiLabels.deleteAnswer }}:
         </button>
         </div>
-      </div>
-      <button v-on:click="addQuestion">
-        Add question
+      <button>
+        <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link>
       </button>
+      </div>
+
+      <div class="answer-alternative-size-wrapper" >
+        <div id="Answer-Box-symbol-prop" >
+
+        </div>
+        <div class="Answer-Box-textarea"  >
+          <input class="Answer-Box-textarea-prop"
+                 placeholder="Answer 1">
+        </div>
+
+      <div class="Answer-Box-checkbox" >
+        <input type="checkbox"
+                class="Answer-Box-checkbox-prop
+                animation_rubberband">
+      </div>
+
+      </div>
     </div>
-    <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
-  </div>
-  <div class=" create alternative-right-side">
-    <!-- <input type="range" min="0" max="100" value="50" id="slider" name="range" oninput="document.getElementById('range_from_location').innerHTML = this.value">
-    -->
-    <h1>Här ska vi ha knappar med lite rolig funktionalitet</h1>
-    <button type="button" class="collapsible" v-on:click="expandAndCollapseBox">Add a new question</button>
-    <div class="content">
-      <button v-on:click="showLocationQuestion">Location question</button>
-      <button v-on:click="showMultipleQuestion">Multiple choice question</button>
+      </div>
+    <div class=" create alternative-right-side">
+      <!-- <input type="range" min="0" max="100" value="50" id="slider" name="range" oninput="document.getElementById('range_from_location').innerHTML = this.value">
+      -->
+      <h1>Här ska vi ha knappar med lite rolig funktionalitet</h1>
+      <div type="button" class="collapsible" v-on:click="expandAndCollapseBox">Add a new question</div>
+      <div class="content">
+        <button v-on:click="showLocationQuestion">Location question</button>
+        <button v-on:click="showMultipleQuestion">Multiple choice question</button>
+      </div>
+      <!-- <button v-on:click="showLocationQuestion">Location question</button>
+      <button v-on:click="showMultipleQuestion">Multiple choice question</button> -->
     </div>
-    <!-- <button v-on:click="showLocationQuestion">Location question</button>
-    <button v-on:click="showMultipleQuestion">Multiple choice question</button> -->
-  </div>
  <!-- <button type="button" v-on:click="addLocation">
     Confirm Correct Location
   </button>-->
-  <section class="lowerside">
-    <div>
-      <input type="number" v-model="questionNumber">
-      <button v-on:click="runQuestion">
-        Run Follow-up Question
-      </button>
-    </div>
-    <div>
-      <input type="number" v-model="locationQuestionNumber">
-      <button v-on:click="runLocationQuestion">
-        Run Location-Question
-      </button>
+    <div class="lowerside">
+      <div>
+        <input type="number" v-model="questionNumber">
+        <button v-on:click="runQuestion">
+          Run Follow-up Question
+        </button>
+      </div>
+      <div>
+        <input type="number" v-model="locationQuestionNumber">
+        <button v-on:click="runLocationQuestion">
+          Run Location-Question
+        </button>
+      </div>
+      <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
     </div>
   </section>
-</section>
-
 
 
 </template>
@@ -195,7 +213,7 @@ export default {
       imgUrl: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg",
 
       firstStage: true,
-      secondStage:true
+      secondStage: true
 
     }
   },
@@ -222,7 +240,12 @@ export default {
       this.secondStage = false
     },
     addLocationQuestion: function () {
-      socket.emit("addLocationQuestion", {pollId: this.pollId, lq: this.locationQuestion, location: this.location,image: this.imgUrl})
+      socket.emit("addLocationQuestion", {
+        pollId: this.pollId,
+        lq: this.locationQuestion,
+        location: this.location,
+        image: this.imgUrl
+      })
     },
     addQuestion: function () {
       socket.emit("addQuestion", {pollId: this.pollId, q: this.question, a: this.answers, correct: this.checkBox})
@@ -234,7 +257,7 @@ export default {
       }
     },
     deleteAnswer: function () {
-      if (this.answers.length >= 3){
+      if (this.answers.length >= 3) {
         this.answers.pop();
         this.checkBox.pop();
       }
@@ -244,18 +267,18 @@ export default {
       this.createMultipleChoiceQuestion = false;
     },
     showMultipleQuestion: function () {
-          this.createLocationQuestion = false;
-          this.createMultipleChoiceQuestion = true;
+      this.createLocationQuestion = false;
+      this.createMultipleChoiceQuestion = true;
     },
     expandAndCollapseBox: function () {
       var coll = document.getElementsByClassName("collapsible");
       var i;
 
       for (i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function() {
+        coll[i].addEventListener("click", function () {
           this.classList.toggle("active");
           var content = this.nextElementSibling;
-          if (content.style.maxHeight){
+          if (content.style.maxHeight) {
             content.style.maxHeight = null;
           } else {
             content.style.maxHeight = content.scrollHeight + "px";
@@ -282,14 +305,13 @@ export default {
       }
 
     }
-  }
+  },
+
 }
 </script>
 <style>
 
-template{
 
-}
 .create-the-questions {
   background-color: #1682a8;
 }
@@ -301,7 +323,7 @@ template{
 
 .overview-left-side {
   display: inline-block;
-  float:left;
+  float: left;
   left: 150px;
   width: 20%;
   border: 3px solid green;
@@ -309,18 +331,82 @@ template{
 
 .lq-and-q {
   display: inline-block;
-  float:left;
+  float: left;
   width: 60%;
   margin: 0;
   padding: 0;
 }
 
+
+
+.Answer-Box-textarea-prop{
+
+  width: 100%;
+  height: 97%;
+  margin-left: 2%;
+  float: left;
+  font-size: 18px;
+  font-family: sans-serif;
+  font-weight: 600;
+  outline: none;
+
+
+
+
+
+
+
+}
+
+.Answer-Box-checkbox-prop{
+  height: 100%;
+   -webkit-transform: scale(2);
+  transform: scale(2);
+border-radius: 5px;
+}
+
+
 .alternative-right-side {
   display: inline-block;
-  float:right;
+  float: right;
   right: 200px;
   width: 19%;
   border: 3px solid green;
+
+}
+.animation_rubberband{
+
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+
+  animation: rubberBand  2s infinite;
+}
+.animation_rubberband:hover{
+  animation: 0 ;
+}
+
+
+@keyframes rubberBand {
+  0%{
+    transform: scale3d(2,2,2);
+  }
+  15%{
+    transform: scale3d(2.15,1.85,2);
+  }
+  30%{
+    transform: scale3d(1.85,2.15,2);
+  }
+  45%{
+    transform: scale3d(2.15,1.85,2);
+  }
+  65%{
+    transform: scale3d(2.05,1.95,2);
+  }
+  100%{
+    transform: scale3d(2,2,2);
+  }
+
+
 }
 
 .collapsible {
@@ -351,34 +437,72 @@ template{
   display: block;
 }
 
-.disable{
+.disable {
   pointer-events: none;
 }
 
-.disable{
+.disable {
   pointer-events: none;
 }
 
 
-.city_name_charachter_spec{
+.city_name_charachter_spec {
   font-family: sans-serif;
   text-align: center;
   font-weight: bold;
 }
 
-.textbox{
+.textbox {
   font-size: large;
   font-weight: bold;
-  padding:1.25rem;
-  margin:5px;
+  padding: 1.25rem;
+  margin: 5px;
   background: #ffffff;
   opacity: 90%;
   outline: black;
-  border: 2px  ;
+  border: 2px;
   border-radius: 15px;
   transition: border-color .5s;
 }
-textbox:hover{
+
+textbox:hover {
+
+}
+.answer-alternative-size-wrapper {
+  border: solid 2px ;
+  border-color: rgba(82, 77, 77, 0.55);
+  background-color: white;
+  height: 30%;
+  width: 35%;
+  border-radius: 10px ;
+  display: grid;
+  color: #444;
+
+
+}
+#Answer-Box-symbol-prop {
+  column-width: 40px;
+  background-color: rgba(6, 236, 4, 0.73);
+  border-radius: 7px 0px 0px 7px ;
+  height: 100%;
+  width: 100%;
+}
+.Answer-Box-textarea {
+  border-left: solid 2px ;
+  border-color: rgba(82, 77, 77, 0.55);
+  column-width:auto;
+  grid-column: 2 ;
+  width: 93%;
+
+}
+
+.Answer-Box-checkbox {
+  border-left: solid 2px ;
+  border-color: rgba(82, 77, 77, 0.55);
+  column-width: 50px;
+  height: 100%;
+  grid-column: 3 ;
+
 
 }
 
@@ -387,7 +511,7 @@ textbox:hover{
 
   display: grid;
   grid-template-columns: auto auto auto;
-  grid-gap:5px;
+  grid-gap: 5px;
   grid-gap: 10px;
   background: none;
   outline: none;
@@ -411,34 +535,38 @@ textbox:hover{
   text-align: center;
 }
 
-#background_pic_uppsala{
+#background_pic_uppsala {
   background-image: url("https://www.liveit.se/images/std/uppsala-lan.jpg");
   background-size: cover;
   background-position: center;
 }
-#background_pic_stockholm{
+
+#background_pic_stockholm {
   background-image: url("https://media.istockphoto.com/photos/old-town-in-stockholm-sweden-picture-id521418487?k=20&m=521418487&s=612x612&w=0&h=w820j5TprwQZer-NQhlrJ17c6UT-LFPDXQe3M7jqdks=");
   background-size: cover;
   background-position: center;
 }
-#background_pic_sundsvall{
+
+#background_pic_sundsvall {
   background-image: url("https://www.energi.se/siteassets/artiklar/2020-6/nyheter/sundsvall-219.jpg?w=1440&h=0&quality=100&format=jpg&mode=crop");
   background-size: cover;
   background-position: center;
 }
 
-#background_pic_västerås{
+#background_pic_västerås {
   background-image: url("https://www.happydays.nu/storage/img/hotels/stemning/6999/gen/good-morning-vasteras-20.jpg?1601458565 ");
   background-size: cover;
   background-position: center;
 }
-#background_pic_göteborg{
+
+#background_pic_göteborg {
   background-image: url("https://goteborgco.se/wp-content/uploads/2019/12/tradgardsforeningen_167-11-2048x947.jpg");
   background-size: cover;
   background-position: center;
 
 }
-#background_pic_malmö{
+
+#background_pic_malmö {
   background-image: url("https://diagnostisktcentrumhud.se/wp-content/uploads/2021/04/shutterstock_1456864457.jpg");
   background-size: cover;
   background-position: center;
@@ -460,25 +588,28 @@ textbox:hover{
 #map div {
   position: absolute;
 }
-#slider{
+
+#slider {
   height: 8px;
   outline: none
 }
-#selector{
+
+#selector {
   height: 104px;
   width: 50px;
   position: absolute;
-  bottom:-10px ;
-  left:50% ;
+  bottom: -10px;
+  left: 50%;
   transform: translateX(-50%);
   z-index: 2;
-  
+
 }
-#selectbutton{
+
+#selectbutton {
   height: 48px;
   width: 48px;
   border-radius: 50%;
-  position:absolute;
+  position: absolute;
   bottom: 0px;
   background: black;
   color: white;
@@ -499,8 +630,9 @@ textbox:hover{
   margin-right: auto;
   position: center;
 }
-  .routerLink {
-    text-decoration: none;
-  }
+
+.routerLink {
+  text-decoration: none;
+}
 
 </style>
