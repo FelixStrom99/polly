@@ -4,17 +4,19 @@
     <header class="quiz-questions">
       {{LocationQuestion.lq}}
     </header>
-    <div id="mapcontainer">
-      <div id="map2" v-on:click="userSetLocation">
-        <LocationQuestion v-bind:LocationQuestion="LocationQuestion"/>
-        <div id="dots" v-bind:style="{left: UserLocation.x + 'px', top: UserLocation.y + 'px'}">
-          T
-        </div>
-      </div>
+
+    <div id="map">
+      <MapContainer :geojson="geojson" v-bind:correctLocation="LocationQuestion.location"> </MapContainer>
     </div>
-    <button v-on:click="submitLocationAnswer(),checkDistance(),switchQuestionType()">
-      Submit answer
-    </button>
+    <div id="move">
+      {{ UserLocation }}
+      <button v-on:click="submitLocationAnswer(),checkDistance(),switchQuestionType()">
+        Submit answer
+      </button>
+      distans: {{ distance }}
+
+      {{ LocationQuestion.location }}
+    </div>
 
 
     Distans: {{ distance }}
@@ -22,19 +24,6 @@
     {{ result }}
   </section>
 
-  <div id="map">
-    <MapContainer :geojson="geojson" v-bind:correctLocation="LocationQuestion.location"> </MapContainer>
-  </div>
-<div id="move">
-  {{ UserLocation }}
-  <button v-on:click="submitLocationAnswer(),checkDistance()">
-    submit answer
-  </button>
-  distans: {{ distance }}
-
-  {{ LocationQuestion.location }}
-</div>
-=======
   <section v-if="displayFollowupQuestion===true && displayLocationQuestion===false" class="backgroundConatiner">
     <header class="quiz-questions">
       {{questions[this.index].q}}
@@ -166,7 +155,7 @@ export default {
 <style>
 
 
-#map2 {
+#map {
   position: relative;
   margin: 0;
   padding: 0;
