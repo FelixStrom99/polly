@@ -668,18 +668,6 @@ textbox:hover {
 
 }
 
-#mapcontainer {
-  width: 95%;
-  max-width: 600px;
-  max-height: 450px;
-  height: 100%;
-  overflow: scroll;
-  margin-bottom: 20px;
-  border: groove;
-  margin-left: auto;
-  margin-right: auto;
-  position: center;
-}
 
 .routerLink {
   text-decoration: none;
