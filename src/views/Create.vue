@@ -70,7 +70,7 @@
     </header>
     <div class="create overview-left-side">
       <h1>Här ska överblicken av alternativen vara</h1>
-      <div class="question-boxes">
+      <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
         <div type="button" class="collapsible" v-on:click="expandAndCollapseBox" >{{locationQuestion}}</div>
         <div class="content">
           <button v-if="!hasMultipleChoiceQuestion[0]" v-on:click="showMultipleQuestion">Add Multiple Choice Question</button>
@@ -231,6 +231,7 @@ export default {
   },
   created: function () {
     this.lang = this.$route.params.lang;
+    this.addNewPollQuestion()
     socket.emit("pageLoaded", this.lang);
     socket.on("init", (labels) => {
       this.uiLabels = labels
@@ -248,18 +249,21 @@ export default {
       socket.emit("createPoll", {pollId: this.pollId, lang: this.lang})
       this.firstStage = false
     },
-    nextSection: function () {
-      this.secondStage = false
-    },
-    addLocationQuestion: function () {
+    addNewPollQuestion: function () {
       var newQuestion=[]
       newQuestion.push(this.finalQuestion)
       newQuestion.push(this.finalAnswers)
       newQuestion.push(this.finalCorrect)
       newQuestion.push(this.locationQuestion)
       newQuestion.push(this.location)
+      newQuestion.push(this.hasMultipleChoiceQuestion=false)
       this.questionSequence.push(newQuestion)
-
+    },
+    nextSection: function () {
+      this.secondStage = false
+    },
+    addLocationQuestion: function () {
+      this.addNewPollQuestion()
       var overviewLeftSide = document.getElementById("overview-left-side");
       var questionBoxes = document.getElementById("question-boxes");
       overviewLeftSide.appendChild(questionBoxes.cloneNode(true));
