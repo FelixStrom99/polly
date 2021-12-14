@@ -108,7 +108,6 @@ export default {
 .theme {
 
   background: linear-gradient(-45deg, #ee9052, #d22736, #1682a8, #22d999);
-  margin: -10px;
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
 }
