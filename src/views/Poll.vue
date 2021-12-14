@@ -4,10 +4,13 @@
 
 
 
-    <Question v-for="question in questions"
+    <Question v-bind:question="questions[index]"
+              v-on:answer="submitAnswer"/>
+
+    <!--  <Question v-for="question in questions"
                v-bind:question="question"
                v-bind:key="question.q"
-               v-on:answer="submitAnswer"/>
+               v-on:answer="submitAnswer"/> -->
 
   </div>
   {{ result }}
@@ -63,6 +66,7 @@ export default {
       UserLocation:
           {x: 0, y: 0},
       distance: 0,
+      index:0
     }
   },
   created: function () {
@@ -72,13 +76,6 @@ export default {
         this.createQuestionArray(q),
 
     )
-
-    /*  socket.on("newLocationQuestion", l =>
-
-              this.LocationQuestion=l,
-          console.log("test2",this.LocationQuestion)
-
-      )*/
 
   },
 
@@ -97,7 +94,7 @@ export default {
 
     },
     submitAnswer: function (answer,title) {
-
+      this.index+=1
       socket.emit("submitAnswer", {pollId: this.pollId, answer: answer})
       for (let i = 0; i < this.questions.length; i++) {
 
