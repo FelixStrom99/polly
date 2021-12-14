@@ -90,12 +90,7 @@
           v-on:location="location=$event">
           </MapContainerCreate>
         </div>
-
-
-<<<<<<< HEAD
-=======
-        <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
->>>>>>> a68192cd8d77a9d387fc8c580a9a1871bcbcf8e4
+        
       </div>
     <div class="create theme" v-if="createMultipleChoiceQuestion">
       {{ uiLabels.question }}:
