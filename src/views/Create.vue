@@ -71,9 +71,9 @@
     <div class="create overview-left-side">
       <h1>Här ska överblicken av alternativen vara</h1>
       <div class="question-boxes">
-        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox">Open Question 1</div>
+        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox">{{locationQuestion}}</div>
         <div class="content">
-          <p>Här kommer information om frågan fram</p>
+          <button v-if="hasMultipleChoiceQuestion[0]" v-on:click="showMultipleQuestion">Multiple choice question</button>
         </div>
       </div>
     </div>
@@ -198,7 +198,7 @@ export default {
       answers: ["", ""],
       finalAnswers:[],
       checkBox: [false, false],
-      locationQuestion: "",
+      locationQuestion: "Question",
       location: {
         x: 0,
         y: 0
@@ -207,6 +207,7 @@ export default {
       locationQuestionNumber: 0,
       createLocationQuestion: true,
       createMultipleChoiceQuestion: false,
+      hasMultipleChoiceQuestion: [true],
       data: {},
       uiLabels: {},
       range_from_location: "",
