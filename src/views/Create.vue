@@ -73,7 +73,8 @@
       <div class="question-boxes">
         <div type="button" class="collapsible" v-on:click="expandAndCollapseBox" >{{locationQuestion}}</div>
         <div class="content">
-          <button v-if="hasMultipleChoiceQuestion[0]" v-on:click="showMultipleQuestion">Multiple choice question</button>
+          <button v-if="!hasMultipleChoiceQuestion[0]" v-on:click="showMultipleQuestion">Add Multiple Choice Question</button>
+          <button v-if="hasMultipleChoiceQuestion[0]" v-on:click="showMultipleQuestion">{{question}}</button>
         </div>
       </div>
       <div id="add-locationQuestion-button" v-on:click="addLocationQuestion" style="cursor: pointer;">
@@ -202,7 +203,7 @@ export default {
       lang: "",
       pollId: "",
       title: "",
-      question: [""],
+      question: ["Question"],
       answers: ["", ""],
       finalAnswers:[],
       checkBox: [false, false],
@@ -298,6 +299,7 @@ export default {
       this.createMultipleChoiceQuestion = true;
     },
     expandAndCollapseBox: function () {
+      this.showLocationQuestion()
       var coll = document.getElementsByClassName("collapsible");
       var i;
 
