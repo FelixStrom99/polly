@@ -1,21 +1,19 @@
 <template>
-  <main class="theme">
 
-  <header>
 
-    <div class="container"><br>
-      <h1 id="headertext">MapQuiz</h1>
-      <h2> {{uiLabels.welcome}} </h2>
+  <header class="header-prop">
+    <div><br>
       <button id="LangButton" style  v-on:click="switchLanguage">
         <object data="/svg_files/Language_symbol/language-symbol.svg" type="image/svg+xml" style="float: left">
         </object>
         {{uiLabels.changeLanguage}}</button>
     </div>
   </header>
-
+  <main class="theme">
   <section>
     <section>
-
+      <h2> {{uiLabels.welcome}} </h2>
+      <h1 id="headertext">MapQuiz</h1>
       <div id="nav">
         <div>
           <div v-if="play">
@@ -51,7 +49,7 @@
     </button>
   </section>
 
-  </main>
+  </main >
 </template>
 
 <script>
@@ -110,6 +108,7 @@ export default {
 .theme {
 
   background: linear-gradient(-45deg, #ee9052, #d22736, #1682a8, #22d999);
+  margin: -10px;
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
 }
@@ -168,14 +167,17 @@ button:active{
   margin-top: 50em;
 }
 
-.container {
-}
+
 #nav {
   display: flex;
   justify-content: center;
   grid-gap: 10em;
   grid-template-columns: 10em 10em 10em;
   padding: 2em;
+}
+.header-prop{
+  background: white;
+  height: 20%
 }
 
 #headertext {
