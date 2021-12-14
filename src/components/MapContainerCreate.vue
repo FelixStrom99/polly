@@ -77,6 +77,7 @@ export default {
 
           this.evt_coordinate.x= myTarget[0];
           this.evt_coordinate.y= myTarget[1];
+          this.answer(this.evt_coordinate);
           console.log(this.evt_coordinate.x)
           console.log(this.evt_coordinate.y)
           this.correctPoint.geometry.coordinates=[this.evt_coordinate.x,this.evt_coordinate.y]
@@ -109,6 +110,9 @@ export default {
       source.clear();
       source.addFeature(this.correctPointFeature);
 
+    },
+    answer: function (mapLocation) {
+      this.$emit("location", mapLocation);
     },
   }
 }

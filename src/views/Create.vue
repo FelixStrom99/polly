@@ -86,10 +86,16 @@
           {{ uiLabels.addLocationQuestion }}
         </button>
         <div id="map">
-          <MapContainerCreate :geojson="geojson"> </MapContainerCreate>
+          <MapContainerCreate :geojson="geojson"
+          v-on:location="location=$event">
+          </MapContainerCreate>
         </div>
 
 
+<<<<<<< HEAD
+=======
+        <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+>>>>>>> a68192cd8d77a9d387fc8c580a9a1871bcbcf8e4
       </div>
     <div class="create theme" v-if="createMultipleChoiceQuestion">
       {{ uiLabels.question }}:
@@ -154,6 +160,7 @@
         <button v-on:click="showLocationQuestion">Location question</button>
         <button v-on:click="showMultipleQuestion">Multiple choice question</button>
       </div>
+
       <div>
         <button v-on:click="addAnswer">
           {{ uiLabels.addAnswer}}
@@ -165,12 +172,11 @@
           Add question
         </button>
       </div>
-      <!-- <button v-on:click="showLocationQuestion">Location question</button>
-      <button v-on:click="showMultipleQuestion">Multiple choice question</button> -->
+
     </div>
- <!-- <button type="button" v-on:click="addLocation">
-    Confirm Correct Location
-  </button>-->
+
+
+
 
   </section>
 
@@ -209,7 +215,6 @@ export default {
       data: {},
       uiLabels: {},
       range_from_location: "",
-      imgUrl: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg",
       firstStage: true,
       secondStage: true,
       index:0,
@@ -240,8 +245,7 @@ export default {
       this.secondStage = false
     },
     addLocationQuestion: function () {
-      socket.emit("addQuestion",{pollId: this.pollId, q: this.finalQuestion, a: this.finalAnswers, correct: this.finalCorrect,lq: this.locationQuestion, location: this.location,image: this.imgUrl})
-      console.log("1",this.finalQuestion)
+      socket.emit("addQuestion",{pollId: this.pollId, q: this.finalQuestion, a: this.finalAnswers, correct: this.finalCorrect,lq: this.locationQuestion, location: this.location})
       this.finalQuestion=[]
       this.finalAnswers=[]
       this.index=0
@@ -659,18 +663,6 @@ textbox:hover {
 
 }
 
-#mapcontainer {
-  width: 95%;
-  max-width: 600px;
-  max-height: 450px;
-  height: 100%;
-  overflow: scroll;
-  margin-bottom: 20px;
-  border: groove;
-  margin-left: auto;
-  margin-right: auto;
-  position: center;
-}
 
 .routerLink {
   text-decoration: none;
