@@ -71,7 +71,7 @@
     <div class="create overview-left-side">
       <h1>Här ska överblicken av alternativen vara</h1>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
-        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox" >{{locationQuestion}}</div>
+        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox" >{{locationQuestion+" "+(i+1)}}</div>
         <div class="content">
           <button v-if="!hasMultipleChoiceQuestion[0]" v-on:click="showMultipleQuestion">Add Multiple Choice Question</button>
           <button v-if="hasMultipleChoiceQuestion[0]" v-on:click="showMultipleQuestion">{{question}}</button>
@@ -172,7 +172,7 @@
           {{ uiLabels.deleteAnswer }}
         </button>
         <button v-on:click="addQuestion">
-          Add question
+          Add Question
         </button>
       </div>
       <!-- <button v-on:click="showLocationQuestion">Location question</button>
@@ -203,11 +203,11 @@ export default {
       lang: "",
       pollId: "",
       title: "",
-      question: ["Question"],
+      question: [""],
       answers: ["", ""],
       finalAnswers:[],
       checkBox: [false, false],
-      locationQuestion: "Question",
+      locationQuestion: "",
       location: {
         x: 0,
         y: 0
@@ -251,10 +251,10 @@ export default {
     },
     addNewPollQuestion: function () {
       var newQuestion=[]
-      newQuestion.push(this.finalQuestion)
+      newQuestion.push(this.finalQuestion = "Question")
       newQuestion.push(this.finalAnswers)
       newQuestion.push(this.finalCorrect)
-      newQuestion.push(this.locationQuestion)
+      newQuestion.push(this.locationQuestion = "Location Question")
       newQuestion.push(this.location)
       newQuestion.push(this.hasMultipleChoiceQuestion=false)
       this.questionSequence.push(newQuestion)
