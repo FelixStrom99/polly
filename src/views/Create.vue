@@ -76,9 +76,14 @@
           <button v-if="hasMultipleChoiceQuestion[0]" v-on:click="showMultipleQuestion">Multiple choice question</button>
         </div>
       </div>
-      <object data="/svg_files/addLocationQuestionButton-2/addLocationQuestionButton.svg">
+      <div id="add-locationQuestion-button" v-on:click="addLocationQuestion" style="cursor: pointer;">
 
-      </object>
+        <object data="/svg_files/addLocationQuestionButton-2/addLocationQuestionButton.svg" style="pointer-events:none;">
+
+        </object>
+
+      </div>
+      <p>Isak fixar knappen</p>
     </div>
     <div class="create lq-and-q theme" >
       <h1>{{ pollId }}</h1>
@@ -86,8 +91,8 @@
         <div>
           {{ uiLabels.locationQuestion }}:<input type="text" v-model="locationQuestion">
         </div>
-        <button v-on:click="addLocationQuestion">
-          {{ uiLabels.addLocationQuestion }}
+        <button v-on:click="addLocationQuestionFinal">
+          {{ uiLabels.addLocationQuestionFinal }}
         </button>
         <div id="map">
           <MapContainerCreate :geojson="geojson"> </MapContainerCreate>
@@ -246,13 +251,17 @@ export default {
       this.secondStage = false
     },
     addLocationQuestion: function () {
+      alert("Tjababy")
+      var overviewLeftSide = document.getElementById("overview-left-side");
+      var questionBoxes = document.getElementById("question-boxes");
+      overviewLeftSide.appendChild(questionBoxes.cloneNode(true));
+    },
+    addLocationQuestionFinal: function () {
       socket.emit("addQuestion",{pollId: this.pollId, q: this.finalQuestion, a: this.finalAnswers, correct: this.finalCorrect,lq: this.locationQuestion, location: this.location,image: this.imgUrl})
       console.log("1",this.finalQuestion)
       this.finalQuestion=[]
       this.finalAnswers=[]
       this.index=0
-
-
     },
     addQuestion: function () {
       var index= this.index
@@ -382,12 +391,6 @@ export default {
   outline: none;
   border: none
 
-
-
-
-
-
-
 }
 
 .Answer-Box-checkbox-prop{
@@ -404,8 +407,6 @@ border-radius: 5px;
   justify-content: space-evenly;
   flex-basis: 15%;
 
-
-
 }
 .animation_rubberband{
 
@@ -418,6 +419,17 @@ border-radius: 5px;
   animation: 0 ;
 }
 
+#add-locationQuestion-button{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-left: 35%;
+  display: flex;
+  justify-content: space-evenly;
+}
+#add-locationQuestion-button:hover {
+  background-color: rgba(248, 248, 248, 0.44);
+}
 
 @keyframes rubberBand {
   0%{
