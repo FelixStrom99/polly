@@ -379,13 +379,6 @@ export default {
   font-weight: 600;
   outline: none;
   border: none
-
-
-
-
-
-
-
 }
 
 .Answer-Box-checkbox-prop{

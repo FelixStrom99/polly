@@ -2,7 +2,7 @@
 
   {{ pollId }}
 
-  <section v-if="displayLocationQuestion===true && displayFollowupQuestion===false">
+  <section v-if="displayLocationQuestion===true && displayFollowupQuestion===false" class="poll-container">
     <div id="mapcontainer">
       <div id="map" v-on:click="userSetLocation">
         <LocationQuestion v-bind:LocationQuestion="LocationQuestion"/>
@@ -14,16 +14,23 @@
     <button v-on:click="submitLocationAnswer(),checkDistance(),switchQuestionType()">
       Submit answer
     </button>
+
+
     Distans: {{ distance }}
     {{ LocationQuestion.location }}
     {{ result }}
+
   </section>
 
-  <section v-if="displayFollowupQuestion===true && displayLocationQuestion===false">
-    <div>
+  <section v-if="displayFollowupQuestion===true && displayLocationQuestion===false" class="backgroundConatiner">
+    <div class="poll-container">
+
       <Question v-bind:question="questions[this.index]"
-                v-on:answer="submitAnswer"/>
+                v-on:answer="submitAnswer"
+                />
+
     </div>
+
   </section>
 
 </template>
@@ -153,6 +160,11 @@ export default {
   position: relative;
 
 }
+.poll-container{
+  height: 100vh;
+  width: 100%;
+  background: #22d999;
+}
 
 #dots {
   position: absolute;
@@ -163,6 +175,9 @@ export default {
   height: 10px;
   text-align: center;
 }
+
+
+
 
 
 </style>
