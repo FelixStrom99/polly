@@ -26,6 +26,9 @@ import 'ol/ol.css'
 export default {
   name: 'MapContainerCreate',
   components: {},
+  props:{
+    mapView:Object
+  },
   data: function () {
     return {
       // store OL objects on the component instance
@@ -65,8 +68,8 @@ export default {
         this.vectorLayer
       ],
       view: new View({
-        zoom: 14,
-        center: [1962289.773825233,8368555.335845293],
+        zoom: this.mapView.zoom,
+        center: this.mapView.center,
         constrainResolution: true
       }),
     }),

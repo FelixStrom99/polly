@@ -20,7 +20,7 @@
 
     <div class="maps">
 
-      <div class="map-item" id="background_pic_uppsala" v-on:click="nextSection" style="cursor: pointer;">
+      <div class="map-item" id="background_pic_uppsala" v-on:click="nextSection();chooseUppsala()" style="cursor: pointer;">
         <figure>
           <h1 class="city_name_charachter_spec">Uppsala</h1>
         </figure>
@@ -28,34 +28,34 @@
 
       <div class="map-item"
            id="background_pic_stockholm"
-           v-on:click="nextSection" style="cursor: pointer;">
+           v-on:click="nextSection();chooseStockholm();" style="cursor: pointer;">
         <figure>
           <h1 class="city_name_charachter_spec">Stockholm</h1>
         </figure>
       </div>
 
 
-      <div class="map-item" id="background_pic_sundsvall" v-on:click="nextSection" style="cursor: pointer;">
+      <div class="map-item" id="background_pic_sundsvall" v-on:click="nextSection();chooseSundsvall();" style="cursor: pointer;">
         <figure>
           <h1 class="city_name_charachter_spec">Sundsvall</h1>
         </figure>
       </div>
 
-      <div class="map-item" id="background_pic_västerås" v-on:click="nextSection" style="cursor: pointer;">
+      <div class="map-item" id="background_pic_västerås" v-on:click="nextSection();chooseVästerås()" style="cursor: pointer;">
         <figure>
           <h1 class="city_name_charachter_spec">Västerås</h1>
         </figure>
       </div>
 
-      <div class="map-item" id="background_pic_göteborg" v-on:click="nextSection" style="cursor: pointer;">
+      <div class="map-item" id="background_pic_göteborg" v-on:click="nextSection();chooseGöteborg()" style="cursor: pointer;">
         <figure>
           <h1 class="city_name_charachter_spec">Göteborg</h1>
         </figure>
       </div>
 
-      <div class="map-item" id="background_pic_malmö" v-on:click="nextSection" style="cursor: pointer;">
+      <div class="map-item" id="background_pic_malmö" v-on:click="nextSection();chooseWorld()" style="cursor: pointer;">
         <figure>
-          <h1 class="city_name_charachter_spec">Malmö</h1>
+          <h1 class="city_name_charachter_spec">Välj fritt</h1>
         </figure>
       </div>
     </div>
@@ -87,10 +87,10 @@
         </button>
         <div id="map">
           <MapContainerCreate :geojson="geojson"
-          v-on:location="location=$event">
+          v-on:location="location=$event" v-bind:mapView="mapView">
           </MapContainerCreate>
         </div>
-        
+
       </div>
     <div class="create theme" v-if="createMultipleChoiceQuestion">
       {{ uiLabels.question }}:
@@ -214,7 +214,11 @@ export default {
       secondStage: true,
       index:0,
       finalQuestion:[],
-      finalCorrect:[]
+      finalCorrect:[],
+      mapView:{
+        zoom: 0,
+        center: [0,0]
+      }
     }
   },
   created: function () {
@@ -304,18 +308,33 @@ export default {
     runLocationQuestion: function () {
       socket.emit("runLocationQuestion", {pollId: this.pollId, locationQuestionNumber: this.locationQuestionNumber})
     },
-    setLocation: function (event) {
-      var offset = {
-        x: event.currentTarget.getBoundingClientRect().left,
-        y: event.currentTarget.getBoundingClientRect().top
-      };
-
-      this.location = {
-        x: event.clientX - 10 - offset.x,
-        y: event.clientY - 10 - offset.y
-      }
-
+    chooseUppsala: function (){
+      this.mapView.zoom=14;
+      this.mapView.center=[1962289.773825233,8368555.335845293]
+    },
+    chooseStockholm: function (){
+      this.mapView.zoom=14;
+      this.mapView.center=[2011404.65,8250860.71]
+    },
+    chooseSundsvall: function (){
+      this.mapView.zoom=14;
+      this.mapView.center=[1924771.41,8951774.11]
+    },
+    chooseVästerås: function (){
+      this.mapView.zoom=14;
+      this.mapView.center=[1841990.10,8314049.85]
+    },
+    chooseGöteborg: function (){
+      this.mapView.zoom=14;
+      this.mapView.center=[1332333.15,7906034.63]
+    },
+    chooseWorld: function (){
+      this.mapView.zoom=0;
+      this.mapView.center=[0,0]
     }
+
+
+
   },
 
 }
@@ -611,7 +630,7 @@ textbox:hover {
 }
 
 #background_pic_malmö {
-  background-image: url("https://diagnostisktcentrumhud.se/wp-content/uploads/2021/04/shutterstock_1456864457.jpg");
+  background-image: url("https://as1.ftcdn.net/v2/jpg/00/67/55/82/1000_F_67558277_XSMpXHfJjW1hSddFXevf2lCmhlme6OVU.jpg");
   background-size: cover;
   background-position: center;
 }
