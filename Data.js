@@ -38,10 +38,11 @@ Data.prototype.createPoll = function (pollId, lang = "en") {
 
 Data.prototype.addQuestion = function (pollId, q) {
     const poll = this.polls[pollId];
-    console.log("question added to", pollId, q);
+    console.log("question added to", pollId, q, "Här kommer questions arrayen", poll.questions);
     if (typeof poll !== 'undefined') {
 
         poll.questionSequence.push(q)
+        poll.locations.push(q.lq)
 
     }
 }
@@ -80,6 +81,7 @@ Data.prototype.getLocations = function (pollId, qId = null) {
 Data.prototype.getQuestion = function (pollId, qId = null) {
     const poll = this.polls[pollId];
     console.log("question requested for normal ", pollId, qId);
+
     if (typeof poll !== 'undefined') {
         if (qId !== null) {
             poll.currentQuestion = qId;
@@ -126,7 +128,6 @@ Data.prototype.getAnswers = function (pollId) {
     if (typeof poll !== 'undefined') {
         const answers = poll.answers[poll.currentQuestion]
         console.log("hej",answers)
-
         if (typeof poll.questionSequence[poll.currentQuestion] !== 'undefined') {
 
             return {q: poll.questionSequence[poll.currentQuestion].q, a: answers};

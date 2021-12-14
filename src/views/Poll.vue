@@ -1,17 +1,26 @@
 <template>
-  <div>
-    {{ pollId }}
+
+  <section v-if="displayLocationQuestion===true && displayFollowupQuestion===false" class="poll-container">
+    <header class="quiz-questions">
+      {{LocationQuestion.lq}}
+    </header>
+    <div id="mapcontainer">
+      <div id="map2" v-on:click="userSetLocation">
+        <LocationQuestion v-bind:LocationQuestion="LocationQuestion"/>
+        <div id="dots" v-bind:style="{left: UserLocation.x + 'px', top: UserLocation.y + 'px'}">
+          T
+        </div>
+      </div>
+    </div>
+    <button v-on:click="submitLocationAnswer(),checkDistance(),switchQuestionType()">
+      Submit answer
+    </button>
 
 
-
-    <Question v-for="question in questions"
-               v-bind:question="question"
-               v-bind:key="question.q"
-               v-on:answer="submitAnswer"/>
-
-  </div>
-  {{ result }}
-  <h2> {{ LocationQuestion.lq }}</h2>
+    Distans: {{ distance }}
+    {{ LocationQuestion.location }}
+    {{ result }}
+  </section>
 
   <div id="map">
     <MapContainer :geojson="geojson" v-bind:correctLocation="LocationQuestion.location"> </MapContainer>
@@ -25,6 +34,23 @@
 
   {{ LocationQuestion.location }}
 </div>
+=======
+  <section v-if="displayFollowupQuestion===true && displayLocationQuestion===false" class="backgroundConatiner">
+    <header class="quiz-questions">
+      {{questions[this.index].q}}
+    </header>
+    <div class="poll-container">
+
+      <Question v-bind:question="questions[this.index]"
+                v-on:answer="submitAnswer"/>
+    </div>
+  </section>
+
+  <footer>
+    Poll ID: {{ pollId }}
+  </footer>
+
+>>>>>>> fillefellepollish
 </template>
 
 <script>
@@ -58,6 +84,9 @@ export default {
       UserLocation: {x: 0,
             y: 0},
       distance: 0,
+      index: 0,
+      displayLocationQuestion: true,
+      displayFollowupQuestion:false
     }
   },
   created: function () {
@@ -67,8 +96,6 @@ export default {
         this.createQuestionArray(q),
 
     )
-
-
 
   },
 
@@ -87,7 +114,7 @@ export default {
 
     },
     submitAnswer: function (answer,title) {
-
+      this.index += 1
       socket.emit("submitAnswer", {pollId: this.pollId, answer: answer})
       for (let i = 0; i < this.questions.length; i++) {
 
@@ -99,11 +126,7 @@ export default {
           else{
             this.result="false"
           }
-
-
         }
-
-
       }
     },
 
@@ -122,13 +145,20 @@ export default {
       socket.emit("submitLocationAnswer", {pollId: this.pollId, locationAnswer: this.UserLocation})
     },
     checkDistance: function () {
-      var holderX1 = this.LocationQuestion.location.x // holder is used to remove the undefined elements .x and .y for some reason
+      var holderX1 = this.LocationQuestion.location.x
       var holderY1 = this.LocationQuestion.location.y
       var x2 = this.UserLocation.x
       var y2 = this.UserLocation.y
       var distanceSquared = Math.pow(holderX1 - x2, 2) + Math.pow(holderY1 - y2, 2)
       this.distance = Math.sqrt(distanceSquared)
     },
+    switchQuestionType:function (){
+      if (this.displayLocationQuestion===true && this.displayFollowupQuestion===false){
+        this.displayLocationQuestion = false
+        this.displayFollowupQuestion = true
+      }
+}
+
   }
 }
 </script>
@@ -136,12 +166,17 @@ export default {
 <style>
 
 
-#map {
+#map2 {
   position: relative;
   margin: 0;
   padding: 0;
   height: 30em;
   width: 99%;
+}
+.poll-container{
+  height: 100vh;
+  width: 100%;
+  background: #22d999;
 }
 
 #dots {
@@ -153,9 +188,16 @@ export default {
   height: 10px;
   text-align: center;
 }
+
 #move{
   position:relative;
   margin-top:2em;
 }
+
+.quiz-questions{
+  font-size: 200%;
+  text-transform: uppercase;
+}
+
 
 </style>
