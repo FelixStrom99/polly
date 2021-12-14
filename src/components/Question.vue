@@ -1,6 +1,5 @@
 <template>
 
-<p>{{question.q}}</p>
   <div class="Answer-box-wrapper" v-for="a in question.a"  v-bind:key="a" >
     <div class="answer-alternative-size-wrapper" >
       <div id="Answer-Box-symbol-prop" >

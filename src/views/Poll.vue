@@ -1,8 +1,9 @@
 <template>
 
-  {{ pollId }}
-
   <section v-if="displayLocationQuestion===true && displayFollowupQuestion===false" class="poll-container">
+    <header class="quiz-questions">
+      {{LocationQuestion.lq}}
+    </header>
     <div id="mapcontainer">
       <div id="map" v-on:click="userSetLocation">
         <LocationQuestion v-bind:LocationQuestion="LocationQuestion"/>
@@ -19,19 +20,22 @@
     Distans: {{ distance }}
     {{ LocationQuestion.location }}
     {{ result }}
-
   </section>
 
   <section v-if="displayFollowupQuestion===true && displayLocationQuestion===false" class="backgroundConatiner">
+    <header class="quiz-questions">
+      {{questions[this.index].q}}
+    </header>
     <div class="poll-container">
 
       <Question v-bind:question="questions[this.index]"
-                v-on:answer="submitAnswer"
-                />
-
+                v-on:answer="submitAnswer"/>
     </div>
-
   </section>
+
+  <footer>
+    Poll ID: {{ pollId }}
+  </footer>
 
 </template>
 
@@ -174,6 +178,10 @@ export default {
   width: 10px;
   height: 10px;
   text-align: center;
+}
+.quiz-questions{
+  font-size: 200%;
+  text-transform: uppercase;
 }
 
 
