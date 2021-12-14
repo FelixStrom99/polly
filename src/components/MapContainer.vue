@@ -1,9 +1,12 @@
 <template>
+
   <div ref="map-root"
        style="width: 100%; height: 100%">
   </div>
+  <div>
   <button type="button" v-on:click="submitLocation"> SUBMIT LOCATION</button>
-  <input type="range" v-model="this.userPoint.properties.radius" max="40" min="5">
+    </div>
+  <!--<input type="range" v-model="this.userPoint.properties.radius" max="40" min="5">-->
 </template>
 
 <script>
@@ -149,6 +152,17 @@ export default {
         })
       })
     },
+    correctPointStyle() {
+      return new Style( {
+
+        image: new Icon({
+          anchor: [0.5, 69],
+          anchorXUnits: 'fraction',
+          anchorYUnits: 'pixels',
+          src: '/svg_files/PinMap/Pin_Map_Green.svg',
+        })
+      })
+    },
     addPoint(geojson) {
 
       const source = this.vectorLayer.getSource()
@@ -176,7 +190,7 @@ export default {
       this.lineString.geometry.coordinates=[[this.evt_coordinate.x,this.evt_coordinate.y],[17.62696027384439,59.86043406543544]]
       this.updateSource(this.lineString, this.lineStyle)
       this.correctPoint.geometry.coordinates=[17.62696027384439,59.86043406543544]
-      this.updateSource(this.correctPoint, this.pointStyle)
+      this.updateSource(this.correctPoint, this.correctPointStyle)
     }
   }
 }
