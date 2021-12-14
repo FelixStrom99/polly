@@ -71,7 +71,7 @@
     <div class="create overview-left-side">
       <h1>Här ska överblicken av alternativen vara</h1>
       <div class="question-boxes">
-        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox">{{locationQuestion}}</div>
+        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox" >{{locationQuestion}}</div>
         <div class="content">
           <button v-if="hasMultipleChoiceQuestion[0]" v-on:click="showMultipleQuestion">Multiple choice question</button>
         </div>
