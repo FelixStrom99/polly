@@ -183,7 +183,7 @@
 
   </section>
 
-
+{{questionSequence[0]}}
 </template>
 
 <script>
@@ -251,10 +251,18 @@ export default {
       this.secondStage = false
     },
     addLocationQuestion: function () {
-      alert("Tjababy")
+      var newQuestion=[]
+      newQuestion.push(this.finalQuestion)
+      newQuestion.push(this.finalAnswers)
+      newQuestion.push(this.finalCorrect)
+      newQuestion.push(this.locationQuestion)
+      newQuestion.push(this.location)
+      this.questionSequence.push(newQuestion)
+
       var overviewLeftSide = document.getElementById("overview-left-side");
       var questionBoxes = document.getElementById("question-boxes");
       overviewLeftSide.appendChild(questionBoxes.cloneNode(true));
+
     },
     addLocationQuestionFinal: function () {
       socket.emit("addQuestion",{pollId: this.pollId, q: this.finalQuestion, a: this.finalAnswers, correct: this.finalCorrect,lq: this.locationQuestion, location: this.location,image: this.imgUrl})
