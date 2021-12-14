@@ -1,6 +1,6 @@
 <template>
-<p>{{question.q}}</p>
 
+<p>{{question.q}}</p>
 <button v-for="a in question.a" v-on:click="answer(a,question.q)" v-bind:key="a">
   {{ a }}
 </button>
@@ -15,6 +15,7 @@ export default {
   methods: {
     answer: function (answer,title) {
       this.$emit("answer", answer,title);
+
     } 
   }
 }

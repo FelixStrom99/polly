@@ -1,5 +1,7 @@
 <template>
+
   {{ pollId }}
+
   <section v-if="displayLocationQuestion===true && displayFollowupQuestion===false">
     <div id="mapcontainer">
       <div id="map" v-on:click="userSetLocation">
@@ -9,13 +11,12 @@
         </div>
       </div>
     </div>
-  {{ UserLocation }}
-  <button v-on:click="submitLocationAnswer(),checkDistance(),switchQuestionType()">
-    Submit answer
-  </button>
-  distans: {{ distance }}
-  {{ LocationQuestion.location }}
-  {{ result }}
+    <button v-on:click="submitLocationAnswer(),checkDistance(),switchQuestionType()">
+      Submit answer
+    </button>
+    Distans: {{ distance }}
+    {{ LocationQuestion.location }}
+    {{ result }}
   </section>
 
   <section v-if="displayFollowupQuestion===true && displayLocationQuestion===false">
@@ -61,7 +62,6 @@ export default {
       index: 0,
       displayLocationQuestion: true,
       displayFollowupQuestion:false
-
     }
   },
   created: function () {
@@ -71,13 +71,6 @@ export default {
         this.createQuestionArray(q),
 
     )
-
-    /*  socket.on("newLocationQuestion", l =>
-
-              this.LocationQuestion=l,
-          console.log("test2",this.LocationQuestion)
-
-      )*/
 
   },
 
