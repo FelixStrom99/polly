@@ -65,7 +65,7 @@
 
   <section class="create-the-questions-container theme" v-else-if="secondStage===false">
     <header class="header-create-prop">
-      <h1>{{ pollId }}</h1>
+
 
     </header>
     <div class="create overview-left-side">
@@ -81,6 +81,7 @@
       </object>
     </div>
     <div class="create lq-and-q theme" >
+      <h1>{{ pollId }}</h1>
       <div class="location-question" v-if="createLocationQuestion">
         <div>
           {{ uiLabels.locationQuestion }}:<input type="text" v-model="locationQuestion">
@@ -89,8 +90,11 @@
           {{ uiLabels.addLocationQuestion }}
         </button>
         <div id="map">
-          <MapContainerCreate :geojson="geojson"> </MapContainerCreate>
+          <MapContainerCreate :geojson="geojson"
+          v-on:location="location=$event">
+          </MapContainerCreate>
         </div>
+
 
         <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
       </div>
@@ -157,6 +161,8 @@
         <button v-on:click="showLocationQuestion">Location question</button>
         <button v-on:click="showMultipleQuestion">Multiple choice question</button>
       </div>
+<<<<<<< HEAD
+=======
       <div>
         <button v-on:click="addAnswer">
           {{ uiLabels.addAnswer}}
@@ -174,7 +180,9 @@
  <!-- <button type="button" v-on:click="addLocation">
     Confirm Correct Location
   </button>-->
+>>>>>>> bfb8d6d615a995d1d07c13389a8b107e9ce7b25b
 
+    </div>
   </section>
 
 
@@ -212,7 +220,6 @@ export default {
       data: {},
       uiLabels: {},
       range_from_location: "",
-      imgUrl: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg",
       firstStage: true,
       secondStage: true,
       index:0,
@@ -243,8 +250,7 @@ export default {
       this.secondStage = false
     },
     addLocationQuestion: function () {
-      socket.emit("addQuestion",{pollId: this.pollId, q: this.finalQuestion, a: this.finalAnswers, correct: this.finalCorrect,lq: this.locationQuestion, location: this.location,image: this.imgUrl})
-      console.log("1",this.finalQuestion)
+      socket.emit("addQuestion",{pollId: this.pollId, q: this.finalQuestion, a: this.finalAnswers, correct: this.finalCorrect,lq: this.locationQuestion, location: this.location})
       this.finalQuestion=[]
       this.finalAnswers=[]
       this.index=0
@@ -351,7 +357,7 @@ export default {
 
   justify-content: space-evenly;
   flex-basis: 70%;
-
+  clear:both
 
 
 }
