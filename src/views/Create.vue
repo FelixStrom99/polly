@@ -64,10 +64,6 @@
 
 
   <section class="create-the-questions-container theme" v-else-if="secondStage===false">
-    <header class="header-create-prop">
-
-
-    </header>
     <div class="create overview-left-side">
       <h1>Här ska överblicken av alternativen vara</h1>
       <div class="question-boxes">
@@ -80,7 +76,7 @@
 
       </object>
     </div>
-    <div class="create lq-and-q theme" >
+    <div class="create lq-and-q" >
       <h1>{{ pollId }}</h1>
       <div class="location-question" v-if="createLocationQuestion">
         <div>
@@ -96,7 +92,10 @@
         </div>
 
 
+<<<<<<< HEAD
+=======
         <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+>>>>>>> a68192cd8d77a9d387fc8c580a9a1871bcbcf8e4
       </div>
     <div class="create theme" v-if="createMultipleChoiceQuestion">
       {{ uiLabels.question }}:
@@ -332,7 +331,8 @@ export default {
 .create-the-questions-container {
   display: flex;
   background-color: #1682a8;
-  height: 99vh;
+  height: 100vh;
+  width: 100%;
 }
 
 .create {
@@ -350,12 +350,9 @@ export default {
 }
 
 .lq-and-q {
-
   justify-content: space-evenly;
   flex-basis: 70%;
   clear:both
-
-
 }
 
 
@@ -627,8 +624,6 @@ textbox:hover {
 
 #map {
   position: relative;
-  margin: 0;
-  padding: 0;
   height: 30em;
   width: 99%;
 }
