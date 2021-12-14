@@ -161,8 +161,7 @@
         <button v-on:click="showLocationQuestion">Location question</button>
         <button v-on:click="showMultipleQuestion">Multiple choice question</button>
       </div>
-<<<<<<< HEAD
-=======
+
       <div>
         <button v-on:click="addAnswer">
           {{ uiLabels.addAnswer}}
@@ -174,15 +173,12 @@
           Add question
         </button>
       </div>
-      <!-- <button v-on:click="showLocationQuestion">Location question</button>
-      <button v-on:click="showMultipleQuestion">Multiple choice question</button> -->
-    </div>
- <!-- <button type="button" v-on:click="addLocation">
-    Confirm Correct Location
-  </button>-->
->>>>>>> bfb8d6d615a995d1d07c13389a8b107e9ce7b25b
 
     </div>
+
+
+
+
   </section>
 
 

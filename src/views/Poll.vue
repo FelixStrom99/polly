@@ -73,12 +73,7 @@ export default {
 
     )
 
-    /*  socket.on("newLocationQuestion", l =>
 
-              this.LocationQuestion=l,
-          console.log("test2",this.LocationQuestion)
-
-      )*/
 
   },
 
