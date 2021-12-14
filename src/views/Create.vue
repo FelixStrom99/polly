@@ -219,7 +219,8 @@ export default {
       secondStage: true,
       index:0,
       finalQuestion:[],
-      finalCorrect:[]
+      finalCorrect:[],
+      questionSequence:[]
     }
   },
   created: function () {
