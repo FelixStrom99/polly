@@ -1,34 +1,29 @@
 <template>
-  <div>
-    {{ pollId }}
-
-
-
-    <Question v-for="question in questions"
-               v-bind:question="question"
-               v-bind:key="question.q"
-               v-on:answer="submitAnswer"/>
-
-  </div>
-  {{ result }}
-  <h2> {{ LocationQuestion.lq }}</h2>
-
-  <div id="mapcontainer">
-    <div id="map" v-on:click="userSetLocation">
-
-      <LocationQuestion v-bind:LocationQuestion="LocationQuestion"/>
-      <div id="dots" v-bind:style="{left: UserLocation.x + 'px', top: UserLocation.y + 'px'}">
-        T
+  {{ pollId }}
+  <section v-if="displayLocationQuestion===true && displayFollowupQuestion===false">
+    <div id="mapcontainer">
+      <div id="map" v-on:click="userSetLocation">
+        <LocationQuestion v-bind:LocationQuestion="LocationQuestion"/>
+        <div id="dots" v-bind:style="{left: UserLocation.x + 'px', top: UserLocation.y + 'px'}">
+          T
+        </div>
       </div>
     </div>
-  </div>
   {{ UserLocation }}
-  <button v-on:click="submitLocationAnswer(),checkDistance()">
-    submit answer
+  <button v-on:click="submitLocationAnswer(),checkDistance(),switchQuestionType()">
+    Submit answer
   </button>
   distans: {{ distance }}
-
   {{ LocationQuestion.location }}
+  {{ result }}
+  </section>
+
+  <section v-if="displayFollowupQuestion===true && displayLocationQuestion===false">
+    <div>
+      <Question v-bind:question="questions[this.index]"
+                v-on:answer="submitAnswer"/>
+    </div>
+  </section>
 
 </template>
 
@@ -63,6 +58,10 @@ export default {
       UserLocation:
           {x: 0, y: 0},
       distance: 0,
+      index: 0,
+      displayLocationQuestion: true,
+      displayFollowupQuestion:false
+
     }
   },
   created: function () {
@@ -97,7 +96,7 @@ export default {
 
     },
     submitAnswer: function (answer,title) {
-
+      this.index += 1
       socket.emit("submitAnswer", {pollId: this.pollId, answer: answer})
       for (let i = 0; i < this.questions.length; i++) {
 
@@ -109,11 +108,7 @@ export default {
           else{
             this.result="false"
           }
-
-
         }
-
-
       }
     },
 
@@ -132,13 +127,20 @@ export default {
       socket.emit("submitLocationAnswer", {pollId: this.pollId, locationAnswer: this.UserLocation})
     },
     checkDistance: function () {
-      var holderX1 = this.LocationQuestion.location.x // holder is used to remove the undefined elements .x and .y for some reason
+      var holderX1 = this.LocationQuestion.location.x
       var holderY1 = this.LocationQuestion.location.y
       var x2 = this.UserLocation.x
       var y2 = this.UserLocation.y
       var distanceSquared = Math.pow(holderX1 - x2, 2) + Math.pow(holderY1 - y2, 2)
       this.distance = Math.sqrt(distanceSquared)
     },
+    switchQuestionType:function (){
+      if (this.displayLocationQuestion===true && this.displayFollowupQuestion===false){
+        this.displayLocationQuestion = false
+        this.displayFollowupQuestion = true
+      }
+}
+
   }
 }
 </script>

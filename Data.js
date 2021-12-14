@@ -38,10 +38,11 @@ Data.prototype.createPoll = function (pollId, lang = "en") {
 
 Data.prototype.addQuestion = function (pollId, q) {
     const poll = this.polls[pollId];
-    console.log("question added to", pollId, q);
+    console.log("question added to", pollId, q, "Här kommer questions arrayen", poll.questions);
     if (typeof poll !== 'undefined') {
       /*  poll.questions.push(q);*/
         poll.questionSequence.push(q)
+        poll.locations.push(q.lq)
 
     }
 }
