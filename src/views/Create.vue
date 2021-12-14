@@ -65,7 +65,7 @@
 
   <section class="create-the-questions-container theme" v-else-if="secondStage===false">
     <header class="header-create-prop">
-      <h1>{{ pollId }}</h1>
+
 
     </header>
     <div class="create overview-left-side">
@@ -81,6 +81,7 @@
       </object>
     </div>
     <div class="create lq-and-q theme" >
+      <h1>{{ pollId }}</h1>
       <div class="location-question" v-if="createLocationQuestion">
         <div>
           {{ uiLabels.locationQuestion }}:<input type="text" v-model="locationQuestion">
@@ -351,7 +352,7 @@ export default {
 
   justify-content: space-evenly;
   flex-basis: 70%;
-
+  clear:both
 
 
 }
