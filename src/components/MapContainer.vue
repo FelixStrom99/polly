@@ -30,6 +30,10 @@ import 'ol/ol.css'
 export default {
   name: 'MapContainer',
   components: {},
+  props:{
+    correctLocation:Object
+
+  },
   data: function () {
     return {
       // store OL objects on the component instance
@@ -52,7 +56,7 @@ export default {
       lineString:{
         type: 'Feature',
         properties: {
-          color: 'green'
+          color: 'black'
         },
         geometry: {
           type: 'LineString',
@@ -148,7 +152,8 @@ export default {
       return new Style( {
         stroke: new Stroke({
           color: color,
-          width: 5
+          width: 3,
+          lineDash:[17,10]
         })
       })
     },
@@ -187,9 +192,9 @@ export default {
 
     },
     submitLocation(){
-      this.lineString.geometry.coordinates=[[this.evt_coordinate.x,this.evt_coordinate.y],[17.62696027384439,59.86043406543544]]
+      this.lineString.geometry.coordinates=[[this.evt_coordinate.x,this.evt_coordinate.y],[this.correctLocation.x,this.correctLocation.y]]
       this.updateSource(this.lineString, this.lineStyle)
-      this.correctPoint.geometry.coordinates=[17.62696027384439,59.86043406543544]
+      this.correctPoint.geometry.coordinates=[this.correctLocation.x,this.correctLocation.y]
       this.updateSource(this.correctPoint, this.correctPointStyle)
     }
   }

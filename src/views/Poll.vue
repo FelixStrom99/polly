@@ -13,15 +13,10 @@
   {{ result }}
   <h2> {{ LocationQuestion.lq }}</h2>
 
-  <div id="mapcontainer">
-    <div id="map" v-on:click="userSetLocation">
-
-      <LocationQuestion v-bind:LocationQuestion="LocationQuestion"/>
-      <div id="dots" v-bind:style="{left: UserLocation.x + 'px', top: UserLocation.y + 'px'}">
-        T
-      </div>
-    </div>
+  <div id="map">
+    <MapContainer :geojson="geojson" v-bind:correctLocation="LocationQuestion.location"> </MapContainer>
   </div>
+<div id="move">
   {{ UserLocation }}
   <button v-on:click="submitLocationAnswer(),checkDistance()">
     submit answer
@@ -29,14 +24,14 @@
   distans: {{ distance }}
 
   {{ LocationQuestion.location }}
-
+</div>
 </template>
 
 <script>
 // @ is an alias to /src
 import Question from '@/components/Question.vue';
 import io from 'socket.io-client';
-import LocationQuestion from "../components/LocationQuestion";
+import MapContainer from "../components/MapContainer";
 
 const socket = io();
 
@@ -44,7 +39,7 @@ export default {
   name: 'Poll',
   components: {
     Question,
-    LocationQuestion
+    MapContainer
   },
   data: function () {
     return {
@@ -60,8 +55,8 @@ export default {
         image: "",
       },
       pollId: "inactive poll",
-      UserLocation:
-          {x: 0, y: 0},
+      UserLocation: {x: 0,
+            y: 0},
       distance: 0,
     }
   },
@@ -139,19 +134,14 @@ export default {
 </script>
 
 <style>
-#mapcontainer {
-  width: 800px;
-  height: 450px;
-  overflow: scroll;
-  margin-bottom: 20px;
-  border: groove
-}
+
 
 #map {
-  background-repeat: no-repeat;
-  cursor: crosshair;
   position: relative;
-
+  margin: 0;
+  padding: 0;
+  height: 30em;
+  width: 99%;
 }
 
 #dots {
@@ -163,6 +153,9 @@ export default {
   height: 10px;
   text-align: center;
 }
-
+#move{
+  position:relative;
+  margin-top:2em;
+}
 
 </style>
