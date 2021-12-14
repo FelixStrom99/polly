@@ -218,11 +218,7 @@ export default {
       secondStage: true,
       index:0,
       finalQuestion:[],
-<<<<<<< HEAD
-      finalCorrect:[],
-=======
       finalCorrect:[]
->>>>>>> c7e404b515343bd73a34d6e1cdbb5b02ffabf318
     }
   },
   created: function () {
@@ -252,13 +248,9 @@ export default {
       console.log("1",this.finalQuestion)
       this.finalQuestion=[]
       this.finalAnswers=[]
-<<<<<<< HEAD
-      this.finalCorrect=[]
       this.index=0
-      console.log("2",this.finalQuestion)
-=======
-      this.finalCorrect=[]*/
->>>>>>> c7e404b515343bd73a34d6e1cdbb5b02ffabf318
+
+
     },
     addQuestion: function () {
       var index= this.index
