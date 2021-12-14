@@ -242,10 +242,12 @@ export default {
     },
     addLocationQuestion: function () {
       socket.emit("addQuestion",{pollId: this.pollId, q: this.finalQuestion, a: this.finalAnswers, correct: this.finalCorrect,lq: this.locationQuestion, location: this.location,image: this.imgUrl})
-      console.log(this.finalQuestion)
-      /*this.finalQuestion=[]
+      console.log("1",this.finalQuestion)
+      this.finalQuestion=[]
       this.finalAnswers=[]
-      this.finalCorrect=[]*/
+      this.index=0
+
+
     },
     addQuestion: function () {
       var index= this.index
