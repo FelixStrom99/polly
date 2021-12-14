@@ -76,6 +76,9 @@
           <p>Här kommer information om frågan fram</p>
         </div>
       </div>
+      <object data="/svg_files/addLocationQuestionButton-2/addLocationQuestionButton.svg">
+
+      </object>
     </div>
     <div class="create lq-and-q theme" >
       <div class="location-question" v-if="createLocationQuestion">
@@ -102,8 +105,6 @@
       {{ uiLabels.question }}:
       <input type="text" v-model="question">
       <div class="question-multiple">
-
-        <img src="">
         {{ uiLabels.answers}}:
         <input v-for="(_, i) in answers"
                v-model="answers[i]"
@@ -119,17 +120,7 @@
         </div>
 
 
-        <div>
-        <button v-on:click="addAnswer">
-          {{ uiLabels.addAnswer}}:
-        </button>
-        <button v-on:click="deleteAnswer">
-          {{ uiLabels.deleteAnswer }}:
-        </button>
-          <button v-on:click="addQuestion">
-            Add question
-          </button>
-        </div>
+
       </div>
       <div class="Answer-box-wrapper">
       <div class="answer-alternative-size-wrapper"   v-for="(_, i) in answers" v-bind:key="'answers'+i">
@@ -172,6 +163,17 @@
       <div class="content">
         <button v-on:click="showLocationQuestion">Location question</button>
         <button v-on:click="showMultipleQuestion">Multiple choice question</button>
+      </div>
+      <div>
+        <button v-on:click="addAnswer">
+          {{ uiLabels.addAnswer}}
+        </button>
+        <button v-on:click="deleteAnswer">
+          {{ uiLabels.deleteAnswer }}
+        </button>
+        <button v-on:click="addQuestion">
+          Add question
+        </button>
       </div>
       <!-- <button v-on:click="showLocationQuestion">Location question</button>
       <button v-on:click="showMultipleQuestion">Multiple choice question</button> -->
