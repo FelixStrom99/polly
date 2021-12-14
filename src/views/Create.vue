@@ -65,7 +65,7 @@
 
   <section class="create-the-questions-container theme" v-else-if="secondStage===false">
     <header class="header-create-prop">
-      <h1>{{ pollId }}</h1>
+
 
     </header>
     <div class="create overview-left-side">
@@ -76,8 +76,12 @@
           <p>Här kommer information om frågan fram</p>
         </div>
       </div>
+      <object data="/svg_files/addLocationQuestionButton-2/addLocationQuestionButton.svg">
+
+      </object>
     </div>
     <div class="create lq-and-q theme" >
+      <h1>{{ pollId }}</h1>
       <div class="location-question" v-if="createLocationQuestion">
         <div>
           {{ uiLabels.locationQuestion }}:<input type="text" v-model="locationQuestion">
@@ -98,8 +102,6 @@
       {{ uiLabels.question }}:
       <input type="text" v-model="question">
       <div class="question-multiple">
-
-        <img src="">
         {{ uiLabels.answers}}:
         <input v-for="(_, i) in answers"
                v-model="answers[i]"
@@ -115,17 +117,7 @@
         </div>
 
 
-        <div>
-        <button v-on:click="addAnswer">
-          {{ uiLabels.addAnswer}}:
-        </button>
-        <button v-on:click="deleteAnswer">
-          {{ uiLabels.deleteAnswer }}:
-        </button>
-          <button v-on:click="addQuestion">
-            Add question
-          </button>
-        </div>
+
       </div>
       <div class="Answer-box-wrapper">
       <div class="answer-alternative-size-wrapper"   v-for="(_, i) in answers" v-bind:key="'answers'+i">
@@ -169,6 +161,26 @@
         <button v-on:click="showLocationQuestion">Location question</button>
         <button v-on:click="showMultipleQuestion">Multiple choice question</button>
       </div>
+<<<<<<< HEAD
+=======
+      <div>
+        <button v-on:click="addAnswer">
+          {{ uiLabels.addAnswer}}
+        </button>
+        <button v-on:click="deleteAnswer">
+          {{ uiLabels.deleteAnswer }}
+        </button>
+        <button v-on:click="addQuestion">
+          Add question
+        </button>
+      </div>
+      <!-- <button v-on:click="showLocationQuestion">Location question</button>
+      <button v-on:click="showMultipleQuestion">Multiple choice question</button> -->
+    </div>
+ <!-- <button type="button" v-on:click="addLocation">
+    Confirm Correct Location
+  </button>-->
+>>>>>>> bfb8d6d615a995d1d07c13389a8b107e9ce7b25b
 
     </div>
   </section>
@@ -345,7 +357,7 @@ export default {
 
   justify-content: space-evenly;
   flex-basis: 70%;
-
+  clear:both
 
 
 }
