@@ -85,15 +85,8 @@
         <button v-on:click="addLocationQuestion">
           {{ uiLabels.addLocationQuestion }}
         </button>
-        <div id="mapcontainer">
-          <div id="map" v-on:click="setLocation">
-            <div v-bind:style="{left: location.x-60 + 'px', top: location.y-60 + 'px'}" class="disable">
-              <!--modifieras i x och y led för att nålen ska prickas rätt -->
-              <object data="/svg_files/PinMap/Pin_Map.svg" type="image/svg+xml">
-
-              </object>
-            </div>
-          </div>
+        <div id="map">
+          <MapContainerCreate :geojson="geojson"> </MapContainerCreate>
         </div>
 
         <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
@@ -187,11 +180,15 @@
 
 <script>
 import io from 'socket.io-client';
+import MapContainerCreate from "../components/MapContainerCreate";
 
 const socket = io();
 
 export default {
   name: 'Create',
+  components:{
+    MapContainerCreate,
+  },
   data: function () {
     return {
       lang: "",
@@ -624,14 +621,10 @@ textbox:hover {
 
 #map {
   position: relative;
-  padding: 10px;
   margin: 0;
   padding: 0;
-  background: url("https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg");
-  background-repeat: no-repeat;
-  width: 1133px;
-  height: 1382px;
-  cursor: crosshair;
+  height: 30em;
+  width: 99%;
 }
 
 #map div {
