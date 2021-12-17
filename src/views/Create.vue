@@ -126,6 +126,7 @@
         </div>
 
         <button v-on:click="editQuestion(this.currentLQ, currentMQ)">save</button>
+        {{questionSequence}}
 
       </div>
       <div class="Answer-box-wrapper">
@@ -190,7 +191,6 @@
 
   </section>
 
-{{questionSequence}}
 </template>
 
 <script>
@@ -262,6 +262,7 @@ export default {
       var title=this.questionSequence[firstIndex][0][secondIndex][secondIndex]
       var answers=this.questionSequence[firstIndex][1][secondIndex][secondIndex]
       var correct=this.questionSequence[firstIndex][2][secondIndex][secondIndex]
+    console.log("1",title,"2",answers,"3",correct)
       this.answers=answers
       this.question=title
       this.checkBox=correct
@@ -270,14 +271,15 @@ export default {
       this.questionSequence[firstIndex][0][secondIndex][secondIndex]=this.question
       this.questionSequence[firstIndex][1][secondIndex][secondIndex]=this.answers
       this.questionSequence[firstIndex][2][secondIndex][secondIndex]=this.checkBox
-
+   console.log("hej",this.questionSequence[firstIndex][0][secondIndex][secondIndex])
     },
 
     addNewPollQuestion: function () {
       var newQuestion=[]
-      newQuestion.push(this.finalQuestion = "Question")
+      newQuestion.push(this.finalQuestion)
       newQuestion.push(this.finalAnswers)
       newQuestion.push(this.finalCorrect)
+      console.log("t",this.finalCorrect)
       newQuestion.push(this.locationQuestion)
       newQuestion.push(this.location)
       newQuestion.push(this.hasMultipleChoiceQuestion=false)
