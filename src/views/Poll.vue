@@ -141,7 +141,7 @@ export default {
   margin: 0;
   padding: 0;
   height: 30em;
-  width: 99%;
+  width: 100%;
 }
 
 #dots {
