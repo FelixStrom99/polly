@@ -71,14 +71,18 @@
     <div class="create overview-left-side">
       <h1>Här ska överblicken av alternativen vara</h1>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
-        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox" >{{locationQuestion+" "+(i+1)}}</div>
+        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)" >{{locationQuestion+" "+(i+1)}}</div>
         <div class="content">
-          <div class="content-answers" v-for="(_,j) in questionSequence[i][1]" v-bind:key="'answers'+j">
-            {{questionSequence[i][1]}}
+          <div class="content-mq" v-for="(_,j) in questionSequence[i][1]" v-bind:key="'answers'+j">
+            <div class="content-mq-button" v-on:click="showMultipleQuestion(j)">{{"Fråga "+(j+1)}}</div>
           </div>
           <button v-on:click="addNewMultipleQuestion(i,j)">Add Multiple Choice Question</button>
         </div>
       </div>
+      {{"Current LQ: "+this.currentLQ}}
+      <br>
+      {{"Current MQ: "+this.currentMQ}}
+
       <div id="add-locationQuestion-button" v-on:click="addLocationQuestion" style="cursor: pointer;">
 
         <object data="/svg_files/addLocationQuestionButton-2/addLocationQuestionButton.svg" style="pointer-events:none;">
@@ -121,7 +125,7 @@
         {{this.answers.length}}
         </div>
 
-
+        <button v-on:click="editQuestion(this.currentLQ, currentMQ)">save</button>
 
       </div>
       <div class="Answer-box-wrapper">
@@ -225,6 +229,8 @@ export default {
       imgUrl: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg",
       firstStage: true,
       secondStage: true,
+      currentLQ: 0,
+      currentMQ: 0,
       index:0,
       multipleChoiceQuestions:[],
       finalQuestion:[],
@@ -337,12 +343,18 @@ export default {
     showLocationQuestion: function () {
       this.createLocationQuestion = true;
       this.createMultipleChoiceQuestion = false;
+
+
     },
-    showMultipleQuestion: function () {
+    showMultipleQuestion: function (j) {
+      this.currentMQ = j
       this.createLocationQuestion = false;
       this.createMultipleChoiceQuestion = true;
+      this.showQuestion(this.currentLQ, this.currentMQ)
+
     },
-    expandAndCollapseBox: function () {
+    expandAndCollapseBox: function (imp) {
+      this.currentLQ = imp
       this.showLocationQuestion()
       var coll = document.getElementsByClassName("collapsible");
       var i;
