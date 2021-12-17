@@ -250,6 +250,9 @@ export default {
       this.index=0
 
 
+      this.finalCorrect=[]
+      this.index=0
+      console.log("2",this.finalQuestion)
     },
     addQuestion: function () {
       var index= this.index
@@ -391,13 +394,6 @@ export default {
   font-weight: 600;
   outline: none;
   border: none
-
-
-
-
-
-
-
 }
 
 .Answer-Box-checkbox-prop{
