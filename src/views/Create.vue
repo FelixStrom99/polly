@@ -101,8 +101,11 @@
         <button v-on:click="addLocationQuestionFinal">
           {{ uiLabels.addLocationQuestionFinal }}
         </button>
+        <button v-on:click="editQuestion(this.currentLQ, null)">save</button>
         <div id="map">
-          <MapContainerCreate :geojson="geojson"> </MapContainerCreate>
+          <MapContainerCreate :geojson="geojson"
+                              v-on:location="location=$event">
+          </MapContainerCreate>
         </div>
 
         <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
@@ -190,7 +193,7 @@
   </button>-->
 
   </section>
-{{finalQuestion}}
+{{questionSequence}} {{location}}
 </template>
 
 <script>
@@ -259,19 +262,32 @@ export default {
       this.firstStage = false
     },
   showQuestion:function(firstIndex,secondIndex){
-      var title=this.questionSequence[firstIndex][0][secondIndex][secondIndex]
-      var answers=this.questionSequence[firstIndex][1][secondIndex][secondIndex]
-      var correct=this.questionSequence[firstIndex][2][secondIndex][secondIndex]
-    console.log("1",title,"2",answers,"3",correct)
-      this.answers=answers
-      this.question=title
-      this.checkBox=correct
+    if (secondIndex !==null) {
+      var title = this.questionSequence[firstIndex][0][secondIndex][secondIndex]
+      var answers = this.questionSequence[firstIndex][1][secondIndex][secondIndex]
+      var correct = this.questionSequence[firstIndex][2][secondIndex][secondIndex]
+      console.log("1", title, "2", answers, "3", correct)
+      this.answers = answers
+      this.question = title
+      this.checkBox = correct
+    }
+    else{
+      this.locationQuestion=this.questionSequence[firstIndex][3]
+      this.location.x=this.questionSequence[firstIndex][4].x
+      this.location.y=this.questionSequence[firstIndex][4].y
+    }
     },
     editQuestion:function(firstIndex,secondIndex){
-      this.questionSequence[firstIndex][0][secondIndex][secondIndex]=this.question
-      this.questionSequence[firstIndex][1][secondIndex][secondIndex]=this.answers
-      this.questionSequence[firstIndex][2][secondIndex][secondIndex]=this.checkBox
-   console.log("hej",this.questionSequence[firstIndex][0][secondIndex][secondIndex])
+      if (secondIndex !==null) {
+        this.questionSequence[firstIndex][0][secondIndex][secondIndex] = this.question
+        this.questionSequence[firstIndex][1][secondIndex][secondIndex] = this.answers
+        this.questionSequence[firstIndex][2][secondIndex][secondIndex] = this.checkBox
+      }
+      else{
+        this.questionSequence[firstIndex][3]=this.locationQuestion
+        this.questionSequence[firstIndex][4].x=this.location.x
+        this.questionSequence[firstIndex][4].y=this.location.y
+      }
     },
 
     addNewPollQuestion: function () {
@@ -348,7 +364,7 @@ export default {
     showLocationQuestion: function () {
       this.createLocationQuestion = true;
       this.createMultipleChoiceQuestion = false;
-
+      this.showQuestion(this.currentLQ,null)
 
     },
     showMultipleQuestion: function (j) {
