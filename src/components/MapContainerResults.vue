@@ -116,6 +116,7 @@ export default {
 
           this.evt_coordinate.x= myTarget[0];
           this.evt_coordinate.y= myTarget[1];
+
           console.log(this.evt_coordinate.x)
           console.log(this.evt_coordinate.y)
           this.userPoint.geometry.coordinates=[this.evt_coordinate.x,this.evt_coordinate.y]

@@ -6,22 +6,19 @@
     </header>
 
     <div id="map">
-      <MapContainer :geojson="geojson" v-bind:correctLocation="LocationQuestion.location"> </MapContainer>
+      <MapContainer :geojson="geojson" v-bind:correctLocation="LocationQuestion.location" v-on:userLocation="userLocation=$event"> </MapContainer>
     </div>
     <div id="move">
-      {{ UserLocation }}
-      <button v-on:click="submitLocationAnswer(),checkDistance(),switchQuestionType()">
+      {{ userLocation }}
+      <button v-on:click="meterDistance()">
+        CHECK DISTANCE
+      </button>
+      <button v-on:click="submitLocationAnswer(),switchQuestionType()">
         Submit answer
       </button>
       distans: {{ distance }}
-
-      {{ LocationQuestion.location }}
     </div>
 
-
-    Distans: {{ distance }}
-    {{ LocationQuestion.location }}
-    {{ result }}
   </section>
 
   <section v-if="displayFollowupQuestion===true && displayLocationQuestion===false" class="backgroundConatiner">
@@ -39,7 +36,7 @@
     Poll ID: {{ pollId }}
   </footer>
 
->>>>>>> fillefellepollish
+
 </template>
 
 <script>
@@ -67,10 +64,9 @@ export default {
           x: 0,
           y: 0
         },
-        image: "",
       },
       pollId: "inactive poll",
-      UserLocation: {x: 0,
+      userLocation: {x: 0,
             y: 0},
       distance: 0,
       index: 0,
@@ -133,14 +129,23 @@ export default {
     submitLocationAnswer: function () {
       socket.emit("submitLocationAnswer", {pollId: this.pollId, locationAnswer: this.UserLocation})
     },
-    checkDistance: function () {
+
+    meterDistance() {
       var holderX1 = this.LocationQuestion.location.x
       var holderY1 = this.LocationQuestion.location.y
-      var x2 = this.UserLocation.x
-      var y2 = this.UserLocation.y
-      var distanceSquared = Math.pow(holderX1 - x2, 2) + Math.pow(holderY1 - y2, 2)
-      this.distance = Math.sqrt(distanceSquared)
+      var x2 = this.userLocation.x
+      var y2 = this.userLocation.y
+      var R = 6378.137;
+      var dLat = x2 * Math.PI / 180 - holderX1 * Math.PI / 180;
+      var dLon = y2 * Math.PI / 180 - holderY1 * Math.PI / 180;
+      var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(holderX1 * Math.PI / 180) * Math.cos(x2 * Math.PI / 180) *
+          Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      var d = R * c;
+      this.distance = d * 1000;
     },
+
     switchQuestionType:function (){
       if (this.displayLocationQuestion===true && this.displayFollowupQuestion===false){
         this.displayLocationQuestion = false

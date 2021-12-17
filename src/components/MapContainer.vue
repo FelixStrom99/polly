@@ -117,12 +117,14 @@ export default {
         this.olMap.on('click', (event) => {
           let myTarget = JSON.parse(JSON.stringify(transform(event.coordinate, 'EPSG:3857', 'EPSG:4326')));
 
-          this.evt_coordinate.x= myTarget[0];
-          this.evt_coordinate.y= myTarget[1];
+          this.evt_coordinate.x= myTarget[0]
+          this.evt_coordinate.y= myTarget[1]
+          this.answer(this.evt_coordinate);
           console.log(this.evt_coordinate.x)
           console.log(this.evt_coordinate.y)
           this.userPoint.geometry.coordinates=[this.evt_coordinate.x,this.evt_coordinate.y]
           this.addPoint(this.userPoint)
+
 
         });
 
@@ -196,8 +198,14 @@ export default {
       this.updateSource(this.lineString, this.lineStyle)
       this.correctPoint.geometry.coordinates=[this.correctLocation.x,this.correctLocation.y]
       this.updateSource(this.correctPoint, this.correctPointStyle)
+
+
+    },
+    answer: function (mapLocation) {
+      this.$emit("userLocation", mapLocation);
     }
-  }
+  },
+
 }
 
 </script>
