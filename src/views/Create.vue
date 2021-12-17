@@ -90,7 +90,6 @@
         </object>
 
       </div>
-      <p>Isak fixar knappen</p>
     </div>
     <div class="create lq-and-q theme" >
       <h1>{{ pollId }}</h1>
@@ -322,7 +321,7 @@ export default {
       var index= this.index
       var newAnswer={[index]:["",""]}
       this.finalAnswers.push(newAnswer)
-      var newQuestion={[index]:this.question}
+      var newQuestion={[index]:""}
       this.finalQuestion.push(newQuestion)
       var newCorrect={[index]:[false,false]}
       this.finalCorrect.push(newCorrect)
