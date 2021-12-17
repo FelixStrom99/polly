@@ -73,10 +73,10 @@
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
         <div type="button" class="collapsible" v-on:click="expandAndCollapseBox" >{{locationQuestion+" "+(i+1)}}</div>
         <div class="content">
-          <div class="content-answers" v-for="(_,j) in questionSequence[i].finalQuestion" v-bind:key="'answers'+j">
-            Nu har du lagt till en fråga {{questionSequence[i].finalQuestion+j}}
+          <div class="content-answers" v-for="(_,j) in questionSequence[i][1]" v-bind:key="'answers'+j">
+            {{questionSequence[i][1]}}
           </div>
-          <button v-on:click="addNewMultipleChoiceQuestion">Add Multiple Choice Question</button>
+          <button v-on:click="addNewMultipleQuestion(i,j)">Add Multiple Choice Question</button>
         </div>
       </div>
       <div id="add-locationQuestion-button" v-on:click="addLocationQuestion" style="cursor: pointer;">
@@ -186,7 +186,7 @@
 
   </section>
 
-{{questionSequence[0]}}
+{{questionSequence}}
 </template>
 
 <script>
@@ -252,16 +252,32 @@ export default {
       socket.emit("createPoll", {pollId: this.pollId, lang: this.lang})
       this.firstStage = false
     },
+  showQuestion:function(firstIndex,secondIndex){
+      var title=this.questionSequence[firstIndex][0][secondIndex][secondIndex]
+      var answers=this.questionSequence[firstIndex][1][secondIndex][secondIndex]
+      var correct=this.questionSequence[firstIndex][2][secondIndex][secondIndex]
+      this.answers=answers
+      this.question=title
+      this.checkBox=correct
+    },
+    editQuestion:function(firstIndex,secondIndex){
+      this.questionSequence[firstIndex][0][secondIndex][secondIndex]=this.question
+      this.questionSequence[firstIndex][1][secondIndex][secondIndex]=this.answers
+      this.questionSequence[firstIndex][2][secondIndex][secondIndex]=this.checkBox
+
+    },
+
     addNewPollQuestion: function () {
       var newQuestion=[]
-      this.multipleChoiceQuestions = this.
       newQuestion.push(this.finalQuestion = "Question")
       newQuestion.push(this.finalAnswers)
       newQuestion.push(this.finalCorrect)
-      newQuestion.push(this.locationQuestion = "Location Question")
+      newQuestion.push(this.locationQuestion)
       newQuestion.push(this.location)
       newQuestion.push(this.hasMultipleChoiceQuestion=false)
       this.questionSequence.push(newQuestion)
+
+
     },
     nextSection: function () {
       this.secondStage = false
@@ -279,8 +295,9 @@ export default {
       this.finalQuestion=[]
       this.finalAnswers=[]
       this.index=0
+
     },
-    addQuestion: function () {
+    /* addQuestion: function () {
       var index= this.index
       var newAnswer={[index]:this.answers}
       this.finalAnswers.push(newAnswer)
@@ -288,16 +305,27 @@ export default {
       this.finalQuestion.push(newQuestion)
       var newCorrect={[index]:this.checkBox}
       this.finalCorrect.push(newCorrect)
-      console.log(this.finalQuestion)
       this.index+=1
       this.answers=["",""]
       this.question=""
       this.checkBox=[false,false]
-    },
+    },*/
+     addNewMultipleQuestion:function(){
+      var index= this.index
+      var newAnswer={[index]:["",""]}
+      this.finalAnswers.push(newAnswer)
+      var newQuestion={[index]:this.question}
+      this.finalQuestion.push(newQuestion)
+      var newCorrect={[index]:[false,false]}
+      this.finalCorrect.push(newCorrect)
+      this.index+=1
+    } ,
+
     addAnswer: function () {
       if (this.answers.length <= 3) {
         this.answers.push("");
         this.checkBox.push(false);
+
       }
     },
     deleteAnswer: function () {
