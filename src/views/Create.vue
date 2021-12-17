@@ -190,7 +190,7 @@
   </button>-->
 
   </section>
-
+{{finalQuestion}}
 </template>
 
 <script>
@@ -276,12 +276,15 @@ export default {
 
     addNewPollQuestion: function () {
       var newQuestion=[]
-      newQuestion.push(this.finalQuestion)
-      newQuestion.push(this.finalAnswers)
-      newQuestion.push(this.finalCorrect)
-      console.log("t",this.finalCorrect)
-      newQuestion.push(this.locationQuestion)
-      newQuestion.push(this.location)
+      this.index=0
+      newQuestion.push(this.finalQuestion=[])
+      newQuestion.push(this.finalAnswers=[])
+      newQuestion.push(this.finalCorrect=[])
+      newQuestion.push(this.locationQuestion="")
+      newQuestion.push(this.location={
+        x: 0,
+        y: 0
+      })
       newQuestion.push(this.hasMultipleChoiceQuestion=false)
       this.questionSequence.push(newQuestion)
 
@@ -322,7 +325,7 @@ export default {
       var index= this.index
       var newAnswer={[index]:["",""]}
       this.finalAnswers.push(newAnswer)
-      var newQuestion={[index]:this.question}
+      var newQuestion={[index]:""}
       this.finalQuestion.push(newQuestion)
       var newCorrect={[index]:[false,false]}
       this.finalCorrect.push(newCorrect)
