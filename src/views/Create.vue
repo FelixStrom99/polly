@@ -73,8 +73,10 @@
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
         <div type="button" class="collapsible" v-on:click="expandAndCollapseBox" >{{locationQuestion+" "+(i+1)}}</div>
         <div class="content">
-          <button v-if="!hasMultipleChoiceQuestion[0]" v-on:click="showMultipleQuestion">Add Multiple Choice Question</button>
-          <button v-if="hasMultipleChoiceQuestion[0]" v-on:click="showMultipleQuestion">{{question}}</button>
+          <div class="content-answers" v-for="(_,j) in questionSequence[i].finalQuestion" v-bind:key="'answers'+j">
+            Nu har du lagt till en fråga {{questionSequence[i].finalQuestion+j}}
+          </div>
+          <button v-on:click="addNewMultipleChoiceQuestion">Add Multiple Choice Question</button>
         </div>
       </div>
       <div id="add-locationQuestion-button" v-on:click="addLocationQuestion" style="cursor: pointer;">
@@ -224,6 +226,7 @@ export default {
       firstStage: true,
       secondStage: true,
       index:0,
+      multipleChoiceQuestions:[],
       finalQuestion:[],
       finalCorrect:[],
       questionSequence:[]
@@ -251,6 +254,7 @@ export default {
     },
     addNewPollQuestion: function () {
       var newQuestion=[]
+      this.multipleChoiceQuestions = this.
       newQuestion.push(this.finalQuestion = "Question")
       newQuestion.push(this.finalAnswers)
       newQuestion.push(this.finalCorrect)
