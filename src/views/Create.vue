@@ -317,11 +317,10 @@ export default {
 
     },
     addLocationQuestionFinal: function () {
-      socket.emit("addQuestion",{pollId: this.pollId, q: this.finalQuestion, a: this.finalAnswers, correct: this.finalCorrect,lq: this.locationQuestion, location: this.location,image: this.imgUrl})
-      console.log("1",this.finalQuestion)
-      this.finalQuestion=[]
-      this.finalAnswers=[]
-      this.index=0
+      for(var i = 0; i < this.questionSequence.length; i++){
+
+      socket.emit("addQuestion",{pollId: this.pollId, q: this.questionSequence[i][0], a: this.questionSequence[i][1], correct: this.questionSequence[i][2],lq: this.questionSequence[i][3], location: this.questionSequence[i][4],image: this.imgUrl})
+      }
 
     },
     /* addQuestion: function () {
