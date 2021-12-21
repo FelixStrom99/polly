@@ -266,7 +266,6 @@ export default {
       var title = this.questionSequence[firstIndex][0][secondIndex][secondIndex]
       var answers = this.questionSequence[firstIndex][1][secondIndex][secondIndex]
       var correct = this.questionSequence[firstIndex][2][secondIndex][secondIndex]
-      console.log("1", title, "2", answers, "3", correct)
       this.answers = answers
       this.question = title
       this.checkBox = correct
