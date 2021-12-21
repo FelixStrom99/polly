@@ -24,7 +24,7 @@
 </template>
 
 <script>
-// Credit: Mateusz Rybczonec modified by STSARE
+// Credit: Mateusz Rybczonec modified by STS-ARE
 
 
 const TIME_LIMIT = 40;
