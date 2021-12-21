@@ -85,7 +85,7 @@
         <button v-on:click="addLocationQuestion">
           {{ uiLabels.addLocationQuestion }}
         </button>
-        <div id="map">
+        <div id="openlayers-map">
           <MapContainerCreate :geojson="geojson"
           v-on:location="location=$event" v-bind:mapView="mapView">
           </MapContainerCreate>
@@ -638,7 +638,7 @@ textbox:hover {
 }
 
 
-#map {
+#openlayers-map {
   position: relative;
   height: 30em;
   width: 99%;

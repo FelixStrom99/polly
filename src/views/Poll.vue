@@ -5,7 +5,7 @@
       {{LocationQuestion.lq}}
     </header>
 
-    <div id="map">
+    <div id="openlayers-map">
       <MapContainer :geojson="geojson" v-bind:correctLocation="LocationQuestion.location" v-on:userLocation="userLocation=$event"> </MapContainer>
     </div>
     <div id="move">
@@ -161,7 +161,7 @@ export default {
 <style>
 
 
-#map {
+#openlayers-map {
   position: relative;
   margin: 0;
   padding: 0;

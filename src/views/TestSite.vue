@@ -1,16 +1,17 @@
 <template>
   <div id="map">
-      <MapContainerCreate :geojson="geojson"> </MapContainerCreate>
+      <MapContainer :geojson="geojson"> </MapContainer>
   </div>
+  <div><p>HELLO</p></div>
 </template>
 
 <script>
-import MapContainerCreate from "../components/MapContainerCreate";
+import MapContainer from "../components/MapContainer";
 
 export default {
   name: 'TestSite',
   components:{
-  MapContainerCreate,
+  MapContainer,
 },
 
   data: function () {
@@ -29,8 +30,7 @@ export default {
   margin: 0;
   padding: 0;
   height: 30em;
-  width: 99%;
+  width: 100%;
 }
-
 
 </style>

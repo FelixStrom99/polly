@@ -3,6 +3,9 @@
   <div ref="map-root"
        style="width: 100%; height: 100%">
   </div>
+  <div>
+    <button type="button" v-on:click="submitLocation"> SUBMIT LOCATION</button>
+  </div>
   <!--<input type="range" v-model="this.userPoint.properties.radius" max="40" min="5">-->
 </template>
 
@@ -16,20 +19,22 @@ import VectorSource from 'ol/source/Vector'
 import GeoJSON from 'ol/format/GeoJSON'
 import { transform } from 'ol/proj'
 import {Fill, Style, Stroke,Icon} from 'ol/style'
+
 /*import {Circle} from 'ol/style'*/
+
 
 
 
 // importing the OpenLayers stylesheet is required for having
 // good looking buttons!
 import 'ol/ol.css'
+import io from "socket.io-client";
+const socket = io();
 
 export default {
   name: 'MapContainerResults',
   components: {},
   props:{
-    correctLocation:Object
-
   },
   data: function () {
     return {
@@ -38,6 +43,8 @@ export default {
       vectorLayer: null,
       evt_coordinate:{x:0,
         y:0},
+
+      mapView:{zoom:0,center:[0,0]},
       userPoint: {
         type: 'Feature',
         properties: {
@@ -74,6 +81,13 @@ export default {
       }
 
     }},
+  created: function () {
+    this.pollId = this.$route.params.id
+    socket.on("userMapView", d =>
+        console.log(d.pollId)
+
+
+    )},
   computed: {
     userPointProperties: function () {
       return this.userPoint.properties;
@@ -114,13 +128,14 @@ export default {
         this.olMap.on('click', (event) => {
           let myTarget = JSON.parse(JSON.stringify(transform(event.coordinate, 'EPSG:3857', 'EPSG:4326')));
 
-          this.evt_coordinate.x= myTarget[0];
-          this.evt_coordinate.y= myTarget[1];
-
+          this.evt_coordinate.x= myTarget[0]
+          this.evt_coordinate.y= myTarget[1]
+          this.answer(this.evt_coordinate);
           console.log(this.evt_coordinate.x)
           console.log(this.evt_coordinate.y)
           this.userPoint.geometry.coordinates=[this.evt_coordinate.x,this.evt_coordinate.y]
           this.addPoint(this.userPoint)
+
 
         });
 
@@ -194,8 +209,13 @@ export default {
       this.updateSource(this.lineString, this.lineStyle)
       this.correctPoint.geometry.coordinates=[this.correctLocation.x,this.correctLocation.y]
       this.updateSource(this.correctPoint, this.correctPointStyle)
+
+    },
+    answer: function (mapLocation) {
+      this.$emit("userLocation", mapLocation);
     }
-  }
+  },
+
 }
 
 </script>

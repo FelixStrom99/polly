@@ -8,14 +8,19 @@
   <div>
 
   </div>
-  <div id="mapcontainer">
+  <!--- <div id="mapcontainer">
     <div id="dots">
     <div v-for="(location,key) in locationData" v-bind:style="{ left: location.x + 'px', top: location.y + 'px'}" v-bind:key="'dots'+ key">
 T
 
     </div>
     </div>
+  </div> -->
+
+  <div id="openlayers-map">
+    <MapContainerResults :geojson="geojson"> </MapContainerResults>
   </div>
+
   {{ locationQuestion }}
   {{ locationData }}
 </template>
@@ -24,12 +29,14 @@ T
 // @ is an alias to /src
 import Bars from '@/components/Bars.vue';
 import io from 'socket.io-client';
+import MapContainerResults from "../components/MapContainerResults";
 const socket = io();
 
 export default {
   name: 'Result',
   components: {
-    Bars
+    Bars,
+    MapContainerResults
   },
   data: function () {
     return {
@@ -69,24 +76,13 @@ export default {
   margin-bottom: 20px;
   border: groove
 }*/
-#dots {
+
+
+#openlayers-map {
   position: relative;
   margin: 0;
   padding: 0;
-  background: url("https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg");
-  background-repeat: no-repeat;
-  width:1920px;
-  height: 1078px;
-  cursor: crosshair;
-}
-
-#dots div {
-  position: absolute;
-  background: deeppink;
-  color: white;
-  border-radius: 10px;
-  width:20px;
-  height:20px;
-  text-align: center;
+  height: 30em;
+  width: 100%;
 }
 </style>
