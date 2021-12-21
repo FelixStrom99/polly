@@ -6,7 +6,6 @@
      <div>
        {{a}}
      </div>
-
    </button>
   </div>
 
@@ -37,7 +36,7 @@ export default {
   flex-wrap: wrap;
   justify-content: center;
   padding-top: 100px;
-  gap: 50px 200px;
+  gap: 70px 250px;
   height: 70vh;
   width: 120vh;
 }
@@ -48,9 +47,23 @@ export default {
   border-radius: 10px;
   color: #444;
   font-size: 300%;
+  color: white;
+}
+.answer-alternative-size-wrapper:nth-child(1){
+  background-color:darkred;
 }
 
+.answer-alternative-size-wrapper:nth-child(2){
+  background-color: darkblue;
+}
 
+.answer-alternative-size-wrapper:nth-child(3){
+  background-color: darkgreen;
+}
+
+.answer-alternative-size-wrapper:nth-child(4){
+  background-color: darkgoldenrod;
+}
 
 
 
