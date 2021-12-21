@@ -314,26 +314,32 @@ export default {
     chooseUppsala: function (){
       this.mapView.zoom=14;
       this.mapView.center=[1962289.773825233,8368555.335845293]
+      socket.emit("mapView", {pollId: this.pollId, zoom: this.mapView.zoom, center: this.mapView.center})
     },
     chooseStockholm: function (){
       this.mapView.zoom=14;
       this.mapView.center=[2011404.65,8250860.71]
+      socket.emit("mapView", {pollId: this.pollId, zoom: this.mapView.zoom, center: this.mapView.center})
     },
     chooseSundsvall: function (){
       this.mapView.zoom=14;
       this.mapView.center=[1924771.41,8951774.11]
+      socket.emit("mapView", {pollId: this.pollId, zoom: this.mapView.zoom, center: this.mapView.center})
     },
     chooseVästerås: function (){
       this.mapView.zoom=14;
       this.mapView.center=[1841990.10,8314049.85]
+      socket.emit("mapView", {pollId: this.pollId, zoom: this.mapView.zoom, center: this.mapView.center})
     },
     chooseGöteborg: function (){
       this.mapView.zoom=14;
       this.mapView.center=[1332333.15,7906034.63]
+      socket.emit("mapView", {pollId: this.pollId, zoom: this.mapView.zoom, center: this.mapView.center})
     },
     chooseWorld: function (){
       this.mapView.zoom=0;
       this.mapView.center=[0,0]
+      socket.emit("mapView", {pollId: this.pollId, zoom: this.mapView.zoom, center: this.mapView.center})
     }
 
 

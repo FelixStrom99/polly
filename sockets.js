@@ -51,12 +51,16 @@ function sockets(io, socket, data) {
     data.submitLocationAnswer(d.pollId, d.locationAnswer);
     io.to(d.pollId).emit('locationDataUpdate', data.getLocationAnswers(d.pollId));
   });
+  socket.on('mapView', function(d) {
+    io.to(d.pollId).emit('userMapView', d);
+    /*   io.to(lq.pollId).emit('dataUpdate', data.getAnswers(lq.pollId));*/
+  });
 
   socket.on('resetAll', () => {
     data = new Data();
     data.initializeData();
   })
- 
+
 }
 
 module.exports = sockets;

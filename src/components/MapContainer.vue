@@ -26,6 +26,8 @@ import {Fill, Style, Stroke,Icon} from 'ol/style'
 // importing the OpenLayers stylesheet is required for having
 // good looking buttons!
 import 'ol/ol.css'
+import io from "socket.io-client";
+const socket = io();
 
 export default {
   name: 'MapContainer',
@@ -41,6 +43,8 @@ export default {
       vectorLayer: null,
       evt_coordinate:{x:0,
         y:0},
+
+      mapView:{zoom:0,center:[0,0]},
       userPoint: {
         type: 'Feature',
         properties: {
@@ -77,6 +81,13 @@ export default {
       }
 
     }},
+  created: function () {
+    this.pollId = this.$route.params.id
+    socket.on("userMapView", d =>
+        console.log(d.pollId)
+
+
+    )},
   computed: {
     userPointProperties: function () {
       return this.userPoint.properties;
@@ -198,7 +209,6 @@ export default {
       this.updateSource(this.lineString, this.lineStyle)
       this.correctPoint.geometry.coordinates=[this.correctLocation.x,this.correctLocation.y]
       this.updateSource(this.correctPoint, this.correctPointStyle)
-
 
     },
     answer: function (mapLocation) {
