@@ -248,8 +248,6 @@ export default {
       this.finalQuestion=[]
       this.finalAnswers=[]
       this.index=0
-
-
       this.finalCorrect=[]
       this.index=0
       console.log("2",this.finalQuestion)

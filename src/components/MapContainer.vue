@@ -26,14 +26,16 @@ import {Fill, Style, Stroke,Icon} from 'ol/style'
 // importing the OpenLayers stylesheet is required for having
 // good looking buttons!
 import 'ol/ol.css'
-import io from "socket.io-client";
-const socket = io();
+/*import io from "socket.io-client";
+//*const socket = io();*/
 
 export default {
   name: 'MapContainer',
   components: {},
   props:{
-    correctLocation:Object
+    correctLocation:Object,
+    mapView:Object
+
 
   },
   data: function () {
@@ -44,7 +46,6 @@ export default {
       evt_coordinate:{x:0,
         y:0},
 
-      mapView:{zoom:0,center:[0,0]},
       userPoint: {
         type: 'Feature',
         properties: {
@@ -81,13 +82,13 @@ export default {
       }
 
     }},
-  created: function () {
+  /*created: function () {
     this.pollId = this.$route.params.id
     socket.on("userMapView", d =>
         console.log(d.pollId)
 
 
-    )},
+    )},*/
   computed: {
     userPointProperties: function () {
       return this.userPoint.properties;
@@ -118,8 +119,8 @@ export default {
         this.vectorLayer
       ],
       view: new View({
-        zoom: 14,
-        center: [1962289.773825233,8368555.335845293],
+        zoom: this.mapView.zoom,
+        center: this.mapView.center,
         constrainResolution: true
       }),
     }),
@@ -127,7 +128,7 @@ export default {
 
         this.olMap.on('click', (event) => {
           let myTarget = JSON.parse(JSON.stringify(transform(event.coordinate, 'EPSG:3857', 'EPSG:4326')));
-
+          console.log("g",this.mapView.zoom)
           this.evt_coordinate.x= myTarget[0]
           this.evt_coordinate.y= myTarget[1]
           this.answer(this.evt_coordinate);

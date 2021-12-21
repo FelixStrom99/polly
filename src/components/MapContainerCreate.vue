@@ -5,7 +5,7 @@
   </div>
   <!--<input type="range" v-model="this.userPoint.properties.radius" max="40" min="5">-->
 </template>
-
+'
 <script>
 import View from 'ol/View'
 import Map from 'ol/Map'
