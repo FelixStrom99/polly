@@ -30,6 +30,7 @@ Data.prototype.createPoll = function (pollId, lang = "en") {
         poll.questionSequence = [];
         poll.currentLocationQuestion = 0;
         poll.locations = [];
+        poll.mapView={};
         this.polls[pollId] = poll;
         console.log("poll created", pollId, poll);
     }

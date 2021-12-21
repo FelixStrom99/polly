@@ -72,6 +72,7 @@ export default {
       index: 0,
       displayLocationQuestion: true,
       displayFollowupQuestion:false
+
     }
   },
   created: function () {

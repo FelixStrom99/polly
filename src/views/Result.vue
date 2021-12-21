@@ -57,9 +57,6 @@ export default {
       this.locationData=update.la
       this.locationQuestion=update.lq
 
-
-
-
   })
 }
 }
