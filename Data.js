@@ -47,15 +47,33 @@ Data.prototype.addQuestion = function (pollId, q) {
 
     }
 }
-/*Data.prototype.addLocationQuestion = function (pollId, lq) {
+Data.prototype.setZoom = function (pollId, d) {
     const poll = this.polls[pollId];
-    console.log("locationquestion added to", pollId, lq)
+    console.log("zoom set to", pollId, d)
     if (typeof poll !== 'undefined') {
-        poll.locations.push(lq)
 
+        poll.mapView=d
+        console.log("glöggkrök",poll.mapView)
 
     }
-}*/
+    else{
+        poll.mapview={zoom:0,center:[0,0]}
+    }
+}
+
+Data.prototype.getZoom = function (pollId) {
+    const poll = this.polls[pollId];
+    if (typeof poll !== 'undefined') {
+        return poll.mapView
+    }
+    else {
+        return {}
+        }
+
+        //* return {lq: locations.lq, location: [locations.location.x, locations.location.y], image: locations.image};
+
+
+}
 
 Data.prototype.getLocations = function (pollId, qId = null) {
     const poll = this.polls[pollId];

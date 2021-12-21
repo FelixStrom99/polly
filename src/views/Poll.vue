@@ -5,8 +5,9 @@
       {{LocationQuestion.lq}}
     </header>
 
+
     <div id="openlayers-map">
-      <MapContainer :geojson="geojson" v-bind:correctLocation="LocationQuestion.location" v-on:userLocation="userLocation=$event"> </MapContainer>
+      <MapContainer :geojson="geojson" v-bind:key=update v-bind:correctLocation="LocationQuestion.location" v-bind:mapView="mapView" v-on:userLocation="userLocation=$event"> </MapContainer>
     </div>
     <div id="move">
       {{ userLocation }}
@@ -33,6 +34,7 @@
   </section>
 
   <footer>
+
     Poll ID: {{ pollId }}
   </footer>
 
@@ -71,22 +73,40 @@ export default {
       distance: 0,
       index: 0,
       displayLocationQuestion: true,
-      displayFollowupQuestion:false
+      displayFollowupQuestion:false,
+    mapView: {zoom: 0, center: [0,0]},
+      update:0
+
 
     }
+
   },
   created: function () {
     this.pollId = this.$route.params.id
+
     socket.emit('joinPoll', this.pollId)
+    socket.on("userMapView",d =>
+        this.mapView=d
+    )
     socket.on("newQuestion", q =>
         this.createQuestionArray(q),
 
     )
 
+
+
   },
 
   methods: {
+   /* setZoom: function (zoomData) {
+      console.log("zoom",zoomData)
+      this.mapView.zoom=14
+      this.mapView.center=[0,0]
+
+    }, */
+
     createQuestionArray: function (Data) {
+      this.update+=1
       var questionArray = []
       for (let i = 0; i < Data.q.length; i++) {
         questionArray[i] = {q: (Data.q[i])[i], a: (Data.a[i])[i]}
@@ -153,6 +173,7 @@ export default {
         this.displayFollowupQuestion = true
       }
 }
+
 
   }
 }

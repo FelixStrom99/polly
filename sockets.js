@@ -27,6 +27,8 @@ function sockets(io, socket, data) {
   socket.on('joinPoll', function(pollId) {
     socket.join(pollId);
     socket.emit('newQuestion', data.getQuestion(pollId))
+    socket.emit("userMapView",data.getZoom(pollId))
+
   /*  socket.emit('dataUpdate', data.getAnswers(pollId))
   /*  socket.emit('newLocationQuestion', data.getLocations(pollId));
     socket.emit('dataUpdate', data.getLocationAnswers(pollId))*/
@@ -52,7 +54,9 @@ function sockets(io, socket, data) {
     io.to(d.pollId).emit('locationDataUpdate', data.getLocationAnswers(d.pollId));
   });
   socket.on('mapView', function(d) {
-    io.to(d.pollId).emit('userMapView', d);
+    data.setZoom(d.pollId, {zoom:d.zoom,center:d.center });
+    //*io.to(d.pollId).emit('userMapView', d);
+
     /*   io.to(lq.pollId).emit('dataUpdate', data.getAnswers(lq.pollId));*/
   });
 
