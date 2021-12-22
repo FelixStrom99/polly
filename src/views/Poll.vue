@@ -13,7 +13,7 @@
       <button v-on:click="meterDistance()">
         CHECK DISTANCE
       </button>
-      <button v-on:click="submitLocationAnswer(),switchQuestionType()">
+      <button v-on:click="submitLocationAnswer(),">
         Submit answer
       </button>
       distans: {{ distance }}
@@ -23,7 +23,8 @@
 
   <section v-if="displayFollowupQuestion===true && displayLocationQuestion===false" class="backgroundConatiner">
     <div class="clock_prop">
-      <div id="app" style="float: right"><div class="base-timer">
+      <div id="app" style="float: right"><div class="base-timer" v-if="switchQuestionType()">
+
         <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
           <g class="base-timer__circle">
             <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
@@ -152,6 +153,7 @@ function calculateTimeFraction() {
   const rawTimeFraction = timeLeft / TIME_LIMIT;
   return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
 }
+
 
 function setCircleDasharray() {
   const circleDasharray = `${(
