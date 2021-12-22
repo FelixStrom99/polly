@@ -74,7 +74,7 @@ export default {
 
         this.olMap.on('click', (event) => {
           let myTarget = JSON.parse(JSON.stringify(transform(event.coordinate, 'EPSG:3857', 'EPSG:4326')));
-
+          this.answer(this.evt_coordinate)
           this.evt_coordinate.x= myTarget[0];
           this.evt_coordinate.y= myTarget[1];
           console.log(this.evt_coordinate.x)
@@ -109,6 +109,9 @@ export default {
       source.clear();
       source.addFeature(this.correctPointFeature);
 
+    },
+    answer: function (mapLocation) {
+      this.$emit("location", mapLocation);
     },
   }
 }
