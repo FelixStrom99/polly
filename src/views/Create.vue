@@ -157,12 +157,12 @@
             Run Follow-up Question
           </button>
         </div>
-        <div>
+      <!--  <div>
           <input type="number" v-model="locationQuestionNumber">
           <button v-on:click="runLocationQuestion">
             Run Location-Question
           </button>
-        </div>
+        </div> -->
         <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
       </div>
       </div>
@@ -394,9 +394,9 @@ export default {
     runQuestion: function () {
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})
     },
-    runLocationQuestion: function () {
+   /* runLocationQuestion: function () {
       socket.emit("runLocationQuestion", {pollId: this.pollId, locationQuestionNumber: this.locationQuestionNumber})
-    },
+    },*/
     setLocation: function (event) {
       var offset = {
         x: event.currentTarget.getBoundingClientRect().left,
