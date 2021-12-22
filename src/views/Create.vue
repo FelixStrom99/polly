@@ -74,7 +74,7 @@
         <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)" >{{locationQuestion+" "+(i+1)}}</div>
         <div class="content">
           <div class="content-mq" v-for="(_,j) in questionSequence[i][0]" v-bind:key="'answers'+j">
-            <div class="content-mq-button" v-on:click="showMultipleQuestion(j)">{{"Fråga "+(j+1)}}</div>
+            <button class="content-mq-button" v-on:click="showMultipleQuestion(j)">{{"Fråga "+(j+1)}}</button>
           </div>
           <button v-on:click="addNewMultipleQuestion(i,j)">Add Multiple Choice Question</button>
         </div>
