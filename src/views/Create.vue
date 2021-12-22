@@ -98,9 +98,6 @@
         <div>
           {{ uiLabels.locationQuestion }}:<input type="text" v-model="locationQuestion">
         </div>
-        <button v-on:click="addLocationQuestionFinal">
-          {{ uiLabels.addLocationQuestionFinal }}
-        </button>
         <button v-on:click="editQuestion(this.currentLQ, null)">save</button>
         <div id="map">
           <MapContainerCreate :geojson="geojson"
@@ -157,13 +154,17 @@
             Run Follow-up Question
           </button>
         </div>
+        <div>
+          <button v-on:click="addLocationQuestionFinal">
+            {{ uiLabels.addLocationQuestionFinal }}
+          </button>
+        </div>
         <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
       </div>
     </div>
     <div class=" create alternative-right-side">
 
       <h1>Här ska vi ha knappar med lite rolig funktionalitet</h1>
-      {{indexArray}}
       <div type="button" class="collapsible" v-on:click="expandAndCollapseBox">Add new question</div>
       <div class="content">
         <button v-on:click="showLocationQuestion">Location question</button>
@@ -176,9 +177,7 @@
         <button v-on:click="deleteAnswer">
           {{ uiLabels.deleteAnswer }}
         </button>
-        <button v-on:click="addQuestion">
-          Add Question
-        </button>
+
 
       </div>
       <!-- <button v-on:click="showLocationQuestion">Location question</button>
@@ -319,15 +318,10 @@ export default {
 
     },
     addLocationQuestionFinal: function () {
-      for(var i = 0; i < this.questionSequence.length; i++){
+      for(var i = 0; i <= this.questionSequence.length; i++){
 
       socket.emit("addQuestion",{pollId: this.pollId, q: this.questionSequence[i][0], a: this.questionSequence[i][1], correct: this.questionSequence[i][2],lq: this.questionSequence[i][3], location: this.questionSequence[i][4],image: this.imgUrl})
-
-
-        socket.emit("addQuestion",{pollId: this.pollId, q: this.questionSequence[i][0], a: this.questionSequence[i][1], correct: this.questionSequence[i][2],lq: this.questionSequence[i][3], location: this.questionSequence[i][4],image: this.imgUrl})
-
       }
-
     },
     /* addQuestion: function () {
       var index= this.index
