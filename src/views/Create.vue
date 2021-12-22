@@ -73,7 +73,7 @@
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
         <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)" >{{locationQuestion+" "+(i+1)}}</div>
         <div class="content">
-          <div class="content-mq" v-for="(_,j) in questionSequence[i][1]" v-bind:key="'answers'+j">
+          <div class="content-mq" v-for="(_,j) in questionSequence[i][0]" v-bind:key="'answers'+j">
             <div class="content-mq-button" v-on:click="showMultipleQuestion(j)">{{"Fråga "+(j+1)}}</div>
           </div>
           <button v-on:click="addNewMultipleQuestion(i,j)">Add Multiple Choice Question</button>
@@ -169,6 +169,7 @@
     <div class=" create alternative-right-side">
 
       <h1>Här ska vi ha knappar med lite rolig funktionalitet</h1>
+      {{indexArray}}
       <div type="button" class="collapsible" v-on:click="expandAndCollapseBox">Add new question</div>
       <div class="content">
         <button v-on:click="showLocationQuestion">Location question</button>
@@ -184,6 +185,7 @@
         <button v-on:click="addQuestion">
           Add Question
         </button>
+
       </div>
       <!-- <button v-on:click="showLocationQuestion">Location question</button>
       <button v-on:click="showMultipleQuestion">Multiple choice question</button> -->
@@ -193,7 +195,7 @@
   </button>-->
 
   </section>
-{{questionSequence}} {{location}}
+{{questionSequence}}
 </template>
 
 <script>
@@ -234,7 +236,8 @@ export default {
       secondStage: true,
       currentLQ: 0,
       currentMQ: 0,
-      index:0,
+      indexArray:[],
+      pollQuestionIndex:0,
       multipleChoiceQuestions:[],
       finalQuestion:[],
       finalCorrect:[],
@@ -291,19 +294,21 @@ export default {
 
     addNewPollQuestion: function () {
       var newQuestion=[]
-      this.index=0
-      newQuestion.push(this.finalQuestion=[])
-      newQuestion.push(this.finalAnswers=[])
-      newQuestion.push(this.finalCorrect=[])
+      this.indexArray.push([0])
+      this.finalQuestion.push([])
+      this.finalAnswers.push([])
+      this.finalCorrect.push([])
+      newQuestion.push(this.finalQuestion[this.pollQuestionIndex])
+      newQuestion.push(this.finalAnswers[this.pollQuestionIndex])
+      newQuestion.push(this.finalCorrect[this.pollQuestionIndex])
       newQuestion.push(this.locationQuestion="")
       newQuestion.push(this.location={
         x: 0,
         y: 0
+
       })
-      newQuestion.push(this.hasMultipleChoiceQuestion=false)
       this.questionSequence.push(newQuestion)
-
-
+      this.pollQuestionIndex+=1
     },
     nextSection: function () {
       this.secondStage = false
@@ -317,7 +322,6 @@ export default {
     },
     addLocationQuestionFinal: function () {
       for(var i = 0; i < this.questionSequence.length; i++){
-
       socket.emit("addQuestion",{pollId: this.pollId, q: this.questionSequence[i][0], a: this.questionSequence[i][1], correct: this.questionSequence[i][2],lq: this.questionSequence[i][3], location: this.questionSequence[i][4],image: this.imgUrl})
       }
 
@@ -336,14 +340,14 @@ export default {
       this.checkBox=[false,false]
     },*/
      addNewMultipleQuestion:function(){
-      var index= this.index
+      var index= this.indexArray[this.currentLQ]
       var newAnswer={[index]:["",""]}
-      this.finalAnswers.push(newAnswer)
+      this.finalAnswers[this.currentLQ].push(newAnswer)
       var newQuestion={[index]:""}
-      this.finalQuestion.push(newQuestion)
+      this.finalQuestion[this.currentLQ].push(newQuestion)
       var newCorrect={[index]:[false,false]}
-      this.finalCorrect.push(newCorrect)
-      this.index+=1
+      this.finalCorrect[this.currentLQ].push(newCorrect)
+      this.indexArray[this.currentLQ][0]+=1
     } ,
 
     addAnswer: function () {
