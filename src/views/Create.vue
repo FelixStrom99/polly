@@ -110,46 +110,46 @@
 
         <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
       </div>
-    <div class="create theme" v-if="createMultipleChoiceQuestion">
-      {{ uiLabels.question }}:
-      <input type="text" v-model="question">
-      <div class="question-multiple">
-        {{ uiLabels.answers}}:
-        <input v-for="(_, i) in answers"
-               v-model="answers[i]"
-               v-bind:key="'answer'+i"
-               class="textbox"
-                >
+      <div class="create theme" v-if="createMultipleChoiceQuestion">
+        {{ uiLabels.question }}:
+        <input type="text" v-model="question">
+        <div class="question-multiple">
+          {{ uiLabels.answers}}:
+          <input v-for="(_, i) in answers"
+                 v-model="answers[i]"
+                 v-bind:key="'answer'+i"
+                 class="textbox"
+          >
 
-        <div>
-        <input type="checkbox" v-for="(_, i) in checkBox"
-               v-model="checkBox[i]"
-               v-bind:key="'checkBox'+i">
-        {{this.answers.length}}
+          <div>
+            <input type="checkbox" v-for="(_, i) in checkBox"
+                   v-model="checkBox[i]"
+                   v-bind:key="'checkBox'+i">
+            {{this.answers.length}}
+          </div>
+
+          <button v-on:click="editQuestion(this.currentLQ, currentMQ)">save</button>
+          {{questionSequence}}
+
         </div>
+        <div class="Answer-box-wrapper">
+          <div class="answer-alternative-size-wrapper"   v-for="(_, i) in answers" v-bind:key="'answers'+i">
+            <div id="Answer-Box-symbol-prop" >
+            </div>
+            <div class="Answer-Box-textarea"  >
+              <input class="Answer-Box-textarea-prop"
+                     placeholder="Answer">
+            </div>
 
-        <button v-on:click="editQuestion(this.currentLQ, currentMQ)">save</button>
-        {{questionSequence}}
-
-      </div>
-      <div class="Answer-box-wrapper">
-      <div class="answer-alternative-size-wrapper"   v-for="(_, i) in answers" v-bind:key="'answers'+i">
-        <div id="Answer-Box-symbol-prop" >
-        </div>
-        <div class="Answer-Box-textarea"  >
-          <input class="Answer-Box-textarea-prop"
-                 placeholder="Answer">
-        </div>
-
-      <div class="Answer-Box-checkbox" >
-        <input type="checkbox"
-                class="Answer-Box-checkbox-prop
+            <div class="Answer-Box-checkbox" >
+              <input type="checkbox"
+                     class="Answer-Box-checkbox-prop
                 animation_rubberband">
-      </div>
-      </div>
-      </div>
+            </div>
+          </div>
+        </div>
 
-    </div>
+      </div>
       <div class="lowerside">
         <div>
           <input type="number" v-model="questionNumber">
@@ -157,15 +157,9 @@
             Run Follow-up Question
           </button>
         </div>
-      <!--  <div>
-          <input type="number" v-model="locationQuestionNumber">
-          <button v-on:click="runLocationQuestion">
-            Run Location-Question
-          </button>
-        </div> -->
         <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
       </div>
-      </div>
+    </div>
     <div class=" create alternative-right-side">
 
       <h1>Här ska vi ha knappar med lite rolig funktionalitet</h1>
@@ -190,12 +184,16 @@
       <!-- <button v-on:click="showLocationQuestion">Location question</button>
       <button v-on:click="showMultipleQuestion">Multiple choice question</button> -->
     </div>
- <!-- <button type="button" v-on:click="addLocation">
-    Confirm Correct Location
-  </button>-->
+    <!-- <button type="button" v-on:click="addLocation">
+       Confirm Correct Location
+     </button>-->
 
   </section>
+<<<<<<< HEAD
 {{questionSequence}}
+=======
+  {{questionSequence}} {{location}}
+>>>>>>> a63f03165e31dc6c7c366ba1ed86156e4efc73cd
 </template>
 
 <script>
@@ -264,20 +262,20 @@ export default {
       socket.emit("createPoll", {pollId: this.pollId, lang: this.lang})
       this.firstStage = false
     },
-  showQuestion:function(firstIndex,secondIndex){
-    if (secondIndex !==null) {
-      var title = this.questionSequence[firstIndex][0][secondIndex][secondIndex]
-      var answers = this.questionSequence[firstIndex][1][secondIndex][secondIndex]
-      var correct = this.questionSequence[firstIndex][2][secondIndex][secondIndex]
-      this.answers = answers
-      this.question = title
-      this.checkBox = correct
-    }
-    else{
-      this.locationQuestion=this.questionSequence[firstIndex][3]
-      this.location.x=this.questionSequence[firstIndex][4].x
-      this.location.y=this.questionSequence[firstIndex][4].y
-    }
+    showQuestion:function(firstIndex,secondIndex){
+      if (secondIndex !==null) {
+        var title = this.questionSequence[firstIndex][0][secondIndex][secondIndex]
+        var answers = this.questionSequence[firstIndex][1][secondIndex][secondIndex]
+        var correct = this.questionSequence[firstIndex][2][secondIndex][secondIndex]
+        this.answers = answers
+        this.question = title
+        this.checkBox = correct
+      }
+      else{
+        this.locationQuestion=this.questionSequence[firstIndex][3]
+        this.location.x=this.questionSequence[firstIndex][4].x
+        this.location.y=this.questionSequence[firstIndex][4].y
+      }
     },
     editQuestion:function(firstIndex,secondIndex){
       if (secondIndex !==null) {
@@ -322,7 +320,12 @@ export default {
     },
     addLocationQuestionFinal: function () {
       for(var i = 0; i < this.questionSequence.length; i++){
+<<<<<<< HEAD
       socket.emit("addQuestion",{pollId: this.pollId, q: this.questionSequence[i][0], a: this.questionSequence[i][1], correct: this.questionSequence[i][2],lq: this.questionSequence[i][3], location: this.questionSequence[i][4],image: this.imgUrl})
+=======
+
+        socket.emit("addQuestion",{pollId: this.pollId, q: this.questionSequence[i][0], a: this.questionSequence[i][1], correct: this.questionSequence[i][2],lq: this.questionSequence[i][3], location: this.questionSequence[i][4],image: this.imgUrl})
+>>>>>>> a63f03165e31dc6c7c366ba1ed86156e4efc73cd
       }
 
     },
@@ -339,8 +342,13 @@ export default {
       this.question=""
       this.checkBox=[false,false]
     },*/
+<<<<<<< HEAD
      addNewMultipleQuestion:function(){
       var index= this.indexArray[this.currentLQ]
+=======
+    addNewMultipleQuestion:function(){
+      var index= this.index
+>>>>>>> a63f03165e31dc6c7c366ba1ed86156e4efc73cd
       var newAnswer={[index]:["",""]}
       this.finalAnswers[this.currentLQ].push(newAnswer)
       var newQuestion={[index]:""}
@@ -398,9 +406,6 @@ export default {
     runQuestion: function () {
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})
     },
-   /* runLocationQuestion: function () {
-      socket.emit("runLocationQuestion", {pollId: this.pollId, locationQuestionNumber: this.locationQuestionNumber})
-    },*/
     setLocation: function (event) {
       var offset = {
         x: event.currentTarget.getBoundingClientRect().left,
@@ -476,9 +481,9 @@ export default {
 
 .Answer-Box-checkbox-prop{
   height: 100%;
-   -webkit-transform: scale(2);
+  -webkit-transform: scale(2);
   transform: scale(2);
-border-radius: 5px;
+  border-radius: 5px;
 }
 
 
@@ -553,7 +558,7 @@ border-radius: 5px;
   border-width:thin;
   border-color: #444444;
   overflow: hidden;
- border-radius: 10%;
+  border-radius: 10%;
   text-align: left;
   outline: none;
   font-size: 15px;
