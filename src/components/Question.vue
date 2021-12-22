@@ -3,9 +3,7 @@
 
   <div class="Answer-box-wrapper" >
    <button class="answer-alternative-size-wrapper" v-bind:key="a" v-for="a in question.a" v-on:click="answer(a,question.q)">
-     <div>
-       {{a}}
-     </div>
+       {{ a }}
    </button>
   </div>
 
@@ -37,7 +35,7 @@ export default {
   justify-content: center;
   padding-top: 100px;
   gap: 70px 250px;
-  height: 70vh;
+  height: 80vh;
   width: 120vh;
 }
 .answer-alternative-size-wrapper {

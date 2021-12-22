@@ -1,19 +1,19 @@
 <template>
 
-  <section v-if="displayLocationQuestion===true && displayFollowupQuestion===false" class="poll-container">
+  <section class="format" v-if="displayLocationQuestion===true && displayFollowupQuestion===false" >
     <header class="quiz-questions">
       {{LocationQuestion.lq}}
     </header>
+    <p>Click on the map to pinpoint the location</p>
 
     <div id="map">
       <MapContainer :geojson="geojson" v-bind:correctLocation="LocationQuestion.location" v-on:userLocation="userLocation=$event"> </MapContainer>
     </div>
     <div id="move">
-      {{ userLocation }}
       <button v-on:click="meterDistance()">
         CHECK DISTANCE
       </button>
-      <button v-on:click="submitLocationAnswer(),switchQuestionType()">
+      <button v-on:click="submitLocationAnswer(), switchQuestionType()">
         Submit answer
       </button>
       distans: {{ distance }}
@@ -21,15 +21,19 @@
 
   </section>
 
-  <section v-if="displayFollowupQuestion===true && displayLocationQuestion===false" class="backgroundConatiner">
+  <section class="format" v-if="displayFollowupQuestion===true && displayLocationQuestion===false && displayAnswer===false">
     <header class="quiz-questions">
       {{questions[this.index].q}}
     </header>
-    <div class="poll-container">
-
-      <Question v-bind:question="questions[this.index]"
+    <p id="question-counter">{{index + 1}}/{{questions.length}}</p>
+      <Question class="poll-container" v-bind:question="questions[this.index]"
                 v-on:answer="submitAnswer"/>
-    </div>
+  </section>
+
+  <section v-if="displayAnswer===true">
+    <button v-on:click="switchToWaitingRoom">NEXT</button>
+    <p v-if="result === 'true'" >CORREKT</p>
+    <p v-if="result === 'false'" >FALSE</p>
   </section>
 
   <footer>
@@ -71,7 +75,8 @@ export default {
       distance: 0,
       index: 0,
       displayLocationQuestion: true,
-      displayFollowupQuestion:false
+      displayFollowupQuestion:false,
+      displayAnswer: false
 
     }
   },
@@ -92,26 +97,30 @@ export default {
         questionArray[i] = {q: (Data.q[i])[i], a: (Data.a[i])[i]}
       }
       this.questions = questionArray
-      this.LocationQuestion.lq=Data.lq
-      this.LocationQuestion.location=Data.location
-      this.LocationQuestion.image=Data.image
-      this.correctans=Data.correct
+      this.LocationQuestion.lq = Data.lq
+      this.LocationQuestion.location = Data.location
+      this.LocationQuestion.image = Data.image
+      this.correctans = Data.correct
 
 
     },
-    submitAnswer: function (answer,title) {
+    submitAnswer: function (answer, title) {
       this.index += 1
+      console.log("Här kommer svaret", answer)
       socket.emit("submitAnswer", {pollId: this.pollId, answer: answer})
       for (let i = 0; i < this.questions.length; i++) {
 
-        if ((this.questions[i]).q===title){
-          console.log("babe",this.correctans[i],"körv",((this.questions[i]).a).indexOf(answer))
-          if ((this.correctans[i])[i][((this.questions[i]).a).indexOf(answer)]===true){
-            this.result ="true"
+        if ((this.questions[i]).q === title) {
+          console.log("babe", this.correctans[i], "körv", ((this.questions[i]).a).indexOf(answer))
+          if ((this.correctans[i])[i][((this.questions[i]).a).indexOf(answer)] === true) {
+            this.result = "true"
+          } else {
+            this.result = "false"
           }
+          if(this.displayAnswer===false){
+            this.displayAnswer=true}
           else{
-            this.result="false"
-          }
+            this.displayAnswer=false}
         }
       }
     },
@@ -147,18 +156,40 @@ export default {
       this.distance = d * 1000;
     },
 
-    switchQuestionType:function (){
-      if (this.displayLocationQuestion===true && this.displayFollowupQuestion===false){
+    switchQuestionType: function () {
+      if (this.displayLocationQuestion === true && this.displayFollowupQuestion === false) {
         this.displayLocationQuestion = false
         this.displayFollowupQuestion = true
       }
-}
+    },
 
-  }
-}
+    switchToWaitingRoom: function () {
+      if(this.displayAnswer===false){
+        this.displayAnswer=true}
+        else{
+          this.displayAnswer=false}
+        }
+      }
+    }
+
+
+
 </script>
 
 <style>
+
+.format{
+  background: lightgrey;
+  color: #444444;
+
+}
+#question-counter{
+  position: absolute;
+  left: 30px;
+  top: 10px;
+  font-family: Damascus;
+  font-size: 150%;
+}
 
 
 #map {
@@ -171,7 +202,7 @@ export default {
 .poll-container{
   height: 100vh;
   width: 100%;
-  background: #22d999;
+  background: lightgrey;
 }
 
 #dots {
@@ -190,8 +221,19 @@ export default {
 }
 
 .quiz-questions{
+  text-decoration-line: underline;
   font-size: 200%;
   text-transform: uppercase;
+  padding: 20px;
+
+}
+#move{
+  text-align: center;
+  display: inline-flex;
+  justify-content: center;
+  gap: 10px 10px;
+  height: 10vh;
+  width: 10vh;
 }
 
 
