@@ -30,13 +30,18 @@
                 v-on:answer="submitAnswer"/>
   </section>
 
-  <section v-if="displayAnswer===true">
+  <section class= "format" v-if="displayAnswer===true">
+    <div v-if="result === 'true'" >
+      <header>KORREKT! Du är typ lika smart som Adrian</header>
+      <img src="https://www.clipartmax.com/png/middle/6-61197_green-check-mark-transparent.png">
+    </div>
+    <div v-if="result === 'false'" >
+      <header>INKORREKT! Men draken flyger i motvind</header>
+    </div>
     <button v-on:click="switchToWaitingRoom">NEXT</button>
-    <p v-if="result === 'true'" >CORREKT</p>
-    <p v-if="result === 'false'" >FALSE</p>
   </section>
 
-  <footer>
+  <footer class = "format">
     Poll ID: {{ pollId }}
   </footer>
 

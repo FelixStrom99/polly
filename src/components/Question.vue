@@ -41,7 +41,7 @@ export default {
 .answer-alternative-size-wrapper {
   border: solid 2px;
   border-color: rgba(82, 77, 77, 0.55);
-  min-width: 35%;
+  min-width: 30%;
   border-radius: 10px;
   color: #444;
   font-size: 300%;
