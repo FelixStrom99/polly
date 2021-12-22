@@ -189,11 +189,11 @@
      </button>-->
 
   </section>
-<<<<<<< HEAD
-{{questionSequence}}
-=======
-  {{questionSequence}} {{location}}
->>>>>>> a63f03165e31dc6c7c366ba1ed86156e4efc73cd
+
+
+
+  {{questionSequence}}
+
 </template>
 
 <script>
@@ -320,12 +320,12 @@ export default {
     },
     addLocationQuestionFinal: function () {
       for(var i = 0; i < this.questionSequence.length; i++){
-<<<<<<< HEAD
+
       socket.emit("addQuestion",{pollId: this.pollId, q: this.questionSequence[i][0], a: this.questionSequence[i][1], correct: this.questionSequence[i][2],lq: this.questionSequence[i][3], location: this.questionSequence[i][4],image: this.imgUrl})
-=======
+
 
         socket.emit("addQuestion",{pollId: this.pollId, q: this.questionSequence[i][0], a: this.questionSequence[i][1], correct: this.questionSequence[i][2],lq: this.questionSequence[i][3], location: this.questionSequence[i][4],image: this.imgUrl})
->>>>>>> a63f03165e31dc6c7c366ba1ed86156e4efc73cd
+
       }
 
     },
@@ -342,13 +342,9 @@ export default {
       this.question=""
       this.checkBox=[false,false]
     },*/
-<<<<<<< HEAD
+
      addNewMultipleQuestion:function(){
       var index= this.indexArray[this.currentLQ]
-=======
-    addNewMultipleQuestion:function(){
-      var index= this.index
->>>>>>> a63f03165e31dc6c7c366ba1ed86156e4efc73cd
       var newAnswer={[index]:["",""]}
       this.finalAnswers[this.currentLQ].push(newAnswer)
       var newQuestion={[index]:""}
