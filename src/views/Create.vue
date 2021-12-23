@@ -71,7 +71,7 @@
     <div class="create overview-left-side">
       <h1>Här ska överblicken av alternativen vara</h1>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
-        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)" >{{locationQuestion+" "+(i+1)}}</div>
+        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)" v >{{"Fråga "+(i+1)}}</div>
         <div class="content">
           <div class="content-mq" v-for="(_,j) in questionSequence[i][0]" v-bind:key="'answers'+j">
             <button class="content-mq-button" v-on:click="showMultipleQuestion(j)">{{"Fråga "+(j+1)}}</button>
@@ -164,7 +164,7 @@
 
       <h1>Här ska vi ha knappar med lite rolig funktionalitet</h1>
       {{indexArray}}
-      <div type="button" class="collapsible" v-on:click="expandAndCollapseBox">Add new question</div>
+      <div type="button" v-bind:class="collapsible" v-on:click="expandAndCollapseBox">Add new question</div>
       <div class="content">
         <button v-on:click="showLocationQuestion">Location question</button>
         <button v-on:click="showMultipleQuestion">Multiple choice question</button>
@@ -239,7 +239,7 @@ export default {
       multipleChoiceQuestions:[],
       finalQuestion:[],
       finalCorrect:[],
-      questionSequence:[]
+      questionSequence:[],
     }
   },
   created: function () {
@@ -352,6 +352,8 @@ export default {
       var newCorrect={[index]:[false,false]}
       this.finalCorrect[this.currentLQ].push(newCorrect)
       this.indexArray[this.currentLQ][0]+=1
+       //this.showMultipleQuestion()
+       this.fixMaxHeightCollapse()
     } ,
 
     addAnswer: function () {
@@ -384,15 +386,24 @@ export default {
       this.currentLQ = imp
       this.showLocationQuestion()
       var coll = document.getElementsByClassName("collapsible");
-      //var i;
-
+      var content
+      var j
+      for (j = 0; j < coll.length; j++) {
+        content = coll[j].nextElementSibling;
+        if (j != this.currentLQ){
+          content.style.maxHeight = null;
+        }
+      }
       coll[imp].classList.toggle("active");
-      var content = coll[imp].nextElementSibling;
+      content = coll[imp].nextElementSibling;
       if (content.style.maxHeight) {
         content.style.maxHeight = null;
+        console.log("Här bre")
       } else {
         content.style.maxHeight = content.scrollHeight + "px";
       }
+
+
 
       /*for (i = 0; i < coll.length; i++) {
         coll[i].addEventListener("click", function () {
@@ -405,6 +416,12 @@ export default {
           }
         });
       }*/
+    },
+
+    fixMaxHeightCollapse: function () {
+      var coll = document.getElementsByClassName("collapsible");
+      var content = coll[this.currentLQ].nextElementSibling
+      content.style.maxHeight = content.scrollHeight + "px";
     },
 
     runQuestion: function () {
