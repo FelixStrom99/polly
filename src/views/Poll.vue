@@ -24,27 +24,25 @@
     <header class="quiz-questions">
       {{questions[this.index].q}}
     </header>
-    <div class="clock_prop">
-      <div id="app" style="float: right"><div class="base-timer">
-        <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <g class="base-timer__circle">
-            <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
-            <path
-                id="base-timer-path-remaining"
-                stroke-dasharray="283"
-                class="base-timer__path-remaining ${remainingPathColor}"
-                d="
-          M 50, 50
-          m -45, 0
-          a 45,45 0 1,0 90,0
-          a 45,45 0 1,0 -90,0
-        "
-            ></path>
-          </g>
-        </svg>
-        <span id="base-timer-label" class="base-timer__label">{{timeleft}}</span>
-      </div>
-      </div>
+    <div class="base-timer">
+      <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <g class="base-timer__circle">
+          <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+          <path
+              :stroke-dasharray="circleDasharray"
+              class="base-timer__path-remaining"
+              :class="remainingPathColor"
+              d="
+            M 50, 50
+            m -45, 0
+            a 45,45 0 1,0 90,0
+            a 45,45 0 1,0 -90,0
+          "
+          ></path>
+
+        </g>
+      </svg>
+      <span class="base-timer__label">{{ formattedTimeLeft }}</span>
     </div>
     <p id="question-counter">{{index + 1}} of {{questions.length}}</p>
       <Question class="poll-container" v-bind:question="questions[this.index]"
@@ -67,7 +65,7 @@
         <line class="incorrekt-path-line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2"/>
       </svg>
     </div>
-    <button v-on:click="switchToWaitingRoom()">NEXT</button>
+    <button  v-on:click="switchToWaitingRoom(); " >NEXT</button>
   </section>
 
   <footer class = "format">
@@ -80,20 +78,17 @@
 </template>
 
 <script>
-// @ is an alias to /src
+//  credit Mateusz Rybczonek modified by STSare
 import Question from '@/components/Question.vue';
 import io from 'socket.io-client';
 import MapContainer from "../components/MapContainer";
 
 const socket = io();
-const TIME_LIMIT = 40;
-let timePassed = 0;
-let timeLeft = TIME_LIMIT;
-let timerInterval = null;
-
 const FULL_DASH_ARRAY = 283;
+const TIME_LIMIT = 20;
 const WARNING_THRESHOLD = TIME_LIMIT/2;
-const ALERT_THRESHOLD =TIME_LIMIT/4;
+const ALERT_THRESHOLD = TIME_LIMIT/4;
+
 
 const COLOR_CODES = {
   info: {
@@ -109,73 +104,7 @@ const COLOR_CODES = {
   }
 };
 
-startTimer();
 
-function onTimesUp() {
-  clearInterval(timerInterval);
-}
-
-function startTimer() {
-  timerInterval = setInterval(() => {
-    timePassed = timePassed += 1;
-    timeLeft = TIME_LIMIT - timePassed;
-
-    document.getElementById("base-timer-label").innerHTML = formatTime(
-        timeLeft
-    );
-    setCircleDasharray();
-    setRemainingPathColor(timeLeft);
-
-    if (timeLeft === 0) {
-      onTimesUp();
-    }
-  }, 1000);
-}
-
-function formatTime(time) {
-
-  let seconds = time % 60;
-
-  if (seconds < 10) {
-    seconds = `0${seconds}`;
-  }
-
-  return `${seconds}`;
-}
-
-function setRemainingPathColor(timeLeft) {
-  const {alert, warning, info } = COLOR_CODES;
-  if (timeLeft <= alert.threshold) {
-    document
-        .getElementById("base-timer-path-remaining")
-        .classList.remove(warning.color);
-    document
-        .getElementById("base-timer-path-remaining")
-        .classList.add(alert.color);
-  } else if (timeLeft <= warning.threshold) {
-    document
-        .getElementById("base-timer-path-remaining")
-        .classList.remove(info.color);
-    document
-        .getElementById("base-timer-path-remaining")
-        .classList.add(warning.color);
-  }
-}
-
-function calculateTimeFraction() {
-  const rawTimeFraction = timeLeft / TIME_LIMIT;
-  return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
-}
-
-
-function setCircleDasharray() {
-  const circleDasharray = `${(
-      calculateTimeFraction() * FULL_DASH_ARRAY
-  ).toFixed(0)} 283`;
-  document
-      .getElementById("base-timer-path-remaining")
-      .setAttribute("stroke-dasharray", circleDasharray);
-}
 
 export default {
   name: 'Poll',
@@ -185,6 +114,8 @@ export default {
   },
   data: function () {
     return {
+      timePassed: 0,
+      timerInterval: null,
       result:"",
       correctans: [],
       questions: [],
@@ -206,6 +137,45 @@ export default {
 
     }
   },
+  computed: {
+    circleDasharray() {
+      return `${(this.timeFraction * FULL_DASH_ARRAY).toFixed(0)} 283`;
+    },
+
+    formattedTimeLeft() {
+      const timeLeft = this.timeLeft;
+
+      let seconds = timeLeft % 60;
+
+      if (seconds < 10) {
+        seconds = `0${seconds}`;
+      }
+
+      return `${seconds}`;
+    },
+
+    timeLeft() {
+      return TIME_LIMIT - this.timePassed;
+    },
+
+    timeFraction() {
+      const rawTimeFraction = this.timeLeft / TIME_LIMIT;
+      return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
+    },
+
+    remainingPathColor() {
+      const { alert, warning, info } = COLOR_CODES;
+
+      if (this.timeLeft <= alert.threshold) {
+        return alert.color;
+      } else if (this.timeLeft <= warning.threshold) {
+        return warning.color;
+      } else {
+        return info.color;
+      }
+    }
+  },
+
   created: function () {
     this.pollId = this.$route.params.id
     socket.emit('joinPoll', this.pollId)
@@ -215,8 +185,26 @@ export default {
     )
 
   },
+  watch: {
+    timeLeft(newValue) {
+      if (newValue === 0) {
+        this.onTimesUp();
 
+      }
+    }
+  },
+  mounted() {
+    this.startTimer();
+  },
   methods: {
+    onTimesUp() {
+      clearInterval(this.timerInterval);
+      this.switchToWaitingRoom()
+    },
+
+    startTimer() {
+      this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
+    },
     createQuestionArray: function (Data) {
       var questionArray = []
       for (let i = 0; i < Data.q.length; i++) {
@@ -287,6 +275,7 @@ export default {
     },
 
     switchToWaitingRoom: function () {
+      this.result=false;
       if(this.displayAnswer===true){
         this.displayAnswer=false}
         else{
@@ -368,16 +357,16 @@ export default {
 }
 
 .base-timer {
+  margin-right: 10%;
+  float: right;
   position: relative;
-  width: 70px;
-  height: 70px;
-}
-
-.base-timer__svg {
-  transform: scaleX(-1);
+  width: 100px;
+  height: 100px;
 }
 
 .base-timer__circle {
+
+
   fill: none;
   stroke: none;
 }
@@ -416,13 +405,14 @@ export default {
 
 .base-timer__label {
   position: absolute;
-  width: 70px;
-  height: 70px;
-  top: 0;
+  width: 50%;
+  height: 50%;
+  margin-left: 25px;
+  top: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 40px;
+  font-size: 48px;
 }
 .checkmark__circle {
   stroke-dasharray: 166;
