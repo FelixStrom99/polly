@@ -1,8 +1,9 @@
 <template>
   <main>
-  <section class="format" v-if="displayLocationQuestion===true && displayFollowupQuestion===false" >
+  <section class="format" v-if="displayLocationQuestion===true && displayFollowupQuestion===false && displayAnswer==false">
     <header class="quiz-questions">
       {{LocationQuestion.lq}}
+
     </header>
     <p>Click on the map to pinpoint the location</p>
     <div id="map">
@@ -12,7 +13,7 @@
       <button v-on:click="meterDistance()">
         CHECK DISTANCE
       </button>
-      <button v-on:click="submitLocationAnswer(), switchQuestionType()">
+      <button v-on:click="submitLocationAnswer(),switchToWaitingRoom(),meterDistance()">
         Submit answer
       </button>
       distans: {{ distance }}
@@ -52,14 +53,23 @@
   </section>
 
   <section class= "format" v-if="displayAnswer===true">
-    <div v-if="result === 'true'" >
+    <div v-if="displayLocationQuestion===true">
+      <header class="waiting-room-header">This is the result after the location, inte helt färdig</header>
+      <div id="map-result">
+        <MapContainer :geojson="geojson" v-bind:correctLocation="LocationQuestion.location" v-on:userLocation="userLocation=$event"> </MapContainer>
+      </div><br>
+
+      <p>Distans: {{distance}}</p>
+    </div>
+
+    <div v-if="result === 'true' && displayFollowupQuestion===true" >
       <header class="waiting-room-header">KORREKT! Du är typ lika smart som Adrian</header>
       <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
         <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
         <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
       </svg>
     </div>
-    <div v-if="result === 'false'" >
+    <div v-if="result === 'false' && displayFollowupQuestion===true" >
       <header class="waiting-room-header">INKORREKT! Men draken flyger i motvind</header>
       <svg class="incorrekt-marker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
         <circle class="incorrekt-path-circle" fill="none" stroke="#D06079" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
@@ -67,7 +77,7 @@
         <line class="incorrekt-path-line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2"/>
       </svg>
     </div>
-    <button v-on:click="switchToWaitingRoom()">NEXT</button>
+    <button v-on:click="switchToWaitingRoom(), switchQuestionType()">NEXT</button>
   </section>
 
   <footer class = "format">
@@ -291,7 +301,7 @@ export default {
         this.displayAnswer=false}
         else{
           this.displayAnswer=true}
-        }
+        },
       }
     }
 
@@ -316,6 +326,13 @@ export default {
 
 
 #map {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  height: 30em;
+  width: 100%;
+}
+#map-result{
   position: relative;
   margin: 0;
   padding: 0;
