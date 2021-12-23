@@ -18,11 +18,13 @@ T
   </div> -->
 
   <div id="openlayers-map">
-    <MapContainerResults :geojson="geojson"> </MapContainerResults>
+    <MapContainerResults :geojson="geojson" v-bind:locationData="locationData" v-bind:correctLocation="correctLocation" v-bind:mapView="mapView"> </MapContainerResults>
   </div>
-
+  <p>locationquestion</p>
   {{ locationQuestion }}
-  {{ locationData }}
+  <p>locationdata</p>
+{{locationData}}
+
 </template>
 
 <script>
@@ -43,9 +45,20 @@ export default {
       question: "",
       data: {
       },
+        correctLocation: {
+          x: 0,
+          y: 0
+        },
       locationQuestion:"",
-      locationData:null
-
+      LocationQuestion: {
+        lq: "",
+        location: {
+          x: 0,
+          y: 0
+        }
+        },
+      locationData:null,
+      mapView: {zoom: 0, center: [0,0]}
     }
   },
   created: function () {
@@ -60,11 +73,17 @@ export default {
       this.question = update.q;
       this.data = {};
     })
+    socket.on("userMapView",d =>
+        this.mapView=d)
     socket.on("locationDataUpdate", update=>{
       this.locationData=update.la
       this.locationQuestion=update.lq
 
   })
+},
+methods:{
+
+
 }
 }
 </script>

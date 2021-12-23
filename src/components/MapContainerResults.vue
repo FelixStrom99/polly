@@ -4,9 +4,12 @@
        style="width: 100%; height: 100%">
   </div>
   <div>
-    <button type="button" v-on:click="submitLocation"> SUBMIT LOCATION</button>
+    <button type="button" v-on:click="locationDataPoints"> Datapoints</button>
   </div>
   <!--<input type="range" v-model="this.userPoint.properties.radius" max="40" min="5">-->
+
+
+
 </template>
 
 <script>
@@ -17,7 +20,7 @@ import OSM from 'ol/source/OSM'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 import GeoJSON from 'ol/format/GeoJSON'
-import { transform } from 'ol/proj'
+/*import { transform } from 'ol/proj' */
 import {Fill, Style, Stroke,Icon} from 'ol/style'
 
 /*import {Circle} from 'ol/style'*/
@@ -35,6 +38,9 @@ export default {
   name: 'MapContainerResults',
   components: {},
   props:{
+    mapView:Object,
+    correctLocation:Object,
+    locationData:Object
   },
   data: function () {
     return {
@@ -43,8 +49,8 @@ export default {
       vectorLayer: null,
       evt_coordinate:{x:0,
         y:0},
-
-      mapView:{zoom:0,center:[0,0]},
+      user_coordinate:{x:0,
+      y:0},
       userPoint: {
         type: 'Feature',
         properties: {
@@ -118,30 +124,40 @@ export default {
         this.vectorLayer
       ],
       view: new View({
-        zoom: 14,
-        center: [1962289.773825233,8368555.335845293],
+        zoom: this.mapView.zoom,
+        center: this.mapView.center,
         constrainResolution: true
       }),
-    }),
+    })
 
 
-        this.olMap.on('click', (event) => {
+       /* ,this.olMap.on('click', (event) => {
           let myTarget = JSON.parse(JSON.stringify(transform(event.coordinate, 'EPSG:3857', 'EPSG:4326')));
 
           this.evt_coordinate.x= myTarget[0]
           this.evt_coordinate.y= myTarget[1]
-          this.answer(this.evt_coordinate);
           console.log(this.evt_coordinate.x)
           console.log(this.evt_coordinate.y)
           this.userPoint.geometry.coordinates=[this.evt_coordinate.x,this.evt_coordinate.y]
           this.addPoint(this.userPoint)
 
 
-        });
+        });*/
 
   },
 
   methods: {
+    locationDataPoints() {
+      this.locationData.forEach(function(locations){
+        let Target = JSON.parse(JSON.stringify(locations));
+        this.userPoint.geometry.coordinates=[Target[0],Target[1]]
+        this.addPoint(this.userPoint)
+
+        console.log("locationx="+locations.x)
+        console.log("locationy="+locations.y)
+      });
+
+          },
     pointStyle({color}) {
       return new Style( {
         /*  image: new Circle({
@@ -189,7 +205,6 @@ export default {
         featureProjection: 'EPSG:3857',
       }).readFeature(geojson)
       this.userPointFeature.setStyle(this.pointStyle(this.userPointProperties));
-      source.clear();
       source.addFeature(this.userPointFeature);
 
     },
@@ -210,10 +225,8 @@ export default {
       this.correctPoint.geometry.coordinates=[this.correctLocation.x,this.correctLocation.y]
       this.updateSource(this.correctPoint, this.correctPointStyle)
 
-    },
-    answer: function (mapLocation) {
-      this.$emit("userLocation", mapLocation);
     }
+
   },
 
 }

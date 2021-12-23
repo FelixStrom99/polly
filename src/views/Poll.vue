@@ -148,7 +148,7 @@ export default {
       }
     },
     submitLocationAnswer: function () {
-      socket.emit("submitLocationAnswer", {pollId: this.pollId, locationAnswer: this.UserLocation})
+      socket.emit("submitLocationAnswer", {pollId: this.pollId, locationAnswer: this.userLocation})
     },
 
     meterDistance() {
