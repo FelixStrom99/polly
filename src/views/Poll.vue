@@ -1,11 +1,10 @@
 <template>
-
+  <main>
   <section class="format" v-if="displayLocationQuestion===true && displayFollowupQuestion===false" >
     <header class="quiz-questions">
       {{LocationQuestion.lq}}
     </header>
     <p>Click on the map to pinpoint the location</p>
-
     <div id="map">
       <MapContainer :geojson="geojson" v-bind:correctLocation="LocationQuestion.location" v-on:userLocation="userLocation=$event"> </MapContainer>
     </div>
@@ -47,25 +46,35 @@
       </div>
       </div>
     </div>
-    <p id="question-counter">{{index + 1}}/{{questions.length}}</p>
+    <p id="question-counter">{{index + 1}} of {{questions.length}}</p>
       <Question class="poll-container" v-bind:question="questions[this.index]"
                 v-on:answer="submitAnswer"/>
   </section>
 
   <section class= "format" v-if="displayAnswer===true">
     <div v-if="result === 'true'" >
-      <header>KORREKT! Du är typ lika smart som Adrian</header>
-      <img src="https://www.clipartmax.com/png/middle/6-61197_green-check-mark-transparent.png">
+      <header class="waiting-room-header">KORREKT! Du är typ lika smart som Adrian</header>
+      <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+      </svg>
     </div>
     <div v-if="result === 'false'" >
-      <header>INKORREKT! Men draken flyger i motvind</header>
+      <header class="waiting-room-header">INKORREKT! Men draken flyger i motvind</header>
+      <svg class="incorrekt-marker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+        <circle class="incorrekt-path-circle" fill="none" stroke="#D06079" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
+        <line class="incorrekt-path-line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3"/>
+        <line class="incorrekt-path-line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2"/>
+      </svg>
     </div>
-    <button v-on:click="switchToWaitingRoom">NEXT</button>
+    <button v-on:click="switchToWaitingRoom()">NEXT</button>
   </section>
 
   <footer class = "format">
     Poll ID: {{ pollId }}
   </footer>
+  </main>
+
 
 
 </template>
@@ -223,7 +232,7 @@ export default {
     },
     submitAnswer: function (answer, title) {
       this.index += 1
-      console.log("Här kommer svaret", answer)
+      this.switchToWaitingRoom()
       socket.emit("submitAnswer", {pollId: this.pollId, answer: answer})
       for (let i = 0; i < this.questions.length; i++) {
 
@@ -234,11 +243,8 @@ export default {
           } else {
             this.result = "false"
           }
-          if(this.displayAnswer===false){
-            this.displayAnswer=true}
-          else{
-            this.displayAnswer=false}
         }
+
       }
     },
 
@@ -281,10 +287,10 @@ export default {
     },
 
     switchToWaitingRoom: function () {
-      if(this.displayAnswer===false){
-        this.displayAnswer=true}
+      if(this.displayAnswer===true){
+        this.displayAnswer=false}
         else{
-          this.displayAnswer=false}
+          this.displayAnswer=true}
         }
       }
     }
@@ -355,14 +361,16 @@ export default {
 .clock_prop {
   font-family: sans-serif;
   display: grid;
-  height: 100vh;
-  place-items: center;
+  height: 20vh;
+  position: absolute;
+  right: 15px;
+  top: 10px;
 }
 
 .base-timer {
   position: relative;
-  width: 150px;
-  height: 150px;
+  width: 70px;
+  height: 70px;
 }
 
 .base-timer__svg {
@@ -401,15 +409,128 @@ export default {
   color: red;
 }
 
+.waiting-room-header{
+  font-size: 200%;
+  padding-top: 100px;
+}
+
 .base-timer__label {
   position: absolute;
-  width: 150px;
-  height: 150px;
+  width: 70px;
+  height: 70px;
   top: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 40px;
 }
+.checkmark__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: #7ac142;
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  margin: 10% auto;
+  box-shadow: inset 0px 0px 0px #7ac142;
+  animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+}
+
+.checkmark__check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes scale {
+  0%, 100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 30px #7ac142;
+  }
+}
+.incorrekt-marker {
+  width: 100px;
+  display: block;
+  margin: 40px auto 0;
+}
+
+
+
+@-webkit-keyframes dash {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@-webkit-keyframes dash-check {
+  0% {
+    stroke-dashoffset: -100;
+  }
+  100% {
+    stroke-dashoffset: 900;
+  }
+}
+
+@keyframes dash-check {
+  0% {
+    stroke-dashoffset: -100;
+  }
+  100% {
+    stroke-dashoffset: 900;
+  }
+}
+
+@keyframes animate {
+
+  0%{
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+    border-radius: 0;
+  }
+
+  100%{
+    transform: translateY(-1000px) rotate(720deg);
+    opacity: 0;
+    border-radius: 50%;
+  }
+
+}
+
 
 </style>
