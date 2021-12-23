@@ -86,7 +86,7 @@
       <br>
       {{"Current MQ: "+this.currentMQ}}
 
-      <div id="add-locationQuestion-button" v-on:click="addLocationQuestion" style="cursor: pointer;">
+      <div id="add-locationQuestion-button" v-on:click="addNewPollQuestion" style="cursor: pointer;">
 
         <object data="/svg_files/addLocationQuestionButton-2/addLocationQuestionButton.svg" style="pointer-events:none;">
 
@@ -328,13 +328,6 @@ export default {
     nextSection: function () {
       this.secondStage = false
     },
-    addLocationQuestion: function () {
-      this.addNewPollQuestion()
-      var overviewLeftSide = document.getElementById("overview-left-side");
-      var questionBoxes = document.getElementById("question-boxes");
-      overviewLeftSide.appendChild(questionBoxes.cloneNode(true));
-
-    },
     finishQuizFinal: function () {
       this.firstStage = true
       for (var i = 0; i <= this.questionSequence.length; i++) {
@@ -409,14 +402,14 @@ export default {
         content.style.maxHeight = null;
         console.log("Här bre")
       } else {
-        content.style.maxHeight = content.scrollHeight + "px";
+        content.style.maxHeight = content.scrollHeight + 20 + "px";
       }
     },
 
     fixMaxHeightCollapse: function () {
       var coll = document.getElementsByClassName("collapsible");
       var content = coll[this.currentLQ].nextElementSibling
-      content.style.maxHeight = content.scrollHeight + "px";
+      content.style.maxHeight = content.scrollHeight + 20 + "px";
     },
 
     runQuestion: function () {
