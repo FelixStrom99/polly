@@ -102,18 +102,19 @@
           {{ uiLabels.locationQuestion }}:<input type="text" v-model="locationQuestion">
         </div>
 
-        <button v-on:click="addLocationQuestion">
+      <!--  <button v-on:click="addLocationQuestion">
           {{ uiLabels.addLocationQuestion }}
-        </button>
+        </button>-->
+        <button v-on:click="editQuestion(this.currentLQ, null)">save</button>
         <div id="openlayers-map">
           <MapContainerCreate :geojson="geojson"
           v-on:location="location=$event" v-bind:mapView="mapView">
           </MapContainerCreate>
-        <button v-on:click="editQuestion(this.currentLQ, null)">save</button>
+
 
       </div>
       </div>
-        {{}}
+
       <div class="create theme" v-if="createMultipleChoiceQuestion">
         {{ uiLabels.question }}:
         <input type="text" v-model="question">
