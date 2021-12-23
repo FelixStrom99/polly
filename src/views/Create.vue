@@ -1,6 +1,6 @@
 <template>
 
-  <section v-if="firstStage===true">
+  <section v-if="firstStage===true && secondStage===true">
     <div>
       <h1> {{ uiLabels.createPoll }}</h1>
       <div>
@@ -63,7 +63,7 @@
   </section>
 
 
-  <section class="create-the-questions-container theme" v-else-if="secondStage===false">
+  <section class="create-the-questions-container theme" v-else-if="secondStage===false && firstStage===false">
     <header class="header-create-prop">
 
 
@@ -98,9 +98,6 @@
         <div>
           {{ uiLabels.locationQuestion }}:<input type="text" v-model="locationQuestion">
         </div>
-        <button v-on:click="addLocationQuestionFinal">
-          {{ uiLabels.addLocationQuestionFinal }}
-        </button>
         <button v-on:click="editQuestion(this.currentLQ, null)">save</button>
         <div id="map">
           <MapContainerCreate :geojson="geojson"
@@ -152,19 +149,16 @@
       </div>
       <div class="lowerside">
         <div>
-          <input type="number" v-model="questionNumber">
-          <button v-on:click="runQuestion">
-            Run Follow-up Question
+          <button v-on:click="addLocationQuestionFinal">
+            {{ uiLabels.addLocationQuestionFinal }}
           </button>
         </div>
-        <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
       </div>
     </div>
     <div class=" create alternative-right-side">
 
       <h1>Här ska vi ha knappar med lite rolig funktionalitet</h1>
-      {{indexArray}}
-      <div type="button" v-bind:class="collapsible" v-on:click="expandAndCollapseBox">Add new question</div>
+      <div type="button" class="collapsible" v-on:click="expandAndCollapseBox">Add new question</div>
       <div class="content">
         <button v-on:click="showLocationQuestion">Location question</button>
         <button v-on:click="showMultipleQuestion">Multiple choice question</button>
@@ -176,9 +170,7 @@
         <button v-on:click="deleteAnswer">
           {{ uiLabels.deleteAnswer }}
         </button>
-        <button v-on:click="addQuestion">
-          Add Question
-        </button>
+
 
       </div>
       <!-- <button v-on:click="showLocationQuestion">Location question</button>
@@ -189,10 +181,18 @@
      </button>-->
 
   </section>
+<section v-if="secondStage===false && firstStage===true">
+  <h1>här kör hosten quizet jappi</h1>
+  <div>
+    <input type="number" v-model="questionNumber">
+    <button v-on:click="runQuestion">
+      Run Selected Question
+    </button>
+    <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
+  </div>
 
+</section>
 
-
-  {{questionSequence}}
 
 </template>
 
@@ -229,7 +229,6 @@ export default {
       data: {},
       uiLabels: {},
       range_from_location: "",
-      imgUrl: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg",
       firstStage: true,
       secondStage: true,
       currentLQ: 0,
@@ -319,15 +318,11 @@ export default {
 
     },
     addLocationQuestionFinal: function () {
-      for(var i = 0; i < this.questionSequence.length; i++){
+     this.firstStage=true
+      for(var i = 0; i <= this.questionSequence.length; i++){
 
-      socket.emit("addQuestion",{pollId: this.pollId, q: this.questionSequence[i][0], a: this.questionSequence[i][1], correct: this.questionSequence[i][2],lq: this.questionSequence[i][3], location: this.questionSequence[i][4],image: this.imgUrl})
-
-
-        socket.emit("addQuestion",{pollId: this.pollId, q: this.questionSequence[i][0], a: this.questionSequence[i][1], correct: this.questionSequence[i][2],lq: this.questionSequence[i][3], location: this.questionSequence[i][4],image: this.imgUrl})
-
+      socket.emit("addQuestion",{pollId: this.pollId, q: this.questionSequence[i][0], a: this.questionSequence[i][1], correct: this.questionSequence[i][2],lq: this.questionSequence[i][3], location: this.questionSequence[i][4]})
       }
-
     },
     /* addQuestion: function () {
       var index= this.index
@@ -402,20 +397,6 @@ export default {
       } else {
         content.style.maxHeight = content.scrollHeight + "px";
       }
-
-
-
-      /*for (i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function () {
-          this.classList.toggle("active");
-          var content = this.nextElementSibling;
-          if (content.style.maxHeight) {
-            content.style.maxHeight = null;
-          } else {
-            content.style.maxHeight = content.scrollHeight + "px";
-          }
-        });
-      }*/
     },
 
     fixMaxHeightCollapse: function () {
