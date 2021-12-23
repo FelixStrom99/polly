@@ -111,8 +111,9 @@
           </MapContainerCreate>
         <button v-on:click="editQuestion(this.currentLQ, null)">save</button>
 
-
       </div>
+      </div>
+        {{}}
       <div class="create theme" v-if="createMultipleChoiceQuestion">
         {{ uiLabels.question }}:
         <input type="text" v-model="question">
@@ -160,7 +161,6 @@
           </button>
         </div>
       </div>
-    </div>
     </div>
     <div class=" create alternative-right-side">
 
