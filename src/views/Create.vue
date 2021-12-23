@@ -394,6 +394,7 @@ export default {
         content = coll[j].nextElementSibling;
         if (j != this.currentLQ) {
           content.style.maxHeight = null;
+          coll[j].classList.remove("active");
         }
       }
       coll[imp].classList.toggle("active");
