@@ -138,7 +138,7 @@
 
         </div>
         <div class="Answer-box-wrapper">
-          <div class="answer-alternative-size-wrapper"   v-for="(_, i) in answers" v-bind:key="'answers'+i">
+          <div class="answer-alternative-size-wrapper"  v-for="(_, i) in answers" v-bind:key="'answers'+i">
             <div id="Answer-Box-symbol-prop" >
             </div>
             <div class="Answer-Box-textarea"  >
@@ -401,7 +401,6 @@ export default {
       content = coll[imp].nextElementSibling;
       if (content.style.maxHeight) {
         content.style.maxHeight = null;
-        console.log("Här bre")
       } else {
         content.style.maxHeight = content.scrollHeight + 20 + "px";
       }
