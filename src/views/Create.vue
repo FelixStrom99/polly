@@ -1,6 +1,6 @@
 <template>
 
-  <section v-if="firstStage===true">
+  <section v-if="firstStage===true && secondStage===true">
     <div>
       <h1> {{ uiLabels.createPoll }}</h1>
       <div>
@@ -63,7 +63,7 @@
   </section>
 
 
-  <section class="create-the-questions-container theme" v-else-if="secondStage===false">
+  <section class="create-the-questions-container theme" v-else-if="secondStage===false && firstStage===false">
     <header class="header-create-prop">
 
 
@@ -149,17 +149,10 @@
       </div>
       <div class="lowerside">
         <div>
-          <input type="number" v-model="questionNumber">
-          <button v-on:click="runQuestion">
-            Run Follow-up Question
-          </button>
-        </div>
-        <div>
           <button v-on:click="addLocationQuestionFinal">
             {{ uiLabels.addLocationQuestionFinal }}
           </button>
         </div>
-        <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
       </div>
     </div>
     <div class=" create alternative-right-side">
@@ -188,10 +181,18 @@
      </button>-->
 
   </section>
+<section v-if="secondStage===false && firstStage===true">
+  <h1>här kör hosten quizet jappi</h1>
+  <div>
+    <input type="number" v-model="questionNumber">
+    <button v-on:click="runQuestion">
+      Run Selected Question
+    </button>
+    <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
+  </div>
 
+</section>
 
-
-  {{questionSequence}}
 
 </template>
 
@@ -228,7 +229,6 @@ export default {
       data: {},
       uiLabels: {},
       range_from_location: "",
-      imgUrl: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Uppsala_Anteckningar_om_staden_och_dess_omgifning_-_karta.jpg",
       firstStage: true,
       secondStage: true,
       currentLQ: 0,
@@ -318,9 +318,10 @@ export default {
 
     },
     addLocationQuestionFinal: function () {
+     this.firstStage=true
       for(var i = 0; i <= this.questionSequence.length; i++){
 
-      socket.emit("addQuestion",{pollId: this.pollId, q: this.questionSequence[i][0], a: this.questionSequence[i][1], correct: this.questionSequence[i][2],lq: this.questionSequence[i][3], location: this.questionSequence[i][4],image: this.imgUrl})
+      socket.emit("addQuestion",{pollId: this.pollId, q: this.questionSequence[i][0], a: this.questionSequence[i][1], correct: this.questionSequence[i][2],lq: this.questionSequence[i][3], location: this.questionSequence[i][4]})
       }
     },
     /* addQuestion: function () {

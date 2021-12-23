@@ -57,7 +57,7 @@ export default {
           x: 0,
           y: 0
         },
-        image: "",
+
       },
       pollId: "inactive poll",
       UserLocation:
@@ -72,14 +72,6 @@ export default {
         this.createQuestionArray(q),
 
     )
-
-    /*  socket.on("newLocationQuestion", l =>
-
-              this.LocationQuestion=l,
-          console.log("test2",this.LocationQuestion)
-
-      )*/
-
   },
 
   methods: {
@@ -91,7 +83,6 @@ export default {
       this.questions = questionArray
       this.LocationQuestion.lq=Data.lq
       this.LocationQuestion.location=Data.location
-      this.LocationQuestion.image=Data.image
       this.correctans=Data.correct
 
 
@@ -102,7 +93,6 @@ export default {
       for (let i = 0; i < this.questions.length; i++) {
 
         if ((this.questions[i]).q===title){
-          console.log("babe",this.correctans[i],"körv",((this.questions[i]).a).indexOf(answer))
           if ((this.correctans[i])[i][((this.questions[i]).a).indexOf(answer)]===true){
             this.result ="true"
           }
