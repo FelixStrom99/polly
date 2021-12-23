@@ -149,8 +149,8 @@
       </div>
       <div class="lowerside">
         <div>
-          <button v-on:click="addLocationQuestionFinal">
-            {{ uiLabels.addLocationQuestionFinal }}
+          <button v-on:click="finishQuizFinal">
+            {{uiLabels.finishQuiz}}
           </button>
         </div>
       </div>
@@ -317,7 +317,7 @@ export default {
       overviewLeftSide.appendChild(questionBoxes.cloneNode(true));
 
     },
-    addLocationQuestionFinal: function () {
+    finishQuizFinal: function () {
      this.firstStage=true
       for(var i = 0; i <= this.questionSequence.length; i++){
 
