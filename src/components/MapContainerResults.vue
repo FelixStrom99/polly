@@ -97,6 +97,9 @@ export default {
   computed: {
     userPointProperties: function () {
       return this.userPoint.properties;
+    },
+    userPointGeometry:function(){
+      return this.userPoint.geometry.coordinates;
     }
   },
   watch: {
@@ -106,7 +109,8 @@ export default {
         this.vectorLayer.changed();
       },
       deep: true
-    }
+    },
+    userPointGeometry: {}
   },
   mounted() {
     this.vectorLayer = new VectorLayer({
