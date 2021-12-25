@@ -74,18 +74,15 @@
     <div class="create overview-left-side">
       <h1>Här ska överblicken av alternativen vara</h1>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
-        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)" v >{{"Fråga "+(i+1)}}</div>
-        <div class="content">
+        <div type="button" class="collapsible" placeholder="'Fråga '+(i+1)" v-on:click="expandAndCollapseBox(i)"  >{{questionSequence[i][3]}}</div>
+        <div class="content"> <!--{{"Fråga "+(i+1)}}  v-bind:placeholder="'Fråga '+(i+1)"-->
           <div class="content-mq" v-for="(_,j) in questionSequence[i][0]" v-bind:key="'answers'+j">
             <button class="content-mq-button" v-on:click="showMultipleQuestion(j)">{{"Fråga "+(j+1)}}</button>
           </div>
-          <button v-on:click="addNewMultipleQuestion(i,j)">Add Multiple Choice Question</button>
+          <button v-on:click="addNewMultipleQuestion(i,j)">Add Question</button>
+          <button v-on:click="deleteMultipleQuestion">Delete question</button>
         </div>
       </div>
-      {{"Current LQ: "+this.currentLQ}}
-      <br>
-      {{"Current MQ: "+this.currentMQ}}
-
       <div id="add-locationQuestion-button" v-on:click="addNewPollQuestion" style="cursor: pointer;">
 
         <object data="/svg_files/addLocationQuestionButton-2/addLocationQuestionButton.svg" style="pointer-events:none;">
@@ -93,7 +90,6 @@
         </object>
 
       </div>
-      <p>Isak fixar knappen</p>
     </div>
     <div class="create lq-and-q" >
       <h1>{{ pollId }}</h1>
@@ -101,88 +97,71 @@
         <div>
           {{ uiLabels.locationQuestion }}:<input type="text" v-model="locationQuestion">
         </div>
-
-      <!--  <button v-on:click="addLocationQuestion">
-          {{ uiLabels.addLocationQuestion }}
-        </button>-->
         <button v-on:click="editQuestion(this.currentLQ, null)">save</button>
         <div id="openlayers-map">
           <MapContainerCreate :geojson="geojson"
-          v-on:location="location=$event" v-bind:mapView="mapView">
+            v-on:location="location=$event" v-bind:mapView="mapView">
           </MapContainerCreate>
-
-
-      </div>
+        </div>
       </div>
 
       <div class="create theme" v-if="createMultipleChoiceQuestion">
         {{ uiLabels.question }}:
         <input type="text" v-model="question">
+        <button v-on:click="editQuestion(this.currentLQ, currentMQ)">save</button>
         <div class="question-multiple">
           {{ uiLabels.answers}}:
-          <input v-for="(_, i) in answers"
-                 v-model="answers[i]"
-                 v-bind:key="'answer'+i"
-                 class="textbox"
-          >
-
-          <div>
-            <input type="checkbox" v-for="(_, i) in checkBox"
-                   v-model="checkBox[i]"
-                   v-bind:key="'checkBox'+i">
-            {{this.answers.length}}
-          </div>
-
-          <button v-on:click="editQuestion(this.currentLQ, currentMQ)">save</button>
-          {{questionSequence}}
-
-        </div>
-        <div class="Answer-box-wrapper">
-          <div class="answer-alternative-size-wrapper"  v-for="(_, i) in answers" v-bind:key="'answers'+i">
-            <div id="Answer-Box-symbol-prop" >
+          <div class="Answer-box-wrapper">
+          <div class="answer-alternative-size-wrapper" v-for="(_, i) in answers" v-bind:key="'answers'+i">
+            <div id="Answer-Box-symbol-prop" :style="checkBox[i] ? { 'background-color': 'rgba(6, 236, 4, 0.73)' } : null">
             </div>
             <div class="Answer-Box-textarea"  >
               <input class="Answer-Box-textarea-prop"
-                     placeholder="Answer">
+                     v-model="answers[i]" v-bind:placeholder="'Alternative '+(i+1)">
             </div>
-
             <div class="Answer-Box-checkbox" >
               <input type="checkbox"
                      class="Answer-Box-checkbox-prop
-                animation_rubberband">
+                            animation_rubberband"
+                     v-model="checkBox[i]"
+                     v-bind:key="'checkBox'+i">
+
             </div>
           </div>
         </div>
-
+          {{questionSequence}}
+        </div>
       </div>
       <div class="lowerside">
         <div>
-          <button v-on:click="finishQuizFinal">
-            {{uiLabels.finishQuiz}}
-          </button>
         </div>
       </div>
     </div>
     <div class=" create alternative-right-side">
-
       <h1>Här ska vi ha knappar med lite rolig funktionalitet</h1>
-      <div type="button" class="collapsible" v-on:click="expandAndCollapseBox">Add new question</div>
-      <div class="content">
-        <button v-on:click="showLocationQuestion">Location question</button>
-        <button v-on:click="showMultipleQuestion">Multiple choice question</button>
+      <div class="location-question-settings" v-if="createLocationQuestion">
+        <h2>Settings LQ</h2>
+        <button>Do some cool stuff</button>
       </div>
-
-      <div>
+      <div class="multiple-choice-question-settings" v-if="createMultipleChoiceQuestion">
+        <h2>Settings MQ</h2>
         <button v-on:click="addAnswer">
           {{ uiLabels.addAnswer}}
         </button>
         <button v-on:click="deleteAnswer">
           {{ uiLabels.deleteAnswer }}
         </button>
-
-
       </div>
-
+      <div>
+        <h2>Overall Settings</h2>
+        <h3>Timer settings</h3>
+        <button>Ändra sånndär duration boom</button>
+        <br>
+        <br>
+        <button v-on:click="finishQuizFinal">
+          {{uiLabels.finishQuiz}}
+        </button>
+      </div>
     </div>
 
 
@@ -311,12 +290,12 @@ export default {
       var newQuestion = []
       this.indexArray.push([0])
       this.finalQuestion.push([])
-      this.finalAnswers.push([])
+      this.finalAnswers.push(["Fråga"])
       this.finalCorrect.push([])
       newQuestion.push(this.finalQuestion[this.pollQuestionIndex])
       newQuestion.push(this.finalAnswers[this.pollQuestionIndex])
       newQuestion.push(this.finalCorrect[this.pollQuestionIndex])
-      newQuestion.push(this.locationQuestion = "")
+      newQuestion.push(this.locationQuestion = "Fråga")
       newQuestion.push(this.location = {
         x: 0,
         y: 0
@@ -354,8 +333,9 @@ export default {
       var newCorrect = {[index]: [false, false]}
       this.finalCorrect[this.currentLQ].push(newCorrect)
       this.indexArray[this.currentLQ][0] += 1
-      //this.showMultipleQuestion()
       this.fixMaxHeightCollapse()
+      this.questionSequence.length
+      this.showMultipleQuestion(this.questionSequence[this.currentLQ][0].length-1)
     },
 
     addAnswer: function () {
@@ -370,6 +350,12 @@ export default {
         this.answers.pop();
         this.checkBox.pop();
       }
+    },
+    deleteMultipleQuestion: function () {
+      this.finalAnswers[this.currentLQ].pop();
+      this.finalQuestion[this.currentLQ].pop()
+      this.finalCorrect[this.currentLQ].pop()
+      this.indexArray[this.currentLQ][0] -= 1
     },
     showLocationQuestion: function () {
       this.createLocationQuestion = true;
@@ -399,7 +385,7 @@ export default {
       }
       coll[imp].classList.toggle("active");
       content = coll[imp].nextElementSibling;
-      if (content.style.maxHeight) {
+      if (content.style.maxHeight && !this.currentLQ) {
         content.style.maxHeight = null;
       } else {
         content.style.maxHeight = content.scrollHeight + 20 + "px";
@@ -663,7 +649,7 @@ textbox:hover {
 }
 #Answer-Box-symbol-prop {
   column-width: 40px;
-  background-color: rgba(6, 236, 4, 0.73);
+  background-color: red;
   border-radius: 7px 0px 0px 7px ;
   height: 100%;
   width: 20%;
