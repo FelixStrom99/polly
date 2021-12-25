@@ -1,11 +1,32 @@
 <template>
   <main>
+    {{displayAnswer}}
   <section class="format" v-if="displayLocationQuestion===true && displayFollowupQuestion===false && displayAnswer===false">
     <header class="quiz-questions">
       {{LocationQuestion.lq}}
 
     </header>
     <p>Click on the map to pinpoint the location</p>
+    <div class="base-timer">
+      <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <g class="base-timer__circle">
+          <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+          <path
+              :stroke-dasharray="circleDasharray"
+              class="base-timer__path-remaining"
+              :class="remainingPathColor"
+              d="
+            M 50, 50
+            m -45, 0
+            a 45,45 0 1,0 90,0
+            a 45,45 0 1,0 -90,0
+          "
+          ></path>
+
+        </g>
+      </svg>
+      <span class="base-timer__label">{{ formattedTimeLeft }}</span>
+    </div>
     <div id="map">
       <MapContainer :geojson="geojson" v-bind:correctLocation="LocationQuestion.location" v-on:userLocation="userLocation=$event"> </MapContainer>
     </div>
@@ -68,7 +89,8 @@
       </svg>
     </div>
     <div v-if="result === 'false' && displayFollowupQuestion===true" >
-      <header class="waiting-room-header">INKORREKT! Men draken flyger i motvind</header>
+      <header v-if="displayRanOutTime===false" class="waiting-room-header">INKORREKT! Men draken flyger i motvind</header>
+      <header v-if="displayRanOutTime===true" class="waiting-room-header">Ran out of time!</header>
       <svg class="incorrekt-marker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
         <circle class="incorrekt-path-circle" fill="none" stroke="#D06079" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
         <line class="incorrekt-path-line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3"/>
@@ -76,9 +98,7 @@
       </svg>
     </div>
 
-    <button  v-on:click="switchToWaitingRoom(); " >NEXT</button>
-
-    <button v-on:click="switchToWaitingRoom(), switchQuestionType()">NEXT</button>
+    <button v-on:click="switchToWaitingRoom(),switchQuestionType(),resetTimer(),startTimer()">NEXT</button>
 
   </section>
 
@@ -99,7 +119,7 @@ import MapContainer from "../components/MapContainer";
 
 const socket = io();
 const FULL_DASH_ARRAY = 283;
-const TIME_LIMIT = 20;
+const TIME_LIMIT = 10;
 const WARNING_THRESHOLD = TIME_LIMIT/2;
 const ALERT_THRESHOLD = TIME_LIMIT/4;
 
@@ -147,7 +167,8 @@ export default {
       index: 0,
       displayLocationQuestion: true,
       displayFollowupQuestion:false,
-      displayAnswer: false
+      displayAnswer: false,
+      displayRanOutTime: false
 
     }
   },
@@ -211,9 +232,23 @@ export default {
     this.startTimer();
   },
   methods: {
+    resetTimer(){
+      this.displayRanOutTime=false
+      this.timePassed = 0
+      return this.timeLeft
+    },
+    pausTimer(){
+      this.timeLeft = -1
+    },
+
     onTimesUp() {
       clearInterval(this.timerInterval);
-      this.switchToWaitingRoom()
+      if(this.displayFollowupQuestion===true){
+      this.index += 1}
+      this.result = 'false'
+      this.displayRanOutTime=true
+      this.displayAnswer=true
+
     },
 
     startTimer() {
@@ -234,7 +269,10 @@ export default {
     },
     submitAnswer: function (answer, title) {
       this.index += 1
+      this.displayRanOutTime = false
       this.switchToWaitingRoom()
+      this.timePassed = TIME_LIMIT + 1
+      console.log(this.timeLeft)
       socket.emit("submitAnswer", {pollId: this.pollId, answer: answer})
       for (let i = 0; i < this.questions.length; i++) {
 
@@ -289,12 +327,12 @@ export default {
     },
 
     switchToWaitingRoom: function () {
-      this.result=false;
       if(this.displayAnswer===true){
         this.displayAnswer=false}
         else{
           this.displayAnswer=true}
-        },
+        }
+
       }
     }
 
