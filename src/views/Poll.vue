@@ -5,7 +5,7 @@
       {{LocationQuestion.lq}}
 
     </header>
-    <p>Click on the map to pinpoint the location</p>
+    <p style="font-weight: bold; color: white">Click on the map to pinpoint the location</p>
     <div id="map">
       <MapContainer :geojson="geojson" v-bind:correctLocation="LocationQuestion.location" v-on:userLocation="userLocation=$event"> </MapContainer>
     </div>
@@ -45,9 +45,11 @@
       </svg>
       <span class="base-timer__label">{{ formattedTimeLeft }}</span>
     </div>
+    <div class="answer-alternative-size-container">
     <p id="question-counter">{{index + 1}} of {{questions.length}}</p>
       <Question class="poll-container" v-bind:question="questions[this.index]"
                 v-on:answer="submitAnswer"/>
+    </div>
   </section>
 
   <section class= "format" v-if="displayAnswer===true">
@@ -99,7 +101,7 @@ import MapContainer from "../components/MapContainer";
 
 const socket = io();
 const FULL_DASH_ARRAY = 283;
-const TIME_LIMIT = 20;
+const TIME_LIMIT = 100000;
 const WARNING_THRESHOLD = TIME_LIMIT/2;
 const ALERT_THRESHOLD = TIME_LIMIT/4;
 
@@ -305,7 +307,8 @@ export default {
 <style>
 
 .format{
-  background: lightgrey;
+  height: 50vh;
+  background: #161B40;
   color: #444444;
 
 }
@@ -356,6 +359,8 @@ export default {
 .quiz-questions{
   text-decoration-line: underline;
   font-size: 200%;
+  color: white;
+  font-weight: bold;
   text-transform: uppercase;
   padding: 20px;
 
@@ -376,6 +381,9 @@ export default {
   right: 15px;
   top: 10px;
 }
+.answer-alternative-size-container{
+  height: 95vh;
+}
 
 .base-timer {
   margin-right: 10%;
@@ -386,8 +394,6 @@ export default {
 }
 
 .base-timer__circle {
-
-
   fill: none;
   stroke: none;
 }
@@ -408,23 +414,26 @@ export default {
 }
 
 .base-timer__path-remaining.green {
-  color: rgb(65, 184, 131);
+  color: #41B853;
 }
 
 .base-timer__path-remaining.orange {
-  color: orange;
+  color: #EFA500;
 }
 
 .base-timer__path-remaining.red {
-  color: red;
+  color: #F40058;
 }
 
 .waiting-room-header{
+  color: white;
+  font-weight: bold;
   font-size: 200%;
   padding-top: 100px;
 }
 
 .base-timer__label {
+  color: white;
   position: absolute;
   width: 50%;
   height: 50%;
@@ -444,6 +453,7 @@ export default {
   fill: none;
   animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
 }
+
 
 .checkmark {
   width: 56px;
@@ -472,10 +482,10 @@ export default {
 }
 @keyframes scale {
   0%, 100% {
-    transform: none;
+    transform: scale3d(2.5,2.5,2.5);
   }
   50% {
-    transform: scale3d(1.1, 1.1, 1);
+    transform: scale3d(2.75, 2.75, 2.5);
   }
 }
 @keyframes fill {

@@ -30,13 +30,15 @@ export default {
 <style scoped>
 .Answer-box-wrapper{
   text-align: center;
-  display: inline-flex;
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
   padding-top: 100px;
-  gap: 70px 250px;
-  height: 80vh;
-  width: 120vh;
+  gap: 40px 150px;
+  width: 100%;
+  height: 30%;
+  background: #161B40;
+  background-size: 50%;
 }
 .answer-alternative-size-wrapper {
   border: solid 2px;
@@ -45,22 +47,24 @@ export default {
   border-radius: 10px;
   color: #444;
   font-size: 300%;
+  font-weight: bold;
   color: white;
 }
 .answer-alternative-size-wrapper:nth-child(1){
-  background-color:darkred;
+  background-color:#EFA500;
+
 }
 
 .answer-alternative-size-wrapper:nth-child(2){
-  background-color: darkblue;
+  background-color: #EFA500;
 }
 
 .answer-alternative-size-wrapper:nth-child(3){
-  background-color: darkgreen;
+  background-color: #EFA500;
 }
 
 .answer-alternative-size-wrapper:nth-child(4){
-  background-color: darkgoldenrod;
+  background-color: #EFA500;
 }
 
 
