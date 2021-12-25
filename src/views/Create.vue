@@ -74,7 +74,7 @@
     <div class="create overview-left-side">
       <h1>Här ska överblicken av alternativen vara</h1>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
-        <div type="button" class="collapsible" placeholder="'Fråga '+(i+1)" v-on:click="expandAndCollapseBox(i)"  >{{questionSequence[i][3]}}</div>
+        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)"  >{{questionSequence[i][3]}}</div>
         <div class="content"> <!--{{"Fråga "+(i+1)}}  v-bind:placeholder="'Fråga '+(i+1)"-->
           <div class="content-mq" v-for="(_,j) in questionSequence[i][0]" v-bind:key="'answers'+j">
             <button class="content-mq-button" v-on:click="showMultipleQuestion(j)">{{"Fråga "+(j+1)}}</button>
@@ -290,12 +290,12 @@ export default {
       var newQuestion = []
       this.indexArray.push([0])
       this.finalQuestion.push([])
-      this.finalAnswers.push(["Fråga"])
+      this.finalAnswers.push([])
       this.finalCorrect.push([])
       newQuestion.push(this.finalQuestion[this.pollQuestionIndex])
       newQuestion.push(this.finalAnswers[this.pollQuestionIndex])
       newQuestion.push(this.finalCorrect[this.pollQuestionIndex])
-      newQuestion.push(this.locationQuestion = "Fråga")
+      newQuestion.push(this.locationQuestion = this.uiLabels.newQuestion)
       newQuestion.push(this.location = {
         x: 0,
         y: 0
