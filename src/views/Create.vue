@@ -158,7 +158,9 @@
 
 
   </section>
-<section v-if="secondStage===false && firstStage===true">
+
+
+  <section v-if="secondStage===false && firstStage===true">
   <h1>här kör hosten quizet jappi</h1>
   <div class="create overview-left-side">>
   <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
