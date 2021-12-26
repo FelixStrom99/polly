@@ -4,7 +4,8 @@
        style="width: 100%; height: 100%">
   </div>
   <div>
-    <button type="button" v-on:click="locationDataPoints"> Datapoints</button>
+    <button type="button" v-on:click="locationDataPoints"> Show All locations!</button>
+    <button type="button" v-on:click="clearAll"> Clear the map!</button>
   </div>
   <!--<input type="range" v-model="this.userPoint.properties.radius" max="40" min="5">-->
 
@@ -152,16 +153,24 @@ export default {
 
   methods: {
     locationDataPoints() {
-      this.locationData.forEach(function(locations){
-        let Target = JSON.parse(JSON.stringify(locations));
-        this.userPoint.geometry.coordinates=[Target[0],Target[1]]
+
+      for (let i = 0; i < this.locationData.length; i++) {
+        let Target = JSON.parse(JSON.stringify(this.locationData[i]));
+
+        this.userPoint.geometry.coordinates=[Target.x,Target.y]
         this.addPoint(this.userPoint)
 
-        console.log("locationx="+locations.x)
-        console.log("locationy="+locations.y)
-      });
+        console.log( "locationx="+Target.x)
+        console.log("locationy="+Target.y)
+      }
+
 
           },
+clearAll(){
+  const source = this.vectorLayer.getSource()
+  source.clear();
+  },
+
     pointStyle({color}) {
       return new Style( {
         /*  image: new Circle({
