@@ -573,7 +573,6 @@ export default {
   border-width:thin;
   border-color: #444444;
   overflow: hidden;
-  border-radius: 10%;
   text-align: left;
   outline: none;
   font-size: 15px;
@@ -587,7 +586,7 @@ export default {
   margin-right: 2%;
   margin-left:2% ;
   margin-bottom: 2%;
-  border-radius: 10%;
+  border-radius: 0 0 10% 10%;
   background-color: white;
   max-height: 0;
   overflow: hidden;
