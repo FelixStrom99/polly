@@ -16,5 +16,6 @@
 	"enterTitle": "Enter title...",
 	"finishQuiz": "Finish and run quiz",
 	"pollLink":"Game link",
-	"welcome": "Welcome!"
+	"welcome": "Welcome!",
+	"newQuestion": "New Question"
 }
