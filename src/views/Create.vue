@@ -126,6 +126,11 @@
       </div>
       <div class="lowerside">
         <div>
+
+          <button v-on:click="finishQuizFinal()">
+     {{uiLabels.finishQuiz}}
+          </button>
+
         </div>
       </div>
     </div>
@@ -162,7 +167,7 @@
 
   <section v-if="secondStage===false && firstStage===true">
   <h1>här kör hosten quizet jappi</h1>
-  <div class="create overview-left-side">>
+ <!-- <div class="create overview-left-side">>
   <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
     <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)" v >{{"Fråga "+(i+1)}}</div>
     <div class="content">
@@ -171,15 +176,19 @@
       </div>
   </div>
   </div>
+  </div>-->
+  <div id="run-question-grid">
+  <div v-for="(_,i) in questionSequence" v-bind:key="'question'+i">
+    <button v-on:click="currentLQ=i">{{questionSequence[i][3]}} </button>
+  </div>
   </div>
   <div>
-    <input type="number" v-model="questionNumber">
     <button v-on:click="runQuestion">
       Run Selected Question
     </button>
     <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
   </div>
-
+  {{currentLQ}}
 </section>
 
 
@@ -210,8 +219,6 @@ export default {
         x: 0,
         y: 0
       },
-      questionNumber: 0,
-      locationQuestionNumber: 0,
       createLocationQuestion: true,
       createMultipleChoiceQuestion: false,
       hasMultipleChoiceQuestion: [true],
@@ -318,6 +325,7 @@ export default {
     },
 
 
+
     addNewMultipleQuestion: function () {
       var index = this.indexArray[this.currentLQ]
       var newAnswer = {[index]: ["", ""]}
@@ -331,6 +339,8 @@ export default {
       this.questionSequence.length
       this.showMultipleQuestion(this.questionSequence[this.currentLQ][0].length-1)
     },
+
+
 
     addAnswer: function () {
       if (this.answers.length <= 3) {
@@ -349,7 +359,9 @@ export default {
       this.finalAnswers[this.currentLQ].pop();
       this.finalQuestion[this.currentLQ].pop()
       this.finalCorrect[this.currentLQ].pop()
-      this.indexArray[this.currentLQ][0] -= 1
+      if (this.indexArray[this.currentLQ][0]>0) {
+        this.indexArray[this.currentLQ][0] -= 1
+      }
     },
     showLocationQuestion: function () {
       this.createLocationQuestion = true;
@@ -393,7 +405,7 @@ export default {
     },
 
     runQuestion: function () {
-      socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})
+      socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.currentLQ})
     },
 
     chooseUppsala: function () {
@@ -781,7 +793,30 @@ textbox:hover {
   text-align: center;
 
 }
+#run-question-grid {
 
+  background-color: #d95333;
+  color: #111010;
+  display: grid;
+  grid-gap: 250px;
+  grid-template-columns: 100px 100px 100px;
+  /*border-radius: 200px; */
+  padding: 50px;
+}
+ #run-question-grid button{
+   background-color: rgba(34, 76, 182, 0.58);
+   color: #fcf8f8;
+   text-align: center;
+   cursor: pointer;
+   padding: 18px;
+   border-width:thin;
+   border-color: #444444;
+   overflow: hidden;
+   border-radius: 10%;
+   text-align: left;
+   outline: none;
+   font-size: 15px;
+ }
 
 .routerLink {
   text-decoration: none;
