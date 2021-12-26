@@ -66,6 +66,7 @@ export default {
           x: 0,
           y: 0
         },
+
       },
       pollId: "inactive poll",
       userLocation: {x: 0,
@@ -95,15 +96,11 @@ export default {
 
 
 
+
+
   },
 
   methods: {
-   /* setZoom: function (zoomData) {
-      console.log("zoom",zoomData)
-      this.mapView.zoom=14
-      this.mapView.center=[0,0]
-
-    }, */
 
     createQuestionArray: function (Data) {
       this.update+=1
@@ -114,7 +111,6 @@ export default {
       this.questions = questionArray
       this.LocationQuestion.lq=Data.lq
       this.LocationQuestion.location=Data.location
-      this.LocationQuestion.image=Data.image
       this.correctans=Data.correct
 
 
@@ -125,7 +121,6 @@ export default {
       for (let i = 0; i < this.questions.length; i++) {
 
         if ((this.questions[i]).q===title){
-          console.log("babe",this.correctans[i],"körv",((this.questions[i]).a).indexOf(answer))
           if ((this.correctans[i])[i][((this.questions[i]).a).indexOf(answer)]===true){
             this.result ="true"
           }

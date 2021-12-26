@@ -91,7 +91,7 @@ Data.prototype.getLocations = function (pollId, qId = null) {
             return {}
         }
 
-        //* return {lq: locations.lq, location: [locations.location.x, locations.location.y], image: locations.image};
+
     }
 
 }

@@ -1,6 +1,6 @@
 <template>
 
-  <section v-if="firstStage===true">
+  <section v-if="firstStage===true && secondStage===true">
     <div>
       <h1> {{ uiLabels.createPoll }}</h1>
       <div>
@@ -63,18 +63,37 @@
   </section>
 
 
-  <section class="create-the-questions-container theme" v-else-if="secondStage===false">
+
+
+  <section class="create-the-questions-container theme" v-else-if="secondStage===false && firstStage===false">
+    <header class="header-create-prop">
+
+
+    </header>
+
     <div class="create overview-left-side">
       <h1>Här ska överblicken av alternativen vara</h1>
-      <div class="question-boxes">
-        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox">Open Question 1</div>
+      <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
+        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)" v >{{"Fråga "+(i+1)}}</div>
         <div class="content">
-          <p>Här kommer information om frågan fram</p>
+          <div class="content-mq" v-for="(_,j) in questionSequence[i][0]" v-bind:key="'answers'+j">
+            <button class="content-mq-button" v-on:click="showMultipleQuestion(j)">{{"Fråga "+(j+1)}}</button>
+          </div>
+          <button v-on:click="addNewMultipleQuestion(i,j)">Add Multiple Choice Question</button>
         </div>
       </div>
-      <object data="/svg_files/addLocationQuestionButton-2/addLocationQuestionButton.svg">
+      {{"Current LQ: "+this.currentLQ}}
+      <br>
+      {{"Current MQ: "+this.currentMQ}}
 
-      </object>
+      <div id="add-locationQuestion-button" v-on:click="addNewPollQuestion" style="cursor: pointer;">
+
+        <object data="/svg_files/addLocationQuestionButton-2/addLocationQuestionButton.svg" style="pointer-events:none;">
+
+        </object>
+
+      </div>
+      <p>Isak fixar knappen</p>
     </div>
     <div class="create lq-and-q" >
       <h1>{{ pollId }}</h1>
@@ -82,71 +101,68 @@
         <div>
           {{ uiLabels.locationQuestion }}:<input type="text" v-model="locationQuestion">
         </div>
-        <button v-on:click="addLocationQuestion">
+
+      <!--  <button v-on:click="addLocationQuestion">
           {{ uiLabels.addLocationQuestion }}
-        </button>
+        </button>-->
+        <button v-on:click="editQuestion(this.currentLQ, null)">save</button>
         <div id="openlayers-map">
           <MapContainerCreate :geojson="geojson"
           v-on:location="location=$event" v-bind:mapView="mapView">
           </MapContainerCreate>
-        </div>
-
-      </div>
-    <div class="create theme" v-if="createMultipleChoiceQuestion">
-      {{ uiLabels.question }}:
-      <input type="text" v-model="question">
-      <div class="question-multiple">
-        {{ uiLabels.answers}}:
-        <input v-for="(_, i) in answers"
-               v-model="answers[i]"
-               v-bind:key="'answer'+i"
-               class="textbox"
-                >
-
-        <div>
-        <input type="checkbox" v-for="(_, i) in checkBox"
-               v-model="checkBox[i]"
-               v-bind:key="'checkBox'+i">
-        {{this.answers.length}}
-        </div>
-
 
 
       </div>
-      <div class="Answer-box-wrapper">
-      <div class="answer-alternative-size-wrapper"   v-for="(_, i) in answers" v-bind:key="'answers'+i">
-        <div id="Answer-Box-symbol-prop" >
-        </div>
-        <div class="Answer-Box-textarea"  >
-          <input class="Answer-Box-textarea-prop"
-                 placeholder="Answer">
-        </div>
+      </div>
 
-      <div class="Answer-Box-checkbox" >
-        <input type="checkbox"
-                class="Answer-Box-checkbox-prop
+      <div class="create theme" v-if="createMultipleChoiceQuestion">
+        {{ uiLabels.question }}:
+        <input type="text" v-model="question">
+        <div class="question-multiple">
+          {{ uiLabels.answers}}:
+          <input v-for="(_, i) in answers"
+                 v-model="answers[i]"
+                 v-bind:key="'answer'+i"
+                 class="textbox"
+          >
+
+          <div>
+            <input type="checkbox" v-for="(_, i) in checkBox"
+                   v-model="checkBox[i]"
+                   v-bind:key="'checkBox'+i">
+            {{this.answers.length}}
+          </div>
+
+          <button v-on:click="editQuestion(this.currentLQ, currentMQ)">save</button>
+          {{questionSequence}}
+
+        </div>
+        <div class="Answer-box-wrapper">
+          <div class="answer-alternative-size-wrapper"  v-for="(_, i) in answers" v-bind:key="'answers'+i">
+            <div id="Answer-Box-symbol-prop" >
+            </div>
+            <div class="Answer-Box-textarea"  >
+              <input class="Answer-Box-textarea-prop"
+                     placeholder="Answer">
+            </div>
+
+            <div class="Answer-Box-checkbox" >
+              <input type="checkbox"
+                     class="Answer-Box-checkbox-prop
                 animation_rubberband">
-      </div>
-      </div>
-      </div>
+            </div>
+          </div>
+        </div>
 
-    </div>
+      </div>
       <div class="lowerside">
         <div>
-          <input type="number" v-model="questionNumber">
-          <button v-on:click="runQuestion">
-            Run Follow-up Question
+          <button v-on:click="finishQuizFinal">
+            {{uiLabels.finishQuiz}}
           </button>
         </div>
-        <div>
-          <input type="number" v-model="locationQuestionNumber">
-          <button v-on:click="runLocationQuestion">
-            Run Location-Question
-          </button>
-        </div>
-        <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
       </div>
-      </div>
+    </div>
     <div class=" create alternative-right-side">
 
       <h1>Här ska vi ha knappar med lite rolig funktionalitet</h1>
@@ -163,17 +179,35 @@
         <button v-on:click="deleteAnswer">
           {{ uiLabels.deleteAnswer }}
         </button>
-        <button v-on:click="addQuestion">
-          Add question
-        </button>
+
+
       </div>
 
     </div>
 
 
-
-
   </section>
+<section v-if="secondStage===false && firstStage===true">
+  <h1>här kör hosten quizet jappi</h1>
+  <div class="create overview-left-side">>
+  <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
+    <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)" v >{{"Fråga "+(i+1)}}</div>
+    <div class="content">
+      <div class="content-mq" v-for="(_,j) in questionSequence[i][0]" v-bind:key="'answers'+j">
+        <button class="content-mq-button" v-on:click="showMultipleQuestion(j)">{{"Fråga "+(j+1)}}</button>
+      </div>
+  </div>
+  </div>
+  </div>
+  <div>
+    <input type="number" v-model="questionNumber">
+    <button v-on:click="runQuestion">
+      Run Selected Question
+    </button>
+    <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
+  </div>
+
+</section>
 
 
 </template>
@@ -186,7 +220,7 @@ const socket = io();
 
 export default {
   name: 'Create',
-  components:{
+  components: {
     MapContainerCreate,
   },
   data: function () {
@@ -196,7 +230,7 @@ export default {
       title: "",
       question: [""],
       answers: ["", ""],
-      finalAnswers:[],
+      finalAnswers: [],
       checkBox: [false, false],
       locationQuestion: "",
       location: {
@@ -207,22 +241,29 @@ export default {
       locationQuestionNumber: 0,
       createLocationQuestion: true,
       createMultipleChoiceQuestion: false,
+      hasMultipleChoiceQuestion: [true],
       data: {},
       uiLabels: {},
       range_from_location: "",
       firstStage: true,
       secondStage: true,
-      index:0,
-      finalQuestion:[],
-      finalCorrect:[],
-      mapView:{
+      currentLQ: 0,
+      currentMQ: 0,
+      indexArray: [],
+      pollQuestionIndex: 0,
+      multipleChoiceQuestions: [],
+      finalQuestion: [],
+      finalCorrect: [],
+      mapView: {
         zoom: 0,
-        center: [0,0]
-      }
+        center: [0, 0]
+      },
+      questionSequence: [],
     }
   },
   created: function () {
     this.lang = this.$route.params.lang;
+    this.addNewPollQuestion()
     socket.emit("pageLoaded", this.lang);
     socket.on("init", (labels) => {
       this.uiLabels = labels
@@ -240,36 +281,88 @@ export default {
       socket.emit("createPoll", {pollId: this.pollId, lang: this.lang})
       this.firstStage = false
     },
+    showQuestion: function (firstIndex, secondIndex) {
+      if (secondIndex !== null) {
+        var title = this.questionSequence[firstIndex][0][secondIndex][secondIndex]
+        var answers = this.questionSequence[firstIndex][1][secondIndex][secondIndex]
+        var correct = this.questionSequence[firstIndex][2][secondIndex][secondIndex]
+        this.answers = answers
+        this.question = title
+        this.checkBox = correct
+      } else {
+        this.locationQuestion = this.questionSequence[firstIndex][3]
+        this.location.x = this.questionSequence[firstIndex][4].x
+        this.location.y = this.questionSequence[firstIndex][4].y
+      }
+    },
+    editQuestion: function (firstIndex, secondIndex) {
+      if (secondIndex !== null) {
+        this.questionSequence[firstIndex][0][secondIndex][secondIndex] = this.question
+        this.questionSequence[firstIndex][1][secondIndex][secondIndex] = this.answers
+        this.questionSequence[firstIndex][2][secondIndex][secondIndex] = this.checkBox
+      } else {
+        this.questionSequence[firstIndex][3] = this.locationQuestion
+        this.questionSequence[firstIndex][4].x = this.location.x
+        this.questionSequence[firstIndex][4].y = this.location.y
+      }
+    },
+
+    addNewPollQuestion: function () {
+      var newQuestion = []
+      this.indexArray.push([0])
+      this.finalQuestion.push([])
+      this.finalAnswers.push([])
+      this.finalCorrect.push([])
+      newQuestion.push(this.finalQuestion[this.pollQuestionIndex])
+      newQuestion.push(this.finalAnswers[this.pollQuestionIndex])
+      newQuestion.push(this.finalCorrect[this.pollQuestionIndex])
+      newQuestion.push(this.locationQuestion = "")
+      newQuestion.push(this.location = {
+        x: 0,
+        y: 0
+
+      })
+      this.questionSequence.push(newQuestion)
+      this.pollQuestionIndex += 1
+    },
     nextSection: function () {
       this.secondStage = false
     },
-    addLocationQuestion: function () {
-      socket.emit("addQuestion",{pollId: this.pollId, q: this.finalQuestion, a: this.finalAnswers, correct: this.finalCorrect,lq: this.locationQuestion, location: this.location})
-      this.finalQuestion=[]
-      this.finalAnswers=[]
-      this.index=0
-      this.finalCorrect=[]
-      this.index=0
-      console.log("2",this.finalQuestion)
+    finishQuizFinal: function () {
+      this.firstStage = true
+      for (var i = 0; i <= this.questionSequence.length; i++) {
+
+        socket.emit("addQuestion", {
+          pollId: this.pollId,
+          q: this.questionSequence[i][0],
+          a: this.questionSequence[i][1],
+          correct: this.questionSequence[i][2],
+          lq: this.questionSequence[i][3],
+          location: this.questionSequence[i][4]
+        })
+      }
+
     },
-    addQuestion: function () {
-      var index= this.index
-      var newAnswer={[index]:this.answers}
-      this.finalAnswers.push(newAnswer)
-      var newQuestion={[index]:this.question}
-      this.finalQuestion.push(newQuestion)
-      var newCorrect={[index]:this.checkBox}
-      this.finalCorrect.push(newCorrect)
-      console.log(this.finalQuestion)
-      this.index+=1
-      this.answers=["",""]
-      this.question=""
-      this.checkBox=[false,false]
+
+
+    addNewMultipleQuestion: function () {
+      var index = this.indexArray[this.currentLQ]
+      var newAnswer = {[index]: ["", ""]}
+      this.finalAnswers[this.currentLQ].push(newAnswer)
+      var newQuestion = {[index]: ""}
+      this.finalQuestion[this.currentLQ].push(newQuestion)
+      var newCorrect = {[index]: [false, false]}
+      this.finalCorrect[this.currentLQ].push(newCorrect)
+      this.indexArray[this.currentLQ][0] += 1
+      //this.showMultipleQuestion()
+      this.fixMaxHeightCollapse()
     },
+
     addAnswer: function () {
       if (this.answers.length <= 3) {
         this.answers.push("");
         this.checkBox.push(false);
+
       }
     },
     deleteAnswer: function () {
@@ -281,70 +374,83 @@ export default {
     showLocationQuestion: function () {
       this.createLocationQuestion = true;
       this.createMultipleChoiceQuestion = false;
+      this.showQuestion(this.currentLQ, null)
+
     },
-    showMultipleQuestion: function () {
+    showMultipleQuestion: function (j) {
+      this.currentMQ = j
       this.createLocationQuestion = false;
       this.createMultipleChoiceQuestion = true;
-    },
-    expandAndCollapseBox: function () {
-      var coll = document.getElementsByClassName("collapsible");
-      var i;
+      this.showQuestion(this.currentLQ, this.currentMQ)
 
-      for (i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function () {
-          this.classList.toggle("active");
-          var content = this.nextElementSibling;
-          if (content.style.maxHeight) {
-            content.style.maxHeight = null;
-          } else {
-            content.style.maxHeight = content.scrollHeight + "px";
-          }
-        });
+    },
+    expandAndCollapseBox: function (imp) {
+      this.currentLQ = imp
+      this.showLocationQuestion()
+      var coll = document.getElementsByClassName("collapsible");
+      var content
+      var j
+      for (j = 0; j < coll.length; j++) {
+        content = coll[j].nextElementSibling;
+        if (j != this.currentLQ) {
+          content.style.maxHeight = null;
+          coll[j].classList.remove("active");
+        }
       }
+      coll[imp].classList.toggle("active");
+      content = coll[imp].nextElementSibling;
+      if (content.style.maxHeight) {
+        content.style.maxHeight = null;
+      } else {
+        content.style.maxHeight = content.scrollHeight + 20 + "px";
+      }
+    },
+
+    fixMaxHeightCollapse: function () {
+      var coll = document.getElementsByClassName("collapsible");
+      var content = coll[this.currentLQ].nextElementSibling
+      content.style.maxHeight = content.scrollHeight + 20 + "px";
     },
 
     runQuestion: function () {
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})
     },
-    runLocationQuestion: function () {
-      socket.emit("runLocationQuestion", {pollId: this.pollId, locationQuestionNumber: this.locationQuestionNumber})
-    },
-    chooseUppsala: function (){
-      this.mapView.zoom=14;
-      this.mapView.center=[1962289.773825233,8368555.335845293]
+
+    chooseUppsala: function () {
+      this.mapView.zoom = 14;
+      this.mapView.center = [1962289.773825233, 8368555.335845293]
       socket.emit("mapView", {pollId: this.pollId, zoom: this.mapView.zoom, center: this.mapView.center})
     },
-    chooseStockholm: function (){
-      this.mapView.zoom=14;
-      this.mapView.center=[2011404.65,8250860.71]
+    chooseStockholm: function () {
+      this.mapView.zoom = 14;
+      this.mapView.center = [2011404.65, 8250860.71]
       socket.emit("mapView", {pollId: this.pollId, zoom: this.mapView.zoom, center: this.mapView.center})
     },
-    chooseSundsvall: function (){
-      this.mapView.zoom=14;
-      this.mapView.center=[1924771.41,8951774.11]
+    chooseSundsvall: function () {
+      this.mapView.zoom = 14;
+      this.mapView.center = [1924771.41, 8951774.11]
       socket.emit("mapView", {pollId: this.pollId, zoom: this.mapView.zoom, center: this.mapView.center})
     },
-    chooseVästerås: function (){
-      this.mapView.zoom=14;
-      this.mapView.center=[1841990.10,8314049.85]
+    chooseVästerås: function () {
+      this.mapView.zoom = 14;
+      this.mapView.center = [1841990.10, 8314049.85]
       socket.emit("mapView", {pollId: this.pollId, zoom: this.mapView.zoom, center: this.mapView.center})
     },
-    chooseGöteborg: function (){
-      this.mapView.zoom=14;
-      this.mapView.center=[1332333.15,7906034.63]
+    chooseGöteborg: function () {
+      this.mapView.zoom = 14;
+      this.mapView.center = [1332333.15, 7906034.63]
       socket.emit("mapView", {pollId: this.pollId, zoom: this.mapView.zoom, center: this.mapView.center})
     },
-    chooseWorld: function (){
-      this.mapView.zoom=0;
-      this.mapView.center=[0,0]
+    chooseWorld: function () {
+      this.mapView.zoom = 0;
+      this.mapView.center = [0, 0]
       socket.emit("mapView", {pollId: this.pollId, zoom: this.mapView.zoom, center: this.mapView.center})
+
+
     }
-
-
-
-  },
-
+  }
 }
+
 </script>
 <style>
 
@@ -398,13 +504,14 @@ export default {
   font-weight: 600;
   outline: none;
   border: none
+
 }
 
 .Answer-Box-checkbox-prop{
   height: 100%;
-   -webkit-transform: scale(2);
+  -webkit-transform: scale(2);
   transform: scale(2);
-border-radius: 5px;
+  border-radius: 5px;
 }
 
 
@@ -413,8 +520,6 @@ border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.54);
   justify-content: space-evenly;
   flex-basis: 15%;
-
-
 
 }
 .animation_rubberband{
@@ -428,6 +533,17 @@ border-radius: 5px;
   animation: 0 ;
 }
 
+#add-locationQuestion-button{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-left: 35%;
+  display: flex;
+  justify-content: space-evenly;
+}
+#add-locationQuestion-button:hover {
+  background-color: rgba(248, 248, 248, 0.44);
+}
 
 @keyframes rubberBand {
   0%{
@@ -470,7 +586,7 @@ border-radius: 5px;
   border-width:thin;
   border-color: #444444;
   overflow: hidden;
- border-radius: 10%;
+  border-radius: 10%;
   text-align: left;
   outline: none;
   font-size: 15px;
