@@ -98,6 +98,11 @@ export default {
   font-style: normal;
   font-weight: 100;
 }
+
+body {
+  margin:0;
+}
+
 .routerLink {
   color:inherit;
   text-decoration: none;

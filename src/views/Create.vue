@@ -19,7 +19,6 @@
     </div>
 
     <div class="maps">
-
       <div class="map-item" id="background_pic_uppsala" v-on:click="nextSection();chooseUppsala()" style="cursor: pointer;">
         <figure>
           <h1 class="city_name_charachter_spec">Uppsala</h1>
@@ -63,14 +62,7 @@
   </section>
 
 
-
-
   <section class="create-the-questions-container theme" v-else-if="secondStage===false && firstStage===false">
-    <header class="header-create-prop">
-
-
-    </header>
-
     <div class="create overview-left-side">
       <h1>Här ska överblicken av alternativen vara</h1>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
@@ -439,7 +431,20 @@ export default {
 
 </script>
 <style>
+/* Put everything in alphabetical order */
+/* General for create*/
 
+/* Section PollID */
+
+/* Section Choose map */
+
+/* Section Create quiz */
+
+/* Section Create quiz // Left Bar */
+
+/* Section Create quiz // Middle */
+
+/* Section Create quiz // Right Bar */
 
 .create-the-questions-container {
   display: flex;
@@ -454,7 +459,6 @@ export default {
 }
 
 .overview-left-side {
-  border-radius: 5% 5% 5% 5%;
   background-color: rgba(255, 255, 255, 0.54);
   flex-basis: 15%;
   justify-content: space-evenly;
@@ -502,17 +506,14 @@ export default {
 
 
 .alternative-right-side {
-  border-radius: 5% 5% 5% 5%;
   background-color: rgba(255, 255, 255, 0.54);
   justify-content: space-evenly;
   flex-basis: 15%;
 
 }
 .animation_rubberband{
-
   animation-iteration-count: infinite;
   animation-timing-function: linear;
-
   animation: rubberBand  2s infinite;
 }
 .animation_rubberband:hover{
@@ -613,6 +614,7 @@ export default {
   font-family: sans-serif;
   text-align: center;
   font-weight: bold;
+  text-shadow: 0 0 4px white;
 }
 
 .textbox {
