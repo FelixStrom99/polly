@@ -126,12 +126,11 @@
       </div>
       <div class="lowerside">
         <div>
-<<<<<<< HEAD
+
           <button v-on:click="finishQuizFinal()">
      {{uiLabels.finishQuiz}}
           </button>
-=======
->>>>>>> 34138bd532affa5abc4f8ebcd022698cdaea3918
+
         </div>
       </div>
     </div>
@@ -358,7 +357,9 @@ export default {
       this.finalAnswers[this.currentLQ].pop();
       this.finalQuestion[this.currentLQ].pop()
       this.finalCorrect[this.currentLQ].pop()
-      this.indexArray[this.currentLQ][0] -= 1
+      if (this.indexArray[this.currentLQ][0]>0) {
+        this.indexArray[this.currentLQ][0] -= 1
+      }
     },
     showLocationQuestion: function () {
       this.createLocationQuestion = true;
