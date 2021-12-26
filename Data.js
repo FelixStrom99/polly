@@ -31,6 +31,7 @@ Data.prototype.createPoll = function (pollId, lang = "en") {
         poll.currentLocationQuestion = 0;
         poll.locations = [];
         poll.mapView={};
+        poll.users = [];
         this.polls[pollId] = poll;
         console.log("poll created", pollId, poll);
     }
@@ -46,6 +47,15 @@ Data.prototype.addQuestion = function (pollId, q) {
         poll.locations.push(q.lq)
 
     }
+}
+Data.prototype.addToUsers = function (pollId, d) {
+    const poll = this.polls[pollId];
+    if (typeof poll !== 'undefined') {
+
+        poll.users.push(d)
+
+    }
+    console.log("User added to", pollId, "Här kommer Userarrayen", poll.users);
 }
 Data.prototype.setZoom = function (pollId, d) {
     const poll = this.polls[pollId];
@@ -161,6 +171,17 @@ Data.prototype.getLocationAnswers = function (pollId) {
         if (typeof poll.questionSequence[poll.currentQuestion] !== 'undefined') {
 
             return {lq: poll.questionSequence[poll.currentLocationQuestion].lq, la:poll.locationAnswer};
+        }
+    }
+    return {}
+}
+Data.prototype.getUsers = function (pollId) {
+    const poll = this.polls[pollId];
+    if (typeof poll !== 'undefined') {
+
+        if (typeof poll.users !== 'undefined') {
+            console.log("Kolla här: ", poll.users)
+            return {users: poll.users};
         }
     }
     return {}

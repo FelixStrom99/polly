@@ -167,6 +167,7 @@
 
   <section v-if="secondStage===false && firstStage===true">
   <h1>här kör hosten quizet jappi</h1>
+    <p>Här är ditt PollID: {{this.pollId}}</p>
  <!-- <div class="create overview-left-side">>
   <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
     <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)" v >{{"Fråga "+(i+1)}}</div>
@@ -446,6 +447,7 @@ export default {
 </script>
 <style>
 /* Put everything in alphabetical order */
+
 /* General for create*/
 
 /* Section PollID */

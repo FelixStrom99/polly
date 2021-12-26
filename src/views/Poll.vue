@@ -1,5 +1,18 @@
 <template>
-
+  <section class="choose-username" v-if="isChooseusername">
+    <h1> Välj användarnamn</h1> <!-- {{ uiLabels.username }}-->
+    <div>
+      <input type="text" v-model="userID" placeholder="Enter username...">
+      {{this.userID}}
+    </div>
+    <button v-on:click="switchToWaitingroom">
+      Spara <!--{{ uiLabels.save }} -->
+    </button>
+  </section>
+  <section class="waitingroom" v-if="isWaitingroom">
+    <h1>This is the waiting room bruh</h1>
+    <div v-for="(_,i) in userList" v-bind:key="'user'+i"><p>{{userList[i]}}</p></div>
+  </section>
   <section v-if="displayLocationQuestion===true && displayFollowupQuestion===false" class="poll-container">
     <header class="quiz-questions">
       {{LocationQuestion.lq}}
@@ -69,13 +82,17 @@ export default {
 
       },
       pollId: "inactive poll",
+      userID: "",
+      userList: [],
       userLocation: {x: 0,
             y: 0},
       distance: 0,
       index: 0,
-      displayLocationQuestion: true,
+      displayLocationQuestion: false,
       displayFollowupQuestion:false,
-    mapView: {zoom: 0, center: [0,0]},
+      isWaitingroom: false,
+      isChooseusername: true,
+      mapView: {zoom: 0, center: [0,0]},
       update:0
 
 
@@ -92,6 +109,9 @@ export default {
     socket.on("newQuestion", q =>
         this.createQuestionArray(q),
 
+    )
+    socket.on("userUpdate",d =>
+        this.userList=d
     )
 
 
@@ -167,7 +187,12 @@ export default {
         this.displayLocationQuestion = false
         this.displayFollowupQuestion = true
       }
-}
+    },
+    switchToWaitingroom: function (){
+      socket.emit("addUser", {pollId: this.pollId, users: this.userID})
+      this.isChooseusername = false;
+      this.isWaitingroom = true;
+    }
 
 
   }
