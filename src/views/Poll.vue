@@ -1,7 +1,34 @@
 <template>
+<<<<<<< HEAD
   <main>
    {{displayLocationQuestion}}{{displayFollowupQuestion}} {{displayAnswer}}
   <section class="format" v-if="displayLocationQuestion===true && displayFollowupQuestion===false && displayAnswer===false">
+=======
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <section class="choose-username" v-if="isChooseusername">
+    <h1> Välj användarnamn</h1> <!-- {{ uiLabels.username }}-->
+    <div>
+      <input type="text" v-model="userID" placeholder="Enter username...">
+      {{this.userID}}
+    </div>
+    <button v-on:click="switchToWaitingroom">
+      Spara <!--{{ uiLabels.save }} -->
+    </button>
+  </section>
+  <section class="waitingroom" v-if="isWaitingroom">
+    <div id="waitingroom-wrapper">
+      <h1 id="waitingroom-text">This is the waiting room bruh</h1>
+      <h2>wait for the host to start the game...</h2>
+      <div id="waitingroom-item">
+        <div id="waitingroom-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i" style="  color: white;font-size:20px;">
+          <p>{{u}}</p>
+        </div>
+      </div>
+      <button v-on:click="this.skipWaitingroomTemporary()">klicka här ifall du vill komma vidare ändå</button>
+    </div>
+  </section>
+  <section v-if="displayLocationQuestion===true && displayFollowupQuestion===false" class="poll-container">
+>>>>>>> waitingroom
     <header class="quiz-questions">
       {{LocationQuestion.lq}}
     </header>
@@ -166,12 +193,21 @@ export default {
 
       },
       pollId: "inactive poll",
+      userID: "",
+      userList: [],
       userLocation: {x: 0,
             y: 0},
       distance: 0,
       index: 0,
-      displayLocationQuestion: true,
+      displayLocationQuestion: false,
       displayFollowupQuestion:false,
+<<<<<<< HEAD
+=======
+      isWaitingroom: false,
+      isChooseusername: true,
+      mapView: {zoom: 0, center: [0,0]},
+      update:0
+>>>>>>> waitingroom
 
       mapView: {zoom: 0, center: [0,0]},
 
@@ -232,6 +268,7 @@ export default {
         this.createQuestionArray(q),
 
     )
+<<<<<<< HEAD
 
 
   },
@@ -256,6 +293,11 @@ export default {
     pausTimer(){
       this.timeLeft = -1
     },
+=======
+    socket.on("userUpdate",update => {
+      this.userList=update;
+    })
+>>>>>>> waitingroom
 
     onTimesUp() {
       clearInterval(this.timerInterval);
@@ -349,6 +391,19 @@ export default {
         this.displayFollowupQuestion = true
       }
     },
+<<<<<<< HEAD
+=======
+    switchToWaitingroom: function (){
+      socket.emit("addUser", {pollId: this.pollId, users: this.userID})
+
+      this.isChooseusername = false;
+      this.isWaitingroom = true;
+    },
+    skipWaitingroomTemporary: function() {
+      this.displayLocationQuestion = true;
+      this.isWaitingroom = false;
+    }
+>>>>>>> waitingroom
 
     switchToWaitingRoom: function () {
       if(this.displayAnswer===true){
@@ -364,6 +419,7 @@ export default {
 
 <style>
 
+<<<<<<< HEAD
 main{
 }
 
@@ -402,6 +458,53 @@ button:hover{
   font-size: 150%;
 }
 
+=======
+/* General CSS for Poll.vue */
+
+/* Choose username */
+
+/* Waiting Room */
+#waitingroom-wrapper {
+  display: flex;
+  background-color: orange;
+  align-items: center;
+  justify-content: center;
+  min-height: 50em;
+}
+#waitingroom-item {
+  background-color: #1682a8;
+  height: 50vh;
+  width: 30%;
+  border-color: lightgreen;
+  border-radius: 10px;
+  padding: 2em;
+}
+
+waitingroom-users p{
+  color: white;
+  font-weight: bold;
+}
+
+#waitingroom-text {
+  font-size: 500%;
+  color: white;
+  text-shadow: 5px 5px 5px black;
+  position: absolute;
+  top: 10%;
+  left: 0;
+  right: 0;
+  transform: translate(0, -50%);
+  text-align: center;
+}
+
+
+
+
+#waitingroom-item2 {
+  width:100%
+}
+/* Lägg in era egna kategorier */
+>>>>>>> waitingroom
 
 #openlayers-map {
   position: relative;
