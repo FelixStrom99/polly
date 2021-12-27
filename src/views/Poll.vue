@@ -172,7 +172,7 @@ export default {
       displayLocationQuestion: true,
       displayFollowupQuestion:false,
       mapView: {zoom: 0, center: [0,0]},
-      update:0,
+      updateZoom:0,
       displayAnswer: false,
       displayRanOutTime: false
 
