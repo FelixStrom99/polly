@@ -1,9 +1,6 @@
 <template>
   <main>
-<<<<<<< HEAD
    {{displayLocationQuestion}}{{displayFollowupQuestion}} {{displayAnswer}}
-=======
->>>>>>> f21ecde4e0020e28780bdfb694db78e5b733f801
   <section class="format" v-if="displayLocationQuestion===true && displayFollowupQuestion===false && displayAnswer===false">
     <header class="quiz-questions">
       {{LocationQuestion.lq}}
@@ -175,11 +172,9 @@ export default {
       index: 0,
       displayLocationQuestion: true,
       displayFollowupQuestion:false,
-<<<<<<< HEAD
-    mapView: {zoom: 0, center: [0,0]},
-=======
+
       mapView: {zoom: 0, center: [0,0]},
->>>>>>> f21ecde4e0020e28780bdfb694db78e5b733f801
+
       updateZoom:0,
       displayAnswer: false,
       displayRanOutTime: false
@@ -276,6 +271,7 @@ export default {
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     },
     createQuestionArray: function (Data) {
+      this.index=0
       this.updateZoom+=1
       this.displayLocationQuestion=true
       this.displayFollowupQuestion=false
