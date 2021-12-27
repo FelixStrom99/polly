@@ -1,7 +1,31 @@
 <template>
+  <section class="choose-username" v-if="isChooseusername">
+    <h1> Välj användarnamn</h1> <!-- {{ uiLabels.username }}-->
+    <div>
+      <input type="text" v-model="userID" placeholder="Enter username...">
+      {{this.userID}}
+    </div>
+    <button v-on:click="displayWaitingroom">
+      Spara <!--{{ uiLabels.save }} -->
+    </button>
+  </section>
+
+  <section class="waitingroom" v-if="isWaitingroom">
+    <div id="waitingroom-wrapper">
+      <h1 id="waitingroom-text">This is the waiting room bruh</h1>
+      <h2>wait for the host to start the game...</h2>
+      <div id="waitingroom-item">
+        <div id="waitingroom-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i" style="  color: white;font-size:20px;">
+          <p>{{u}}</p>
+        </div>
+      </div>
+      <button v-on:click="this.skipWaitingroomTemporary()">klicka här ifall du vill komma vidare ändå</button>
+    </div>
+  </section>
+
   <main>
    {{displayLocationQuestion}}{{displayFollowupQuestion}} {{displayAnswer}}
-  <section class="format" v-if="displayLocationQuestion===true && displayFollowupQuestion===false && displayAnswer===false">
+    <section class="format" v-if="displayLocationQuestion===true && displayFollowupQuestion===false && displayAnswer===false">
     <header class="quiz-questions">
       {{LocationQuestion.lq}}
     </header>
@@ -111,8 +135,6 @@
   </footer>
   </main>
 
-
-
 </template>
 
 <script>
@@ -166,12 +188,16 @@ export default {
 
       },
       pollId: "inactive poll",
+      userID: "",
+      userList: [],
       userLocation: {x: 0,
             y: 0},
       distance: 0,
       index: 0,
-      displayLocationQuestion: true,
+      displayLocationQuestion: false,
       displayFollowupQuestion:false,
+      isWaitingroom: false,
+      isChooseusername: true,
       mapView: {zoom: 0, center: [0,0]},
       updateZoom:0,
       displayAnswer: false,
@@ -230,8 +256,9 @@ export default {
         this.createQuestionArray(q),
 
     )
-
-
+    socket.on("userUpdate",update => {
+      this.userList=update;
+    })
   },
   watch: {
     timeLeft(newValue) {
@@ -255,6 +282,7 @@ export default {
       this.timeLeft = -1
     },
 
+
     onTimesUp() {
       clearInterval(this.timerInterval);
       if(this.displayFollowupQuestion===true){
@@ -269,6 +297,7 @@ export default {
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     },
     createQuestionArray: function (Data) {
+      this.index=0
       this.updateZoom+=1
       this.displayLocationQuestion=true
       this.displayFollowupQuestion=false
@@ -346,7 +375,16 @@ export default {
         this.displayFollowupQuestion = true
       }
     },
+    displayWaitingroom: function (){
+      socket.emit("addUser", {pollId: this.pollId, users: this.userID})
 
+      this.isChooseusername = false;
+      this.isWaitingroom = true;
+    },
+    skipWaitingroomTemporary: function() {
+      this.displayLocationQuestion = true;
+      this.isWaitingroom = false;
+    },
     switchToWaitingRoom: function () {
       if(this.displayAnswer===true){
         this.displayAnswer=false}
@@ -360,15 +398,13 @@ export default {
 </script>
 
 <style>
-
+/* General CSS for Poll.vue */
 main{
 }
 
 .format{
   height: 50vh;
-  background: #161B40;
   color: #444444;
-
 }
 button {
   display: inline-block;
@@ -389,6 +425,50 @@ button:hover{
   color:#161B40;
   background-color: #EFA500;
 }
+/* Choose username */
+
+/* Waiting Room */
+#waitingroom-wrapper {
+  display: flex;
+  background-color: orange;
+  align-items: center;
+  justify-content: center;
+  min-height: 50em;
+}
+#waitingroom-item {
+  background-color: #1682a8;
+  height: 50vh;
+  width: 30%;
+  border-color: lightgreen;
+  border-radius: 10px;
+  padding: 2em;
+}
+
+waitingroom-users p{
+  color: white;
+  font-weight: bold;
+}
+
+#waitingroom-text {
+  font-size: 500%;
+  color: white;
+  text-shadow: 5px 5px 5px black;
+  position: absolute;
+  top: 10%;
+  left: 0;
+  right: 0;
+  transform: translate(0, -50%);
+  text-align: center;
+}
+
+
+
+
+#waitingroom-item2 {
+  width:100%
+}
+/* Lägg in era egna kategorier */
+
 
 
 #question-counter{
