@@ -4,7 +4,7 @@
        style="width: 100%; height: 100%">
   </div>
   <div>
-  <button type="button" v-on:click="submitLocation"> SUBMIT LOCATION</button>
+  <button type="button" v-on:click="submitLocation" v-if="clickable===true"> SUBMIT LOCATION</button>
     </div>
   <!--<input type="range" v-model="this.userPoint.properties.radius" max="40" min="5">-->
 </template>
@@ -43,6 +43,7 @@ export default {
       // store OL objects on the component instance
       olMap: null,
       vectorLayer: null,
+      clickable: true,
       evt_coordinate:{x:0,
         y:0},
 
@@ -127,6 +128,7 @@ export default {
 
 
         this.olMap.on('click', (event) => {
+          if (this.clickable==true){
           let myTarget = JSON.parse(JSON.stringify(transform(event.coordinate, 'EPSG:3857', 'EPSG:4326')));
           console.log("g",this.mapView.zoom)
           this.evt_coordinate.x= myTarget[0]
@@ -136,6 +138,7 @@ export default {
           console.log(this.evt_coordinate.y)
           this.userPoint.geometry.coordinates=[this.evt_coordinate.x,this.evt_coordinate.y]
           this.addPoint(this.userPoint)
+          }
 
 
         });
@@ -206,10 +209,12 @@ export default {
 
     },
     submitLocation(){
-      this.lineString.geometry.coordinates=[[this.evt_coordinate.x,this.evt_coordinate.y],[this.correctLocation.x,this.correctLocation.y]]
-      this.updateSource(this.lineString, this.lineStyle)
-      this.correctPoint.geometry.coordinates=[this.correctLocation.x,this.correctLocation.y]
-      this.updateSource(this.correctPoint, this.correctPointStyle)
+
+        this.lineString.geometry.coordinates = [[this.evt_coordinate.x, this.evt_coordinate.y], [this.correctLocation.x, this.correctLocation.y]]
+        this.updateSource(this.lineString, this.lineStyle)
+        this.correctPoint.geometry.coordinates = [this.correctLocation.x, this.correctLocation.y]
+        this.updateSource(this.correctPoint, this.correctPointStyle)
+        this.clickable=false
 
     },
     answer: function (mapLocation) {
