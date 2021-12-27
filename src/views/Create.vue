@@ -19,7 +19,6 @@
     </div>
 
     <div class="maps">
-
       <div class="map-item" id="background_pic_uppsala" v-on:click="nextSection();chooseUppsala()" style="cursor: pointer;">
         <figure>
           <h1 class="city_name_charachter_spec">Uppsala</h1>
@@ -63,29 +62,19 @@
   </section>
 
 
-
-
   <section class="create-the-questions-container theme" v-else-if="secondStage===false && firstStage===false">
-    <header class="header-create-prop">
-
-
-    </header>
-
     <div class="create overview-left-side">
       <h1>Här ska överblicken av alternativen vara</h1>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
-        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)" v >{{"Fråga "+(i+1)}}</div>
-        <div class="content">
+        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)"  >{{questionSequence[i][3]}}</div>
+        <div class="content"> <!--{{"Fråga "+(i+1)}}  v-bind:placeholder="'Fråga '+(i+1)"-->
           <div class="content-mq" v-for="(_,j) in questionSequence[i][0]" v-bind:key="'answers'+j">
             <button class="content-mq-button" v-on:click="showMultipleQuestion(j)">{{"Fråga "+(j+1)}}</button>
           </div>
-          <button v-on:click="addNewMultipleQuestion(i,j)">Add Multiple Choice Question</button>
+          <button v-on:click="addNewMultipleQuestion(i,j)">Add Question</button>
+          <button v-on:click="deleteMultipleQuestion">Delete question</button>
         </div>
       </div>
-      {{"Current LQ: "+this.currentLQ}}
-      <br>
-      {{"Current MQ: "+this.currentMQ}}
-
       <div id="add-locationQuestion-button" v-on:click="addNewPollQuestion" style="cursor: pointer;">
 
         <object data="/svg_files/addLocationQuestionButton-2/addLocationQuestionButton.svg" style="pointer-events:none;">
@@ -93,7 +82,6 @@
         </object>
 
       </div>
-      <p>Isak fixar knappen</p>
     </div>
     <div class="create lq-and-q" >
       <h1>{{ pollId }}</h1>
@@ -101,95 +89,85 @@
         <div>
           {{ uiLabels.locationQuestion }}:<input type="text" v-model="locationQuestion">
         </div>
-
-      <!--  <button v-on:click="addLocationQuestion">
-          {{ uiLabels.addLocationQuestion }}
-        </button>-->
         <button v-on:click="editQuestion(this.currentLQ, null)">save</button>
         <div id="openlayers-map">
           <MapContainerCreate :geojson="geojson"
-          v-on:location="location=$event" v-bind:mapView="mapView">
+            v-on:location="location=$event" v-bind:mapView="mapView">
           </MapContainerCreate>
-
-
-      </div>
+        </div>
       </div>
 
       <div class="create theme" v-if="createMultipleChoiceQuestion">
         {{ uiLabels.question }}:
         <input type="text" v-model="question">
+        <button v-on:click="editQuestion(this.currentLQ, currentMQ)">save</button>
         <div class="question-multiple">
           {{ uiLabels.answers}}:
-          <input v-for="(_, i) in answers"
-                 v-model="answers[i]"
-                 v-bind:key="'answer'+i"
-                 class="textbox"
-          >
-
-          <div>
-            <input type="checkbox" v-for="(_, i) in checkBox"
-                   v-model="checkBox[i]"
-                   v-bind:key="'checkBox'+i">
-            {{this.answers.length}}
-          </div>
-
-          <button v-on:click="editQuestion(this.currentLQ, currentMQ)">save</button>
-          {{questionSequence}}
-
-        </div>
-        <div class="Answer-box-wrapper">
-          <div class="answer-alternative-size-wrapper"  v-for="(_, i) in answers" v-bind:key="'answers'+i">
-            <div id="Answer-Box-symbol-prop" >
+          <div class="Answer-box-wrapper">
+          <div class="answer-alternative-size-wrapper" v-for="(_, i) in answers" v-bind:key="'answers'+i">
+            <div id="Answer-Box-symbol-prop" :style="checkBox[i] ? { 'background-color': 'rgba(6, 236, 4, 0.73)' } : null">
             </div>
             <div class="Answer-Box-textarea"  >
               <input class="Answer-Box-textarea-prop"
-                     placeholder="Answer">
+                     v-model="answers[i]" v-bind:placeholder="'Alternative '+(i+1)">
             </div>
-
             <div class="Answer-Box-checkbox" >
               <input type="checkbox"
                      class="Answer-Box-checkbox-prop
-                animation_rubberband">
+                            animation_rubberband"
+                     v-model="checkBox[i]"
+                     v-bind:key="'checkBox'+i">
+
             </div>
           </div>
         </div>
-
+          {{questionSequence}}
+        </div>
       </div>
       <div class="lowerside">
         <div>
-          <button v-on:click="finishQuizFinal">
-            {{uiLabels.finishQuiz}}
+
+          <button v-on:click="finishQuizFinal()">
+     {{uiLabels.finishQuiz}}
           </button>
+
         </div>
       </div>
     </div>
     <div class=" create alternative-right-side">
-
       <h1>Här ska vi ha knappar med lite rolig funktionalitet</h1>
-      <div type="button" class="collapsible" v-on:click="expandAndCollapseBox">Add new question</div>
-      <div class="content">
-        <button v-on:click="showLocationQuestion">Location question</button>
-        <button v-on:click="showMultipleQuestion">Multiple choice question</button>
+      <div class="location-question-settings" v-if="createLocationQuestion">
+        <h2>Settings LQ</h2>
+        <button>Do some cool stuff</button>
       </div>
-
-      <div>
+      <div class="multiple-choice-question-settings" v-if="createMultipleChoiceQuestion">
+        <h2>Settings MQ</h2>
         <button v-on:click="addAnswer">
           {{ uiLabels.addAnswer}}
         </button>
         <button v-on:click="deleteAnswer">
           {{ uiLabels.deleteAnswer }}
         </button>
-
-
       </div>
-
+      <div>
+        <h2>Overall Settings</h2>
+        <h3>Timer settings</h3>
+        <button>Ändra sånndär duration boom</button>
+        <br>
+        <br>
+        <button v-on:click="finishQuizFinal">
+          {{uiLabels.finishQuiz}}
+        </button>
+      </div>
     </div>
 
 
   </section>
-<section v-if="secondStage===false && firstStage===true">
+
+
+  <section v-if="secondStage===false && firstStage===true">
   <h1>här kör hosten quizet jappi</h1>
-  <div class="create overview-left-side">>
+ <!-- <div class="create overview-left-side">>
   <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
     <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)" v >{{"Fråga "+(i+1)}}</div>
     <div class="content">
@@ -198,15 +176,19 @@
       </div>
   </div>
   </div>
+  </div>-->
+  <div id="run-question-grid">
+  <div v-for="(_,i) in questionSequence" v-bind:key="'question'+i">
+    <button v-on:click="currentLQ=i">{{questionSequence[i][3]}} </button>
+  </div>
   </div>
   <div>
-    <input type="number" v-model="questionNumber">
     <button v-on:click="runQuestion">
       Run Selected Question
     </button>
     <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
   </div>
-
+  {{currentLQ}}
 </section>
 
 
@@ -237,8 +219,6 @@ export default {
         x: 0,
         y: 0
       },
-      questionNumber: 0,
-      locationQuestionNumber: 0,
       createLocationQuestion: true,
       createMultipleChoiceQuestion: false,
       hasMultipleChoiceQuestion: [true],
@@ -316,7 +296,7 @@ export default {
       newQuestion.push(this.finalQuestion[this.pollQuestionIndex])
       newQuestion.push(this.finalAnswers[this.pollQuestionIndex])
       newQuestion.push(this.finalCorrect[this.pollQuestionIndex])
-      newQuestion.push(this.locationQuestion = "")
+      newQuestion.push(this.locationQuestion = this.uiLabels.newQuestion)
       newQuestion.push(this.location = {
         x: 0,
         y: 0
@@ -345,6 +325,7 @@ export default {
     },
 
 
+
     addNewMultipleQuestion: function () {
       var index = this.indexArray[this.currentLQ]
       var newAnswer = {[index]: ["", ""]}
@@ -354,9 +335,12 @@ export default {
       var newCorrect = {[index]: [false, false]}
       this.finalCorrect[this.currentLQ].push(newCorrect)
       this.indexArray[this.currentLQ][0] += 1
-      //this.showMultipleQuestion()
       this.fixMaxHeightCollapse()
+      this.questionSequence.length
+      this.showMultipleQuestion(this.questionSequence[this.currentLQ][0].length-1)
     },
+
+
 
     addAnswer: function () {
       if (this.answers.length <= 3) {
@@ -369,6 +353,14 @@ export default {
       if (this.answers.length >= 3) {
         this.answers.pop();
         this.checkBox.pop();
+      }
+    },
+    deleteMultipleQuestion: function () {
+      this.finalAnswers[this.currentLQ].pop();
+      this.finalQuestion[this.currentLQ].pop()
+      this.finalCorrect[this.currentLQ].pop()
+      if (this.indexArray[this.currentLQ][0]>0) {
+        this.indexArray[this.currentLQ][0] -= 1
       }
     },
     showLocationQuestion: function () {
@@ -399,7 +391,7 @@ export default {
       }
       coll[imp].classList.toggle("active");
       content = coll[imp].nextElementSibling;
-      if (content.style.maxHeight) {
+      if (content.style.maxHeight && !this.currentLQ) {
         content.style.maxHeight = null;
       } else {
         content.style.maxHeight = content.scrollHeight + 20 + "px";
@@ -413,7 +405,7 @@ export default {
     },
 
     runQuestion: function () {
-      socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.questionNumber})
+      socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.currentLQ})
     },
 
     chooseUppsala: function () {
@@ -453,7 +445,20 @@ export default {
 
 </script>
 <style>
+/* Put everything in alphabetical order */
+/* General for create*/
 
+/* Section PollID */
+
+/* Section Choose map */
+
+/* Section Create quiz */
+
+/* Section Create quiz // Left Bar */
+
+/* Section Create quiz // Middle */
+
+/* Section Create quiz // Right Bar */
 
 .create-the-questions-container {
   display: flex;
@@ -468,7 +473,6 @@ export default {
 }
 
 .overview-left-side {
-  border-radius: 5% 5% 5% 5%;
   background-color: rgba(255, 255, 255, 0.54);
   flex-basis: 15%;
   justify-content: space-evenly;
@@ -516,17 +520,14 @@ export default {
 
 
 .alternative-right-side {
-  border-radius: 5% 5% 5% 5%;
   background-color: rgba(255, 255, 255, 0.54);
   justify-content: space-evenly;
   flex-basis: 15%;
 
 }
 .animation_rubberband{
-
   animation-iteration-count: infinite;
   animation-timing-function: linear;
-
   animation: rubberBand  2s infinite;
 }
 .animation_rubberband:hover{
@@ -586,7 +587,6 @@ export default {
   border-width:thin;
   border-color: #444444;
   overflow: hidden;
-  border-radius: 10%;
   text-align: left;
   outline: none;
   font-size: 15px;
@@ -600,7 +600,7 @@ export default {
   margin-right: 2%;
   margin-left:2% ;
   margin-bottom: 2%;
-  border-radius: 10%;
+  border-radius: 0 0 10% 10%;
   background-color: white;
   max-height: 0;
   overflow: hidden;
@@ -627,6 +627,7 @@ export default {
   font-family: sans-serif;
   text-align: center;
   font-weight: bold;
+  text-shadow: 0 0 4px white;
 }
 
 .textbox {
@@ -663,7 +664,7 @@ textbox:hover {
 }
 #Answer-Box-symbol-prop {
   column-width: 40px;
-  background-color: rgba(6, 236, 4, 0.73);
+  background-color: red;
   border-radius: 7px 0px 0px 7px ;
   height: 100%;
   width: 20%;
@@ -792,7 +793,30 @@ textbox:hover {
   text-align: center;
 
 }
+#run-question-grid {
 
+  background-color: #d95333;
+  color: #111010;
+  display: grid;
+  grid-gap: 250px;
+  grid-template-columns: 100px 100px 100px;
+  /*border-radius: 200px; */
+  padding: 50px;
+}
+ #run-question-grid button{
+   background-color: rgba(34, 76, 182, 0.58);
+   color: #fcf8f8;
+   text-align: center;
+   cursor: pointer;
+   padding: 18px;
+   border-width:thin;
+   border-color: #444444;
+   overflow: hidden;
+   border-radius: 10%;
+   text-align: left;
+   outline: none;
+   font-size: 15px;
+ }
 
 .routerLink {
   text-decoration: none;
