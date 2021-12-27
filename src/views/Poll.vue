@@ -1,6 +1,9 @@
 <template>
   <main>
+<<<<<<< HEAD
    {{displayLocationQuestion}}{{displayFollowupQuestion}} {{displayAnswer}}
+=======
+>>>>>>> f21ecde4e0020e28780bdfb694db78e5b733f801
   <section class="format" v-if="displayLocationQuestion===true && displayFollowupQuestion===false && displayAnswer===false">
     <header class="quiz-questions">
       {{LocationQuestion.lq}}
@@ -172,7 +175,11 @@ export default {
       index: 0,
       displayLocationQuestion: true,
       displayFollowupQuestion:false,
+<<<<<<< HEAD
     mapView: {zoom: 0, center: [0,0]},
+=======
+      mapView: {zoom: 0, center: [0,0]},
+>>>>>>> f21ecde4e0020e28780bdfb694db78e5b733f801
       updateZoom:0,
       displayAnswer: false,
       displayRanOutTime: false
@@ -378,7 +385,6 @@ button {
   border-radius: 0.9em;
   box-sizing: border-box;
   text-decoration: none;
-  font-family: 'Roboto', sans-serif;
   font-weight: 300;
   color: #161B40;
   text-align: center;
