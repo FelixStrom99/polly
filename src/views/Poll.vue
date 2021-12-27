@@ -1,4 +1,5 @@
 <template>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
   <section class="choose-username" v-if="isChooseusername">
     <h1> Välj användarnamn</h1> <!-- {{ uiLabels.username }}-->
     <div>
@@ -10,8 +11,16 @@
     </button>
   </section>
   <section class="waitingroom" v-if="isWaitingroom">
-    <h1>This is the waiting room bruh</h1>
-    <div v-for="(_,i) in userList" v-bind:key="'user'+i"><p>{{userList[i]}}</p></div>
+    <div id="waitingroom-wrapper">
+      <h1 id="waitingroom-text">This is the waiting room bruh</h1>
+      <h2>wait for the host to start the game...</h2>
+      <div id="waitingroom-item">
+        <div id="waitingroom-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i" style="  color: white;font-size:20px;">
+          <p>{{u}}</p>
+        </div>
+      </div>
+      <button v-on:click="this.skipWaitingroomTemporary()">klicka här ifall du vill komma vidare ändå</button>
+    </div>
   </section>
   <section v-if="displayLocationQuestion===true && displayFollowupQuestion===false" class="poll-container">
     <header class="quiz-questions">
@@ -110,13 +119,9 @@ export default {
         this.createQuestionArray(q),
 
     )
-    socket.on("userUpdate",d =>
-        this.userList=d
-    )
-
-
-
-
+    socket.on("userUpdate",update => {
+      this.userList=update;
+    })
 
   },
 
@@ -190,8 +195,13 @@ export default {
     },
     switchToWaitingroom: function (){
       socket.emit("addUser", {pollId: this.pollId, users: this.userID})
+
       this.isChooseusername = false;
       this.isWaitingroom = true;
+    },
+    skipWaitingroomTemporary: function() {
+      this.displayLocationQuestion = true;
+      this.isWaitingroom = false;
     }
 
 
@@ -201,6 +211,51 @@ export default {
 
 <style>
 
+/* General CSS for Poll.vue */
+
+/* Choose username */
+
+/* Waiting Room */
+#waitingroom-wrapper {
+  display: flex;
+  background-color: orange;
+  align-items: center;
+  justify-content: center;
+  min-height: 50em;
+}
+#waitingroom-item {
+  background-color: #1682a8;
+  height: 50vh;
+  width: 30%;
+  border-color: lightgreen;
+  border-radius: 10px;
+  padding: 2em;
+}
+
+waitingroom-users p{
+  color: white;
+  font-weight: bold;
+}
+
+#waitingroom-text {
+  font-size: 500%;
+  color: white;
+  text-shadow: 5px 5px 5px black;
+  position: absolute;
+  top: 10%;
+  left: 0;
+  right: 0;
+  transform: translate(0, -50%);
+  text-align: center;
+}
+
+
+
+
+#waitingroom-item2 {
+  width:100%
+}
+/* Lägg in era egna kategorier */
 
 #openlayers-map {
   position: relative;

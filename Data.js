@@ -180,7 +180,6 @@ Data.prototype.getUsers = function (pollId) {
     if (typeof poll !== 'undefined') {
 
         if (typeof poll.users !== 'undefined') {
-            console.log("Kolla här: ", poll.users)
             return {users: poll.users};
         }
     }

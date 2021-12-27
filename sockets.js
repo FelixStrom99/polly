@@ -33,8 +33,7 @@ function sockets(io, socket, data) {
 
   socket.on('addUser', function(d) {
   data.addToUsers(d.pollId, d.users);
-    socket.emit('userUpdate',data.getUsers(d.pollId))
-    console.log("Kolla här: ",data.getUsers(d.pollId))
+    io.to(d.pollId).emit('userUpdate',data.getUsers(d.pollId))
   });
 
   socket.on('runQuestion', function(d) {
