@@ -7,7 +7,7 @@
 
 
     <div id="openlayers-map">
-      <MapContainer :geojson="geojson" v-bind:key=update v-bind:correctLocation="LocationQuestion.location" v-bind:mapView="mapView" v-on:userLocation="userLocation=$event"> </MapContainer>
+      <MapContainer :geojson="geojson" v-bind:key=updateZoom v-bind:correctLocation="LocationQuestion.location" v-bind:mapView="mapView" v-on:userLocation="userLocation=$event"> </MapContainer>
     </div>
     <div id="move">
       {{ userLocation }}
@@ -76,7 +76,7 @@ export default {
       displayLocationQuestion: true,
       displayFollowupQuestion:false,
     mapView: {zoom: 0, center: [0,0]},
-      update:0
+      updateZoom:0
 
 
     }
@@ -95,15 +95,12 @@ export default {
     )
 
 
-
-
-
   },
 
   methods: {
 
     createQuestionArray: function (Data) {
-      this.update+=1
+      this.updateZoom+=1
       var questionArray = []
       for (let i = 0; i < Data.q.length; i++) {
         questionArray[i] = {q: (Data.q[i])[i], a: (Data.a[i])[i]}

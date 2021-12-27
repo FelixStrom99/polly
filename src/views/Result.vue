@@ -18,12 +18,13 @@ T
   </div> -->
 
   <div id="openlayers-map">
-    <MapContainerResults :geojson="geojson" v-bind:locationData="locationData" v-bind:correctLocation="correctLocation" v-bind:mapView="mapView"> </MapContainerResults>
+    <MapContainerResults :geojson="geojson" v-bind:key=updateZoom v-bind:locationData="locationData" v-bind:correctLocation="correctLocation" v-bind:mapView="mapView"> </MapContainerResults>
   </div>
   <p>locationquestion</p>
   {{ locationQuestion }}
   <p>locationdata</p>
 {{locationData}}
+
 
 </template>
 
@@ -58,8 +59,10 @@ export default {
         }
         },
       locationData:null,
-      mapView: {zoom: 0, center: [0,0]}
+      mapView: {zoom: 0, center: [0,0]},
+      updateZoom:0
     }
+
   },
   created: function () {
     this.pollId = this.$route.params.id
@@ -67,22 +70,26 @@ export default {
     socket.on("dataUpdate", (update) => {
       this.data = update.a;
       this.question = update.q;
-      console.log("hej",this.data)
+
     });
     socket.on("newQuestion", update => {
       this.question = update.q;
       this.data = {};
+      this.updateZoom=1
     })
     socket.on("userMapView",d =>
         this.mapView=d)
+
     socket.on("locationDataUpdate", update=>{
       this.locationData=update.la
       this.locationQuestion=update.lq
+    //*  this.$refs.MapContainerResults.locationDataPoints()
 
   })
+
+
 },
 methods:{
-
 
 }
 }

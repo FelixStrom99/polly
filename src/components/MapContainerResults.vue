@@ -7,6 +7,7 @@
     <button type="button" v-on:click="locationDataPoints"> Show All locations!</button>
     <button type="button" v-on:click="clearAll"> Clear the map!</button>
   </div>
+
   <!--<input type="range" v-model="this.userPoint.properties.radius" max="40" min="5">-->
 
 
@@ -32,8 +33,8 @@ import {Fill, Style, Stroke,Icon} from 'ol/style'
 // importing the OpenLayers stylesheet is required for having
 // good looking buttons!
 import 'ol/ol.css'
-import io from "socket.io-client";
-const socket = io();
+//*import io from "socket.io-client";
+//*const socket = io();
 
 export default {
   name: 'MapContainerResults',
@@ -88,13 +89,7 @@ export default {
       }
 
     }},
-  created: function () {
-    this.pollId = this.$route.params.id
-    socket.on("userMapView", d =>
-        console.log(d.pollId)
 
-
-    )},
   computed: {
     userPointProperties: function () {
       return this.userPoint.properties;
