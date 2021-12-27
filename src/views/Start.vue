@@ -97,6 +97,7 @@ export default {
   font-family: 'Roboto', sans-serif;;
   font-style: normal;
   font-weight: 100;
+  color: white;
 }
 
 body {
@@ -167,10 +168,6 @@ button:active{
   font-size:200%;
 }
 
-.format{
-  background-color: rgb(18, 50, 255);
-  color: white;
-}
 
 .bottom {
   margin-top: 50em;

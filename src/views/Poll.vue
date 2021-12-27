@@ -24,35 +24,34 @@
   </section>
 
   <main>
-   {{displayLocationQuestion}}{{displayFollowupQuestion}} {{displayAnswer}}
     <section class="format" v-if="displayLocationQuestion===true && displayFollowupQuestion===false && displayAnswer===false">
     <header class="quiz-questions">
       {{LocationQuestion.lq}}
     </header>
+      <p style="font-weight: bold; color: white">Click on the map to pinpoint the location</p>
+      <div id="map-question-wrapper">
 
-    <div id="openlayers-map">
-      <MapContainer :geojson="geojson" v-bind:key=updateZoom v-bind:correctLocation="LocationQuestion.location" v-bind:mapView="mapView" v-on:userLocation="userLocation=$event"> </MapContainer>
-    </div>
-    <p style="font-weight: bold; color: white">Click on the map to pinpoint the location</p>
-    <p>Click on the map to pinpoint the location</p>
-    <div class="base-timer">
-      <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <g class="base-timer__circle">
-          <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
-          <path
-              :stroke-dasharray="circleDasharray"
-              class="base-timer__path-remaining"
-              :class="remainingPathColor"
-              d="
+        <div class="base-timer" id="timer-location">
+          <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <g class="base-timer__circle">
+              <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+              <path
+                  :stroke-dasharray="circleDasharray"
+                  class="base-timer__path-remaining"
+                  :class="remainingPathColor"
+                  d="
             M 50, 50
             m -45, 0
             a 45,45 0 1,0 90,0
             a 45,45 0 1,0 -90,0
           "
-          ></path>
-        </g>
-      </svg>
-      <span class="base-timer__label">{{ formattedTimeLeft }}</span>
+              ></path>
+            </g>
+          </svg>
+          <span class="base-timer__label">{{ formattedTimeLeft }}</span>
+        </div>
+    <div id="openlayers-map">
+      <MapContainer :geojson="geojson" v-bind:key=updateZoom v-bind:correctLocation="LocationQuestion.location" v-bind:mapView="mapView" v-on:userLocation="userLocation=$event"> </MapContainer>
     </div>
     <div id="move">
       <button  v-on:click="meterDistance()">
@@ -62,8 +61,8 @@
         Submit answer
       </button>
       distans: {{ distance }}
-
     </div>
+  </div>
 
   </section>
 
@@ -71,7 +70,7 @@
     <header class="quiz-questions">
       {{questions[this.index].q}}
     </header>
-    <div class="base-timer">
+    <div class="base-timer" id="timer-followup">
       <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <g class="base-timer__circle">
           <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
@@ -130,14 +129,15 @@
 
   </section>
 
-  <footer class = "format">
+  <footer class="format">
     Poll ID: {{ pollId }}
   </footer>
+
   </main>
 
 </template>
 
-<script>
+<script scoped>
 //  credit Mateusz Rybczonek modified by STSare
 import Question from '@/components/Question.vue';
 import io from 'socket.io-client';
@@ -145,7 +145,7 @@ import MapContainer from "../components/MapContainer";
 
 const socket = io();
 const FULL_DASH_ARRAY = 283;
-const TIME_LIMIT = 1000;
+const TIME_LIMIT = 2000;
 const WARNING_THRESHOLD = TIME_LIMIT/2;
 const ALERT_THRESHOLD = TIME_LIMIT/4;
 
@@ -299,7 +299,7 @@ export default {
     createQuestionArray: function (Data) {
       this.index=0
       this.updateZoom+=1
-      this.displayLocationQuestion=true
+      this.displayLocationQuestion=false
       this.displayFollowupQuestion=false
       this.displayAnswer=false
       var questionArray = []
@@ -400,12 +400,14 @@ export default {
 <style>
 /* General CSS for Poll.vue */
 main{
+
 }
 
 .format{
-  height: 50vh;
-  color: #444444;
+  background-color: #161B40;
 }
+
+
 button {
   display: inline-block;
   padding: 0.35em 1.2em;
@@ -469,7 +471,21 @@ waitingroom-users p{
 }
 /* Lägg in era egna kategorier */
 
+.waiting-room-header{
+  color: white;
+  font-weight: bold;
+  font-size: 200%;
+  padding-top: 100px;
+}
+.quiz-questions{
+  text-decoration-line: underline;
+  font-size: 200%;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 20px;
 
+}
 
 #question-counter{
   position: absolute;
@@ -478,7 +494,49 @@ waitingroom-users p{
   font-family: Damascus;
   font-size: 150%;
 }
+.incorrekt-marker {
+  width: 100px;
+  display: block;
+  margin: 40px auto 0;
+}
+.checkmark__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: #7ac142;
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
 
+
+.checkmark {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  margin: 10% auto;
+  box-shadow: inset 0px 0px 0px #7ac142;
+  animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+}
+
+.checkmark__check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+/* Location Question */
+
+#map-question-wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+}
 
 #openlayers-map {
   position: relative;
@@ -492,44 +550,35 @@ waitingroom-users p{
   height: 30em;
   width: 100%;
 }
+#move{
+  gap: 10px 10px;
+  padding-top: 3em;
+}
+
+#timer-location{
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 100;
+}
+
+
+/* FollowUp Question */
+
+#timer-followup{
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 100;
+}
+
+
 .poll-container{
   height: 10%;
   width: 10%;
-  background: lightgrey;
 }
 
-#dots {
-  position: absolute;
-  background: #f10808;
-  color: #f10808;
-  border-radius: 15px;
-  width: 10px;
-  height: 10px;
-  text-align: center;
-}
 
-#move{
-  position:relative;
-  flex-direction: row;
-}
-
-.quiz-questions{
-  text-decoration-line: underline;
-  font-size: 200%;
-  color: white;
-  font-weight: bold;
-  text-transform: uppercase;
-  padding: 20px;
-
-}
-#move{
-  text-align: center;
-  display: inline-flex;
-  justify-content: center;
-  gap: 10px 10px;
-  height: 10vh;
-  width: 10vh;
-}
 .clock_prop {
   font-family: sans-serif;
   display: grid;
@@ -541,9 +590,9 @@ waitingroom-users p{
 .answer-alternative-size-container{
   height: 95vh;
 }
+/* Timer Clock */
 
 .base-timer {
-  margin-right: 10%;
   float: right;
   position: relative;
   width: 100px;
@@ -582,13 +631,6 @@ waitingroom-users p{
   color: #F40058;
 }
 
-.waiting-room-header{
-  color: white;
-  font-weight: bold;
-  font-size: 200%;
-  padding-top: 100px;
-}
-
 .base-timer__label {
   color: white;
   position: absolute;
@@ -601,36 +643,7 @@ waitingroom-users p{
   justify-content: center;
   font-size: 48px;
 }
-.checkmark__circle {
-  stroke-dasharray: 166;
-  stroke-dashoffset: 166;
-  stroke-width: 2;
-  stroke-miterlimit: 10;
-  stroke: #7ac142;
-  fill: none;
-  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
-}
 
-
-.checkmark {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  display: block;
-  stroke-width: 2;
-  stroke: #fff;
-  stroke-miterlimit: 10;
-  margin: 10% auto;
-  box-shadow: inset 0px 0px 0px #7ac142;
-  animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
-}
-
-.checkmark__check {
-  transform-origin: 50% 50%;
-  stroke-dasharray: 48;
-  stroke-dashoffset: 48;
-  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
-}
 
 @keyframes stroke {
   100% {
@@ -650,13 +663,6 @@ waitingroom-users p{
     box-shadow: inset 0px 0px 0px 30px #7ac142;
   }
 }
-.incorrekt-marker {
-  width: 100px;
-  display: block;
-  margin: 40px auto 0;
-}
-
-
 
 @-webkit-keyframes dash {
   0% {
