@@ -94,13 +94,14 @@ export default {
 
 <style>
 * {
-  font-family: Helvetica;
+  font-family: 'Roboto', sans-serif;;
   font-style: normal;
   font-weight: 100;
 }
 
 body {
   margin:0;
+  background: #161B40;
 }
 
 .routerLink {
@@ -109,13 +110,17 @@ body {
 
 
 }
-
+input {
+  padding: 1em;
+  border: none;
+  border-radius: 12px;
+}
 .theme {
-
-  background: linear-gradient(-45deg, #ee9052, #d22736, #1682a8, #22d999);
+  /*background: linear-gradient(-45deg, #ee9052, #d22736, #1682a8, #22d999);
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
 }
+
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
@@ -125,7 +130,7 @@ body {
   }
   100% {
     background-position: 0% 50%;
-  }
+  }*/
 
 }
 button{
