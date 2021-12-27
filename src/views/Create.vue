@@ -301,6 +301,7 @@ export default {
     },
     finishQuizFinal: function () {
       this.firstStage = true
+      this.currentLQ=0
       for (var i = 0; i <= this.questionSequence.length; i++) {
 
         socket.emit("addQuestion", {

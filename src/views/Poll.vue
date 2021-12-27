@@ -1,7 +1,6 @@
 <template>
   <main>
-    {{displayLocationQuestion}}
-    {{displayFollowupQuestion}}
+   {{displayLocationQuestion}}{{displayFollowupQuestion}} {{displayAnswer}}
   <section class="format" v-if="displayLocationQuestion===true && displayFollowupQuestion===false && displayAnswer===false">
     <header class="quiz-questions">
       {{LocationQuestion.lq}}
@@ -173,14 +172,8 @@ export default {
       index: 0,
       displayLocationQuestion: true,
       displayFollowupQuestion:false,
-<<<<<<< HEAD
     mapView: {zoom: 0, center: [0,0]},
-      updateZoom:0
-=======
->>>>>>> 0239b2c2e86a397c1aa391f5fd39af9639ce2374
-
-    mapView: {zoom: 0, center: [0,0]},
-      update:0,
+      updateZoom:0,
       displayAnswer: false,
       displayRanOutTime: false
 
@@ -277,6 +270,9 @@ export default {
     },
     createQuestionArray: function (Data) {
       this.updateZoom+=1
+      this.displayLocationQuestion=true
+      this.displayFollowupQuestion=false
+      this.displayAnswer=false
       var questionArray = []
       for (let i = 0; i < Data.q.length; i++) {
         questionArray[i] = {q: (Data.q[i])[i], a: (Data.a[i])[i]}
@@ -285,10 +281,9 @@ export default {
       this.LocationQuestion.lq=Data.lq
       this.LocationQuestion.location=Data.location
       this.correctans=Data.correct
-      this.LocationQuestion.lq = Data.lq
-      this.LocationQuestion.location = Data.location
-      this.LocationQuestion.image = Data.image
-      this.correctans = Data.correct
+      this.resetTimer()
+      //*this.startTimer()
+
 
 
     },
@@ -307,17 +302,11 @@ export default {
           } else {
             this.result = "false"
           }
-          if ((this.questions[i]).q === title) {
-            console.log("babe", this.correctans[i], "körv", ((this.questions[i]).a).indexOf(answer))
-            if ((this.correctans[i])[i][((this.questions[i]).a).indexOf(answer)] === true) {
-              this.result = "true"
-            } else {
-              this.result = "false"
-            }
+
           }
 
         }
-      }
+
     },
 
     userSetLocation: function (event) {
