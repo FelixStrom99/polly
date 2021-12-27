@@ -173,14 +173,8 @@ export default {
       index: 0,
       displayLocationQuestion: true,
       displayFollowupQuestion:false,
-<<<<<<< HEAD
-    mapView: {zoom: 0, center: [0,0]},
-      updateZoom:0
-=======
->>>>>>> 0239b2c2e86a397c1aa391f5fd39af9639ce2374
-
-    mapView: {zoom: 0, center: [0,0]},
-      update:0,
+      mapView: {zoom: 0, center: [0,0]},
+      updateZoom:0,
       displayAnswer: false,
       displayRanOutTime: false
 
