@@ -1,14 +1,10 @@
 <template>
   <main>
-    {{displayAnswer}}
   <section class="format" v-if="displayLocationQuestion===true && displayFollowupQuestion===false && displayAnswer===false">
     <header class="quiz-questions">
       {{LocationQuestion.lq}}
-
     </header>
-<<<<<<< HEAD
     <p style="font-weight: bold; color: white">Click on the map to pinpoint the location</p>
-=======
     <p>Click on the map to pinpoint the location</p>
     <div class="base-timer">
       <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -25,17 +21,15 @@
             a 45,45 0 1,0 -90,0
           "
           ></path>
-
         </g>
       </svg>
       <span class="base-timer__label">{{ formattedTimeLeft }}</span>
     </div>
->>>>>>> 647157e81fffebff5e18fb0776cae69dda05d1a9
     <div id="map">
       <MapContainer :geojson="geojson" v-bind:correctLocation="LocationQuestion.location" v-on:userLocation="userLocation=$event"> </MapContainer>
     </div>
     <div id="move">
-      <button v-on:click="meterDistance()">
+      <button  v-on:click="meterDistance()">
         CHECK DISTANCE
       </button>
       <button v-on:click="submitLocationAnswer(),switchToWaitingRoom(),meterDistance()">
@@ -125,11 +119,7 @@ import MapContainer from "../components/MapContainer";
 
 const socket = io();
 const FULL_DASH_ARRAY = 283;
-<<<<<<< HEAD
-const TIME_LIMIT = 100000;
-=======
 const TIME_LIMIT = 10;
->>>>>>> 647157e81fffebff5e18fb0776cae69dda05d1a9
 const WARNING_THRESHOLD = TIME_LIMIT/2;
 const ALERT_THRESHOLD = TIME_LIMIT/4;
 
@@ -352,12 +342,37 @@ export default {
 
 <style>
 
+main{
+}
+
 .format{
   height: 50vh;
   background: #161B40;
   color: #444444;
 
 }
+button {
+  display: inline-block;
+  padding: 0.35em 1.2em;
+  border: 0.1em solid #ffffff;
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 0.9em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  color: #161B40;
+  text-align: center;
+  transition: all 0.2s;
+
+}
+
+button:hover{
+  color:#161B40;
+  background-color: #EFA500;
+}
+
+
 #question-counter{
   position: absolute;
   left: 30px;
@@ -369,8 +384,6 @@ export default {
 
 #map {
   position: relative;
-  margin: 0;
-  padding: 0;
   height: 30em;
   width: 100%;
 }
@@ -399,7 +412,7 @@ export default {
 
 #move{
   position:relative;
-  margin-top:2em;
+  flex-direction: row;
 }
 
 .quiz-questions{
