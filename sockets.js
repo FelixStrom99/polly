@@ -24,10 +24,9 @@ function sockets(io, socket, data) {
     socket.join(pollId);
     socket.emit('newQuestion', data.getQuestion(pollId))
     socket.emit("userMapView",data.getZoom(pollId))
-
-  /*  socket.emit('dataUpdate', data.getAnswers(pollId))
-  /*  socket.emit('newLocationQuestion', data.getLocations(pollId));
-    socket.emit('dataUpdate', data.getLocationAnswers(pollId))*/
+    socket.emit('dataUpdate', data.getAnswers(pollId))
+    socket.emit('locationDataUpdate', data.getLocationAnswers(pollId));
+   /* socket.emit('dataUpdate', data.getLocationAnswers(pollId))*/
 
   });
 

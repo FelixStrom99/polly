@@ -4,9 +4,14 @@
        style="width: 100%; height: 100%">
   </div>
   <div>
-    <button type="button" v-on:click="submitLocation"> SUBMIT LOCATION</button>
+    <button type="button" v-on:click="locationDataPoints"> Show All locations!</button>
+    <button type="button" v-on:click="clearAll"> Clear the map!</button>
   </div>
+
   <!--<input type="range" v-model="this.userPoint.properties.radius" max="40" min="5">-->
+
+
+
 </template>
 
 <script>
@@ -17,7 +22,7 @@ import OSM from 'ol/source/OSM'
 import VectorLayer from 'ol/layer/Vector'
 import VectorSource from 'ol/source/Vector'
 import GeoJSON from 'ol/format/GeoJSON'
-import { transform } from 'ol/proj'
+/*import { transform } from 'ol/proj' */
 import {Fill, Style, Stroke,Icon} from 'ol/style'
 
 /*import {Circle} from 'ol/style'*/
@@ -28,13 +33,16 @@ import {Fill, Style, Stroke,Icon} from 'ol/style'
 // importing the OpenLayers stylesheet is required for having
 // good looking buttons!
 import 'ol/ol.css'
-import io from "socket.io-client";
-const socket = io();
+//*import io from "socket.io-client";
+//*const socket = io();
 
 export default {
   name: 'MapContainerResults',
   components: {},
   props:{
+    mapView:Object,
+    correctLocation:Object,
+    locationData:Object
   },
   data: function () {
     return {
@@ -43,8 +51,8 @@ export default {
       vectorLayer: null,
       evt_coordinate:{x:0,
         y:0},
-
-      mapView:{zoom:0,center:[0,0]},
+      user_coordinate:{x:0,
+      y:0},
       userPoint: {
         type: 'Feature',
         properties: {
@@ -81,16 +89,13 @@ export default {
       }
 
     }},
-  created: function () {
-    this.pollId = this.$route.params.id
-    socket.on("userMapView", d =>
-        console.log(d.pollId)
 
-
-    )},
   computed: {
     userPointProperties: function () {
       return this.userPoint.properties;
+    },
+    userPointGeometry:function(){
+      return this.userPoint.geometry.coordinates;
     }
   },
   watch: {
@@ -100,7 +105,8 @@ export default {
         this.vectorLayer.changed();
       },
       deep: true
-    }
+    },
+    userPointGeometry: {}
   },
   mounted() {
     this.vectorLayer = new VectorLayer({
@@ -118,30 +124,48 @@ export default {
         this.vectorLayer
       ],
       view: new View({
-        zoom: 14,
-        center: [1962289.773825233,8368555.335845293],
+        zoom: this.mapView.zoom,
+        center: this.mapView.center,
         constrainResolution: true
       }),
-    }),
+    })
 
 
-        this.olMap.on('click', (event) => {
+       /* ,this.olMap.on('click', (event) => {
           let myTarget = JSON.parse(JSON.stringify(transform(event.coordinate, 'EPSG:3857', 'EPSG:4326')));
 
           this.evt_coordinate.x= myTarget[0]
           this.evt_coordinate.y= myTarget[1]
-          this.answer(this.evt_coordinate);
           console.log(this.evt_coordinate.x)
           console.log(this.evt_coordinate.y)
           this.userPoint.geometry.coordinates=[this.evt_coordinate.x,this.evt_coordinate.y]
           this.addPoint(this.userPoint)
 
 
-        });
+        });*/
 
   },
 
   methods: {
+    locationDataPoints() {
+
+      for (let i = 0; i < this.locationData.length; i++) {
+        let Target = JSON.parse(JSON.stringify(this.locationData[i]));
+
+        this.userPoint.geometry.coordinates=[Target.x,Target.y]
+        this.addPoint(this.userPoint)
+
+        console.log( "locationx="+Target.x)
+        console.log("locationy="+Target.y)
+      }
+
+
+          },
+clearAll(){
+  const source = this.vectorLayer.getSource()
+  source.clear();
+  },
+
     pointStyle({color}) {
       return new Style( {
         /*  image: new Circle({
@@ -189,7 +213,6 @@ export default {
         featureProjection: 'EPSG:3857',
       }).readFeature(geojson)
       this.userPointFeature.setStyle(this.pointStyle(this.userPointProperties));
-      source.clear();
       source.addFeature(this.userPointFeature);
 
     },
@@ -210,10 +233,8 @@ export default {
       this.correctPoint.geometry.coordinates=[this.correctLocation.x,this.correctLocation.y]
       this.updateSource(this.correctPoint, this.correctPointStyle)
 
-    },
-    answer: function (mapLocation) {
-      this.$emit("userLocation", mapLocation);
     }
+
   },
 
 }
