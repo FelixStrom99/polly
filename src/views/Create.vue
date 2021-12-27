@@ -1,8 +1,8 @@
 <template>
 
   <section v-if="firstStage===true && secondStage===true">
-    <div>
-      <h1> {{ uiLabels.createPoll }}</h1>
+    <div id="wrapper-pollID-header">
+      <h1 id="enter-pollID-header"> {{ uiLabels.createPoll }}</h1>
       <div>
         <input type="text" v-model="pollId" placeholder="Enter title...">
       </div>
@@ -87,7 +87,7 @@
       <h1>{{ pollId }}</h1>
       <div class="location-question" v-if="createLocationQuestion">
         <div>
-          {{ uiLabels.locationQuestion }}:<input type="text" v-model="locationQuestion">
+          {{ uiLabels.locationQuestion }}:<input type="text" placeholder="Enter question..." v-model="locationQuestion">
         </div>
         <button v-on:click="editQuestion(this.currentLQ, null)">save</button>
         <div id="openlayers-map">
@@ -99,7 +99,7 @@
 
       <div class="create theme" v-if="createMultipleChoiceQuestion">
         {{ uiLabels.question }}:
-        <input type="text" v-model="question">
+        <input type="text" placeholder="Enter question..." v-model="question">
         <button v-on:click="editQuestion(this.currentLQ, currentMQ)">save</button>
         <div class="question-multiple">
           {{ uiLabels.answers}}:
@@ -440,42 +440,43 @@ export default {
 /* General for create*/
 
 /* Section PollID */
+#enter-pollID-header {
+  font-size: 500%;
+  color: white;
+  text-shadow: 5px 5px 5px black;
+  margin-bottom: 1em;
+}
 
 /* Section Choose map */
 
+
 /* Section Create quiz */
-
-/* Section Create quiz // Left Bar */
-
-/* Section Create quiz // Middle */
-
-/* Section Create quiz // Right Bar */
+.create {
+  height: 99vh;
+}
 
 .create-the-questions-container {
   display: flex;
-  background-color: #1682a8;
   height: 100vh;
   width: 100%;
 }
-
-.create {
-  height: 99vh;
-
-}
-
+/* Section Create quiz // Left Bar */
 .overview-left-side {
   background-color: rgba(255, 255, 255, 0.54);
   flex-basis: 15%;
   justify-content: space-evenly;
-
-
 }
 
+/* Section Create quiz // Middle */
 .lq-and-q {
   justify-content: space-evenly;
   flex-basis: 70%;
   clear:both
 }
+/* Section Create quiz // Right Bar */
+
+
+
 
 
 .slider {

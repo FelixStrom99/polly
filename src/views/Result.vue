@@ -1,30 +1,22 @@
 <template>
+
+ <h1>{{ locationQuestion }} </h1>
+  <p>locationdata</p>
+  {{locationData}}
+  <div id="openlayers-map">
+    <MapContainerResults :geojson="geojson" v-bind:key=updateZoom v-bind:locationData="locationData" v-bind:correctLocation="correctLocation" v-bind:mapView="mapView"> </MapContainerResults>
+  </div>
+
   <div v-for="(title,i) in question"
        v-bind:title="title"
        v-bind:key="title[i]">
-     {{title[i]}}
+    {{title[i]}}
   </div>
+  {{question}}
   <Bars v-bind:data="data"/>
   <div>
 
   </div>
-  <!--- <div id="mapcontainer">
-    <div id="dots">
-    <div v-for="(location,key) in locationData" v-bind:style="{ left: location.x + 'px', top: location.y + 'px'}" v-bind:key="'dots'+ key">
-T
-
-    </div>
-    </div>
-  </div> -->
-
-  <div id="openlayers-map">
-    <MapContainerResults :geojson="geojson" v-bind:key=updateZoom v-bind:locationData="locationData" v-bind:correctLocation="correctLocation" v-bind:mapView="mapView"> </MapContainerResults>
-  </div>
-  <p>locationquestion</p>
-  {{ locationQuestion }}
-  <p>locationdata</p>
-{{locationData}}
-
 
 </template>
 
