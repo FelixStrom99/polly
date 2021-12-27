@@ -1,7 +1,6 @@
 <template>
   <main>
-    {{displayLocationQuestion}}
-    {{displayFollowupQuestion}}
+   {{displayLocationQuestion}}{{displayFollowupQuestion}} {{displayAnswer}}
   <section class="format" v-if="displayLocationQuestion===true && displayFollowupQuestion===false && displayAnswer===false">
     <header class="quiz-questions">
       {{LocationQuestion.lq}}
@@ -271,6 +270,9 @@ export default {
     },
     createQuestionArray: function (Data) {
       this.updateZoom+=1
+      this.displayLocationQuestion=true
+      this.displayFollowupQuestion=false
+      this.displayAnswer=false
       var questionArray = []
       for (let i = 0; i < Data.q.length; i++) {
         questionArray[i] = {q: (Data.q[i])[i], a: (Data.a[i])[i]}
@@ -279,10 +281,9 @@ export default {
       this.LocationQuestion.lq=Data.lq
       this.LocationQuestion.location=Data.location
       this.correctans=Data.correct
-      this.LocationQuestion.lq = Data.lq
-      this.LocationQuestion.location = Data.location
-      this.LocationQuestion.image = Data.image
-      this.correctans = Data.correct
+      this.resetTimer()
+      //*this.startTimer()
+
 
 
     },
@@ -301,17 +302,11 @@ export default {
           } else {
             this.result = "false"
           }
-          if ((this.questions[i]).q === title) {
-            console.log("babe", this.correctans[i], "körv", ((this.questions[i]).a).indexOf(answer))
-            if ((this.correctans[i])[i][((this.questions[i]).a).indexOf(answer)] === true) {
-              this.result = "true"
-            } else {
-              this.result = "false"
-            }
+
           }
 
         }
-      }
+
     },
 
     userSetLocation: function (event) {
@@ -383,7 +378,6 @@ button {
   border-radius: 0.9em;
   box-sizing: border-box;
   text-decoration: none;
-  font-family: 'Roboto', sans-serif;
   font-weight: 300;
   color: #161B40;
   text-align: center;
