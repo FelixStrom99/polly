@@ -102,6 +102,7 @@ export default {
 body {
   margin:0;
   background: #161B40;
+  color: white;
 }
 
 .routerLink {

@@ -11,7 +11,7 @@
   </section>
   <section class="waitingroom" v-if="isWaitingroom">
     <div id="waitingroom-wrapper">
-      <h1 id="waitingroom-text">This is the waiting room bruh</h1>
+      <h1 id="waitingroom-text">Waiting room</h1>
       <h2>wait for the host to start the game...</h2>
       <div id="waitingroom-item">
         <div id="waitingroom-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i" style="  color: white;font-size:20px;">
@@ -427,7 +427,6 @@ button:hover{
 /* Waiting Room */
 #waitingroom-wrapper {
   display: flex;
-  background-color: orange;
   align-items: center;
   justify-content: center;
   min-height: 50em;
@@ -436,6 +435,8 @@ button:hover{
   background-color: #1682a8;
   height: 50vh;
   width: 30%;
+  border-style: solid;
+  border-width: thick;
   border-color: lightgreen;
   border-radius: 10px;
   padding: 2em;

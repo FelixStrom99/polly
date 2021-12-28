@@ -477,7 +477,7 @@ export default {
 }
 /* Section Create quiz // Right Bar */
 
-
+/* Section Host View */
 
 
 
