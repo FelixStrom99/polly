@@ -168,18 +168,35 @@
   <section v-if="secondStage===false && firstStage===true">
   <h1>här kör hosten quizet jappi</h1>
     <p>Här är ditt PollID: {{this.pollId}}</p>
-  <div id="run-question-grid">
-  <div v-for="(_,i) in questionSequence" v-bind:key="'question'+i">
-    <button v-on:click="currentLQ=i">{{questionSequence[i][3]}} </button>
+    <div>
+      <button v-on:click="runQuestion">
+        Run Selected Question
+      </button>
+      <button v-on:click="goBackEdit">
+        Go back to editing
+      </button>
+      <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
+    </div>
+    {{currentLQ}}
+  <div id="run-question-wrapper">
+    <div class="run-question waitingroom">
+      <h3>Users connected</h3>
+      {{this.userList}}
+      <div id="run-question-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i" style="  color: white;font-size:20px;">
+        <p>{{u}}</p>
+      </div>
+    </div>
+    <div class="run-question box">
+      <h3>Run questions</h3>
+      <div id="run-question-item" v-for="(_,i) in questionSequence" v-bind:key="'question'+i">
+        <div v-on:click="currentLQ=i">{{questionSequence[i][3]}} </div>
+      </div>
+    </div>
+    <div class="run-question preview">
+      <h3>Preview of question</h3>
+    </div>
+
   </div>
-  </div>
-  <div>
-    <button v-on:click="runQuestion">
-      Run Selected Question
-    </button>
-    <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
-  </div>
-  {{currentLQ}}
 </section>
 
 
@@ -212,7 +229,6 @@ export default {
       },
       createLocationQuestion: true,
       createMultipleChoiceQuestion: false,
-      hasMultipleChoiceQuestion: [true],
       data: {},
       uiLabels: {},
       range_from_location: "",
@@ -230,12 +246,14 @@ export default {
         center: [0, 0]
       },
       questionSequence: [],
+      userList: [],
     }
   },
   created: function () {
     this.lang = this.$route.params.lang;
+
     this.addNewPollQuestion()
-    socket.emit("pageLoaded", this.lang);
+    socket.emit("pageLoaded", {lang: this.lang, id: this.pollId});
     socket.on("init", (labels) => {
       this.uiLabels = labels
     })
@@ -244,6 +262,9 @@ export default {
     )
     socket.on("pollCreated", (data) =>
         this.data = data)
+    socket.on("userUpdate",update => {
+      console.log("Detta är bra: ", update)/*this.userList=update;*/
+    })
   },
 
   methods: {
@@ -297,6 +318,10 @@ export default {
       this.pollQuestionIndex += 1
     },
     nextSection: function () {
+      this.secondStage = false
+    },
+    goBackEdit: function (){
+      this.firstStage = false
       this.secondStage = false
     },
     finishQuizFinal: function () {
@@ -787,18 +812,39 @@ textbox:hover {
   text-align: center;
 
 }
-#run-question-grid {
-
-  background-color: #d95333;
-  color: #111010;
-  display: grid;
-  grid-gap: 250px;
-  grid-template-columns: 100px 100px 100px;
-  /*border-radius: 200px; */
-  padding: 50px;
+#run-question-wrapper {
+  display: flex;
+  justify-content: center;
+  min-height: 50em;
+  height:auto;
 }
- #run-question-grid button{
-   background-color: rgba(34, 76, 182, 0.58);
+.run-question {
+  background-color: #1682a8;
+  height: 50vh;
+  border-style: solid;
+  border-width: thick;
+  border-color: lightgreen;
+  border-radius: 10px;
+  padding: 2em;
+}
+.run-question box {
+   min-width: 30%;
+
+ }
+.run-question waitingroom {
+  width: 15%;
+}
+ #run-question-item {
+   width: 100%;
+   background-color: orange;
+   margin: 1em;
+ }
+#run-question-item:hover {
+  cursor: pointer;
+  background-color: mediumpurple;
+}
+
+   /*background-color: rgba(34, 76, 182, 0.58);
    color: #fcf8f8;
    text-align: center;
    cursor: pointer;
@@ -809,8 +855,23 @@ textbox:hover {
    border-radius: 10%;
    text-align: left;
    outline: none;
-   font-size: 15px;
- }
+   font-size: 15px;*/
+ #waitingroom-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50em;
+  }
+#waitingroom-item {
+  background-color: #1682a8;
+  height: 50vh;
+  width: 30%;
+  border-style: solid;
+  border-width: thick;
+  border-color: lightgreen;
+  border-radius: 10px;
+  padding: 2em;
+}
 
 .routerLink {
   text-decoration: none;

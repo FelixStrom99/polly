@@ -183,7 +183,8 @@ Data.prototype.getUsers = function (pollId) {
     if (typeof poll !== 'undefined') {
 
         if (typeof poll.users !== 'undefined') {
-            return {users: poll.users};
+            console.log("Hämtad")
+            return {users: poll.users, lang: poll.lang};
         }
     }
     return {}

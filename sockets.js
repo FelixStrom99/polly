@@ -1,8 +1,9 @@
 function sockets(io, socket, data) {
   socket.emit('init', data.getUILabels());
   
-  socket.on('pageLoaded', function (lang) {
-    socket.emit('init', data.getUILabels(lang));
+  socket.on('pageLoaded', function (d) {
+    socket.emit('init', data.getUILabels(d.lang));
+    console.log("skickas dethär??")
   });
 
 
@@ -33,6 +34,8 @@ function sockets(io, socket, data) {
   socket.on('addUser', function(d) {
   data.addToUsers(d.pollId, d.users);
     io.to(d.pollId).emit('userUpdate',data.getUsers(d.pollId))
+    io.to(d.lang).emit('userUpdate',data.getUsers(d.pollId))
+
   });
 
   socket.on('runQuestion', function(d) {
