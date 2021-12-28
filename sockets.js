@@ -34,9 +34,10 @@ function sockets(io, socket, data) {
   socket.on('addUser', function(d) {
   data.addToUsers(d.pollId, d.users);
     io.to(d.pollId).emit('userUpdate',data.getUsers(d.pollId))
-    io.to(d.lang).emit('userUpdate',data.getUsers(d.pollId))
+
 
   });
+
 
   socket.on('runQuestion', function(d) {
     io.to(d.pollId).emit('newQuestion', data.getQuestion(d.pollId, d.questionNumber));

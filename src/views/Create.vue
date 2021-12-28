@@ -262,9 +262,10 @@ export default {
     )
     socket.on("pollCreated", (data) =>
         this.data = data)
-    socket.on("userUpdate",update => {
-      console.log("Detta är bra: ", update)/*this.userList=update;*/
-    })
+
+    socket.on("userUpdate",(user) =>{
+      this.userList=user
+  } )
   },
 
   methods: {
@@ -325,6 +326,7 @@ export default {
       this.secondStage = false
     },
     finishQuizFinal: function () {
+      console.log("här kommer det")
       this.firstStage = true
       this.currentLQ=0
       for (var i = 0; i <= this.questionSequence.length; i++) {
