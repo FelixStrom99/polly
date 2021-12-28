@@ -189,11 +189,18 @@
     <div class="run-question box">
       <h3>Run questions</h3>
       <div id="run-question-item" v-for="(_,i) in questionSequence" v-bind:key="'question'+i">
-        <div v-on:click="currentLQ=i">{{questionSequence[i][3]}} </div>
+        <div v-on:click="currentLQ=i; this.previewQuestion()">{{questionSequence[i][3]}} </div>
       </div>
     </div>
     <div class="run-question preview">
       <h3>Preview of question</h3>
+      {{this.isPreviewQuestion}}
+      <div v-if="isPreviewQuestion" id="preview-question">
+        {{questionSequence[currentLQ][3]}}
+        <div v-for="(ans,i) in questionSequence[currentLQ][0]" v-bind:key="'ans'+i">
+          {{ans}}
+        </div>
+      </div>
     </div>
 
   </div>
@@ -247,6 +254,7 @@ export default {
       },
       questionSequence: [],
       userList: [],
+      isPreviewQuestion: false,
     }
   },
   created: function () {
@@ -414,7 +422,10 @@ export default {
         content.style.maxHeight = content.scrollHeight + 20 + "px";
       }
     },
+    previewQuestion: function () {
+      this.isPreviewQuestion = true;
 
+    },
     fixMaxHeightCollapse: function () {
       var coll = document.getElementsByClassName("collapsible");
       var content = coll[this.currentLQ].nextElementSibling
@@ -834,12 +845,18 @@ textbox:hover {
 .run-question waitingroom {
   width: 15%;
 }
+#preview-question {
+  background-color: white;
+  color: black;
+  min-height: 10em;
+  border-radius: 7px;
+}
  #run-question-item {
    width: 100%;
    background-color: orange;
    margin: 1em;
  }
-#run-question-item:hover {
+#run-question-item:hover, selected {
   cursor: pointer;
   background-color: mediumpurple;
 }
