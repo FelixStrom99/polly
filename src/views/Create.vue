@@ -175,13 +175,15 @@
       <button v-on:click="goBackEdit">
         Go back to editing
       </button>
+      <button v-on:click="updatePlayers">
+        Update players
+      </button>
       <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
     </div>
     {{currentLQ}}
   <div id="run-question-wrapper">
     <div class="run-question waitingroom">
       <h3>Users connected</h3>
-      {{this.userList}}
       <div id="run-question-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i" style="  color: white;font-size:20px;">
         <p>{{u}}</p>
       </div>
@@ -257,7 +259,14 @@ export default {
       isPreviewQuestion: false,
     }
   },
+  /*mounted() {
+    socket.on("userUpdate",(user) =>{
+      console.log("snälla",user)
+    } )
+
+  },*/
   created: function () {
+
     this.lang = this.$route.params.lang;
 
     this.addNewPollQuestion()
@@ -270,10 +279,9 @@ export default {
     )
     socket.on("pollCreated", (data) =>
         this.data = data)
-
-    socket.on("userUpdate",(user) =>{
+    socket.on("brakrök",(user) =>{
       this.userList=user
-  } )
+    } )
   },
 
   methods: {
@@ -334,11 +342,9 @@ export default {
       this.secondStage = false
     },
     finishQuizFinal: function () {
-      console.log("här kommer det")
       this.firstStage = true
       this.currentLQ=0
       for (var i = 0; i <= this.questionSequence.length; i++) {
-
         socket.emit("addQuestion", {
           pollId: this.pollId,
           q: this.questionSequence[i][0],
@@ -469,6 +475,9 @@ export default {
       socket.emit("mapView", {pollId: this.pollId, zoom: this.mapView.zoom, center: this.mapView.center})
 
 
+    },
+    updatePlayers: function () {
+      socket.emit('test',{pollId:this.pollId})
     }
   }
 }
