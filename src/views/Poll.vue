@@ -1,8 +1,11 @@
 <template>
+  <div style="color: white">
   {{"loc:" + displayLocationQuestion}} {{"fol:" + displayFollowupQuestion}} {{"ans:" + displayAnswer}}
   {{"id:" + userID}}
   {{"list: " + userList}}
+  {{"timep: " + timePassed}}
   {{timeLeft}}
+  </div>
   <section class="choose-username" v-if="isChooseusername">
     <h1> Välj användarnamn</h1> <!-- {{ uiLabels.username }}-->
     <div>
@@ -129,7 +132,7 @@
         <line class="incorrekt-path-line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2"/>
       </svg>
     </div>
-    <button v-on:click="switchToWaitingRoom();switchQuestionType();resetTimer();startTimer()">NEXT</button>
+    <button v-on:click="switchToWaitingRoom();switchQuestionType();resetTimer()">NEXT</button>
 
   </section>
 
@@ -200,7 +203,8 @@ export default {
       isChooseusername:       false,
       displayAnswer:          false,
       displayRanOutTime:      false,
-      newGame:                true
+      newGame:                true,
+      boolTimerStart:         false
 
     }
 
@@ -268,17 +272,18 @@ export default {
     }
   },
   mounted() {
-    this.startTimer();
+    if(this.boolTimerStart === true) {
+      this.startTimer();
+    }
   },
   methods: {
 
     resetTimer(){
+      if(this.displayRanOutTime==true){
+        this.startTimer()
+      }
       this.displayRanOutTime=false
       this.timePassed = 0
-      return this.timeLeft
-    },
-    pausTimer(){
-      this.timeLeft = -1
     },
 
     onTimesUp() {
@@ -392,7 +397,9 @@ export default {
     skipWaitingroomTemporary: function() {
       this.displayLocationQuestion = true;
       this.isWaitingroom = false;
+      this.boolTimerStart=true;
       this.resetTimer()
+      this.startTimer()
     },
     switchToWaitingRoom: function () {
       if(this.displayAnswer===true){
