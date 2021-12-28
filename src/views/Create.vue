@@ -167,7 +167,7 @@
 
   <section v-if="secondStage===false && firstStage===true">
   <h1>här kör hosten quizet jappi</h1>
-
+    <p>Här är ditt PollID: {{this.pollId}}</p>
   <div id="run-question-grid">
   <div v-for="(_,i) in questionSequence" v-bind:key="'question'+i">
     <button v-on:click="currentLQ=i">{{questionSequence[i][3]}} </button>
@@ -301,6 +301,7 @@ export default {
     },
     finishQuizFinal: function () {
       this.firstStage = true
+      this.currentLQ=0
       for (var i = 0; i <= this.questionSequence.length; i++) {
 
         socket.emit("addQuestion", {
@@ -437,6 +438,7 @@ export default {
 </script>
 <style>
 /* Put everything in alphabetical order */
+
 /* General for create*/
 
 /* Section PollID */
@@ -475,7 +477,7 @@ export default {
 }
 /* Section Create quiz // Right Bar */
 
-
+/* Section Host View */
 
 
 
