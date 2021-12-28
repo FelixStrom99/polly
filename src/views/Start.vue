@@ -97,7 +97,6 @@ export default {
   font-family: 'Roboto', sans-serif;;
   font-style: normal;
   font-weight: 100;
-  color: white;
 }
 
 body {

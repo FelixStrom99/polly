@@ -1,4 +1,8 @@
 <template>
+  {{"loc:" + displayLocationQuestion}} {{"fol:" + displayFollowupQuestion}} {{"ans:" + displayAnswer}}
+  {{"id:" + userID}}
+  {{"list: " + userList}}
+  {{timeLeft}}
   <section class="choose-username" v-if="isChooseusername">
     <h1> Välj användarnamn</h1> <!-- {{ uiLabels.username }}-->
     <div>
@@ -24,7 +28,7 @@
   </section>
 
   <main>
-    <section class="format" v-if="displayLocationQuestion===true && displayFollowupQuestion===false && displayAnswer===false">
+    <section class="format" v-if="displayLocationQuestion && displayFollowupQuestion===false && displayAnswer===false">
     <header class="quiz-questions">
       {{LocationQuestion.lq}}
     </header>
@@ -145,7 +149,7 @@ import MapContainer from "../components/MapContainer";
 
 const socket = io();
 const FULL_DASH_ARRAY = 283;
-const TIME_LIMIT = 2000;
+const TIME_LIMIT = 10;
 const WARNING_THRESHOLD = TIME_LIMIT/2;
 const ALERT_THRESHOLD = TIME_LIMIT/4;
 
@@ -174,34 +178,29 @@ export default {
   },
   data: function () {
     return {
-      timePassed: 0,
-      timerInterval: null,
-      result:"",
-      correctans: [],
-      questions: [],
-      LocationQuestion: {
-        lq: "",
-        location: {
-          x: 0,
-          y: 0
-        },
-
-      },
-      pollId: "inactive poll",
-      userID: "",
-      userList: [],
-      userLocation: {x: 0,
-            y: 0},
-      distance: 0,
-      index: 0,
-      displayLocationQuestion: false,
+      timePassed:             0,
+      timerInterval:          null,
+      result:                 "",
+      correctans:             [],
+      questions:              [],
+      LocationQuestion:       {
+                              lq: "",
+                              location: {x: 0, y: 0},},
+      pollId:                 "inactive poll",
+      userID:                 "",
+      userList:               [],
+      userLocation:           {x: 0, y: 0},
+      mapView:                {zoom: 0, center: [0,0]},
+      updateZoom:             0,
+      distance:               0,
+      index:                  0,
+      displayLocationQuestion:false,
       displayFollowupQuestion:false,
-      isWaitingroom: false,
-      isChooseusername: true,
-      mapView: {zoom: 0, center: [0,0]},
-      updateZoom:0,
-      displayAnswer: false,
-      displayRanOutTime: false
+      isWaitingroom:          false,
+      isChooseusername:       false,
+      displayAnswer:          false,
+      displayRanOutTime:      false,
+      newGame:                true
 
     }
 
@@ -282,14 +281,14 @@ export default {
       this.timeLeft = -1
     },
 
-
     onTimesUp() {
       clearInterval(this.timerInterval);
       if(this.displayFollowupQuestion===true){
       this.index += 1}
+      if(this.isWaitingroom === false && this.isChooseusername ===false){
       this.result = 'false'
       this.displayRanOutTime=true
-      this.displayAnswer=true
+      this.displayAnswer=true}
 
     },
 
@@ -299,9 +298,20 @@ export default {
     createQuestionArray: function (Data) {
       this.index=0
       this.updateZoom+=1
-      this.displayLocationQuestion=false
-      this.displayFollowupQuestion=false
-      this.displayAnswer=false
+      if(this.newGame){
+        this.displayLocationQuestion=false
+        this.displayFollowupQuestion=false
+        this.displayAnswer          =false
+        this.isChooseusername       =true
+      }
+      else{
+        this.displayLocationQuestion=true
+        this.isChooseusername       =false
+        this.displayFollowupQuestion=false
+        this.displayAnswer          =false
+        this.resetTimer()
+      }
+
       var questionArray = []
       for (let i = 0; i < Data.q.length; i++) {
         questionArray[i] = {q: (Data.q[i])[i], a: (Data.a[i])[i]}
@@ -310,8 +320,7 @@ export default {
       this.LocationQuestion.lq=Data.lq
       this.LocationQuestion.location=Data.location
       this.correctans=Data.correct
-      this.resetTimer()
-      //*this.startTimer()
+      this.newGame=false
 
 
 
@@ -321,7 +330,6 @@ export default {
       this.displayRanOutTime = false
       this.switchToWaitingRoom()
       this.timePassed = TIME_LIMIT + 1
-      console.log(this.timeLeft)
       socket.emit("submitAnswer", {pollId: this.pollId, answer: answer})
       for (let i = 0; i < this.questions.length; i++) {
 
@@ -384,13 +392,14 @@ export default {
     skipWaitingroomTemporary: function() {
       this.displayLocationQuestion = true;
       this.isWaitingroom = false;
+      this.resetTimer()
     },
     switchToWaitingRoom: function () {
       if(this.displayAnswer===true){
         this.displayAnswer=false}
         else{
           this.displayAnswer=true}
-        }
+        },
 
       }
     }
@@ -400,11 +409,11 @@ export default {
 <style>
 /* General CSS for Poll.vue */
 main{
-
 }
 
 .format{
   background-color: #161B40;
+
 }
 
 
