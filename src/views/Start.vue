@@ -35,7 +35,7 @@
 
 
         <button class="playButtons">
-          <router-link class="routerLink" v-bind:to="'/create/'+lang">{{ uiLabels.createPoll }}</router-link>
+          <router-link class="routerLink" v-bind:to="'/create/'+lang">Create</router-link> <!-- uiLabels.createPoll-->
         </button>
 
       </div>
@@ -108,7 +108,7 @@ Green #41B853
 * {
   font-family: 'Roboto', sans-serif;;
   font-style: normal;
-  font-weight: 100;
+  font-weight: 400;
 }
 
 body {
