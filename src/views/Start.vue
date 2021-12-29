@@ -1,19 +1,40 @@
 <template>
 
+  <main>
+  <section style="width: 100% ;height: 45em">
 
-  <header class="header-prop">
-    <div><br>
-      <button id="LangButton" style  v-on:click="switchLanguage">
-        <object data="/svg_files/Language_symbol/language-symbol.svg" type="image/svg+xml" style="float: left">
-        </object>
-        {{uiLabels.changeLanguage}}</button>
-    </div>
-  </header>
-  <main class="theme">
-  <section>
+    <button id="LangButton" style  v-on:click="switchLanguage">
+      <div>
+      <object data="/svg_files/Language_symbol/language-symbol.svg" type="image/svg+xml" style="float: left; padding-top:3%" >
+      </object>
+      </div>
+      {{uiLabels.changeLanguage}}</button>
+    <ul class="circles">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
     <section>
-      <h2> {{uiLabels.welcome}} </h2>
-      <h1 id="headertext">MapQuiz</h1>
+
+
+      <div id="headertext">
+      <span >
+	<span style="color:#43BEE5">M</span>
+	<span style="color: #EFA500">a</span>
+	<span style="color: #F40058">p</span>
+	<span style="color:#43BEE5">Q</span>
+	<span style="color: #F40058">u</span>
+	<span style="color: #EFA500 ">i</span>
+	<span style="color: #41B853 ">z</span>
+</span>
+      </div>
       <div id="nav">
         <div>
           <div v-if="play">
@@ -41,15 +62,11 @@
       </div>
     </section>
 
-    <footer class="bottom">
-      please do not sue us Glöggkrök incorperated
-    </footer>
-    <button >
-      <router-link class="routerLink" v-bind:to="'/testsite/'">TESTSITE</router-link>
-    </button>
-  </section>
 
+
+  </section>
   </main >
+
 </template>
 
 <script>
@@ -96,11 +113,13 @@ export default {
 * {
   font-family: 'Roboto', sans-serif;;
   font-style: normal;
-  font-weight: 100;
+  font-weight: bold;
+  z-index: 1;
 }
 
 body {
-  margin:0;
+  width: 100%;
+  height: 90%;
   background: #161B40;
 }
 
@@ -134,13 +153,13 @@ input {
 
 }
 button{
+
   font-size:100%;
   text-align: center;
-  border: none;
-  border-radius: 12px;
+  border-radius:6px;
 }
 button:hover{
-  background-color:lightgrey;
+  background-color: #EFA500;
   cursor:pointer;
 }
 button:active{
@@ -148,37 +167,39 @@ button:active{
   top: 1px;
 }
 #LangButton {
+
   width:10%;
   height: 5%;
   font-size:100%;
   text-align: center;
   border: none;
-  border-radius: 12px;
-  margintop: 10px;
-  marginright: 10px;
+  border-radius: 6px;
   position: absolute;
   top: 20px;
   right: 20px;
 }
 
 .playButtons{
+  color: white;
+  font-weight: bold;
+  background-color: transparent;
   height:auto;
   width:auto;
   font-size:200%;
 }
 
 
-.bottom {
-  margin-top: 50em;
-}
 
 
 #nav {
+
   display: flex;
   justify-content: center;
   grid-gap: 10em;
   grid-template-columns: 10em 10em 10em;
-  padding: 2em;
+  padding-top: 10%;
+  padding-left: 2em;
+  padding-rightright: 2em;
 }
 .header-prop{
   background: white;
@@ -186,13 +207,175 @@ button:active{
 }
 
 #headertext {
-  font-size: 500%;
+  padding-top: 5%;
+  font-size: 700%;
   color: white;
-  text-shadow: 10px 10px 10px black;
+  font-weight: bold;
+
 
 }
 #pollID{
   position:relative;
   top:1em;
+}
+@import url('https://fonts.googleapis.com/css?family=Exo:400,700');
+
+
+
+.context {
+  width: 100%;
+  position: absolute;
+  top:50vh;
+
+}
+
+.context h1{
+  text-align: center;
+  color: #fff;
+  font-size: 50px;
+}
+
+button {
+  display: inline-block;
+  padding: 0.35em 1.2em;
+  border: 0.1em solid #EFA500;
+  margin: 0 0.3em 0.3em 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-weight: 300;
+  color: #161B40;
+  text-align: center;
+  transition: all 0.2s;
+
+}
+
+
+
+
+
+
+
+.circles{
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.circles li{
+
+  position: absolute;
+  display: block;
+  list-style: none;
+  width: 20px;
+  height: 20px;
+  background-color: #41B853;
+  animation: animate 25s linear infinite;
+  bottom: -150px;
+
+}
+
+.circles li:nth-child(1){
+  left: 25%;
+  background-color: #EFA500;
+  width: 80px;
+  height: 80px;
+  animation-delay: 0s;
+}
+
+
+.circles li:nth-child(2){
+  left: 10%;
+  background-color:#43BEE5;
+  width: 20px;
+  height: 20px;
+  animation-delay: 2s;
+  animation-duration: 12s;
+}
+
+.circles li:nth-child(3){
+  left: 70%;
+  background-color:#43BEE5;
+  width: 20px;
+  height: 20px;
+  animation-delay: 4s;
+}
+
+.circles li:nth-child(4){
+  left: 40%;
+  width: 60px;
+  height: 60px;
+  animation-delay: 0s;
+  animation-duration: 18s;
+}
+
+.circles li:nth-child(5){
+  left: 65%;
+  background-color: #EFA500;
+  width: 20px;
+  height: 20px;
+  animation-delay: 0s;
+}
+
+.circles li:nth-child(6){
+  left: 75%;
+  width: 110px;
+  height: 110px;
+  animation-delay: 3s;
+}
+
+.circles li:nth-child(7){
+  left: 35%;
+  width: 150px;
+  height: 150px;
+  animation-delay: 7s;
+}
+
+.circles li:nth-child(8){
+  left: 50%;
+  background-color: #F40058;
+  width: 25px;
+  height: 25px;
+  animation-delay: 15s;
+  animation-duration: 45s;
+}
+
+.circles li:nth-child(9){
+  left: 20%;
+  width: 15px;
+  height: 15px;
+  background-color: #F40058;
+  animation-delay: 2s;
+  animation-duration: 35s;
+}
+
+.circles li:nth-child(10){
+  left: 85%;
+  background-color: #43BEE5;
+  width: 150px;
+  height: 150px;
+  animation-delay: 0s;
+  animation-duration: 11s;
+}
+
+
+
+@keyframes animate {
+
+  0%{
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+    border-radius: 0;
+  }
+
+  100%{
+    transform: translateY(-1000px) rotate(720deg);
+    opacity: 0;
+    border-radius: 50%;
+  }
+
 }
 </style>

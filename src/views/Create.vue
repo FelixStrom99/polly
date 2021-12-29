@@ -76,9 +76,7 @@
         </div>
       </div>
       <div id="add-locationQuestion-button" v-on:click="addNewPollQuestion" style="cursor: pointer;">
-
         <object data="/svg_files/addLocationQuestionButton-2/addLocationQuestionButton.svg" style="pointer-events:none;">
-
         </object>
 
       </div>
