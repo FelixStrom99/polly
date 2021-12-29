@@ -133,7 +133,6 @@
           <line class="incorrekt-path-line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2"/>
         </svg>
       </div>
-      <button v-on:click="switchToWaitingRoom();switchQuestionType();resetTimer()">NEXT</button>
 
     </section>
 
