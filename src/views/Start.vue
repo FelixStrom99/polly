@@ -93,6 +93,18 @@ export default {
 </script>
 
 <style>
+
+/* Colorscheme:
+darkblue: #161B40
+lightblue: #43BEE5
+red: #F40058
+Yellow: #EFA500
+Green #41B853
+
+
+
+*/
+
 * {
   font-family: 'Roboto', sans-serif;;
   font-style: normal;

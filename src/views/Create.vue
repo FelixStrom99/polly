@@ -609,12 +609,13 @@ export default {
   height: 40vh;
 }
 .collapsible {
-  background-color: rgba(67, 140, 111, 0.58);
+  background-color: orange;
   color: #444;
   text-align: center;
   cursor: pointer;
   padding: 18px;
   border-width:thin;
+  border-radius: 10px;
   border-color: #444444;
   overflow: hidden;
   text-align: left;
