@@ -1,8 +1,9 @@
 function sockets(io, socket, data) {
   socket.emit('init', data.getUILabels());
   
-  socket.on('pageLoaded', function (lang) {
-    socket.emit('init', data.getUILabels(lang));
+  socket.on('pageLoaded', function (d) {
+    socket.emit('init', data.getUILabels(d.lang));
+    console.log("skickas dethär??")
   });
 
 
@@ -29,11 +30,17 @@ function sockets(io, socket, data) {
    /* socket.emit('dataUpdate', data.getLocationAnswers(pollId))*/
 
   });
-
+socket.on('test', function (d){
+  socket.emit('brakrök',data.getUsers(d.pollId))
+})
   socket.on('addUser', function(d) {
   data.addToUsers(d.pollId, d.users);
     io.to(d.pollId).emit('userUpdate',data.getUsers(d.pollId))
+
+
+
   });
+
 
   socket.on('runQuestion', function(d) {
     io.to(d.pollId).emit('newQuestion', data.getQuestion(d.pollId, d.questionNumber));

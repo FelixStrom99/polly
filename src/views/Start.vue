@@ -93,6 +93,18 @@ export default {
 </script>
 
 <style>
+
+/* Colorscheme:
+darkblue: #161B40
+lightblue: #43BEE5
+red: #F40058
+Yellow: #EFA500
+Green #41B853
+
+
+
+*/
+
 * {
   font-family: 'Roboto', sans-serif;;
   font-style: normal;
@@ -168,10 +180,6 @@ button:active{
   font-size:200%;
 }
 
-.format{
-  background-color: rgb(18, 50, 255);
-  color: white;
-}
 
 .bottom {
   margin-top: 50em;

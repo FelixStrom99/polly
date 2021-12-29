@@ -1,4 +1,11 @@
 <template>
+  <div style="color: white">
+  {{"loc:" + displayLocationQuestion}} {{"fol:" + displayFollowupQuestion}} {{"ans:" + displayAnswer}}
+  {{"id:" + userID}}
+  {{"list: " + userList}}
+  {{"timep: " + timePassed}}
+  {{timeLeft}}
+  </div>
   <section class="choose-username" v-if="isChooseusername">
     <h1> Välj användarnamn</h1> <!-- {{ uiLabels.username }}-->
     <div>
@@ -9,6 +16,7 @@
       Spara <!--{{ uiLabels.save }} -->
     </button>
   </section>
+
   <section class="waitingroom" v-if="isWaitingroom">
     <div id="waitingroom-wrapper">
       <h1 id="waitingroom-text">Waiting room</h1>
@@ -21,43 +29,43 @@
       <button v-on:click="this.skipWaitingroomTemporary()">klicka här ifall du vill komma vidare ändå</button>
     </div>
   </section>
+
   <main>
-    <section class="format" v-if="displayLocationQuestion===true && displayFollowupQuestion===false && displayAnswer===false">
+    <section class="format" v-if="displayLocationQuestion && displayFollowupQuestion===false && displayAnswer===false">
     <header class="quiz-questions">
       {{LocationQuestion.lq}}
     </header>
+      <p style="font-weight: bold; color: white">Click on the map to pinpoint the location</p>
+      <div id="map-question-wrapper">
 
-    <div id="openlayers-map">
-      <MapContainer :geojson="geojson" v-bind:key=updateZoom v-bind:correctLocation="LocationQuestion.location" v-bind:mapView="mapView" v-on:userLocation="userLocation=$event"> </MapContainer>
-    </div>
-    <p style="font-weight: bold; color: white">Click on the map to pinpoint the location</p>
-    <p>Click on the map to pinpoint the location</p>
-    <div class="base-timer">
-      <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <g class="base-timer__circle">
-          <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
-          <path
-              :stroke-dasharray="circleDasharray"
-              class="base-timer__path-remaining"
-              :class="remainingPathColor"
-              d="
+        <div class="base-timer" id="timer-location">
+          <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <g class="base-timer__circle">
+              <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+              <path
+                  :stroke-dasharray="circleDasharray"
+                  class="base-timer__path-remaining"
+                  :class="remainingPathColor"
+                  d="
             M 50, 50
             m -45, 0
             a 45,45 0 1,0 90,0
             a 45,45 0 1,0 -90,0
           "
-          ></path>
-        </g>
-      </svg>
-      <span class="base-timer__label">{{ formattedTimeLeft }}</span>
+              ></path>
+            </g>
+          </svg>
+          <span class="base-timer__label">{{ formattedTimeLeft }}</span>
+        </div>
+    <div class="openlayers-map">
+      <MapContainer :geojson="geojson" v-bind:key=updateZoom v-bind:correctLocation="LocationQuestion.location" v-bind:mapView="mapView" v-on:userLocation="userLocation=$event"> </MapContainer>
     </div>
-    <div id="move">
-      <button v-on:click="submitLocationAnswer(),switchToWaitingRoom()">
-        Submit answer
+    <div class="move">
+      <button v-on:click="submitLocationAnswer(),switchToWaitingRoom(),meterDistance()">
+        Submit location!
       </button>
-
-
     </div>
+  </div>
 
   </section>
 
@@ -65,7 +73,7 @@
     <header class="quiz-questions">
       {{questions[this.index].q}}
     </header>
-    <div class="base-timer">
+    <div class="base-timer" id="timer-followup">
       <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <g class="base-timer__circle">
           <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
@@ -96,11 +104,10 @@
   <section class= "format" v-if="displayAnswer===true">
     <div v-if="displayLocationQuestion===true">
       <header class="waiting-room-header">This is the result after the location, inte helt färdig</header>
-      <!--
-      <div id="map-result">
-        <MapContainer :geojson="geojson" v-bind:correctLocation="LocationQuestion.location" v-on:userLocation="userLocation=$event"> </MapContainer>
+      <div class="openlayers-map">
+        <MapContainerPollResult :geojson="geojson" v-bind:key=updateZoom v-bind:correctLocation="LocationQuestion.location" v-bind:mapView="mapView" v-bind:userLocation="userLocation" v-bind:distance="distance" > </MapContainerPollResult>
       </div>
-      -->
+
     </div>
 
     <div v-if="result === 'true' && displayFollowupQuestion===true" >
@@ -119,22 +126,25 @@
         <line class="incorrekt-path-line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2"/>
       </svg>
     </div>
-    <button v-on:click="switchToWaitingRoom();switchQuestionType();resetTimer();startTimer()">NEXT</button>
+
+    <button class="move" v-on:click="switchToWaitingRoom();switchQuestionType();resetTimer()">NEXT</button>
 
   </section>
 
-  <footer class = "format">
+  <footer class="format">
     Poll ID: {{ pollId }}
   </footer>
+
   </main>
 
 </template>
 
-<script>
+<script scoped>
 //  credit Mateusz Rybczonek modified by STSare
 import Question from '@/components/Question.vue';
 import io from 'socket.io-client';
 import MapContainer from "../components/MapContainer";
+import MapContainerPollResult from "../components/MapContainerPollResult";
 
 const socket = io();
 const FULL_DASH_ARRAY = 283;
@@ -162,40 +172,36 @@ const COLOR_CODES = {
 export default {
   name: 'Poll',
   components: {
+    MapContainerPollResult,
     Question,
     MapContainer
   },
   data: function () {
     return {
-      timePassed: 0,
-      timerInterval: null,
-      result:"",
-      correctans: [],
-      questions: [],
-      LocationQuestion: {
-        lq: "",
-        location: {
-          x: 0,
-          y: 0
-        },
-
-      },
-      pollId: "inactive poll",
-      userID: "",
-      userList: [],
-      userLocation: {x: 0,
-            y: 0},
-      index: 0,
-      displayLocationQuestion: false,
-      displayFollowupQuestion:false,
-      isWaitingroom: false,
-      isChooseusername: true,
-      mapView: {zoom: 0, center: [0,0]},
+      timePassed:             0,
+      timerInterval:          null,
+      result:                 "",
+      correctans:             [],
+      questions:              [],
+      LocationQuestion:       {
+                              lq: "",
+                              location: {x: 0, y: 0},},
+      pollId:                 "inactive poll",
+      userID:                 "",
+      userList:               [],
+      userLocation:           {x: 0, y: 0},
+      mapView:                {zoom: 0, center: [0,0]},
+      updateZoom:             0,
+      distance:               0,
       update:0,
-      updateZoom:0,
-      displayAnswer: false,
-      displayRanOutTime: false
-
+      displayLocationQuestion:false,
+      displayFollowupQuestion:false,
+      isWaitingroom:          false,
+      isChooseusername:       false,
+      displayAnswer:          false,
+      displayRanOutTime:      false,
+      newGame:                true,
+      boolTimerStart:         false
     }
 
   },
@@ -262,27 +268,45 @@ export default {
     }
   },
   mounted() {
-    this.startTimer();
+    if(this.boolTimerStart === true) {
+      this.startTimer();
+    }
   },
   methods: {
 
-    resetTimer(){
-      this.displayRanOutTime=false
-      this.timePassed = 0
-      return this.timeLeft
-    },
-    pausTimer(){
-      this.timeLeft = -1
+    meterDistance() {
+      var holderX1 = this.LocationQuestion.location.x
+      var holderY1 =  this.LocationQuestion.location.y
+      var x2 = this.userLocation.x
+      var y2 = this.userLocation.y
+      var R = 6378.137;
+      var dLat = x2 * Math.PI / 180 - holderX1 * Math.PI / 180;
+      var dLon = y2 * Math.PI / 180 - holderY1 * Math.PI / 180;
+      var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(holderX1 * Math.PI / 180) * Math.cos(x2 * Math.PI / 180) *
+          Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      var d = R * c;
+      this.distance = Math.floor(d * 1000);
+
     },
 
+    resetTimer(){
+      if(this.displayRanOutTime==true){
+        this.startTimer()
+      }
+      this.displayRanOutTime=false
+      this.timePassed = 0
+    },
 
     onTimesUp() {
       clearInterval(this.timerInterval);
       if(this.displayFollowupQuestion===true){
       this.index += 1}
+      if(this.isWaitingroom === false && this.isChooseusername ===false){
       this.result = 'false'
       this.displayRanOutTime=true
-      this.displayAnswer=true
+      this.displayAnswer=true}
 
     },
 
@@ -292,9 +316,20 @@ export default {
     createQuestionArray: function (Data) {
       this.index=0
       this.updateZoom+=1
-      this.displayLocationQuestion=true
-      this.displayFollowupQuestion=false
-      this.displayAnswer=false
+      if(this.newGame){
+        this.displayLocationQuestion=false
+        this.displayFollowupQuestion=false
+        this.displayAnswer          =false
+        this.isChooseusername       =true
+      }
+      else{
+        this.displayLocationQuestion=true
+        this.isChooseusername       =false
+        this.displayFollowupQuestion=false
+        this.displayAnswer          =false
+        this.resetTimer()
+      }
+
       var questionArray = []
       for (let i = 0; i < Data.q.length; i++) {
         questionArray[i] = {q: (Data.q[i])[i], a: (Data.a[i])[i]}
@@ -303,8 +338,7 @@ export default {
       this.LocationQuestion.lq=Data.lq
       this.LocationQuestion.location=Data.location
       this.correctans=Data.correct
-      this.resetTimer()
-      //*this.startTimer()
+      this.newGame=false
 
 
 
@@ -314,7 +348,6 @@ export default {
       this.displayRanOutTime = false
       this.switchToWaitingRoom()
       this.timePassed = TIME_LIMIT + 1
-      console.log(this.timeLeft)
       socket.emit("submitAnswer", {pollId: this.pollId, answer: answer})
       for (let i = 0; i < this.questions.length; i++) {
 
@@ -328,6 +361,7 @@ export default {
           }
 
         }
+
 
     },
 
@@ -350,13 +384,16 @@ export default {
     skipWaitingroomTemporary: function() {
       this.displayLocationQuestion = true;
       this.isWaitingroom = false;
+      this.boolTimerStart=true;
+      this.resetTimer()
+      this.startTimer()
     },
     switchToWaitingRoom: function () {
       if(this.displayAnswer===true){
         this.displayAnswer=false}
         else{
           this.displayAnswer=true}
-        }
+        },
 
       }
     }
@@ -369,9 +406,11 @@ main{
 }
 
 .format{
-  height: 50vh;
-  color: #444444;
+  background-color: #161B40;
+
 }
+
+
 button {
   display: inline-block;
   padding: 0.35em 1.2em;
@@ -436,7 +475,21 @@ waitingroom-users p{
 }
 /* Lägg in era egna kategorier */
 
+.waiting-room-header{
+  color: white;
+  font-weight: bold;
+  font-size: 200%;
+  padding-top: 100px;
+}
+.quiz-questions{
+  text-decoration-line: underline;
+  font-size: 200%;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 20px;
 
+}
 
 #question-counter{
   position: absolute;
@@ -445,9 +498,51 @@ waitingroom-users p{
   font-family: Damascus;
   font-size: 150%;
 }
+.incorrekt-marker {
+  width: 100px;
+  display: block;
+  margin: 40px auto 0;
+}
+.checkmark__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: #7ac142;
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
 
 
-#openlayers-map {
+.checkmark {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  margin: 10% auto;
+  box-shadow: inset 0px 0px 0px #7ac142;
+  animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+}
+
+.checkmark__check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+/* Location Question */
+
+#map-question-wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+}
+
+.openlayers-map {
   position: relative;
   height: 30em;
   width: 100%;
@@ -459,44 +554,35 @@ waitingroom-users p{
   height: 30em;
   width: 100%;
 }
+.move{
+  gap: 10px 10px;
+  padding-top: 1em;
+}
+
+#timer-location{
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 100;
+}
+
+
+/* FollowUp Question */
+
+#timer-followup{
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 100;
+}
+
+
 .poll-container{
   height: 10%;
   width: 10%;
-  background: lightgrey;
 }
 
-#dots {
-  position: absolute;
-  background: #f10808;
-  color: #f10808;
-  border-radius: 15px;
-  width: 10px;
-  height: 10px;
-  text-align: center;
-}
 
-#move{
-  position:relative;
-  flex-direction: row;
-}
-
-.quiz-questions{
-  text-decoration-line: underline;
-  font-size: 200%;
-  color: white;
-  font-weight: bold;
-  text-transform: uppercase;
-  padding: 20px;
-
-}
-#move{
-  text-align: center;
-  display: inline-flex;
-  justify-content: center;
-  gap: 10px 10px;
-  height: 10vh;
-  width: 10vh;
-}
 .clock_prop {
   font-family: sans-serif;
   display: grid;
@@ -508,9 +594,9 @@ waitingroom-users p{
 .answer-alternative-size-container{
   height: 95vh;
 }
+/* Timer Clock */
 
 .base-timer {
-  margin-right: 10%;
   float: right;
   position: relative;
   width: 100px;
@@ -549,13 +635,6 @@ waitingroom-users p{
   color: #F40058;
 }
 
-.waiting-room-header{
-  color: white;
-  font-weight: bold;
-  font-size: 200%;
-  padding-top: 100px;
-}
-
 .base-timer__label {
   color: white;
   position: absolute;
@@ -568,36 +647,7 @@ waitingroom-users p{
   justify-content: center;
   font-size: 48px;
 }
-.checkmark__circle {
-  stroke-dasharray: 166;
-  stroke-dashoffset: 166;
-  stroke-width: 2;
-  stroke-miterlimit: 10;
-  stroke: #7ac142;
-  fill: none;
-  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
-}
 
-
-.checkmark {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  display: block;
-  stroke-width: 2;
-  stroke: #fff;
-  stroke-miterlimit: 10;
-  margin: 10% auto;
-  box-shadow: inset 0px 0px 0px #7ac142;
-  animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
-}
-
-.checkmark__check {
-  transform-origin: 50% 50%;
-  stroke-dasharray: 48;
-  stroke-dashoffset: 48;
-  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
-}
 
 @keyframes stroke {
   100% {
@@ -617,13 +667,6 @@ waitingroom-users p{
     box-shadow: inset 0px 0px 0px 30px #7ac142;
   }
 }
-.incorrekt-marker {
-  width: 100px;
-  display: block;
-  margin: 40px auto 0;
-}
-
-
 
 @-webkit-keyframes dash {
   0% {
