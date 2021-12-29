@@ -1,10 +1,10 @@
 <template>
   <div style="color: white">
-  {{"loc:" + displayLocationQuestion}} {{"fol:" + displayFollowupQuestion}} {{"ans:" + displayAnswer}}
-  {{"id:" + userID}}
-  {{"list: " + userList}}
-  {{"timep: " + timePassed}}
-  {{timeLeft}}
+    {{"loc:" + displayLocationQuestion}} {{"fol:" + displayFollowupQuestion}} {{"ans:" + displayAnswer}}
+    {{"timep: " + timePassed}}<br>
+    {{"timeleft: " + timeLeft}}<br>
+    {{"submit ans: " + isSubmittedAnswer}}<br>
+    {{"is quest: " + isQuestionNotWaitingRoom}}<br>
   </div>
   <section class="choose-username" v-if="isChooseusername">
     <h1> Välj användarnamn</h1> <!-- {{ uiLabels.username }}-->
@@ -19,7 +19,7 @@
 
   <section class="waitingroom" v-if="isWaitingroom">
     <div id="waitingroom-wrapper">
-      <h1 id="waitingroom-text">This is the waiting room bruh</h1>
+      <h1 id="waitingroom-text">Waiting room</h1>
       <h2>wait for the host to start the game...</h2>
       <div id="waitingroom-item">
         <div id="waitingroom-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i" style="  color: white;font-size:20px;">
@@ -32,9 +32,9 @@
 
   <main>
     <section class="format" v-if="displayLocationQuestion && displayFollowupQuestion===false && displayAnswer===false">
-    <header class="quiz-questions">
-      {{LocationQuestion.lq}}
-    </header>
+      <header class="quiz-questions">
+        {{LocationQuestion.lq}}
+      </header>
       <p style="font-weight: bold; color: white">Click on the map to pinpoint the location</p>
       <div id="map-question-wrapper">
 
@@ -57,88 +57,89 @@
           </svg>
           <span class="base-timer__label">{{ formattedTimeLeft }}</span>
         </div>
-    <div id="openlayers-map">
-      <MapContainer :geojson="geojson" v-bind:key=updateZoom v-bind:correctLocation="LocationQuestion.location" v-bind:mapView="mapView" v-on:userLocation="userLocation=$event"> </MapContainer>
-    </div>
-    <div id="move">
-      <button  v-on:click="meterDistance()">
-        CHECK DISTANCE
-      </button>
-      <button v-on:click="submitLocationAnswer(),switchToWaitingRoom(),meterDistance()">
-        Submit answer
-      </button>
-      distans: {{ distance }}
-    </div>
-  </div>
+        <div id="openlayers-map">
+          <MapContainer :geojson="geojson" v-bind:key=updateZoom v-bind:correctLocation="LocationQuestion.location" v-bind:mapView="mapView" v-on:userLocation="userLocation=$event"> </MapContainer>
+        </div>
+        <div id="move">
+          <button  v-on:click="meterDistance()">
+            CHECK DISTANCE
+          </button>
+          <button v-on:click="submitLocationAnswer(),switchToWaitingRoom(),meterDistance()">
+            Submit answer
+          </button>
+          distans: {{ distance }}
+        </div>
+      </div>
 
-  </section>
+    </section>
 
-  <section class="format" v-if="displayFollowupQuestion===true && displayLocationQuestion===false && displayAnswer===false">
-    <header class="quiz-questions">
-      {{questions[this.index].q}}
-    </header>
-    <div class="base-timer" id="timer-followup">
-      <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <g class="base-timer__circle">
-          <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
-          <path
-              :stroke-dasharray="circleDasharray"
-              class="base-timer__path-remaining"
-              :class="remainingPathColor"
-              d="
+    <section class="format" v-if="displayFollowupQuestion===true && displayLocationQuestion===false && displayAnswer===false">
+      <header class="quiz-questions">
+        {{questions[this.index].q}}
+      </header>
+      <div class="base-timer" id="timer-followup">
+        <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <g class="base-timer__circle">
+            <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+            <path
+                :stroke-dasharray="circleDasharray"
+                class="base-timer__path-remaining"
+                :class="remainingPathColor"
+                d="
             M 50, 50
             m -45, 0
             a 45,45 0 1,0 90,0
             a 45,45 0 1,0 -90,0
           "
-          ></path>
+            ></path>
 
-        </g>
-      </svg>
-      <span class="base-timer__label">{{ formattedTimeLeft }}</span>
-    </div>
-    <div class="answer-alternative-size-container">
-    <p id="question-counter">{{index + 1}} of {{questions.length}}</p>
-      <Question class="poll-container" v-bind:question="questions[this.index]"
-                v-on:answer="submitAnswer"/>
-    </div>
-  </section>
-
-
-  <section class= "format" v-if="displayAnswer===true">
-    <div v-if="displayLocationQuestion===true">
-      <header class="waiting-room-header">This is the result after the location, inte helt färdig</header>
-      <!--
-      <div id="map-result">
-        <MapContainer :geojson="geojson" v-bind:correctLocation="LocationQuestion.location" v-on:userLocation="userLocation=$event"> </MapContainer>
+          </g>
+        </svg>
+        <span class="base-timer__label">{{ formattedTimeLeft }}</span>
       </div>
-      -->
-      <p>Distans: {{distance}}</p>
-    </div>
+      <div class="answer-alternative-size-container">
+        <p id="question-counter">{{index + 1}} of {{questions.length}}</p>
+        <Question class="poll-container" v-bind:question="questions[this.index]"
+                  v-on:answer="submitAnswer"/>
+      </div>
+    </section>
 
-    <div v-if="result === 'true' && displayFollowupQuestion===true" >
-      <header class="waiting-room-header">KORREKT! Du är typ lika smart som Adrian</header>
-      <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
-        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-      </svg>
-    </div>
-    <div v-if="result === 'false' && displayFollowupQuestion===true" >
-      <header v-if="displayRanOutTime===false" class="waiting-room-header">INKORREKT! Men draken flyger i motvind</header>
-      <header v-if="displayRanOutTime===true" class="waiting-room-header">Ran out of time!</header>
-      <svg class="incorrekt-marker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
-        <circle class="incorrekt-path-circle" fill="none" stroke="#D06079" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
-        <line class="incorrekt-path-line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3"/>
-        <line class="incorrekt-path-line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2"/>
-      </svg>
-    </div>
-    <button v-on:click="switchToWaitingRoom();switchQuestionType();resetTimer()">NEXT</button>
 
-  </section>
+    <section class= "format" v-if="displayAnswer===true">
+      <p>{{index + 1}} of {{questions.length}}</p>
+      <div v-if="displayLocationQuestion===true">
+        <header class="waiting-room-header">This is the result after the location, inte helt färdig</header>
+        <!--
+        <div id="map-result">
+          <MapContainer :geojson="geojson" v-bind:correctLocation="LocationQuestion.location" v-on:userLocation="userLocation=$event"> </MapContainer>
+        </div>
+        -->
+        <p>Distans: {{distance}}</p>
+      </div>
 
-  <footer class="format">
-    Poll ID: {{ pollId }}
-  </footer>
+      <div v-if="result === 'true' && displayFollowupQuestion===true && isSubmittedAnswer===true" >
+        <header class="waiting-room-header">KORREKT! Du är typ lika smart som Adrian</header>
+        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+          <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+          <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+      </div>
+      <div v-if="result === 'false' && displayFollowupQuestion===true" >
+        <header v-if="displayRanOutTime===true && isSubmittedAnswer===false" class="waiting-room-header">Ran out of time!</header>
+        <header v-if="displayRanOutTime===false  && isSubmittedAnswer===true" class="waiting-room-header">INKORREKT! Men draken flyger i motvind</header>
+        <svg class="incorrekt-marker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+          <circle class="incorrekt-path-circle" fill="none" stroke="#D06079" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
+          <line class="incorrekt-path-line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3"/>
+          <line class="incorrekt-path-line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2"/>
+        </svg>
+      </div>
+      <button v-on:click="switchToWaitingRoom();switchQuestionType();resetTimer()">NEXT</button>
+
+    </section>
+
+    <footer class="format">
+      Poll ID: {{ pollId }}
+    </footer>
 
   </main>
 
@@ -187,8 +188,8 @@ export default {
       correctans:             [],
       questions:              [],
       LocationQuestion:       {
-                              lq: "",
-                              location: {x: 0, y: 0},},
+        lq: "",
+        location: {x: 0, y: 0},},
       pollId:                 "inactive poll",
       userID:                 "",
       userList:               [],
@@ -197,6 +198,7 @@ export default {
       updateZoom:             0,
       distance:               0,
       index:                  0,
+      update:0,
       displayLocationQuestion:false,
       displayFollowupQuestion:false,
       isWaitingroom:          false,
@@ -204,8 +206,9 @@ export default {
       displayAnswer:          false,
       displayRanOutTime:      false,
       newGame:                true,
-      boolTimerStart:         false
-
+      boolTimerStart:         false,
+      isSubmittedAnswer:      false,
+      isQuestionNotWaitingRoom:true
     }
 
   },
@@ -279,27 +282,63 @@ export default {
   methods: {
 
     resetTimer(){
-      if(this.displayRanOutTime==true){
-        this.startTimer()
-      }
       this.displayRanOutTime=false
       this.timePassed = 0
+      this.startTimer()
     },
 
     onTimesUp() {
       clearInterval(this.timerInterval);
-      if(this.displayFollowupQuestion===true){
-      this.index += 1}
-      if(this.isWaitingroom === false && this.isChooseusername ===false){
-      this.result = 'false'
-      this.displayRanOutTime=true
-      this.displayAnswer=true}
-
+      if(this.displayFollowupQuestion===true && this.isQuestionNotWaitingRoom===false){
+        this.index += 1}
+      if(this.isWaitingroom === false && this.isChooseusername ===false && this.isSubmittedAnswer===false){
+        this.result = 'false'
+        this.displayRanOutTime=true
+        this.displayAnswer=true}
+      this.waitingRoomTimer()
     },
 
     startTimer() {
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     },
+    waitingRoomTimer: function(){
+      if(this.isQuestionNotWaitingRoom===true){
+        this.isQuestionNotWaitingRoom=false}
+      else if (this.isQuestionNotWaitingRoom===false) {
+        this.isQuestionNotWaitingRoom=true
+      }
+      if(TIME_LIMIT===10 && this.isQuestionNotWaitingRoom===false){
+        this.timePassed=5
+        this.startTimer()
+
+      }
+      if(TIME_LIMIT===20 && this.isQuestionNotWaitingRoom===false){
+        this.timePassed=15
+        console.log("isquest room false")
+        this.startTimer()
+      }
+      if(TIME_LIMIT===40 && this.isQuestionNotWaitingRoom===false){
+        this.timePassed=35
+        this.startTimer()
+      }
+      if(TIME_LIMIT===60 && this.isQuestionNotWaitingRoom===false){
+        this.timePassed=55
+        this.startTimer()
+      }
+
+      if(this.isQuestionNotWaitingRoom===true){
+        console.log("isquest room true")
+        this.isSubmittedAnswer=false
+        this.resetTimer()
+        this.switchToWaitingRoom()
+        this.switchQuestionType()
+      }
+
+
+
+    },
+
+
     createQuestionArray: function (Data) {
       this.index=0
       this.updateZoom+=1
@@ -314,6 +353,7 @@ export default {
         this.isChooseusername       =false
         this.displayFollowupQuestion=false
         this.displayAnswer          =false
+        this.timePassed=TIME_LIMIT
         this.resetTimer()
       }
 
@@ -331,10 +371,10 @@ export default {
 
     },
     submitAnswer: function (answer, title) {
-      this.index += 1
       this.displayRanOutTime = false
       this.switchToWaitingRoom()
-      this.timePassed = TIME_LIMIT + 1
+      this.isSubmittedAnswer=true
+      this.isQuestionNotWaitingRoom=false
       socket.emit("submitAnswer", {pollId: this.pollId, answer: answer})
       for (let i = 0; i < this.questions.length; i++) {
 
@@ -345,9 +385,9 @@ export default {
             this.result = "false"
           }
 
-          }
-
         }
+
+      }
 
     },
 
@@ -399,17 +439,17 @@ export default {
       this.isWaitingroom = false;
       this.boolTimerStart=true;
       this.resetTimer()
-      this.startTimer()
+      console.log("första start")
     },
     switchToWaitingRoom: function () {
       if(this.displayAnswer===true){
         this.displayAnswer=false}
-        else{
-          this.displayAnswer=true}
-        },
+      else{
+        this.displayAnswer=true}
+    },
 
-      }
-    }
+  }
+}
 
 </script>
 
@@ -448,7 +488,6 @@ button:hover{
 /* Waiting Room */
 #waitingroom-wrapper {
   display: flex;
-  background-color: orange;
   align-items: center;
   justify-content: center;
   min-height: 50em;
@@ -457,6 +496,8 @@ button:hover{
   background-color: #1682a8;
   height: 50vh;
   width: 30%;
+  border-style: solid;
+  border-width: thick;
   border-color: lightgreen;
   border-radius: 10px;
   padding: 2em;
