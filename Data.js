@@ -30,7 +30,6 @@ Data.prototype.createPoll = function (pollId, lang = "en") {
         poll.questionSequence = [];
         poll.currentLocationQuestion = 0;
         poll.locations = [];
-        poll.correctLocation=[]
         poll.mapView={};
         poll.users = [];
         this.polls[pollId] = poll;
@@ -45,8 +44,7 @@ Data.prototype.addQuestion = function (pollId, q) {
     if (typeof poll !== 'undefined') {
 
         poll.questionSequence.push(q)
-        poll.correctLocation.push(q.location)
-      //*  poll.locations.push(q.lq)
+
 
 
     }
@@ -88,26 +86,7 @@ Data.prototype.getZoom = function (pollId) {
 
 }
 
-Data.prototype.getLocations = function (pollId, qId = null) {
-    const poll = this.polls[pollId];
-    console.log("question requested for location ", pollId, qId)
-    if (typeof poll !== 'undefined') {
-        if (qId !== null) {
-            poll.currentLocationQuestion = qId;
 
-        }
-
-        if (poll.locations[poll.currentLocationQuestion] !== undefined) {
-            return poll.locations[poll.currentLocationQuestion];
-        } else {
-
-            return {}
-        }
-
-
-    }
-
-}
 
 
 Data.prototype.getQuestion = function (pollId, qId = null) {
@@ -173,7 +152,7 @@ Data.prototype.getLocationAnswers = function (pollId) {
 
         if (typeof poll.questionSequence[poll.currentQuestion] !== 'undefined') {
 
-            return {lq: poll.questionSequence[poll.currentLocationQuestion].lq, la:poll.locationAnswer, correct:poll.correctLocation[poll.currentQuestion]};
+            return {lq: poll.questionSequence[poll.currentLocationQuestion].lq, la:poll.locationAnswer};
         }
     }
     return {}
@@ -184,7 +163,7 @@ Data.prototype.getUsers = function (pollId) {
 
         if (typeof poll.users !== 'undefined') {
             console.log("Hämtad")
-            return {users: poll.users, lang: poll.lang};
+            return {users: poll.users};
         }
     }
     return {}

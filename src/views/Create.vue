@@ -166,8 +166,8 @@
 
 
   <section v-if="secondStage===false && firstStage===true">
-  <h1>här kör hosten quizet jappi</h1>
-    <p>Här är ditt PollID: {{this.pollId}}</p>
+  <h1>Host view</h1>
+    <p>PollID: {{this.pollId}}</p>
     <div>
       <button v-on:click="runQuestion">
         Run Selected Question
@@ -175,13 +175,15 @@
       <button v-on:click="goBackEdit">
         Go back to editing
       </button>
+      <button v-on:click="updatePlayers">
+        Update players
+      </button>
       <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
     </div>
     {{currentLQ}}
   <div id="run-question-wrapper">
     <div class="run-question waitingroom">
       <h3>Users connected</h3>
-      {{this.userList}}
       <div id="run-question-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i" style="  color: white;font-size:20px;">
         <p>{{u}}</p>
       </div>
@@ -194,11 +196,12 @@
     </div>
     <div class="run-question preview">
       <h3>Preview of question</h3>
-      {{this.isPreviewQuestion}}
       <div v-if="isPreviewQuestion" id="preview-question">
+        <p>Location question:</p>
         {{questionSequence[currentLQ][3]}}
+        <p>Follow-up questions:</p>
         <div v-for="(ans,i) in questionSequence[currentLQ][0]" v-bind:key="'ans'+i">
-          {{ans}}
+          {{ans[i]}}
         </div>
       </div>
     </div>
@@ -257,7 +260,14 @@ export default {
       isPreviewQuestion: false,
     }
   },
+  /*mounted() {
+    socket.on("userUpdate",(user) =>{
+      console.log("snälla",user)
+    } )
+
+  },*/
   created: function () {
+
     this.lang = this.$route.params.lang;
 
     this.addNewPollQuestion()
@@ -270,9 +280,9 @@ export default {
     )
     socket.on("pollCreated", (data) =>
         this.data = data)
-    socket.on("userUpdate",update => {
-      console.log("Detta är bra: ", update)/*this.userList=update;*/
-    })
+    socket.on("brakrök",(user) =>{
+      this.userList=user
+    } )
   },
 
   methods: {
@@ -336,7 +346,6 @@ export default {
       this.firstStage = true
       this.currentLQ=0
       for (var i = 0; i <= this.questionSequence.length; i++) {
-
         socket.emit("addQuestion", {
           pollId: this.pollId,
           q: this.questionSequence[i][0],
@@ -467,6 +476,9 @@ export default {
       socket.emit("mapView", {pollId: this.pollId, zoom: this.mapView.zoom, center: this.mapView.center})
 
 
+    },
+    updatePlayers: function () {
+      socket.emit('test',{pollId:this.pollId})
     }
   }
 }
@@ -609,7 +621,7 @@ export default {
   height: 40vh;
 }
 .collapsible {
-  background-color: orange;
+  background-color: #43BEE5;
   color: #444;
   text-align: center;
   cursor: pointer;
@@ -624,7 +636,7 @@ export default {
 }
 
 .active, .collapsible:hover {
-  background-color: rgba(61, 133, 104, 0.38);
+  background-color: #7fc5de;
 }
 
 .content {
