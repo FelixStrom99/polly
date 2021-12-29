@@ -14,9 +14,17 @@
   </div>
   {{question}}
   <Bars v-bind:data="data"/>
-  <div>
+ 
 
-  </div>
+  <!--- <div id="mapcontainer">
+    <div id="dots">
+    <div v-for="(location,key) in locationData" v-bind:style="{ left: location.x + 'px', top: location.y + 'px'}" v-bind:key="'dots'+ key">
+T
+
+    </div>
+    </div>
+  </div> -->
+
 
 </template>
 
@@ -43,13 +51,6 @@ export default {
           y: 0
         },
       locationQuestion:"",
-      LocationQuestion: {
-        lq: "",
-        location: {
-          x: 0,
-          y: 0
-        }
-        },
       locationData:null,
       mapView: {zoom: 0, center: [0,0]},
       updateZoom:0
@@ -68,6 +69,7 @@ export default {
       this.question = update.q;
       this.data = {};
       this.updateZoom=1
+      this.correctLocation=update.location
     })
     socket.on("userMapView",d =>
         this.mapView=d)
