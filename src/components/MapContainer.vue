@@ -4,8 +4,11 @@
        style="width: 100%; height: 100%">
   </div>
   <div>
-  <button type="button" v-on:click="submitLocation" v-if="clickable===true"> SUBMIT LOCATION</button>
+  <button type="button" v-on:click="submitLocation();meterDistance();distancePopup()"> SUBMIT LOCATION</button>
+
     </div>
+  <div> {{distance}}</div>
+
   <!--<input type="range" v-model="this.userPoint.properties.radius" max="40" min="5">-->
 </template>
 
@@ -19,6 +22,8 @@ import VectorSource from 'ol/source/Vector'
 import GeoJSON from 'ol/format/GeoJSON'
 import { transform } from 'ol/proj'
 import {Fill, Style, Stroke,Icon} from 'ol/style'
+import Overlay from 'ol/Overlay'
+
 /*import {Circle} from 'ol/style'*/
 
 
@@ -44,6 +49,9 @@ export default {
       olMap: null,
       vectorLayer: null,
       clickable: true,
+      distance: 0,
+      popup:null,
+
       evt_coordinate:{x:0,
         y:0},
 
@@ -80,8 +88,18 @@ export default {
           coordinates: []
         },
 
-      }
+      },
+      distanceText: {
+        type: 'Feature',
+        properties: {
+          color: 'green'
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: []
+        },
 
+      }
     }},
   /*created: function () {
     this.pollId = this.$route.params.id
@@ -146,10 +164,36 @@ export default {
   },
 
   methods: {
+    meterDistance() {
+      var holderX1 = this.correctLocation.x
+      var holderY1 =  this.correctLocation.y
+      var x2 = this.evt_coordinate.x
+      var y2 = this.evt_coordinate.y
+      var R = 6378.137;
+      var dLat = x2 * Math.PI / 180 - holderX1 * Math.PI / 180;
+      var dLon = y2 * Math.PI / 180 - holderY1 * Math.PI / 180;
+      var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(holderX1 * Math.PI / 180) * Math.cos(x2 * Math.PI / 180) *
+          Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      var d = R * c;
+      this.distance = d * 1000;
+    },
+    distancePopup(){
+      this.popup= new Overlay({
+        element: document.getElementById('popup'),
+        text: 'wallahi'
+      })
+      console.log('popup' + this.popup)
+
+      this.popup.coordinates
+      this.olMap.addOverlay(this.popup)
+
+
+    },
     pointStyle({color}) {
       return new Style( {
-      /*  image: new Circle({
-          radius: radius,           */
+
         image: new Icon({
           anchor: [0.5, 69],
           anchorXUnits: 'fraction',
@@ -162,7 +206,10 @@ export default {
           stroke: new Stroke({
             color: color,
             width: 2
-          })
+          }),
+
+
+
         })
     },
     lineStyle({color}) {
@@ -182,7 +229,7 @@ export default {
           anchorXUnits: 'fraction',
           anchorYUnits: 'pixels',
           src: '/svg_files/PinMap/Pin_Map_Green.svg',
-        })
+        }),
       })
     },
     addPoint(geojson) {
@@ -215,6 +262,7 @@ export default {
         this.correctPoint.geometry.coordinates = [this.correctLocation.x, this.correctLocation.y]
         this.updateSource(this.correctPoint, this.correctPointStyle)
         this.clickable=false
+
 
     },
     answer: function (mapLocation) {

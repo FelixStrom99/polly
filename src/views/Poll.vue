@@ -52,13 +52,10 @@
       <span class="base-timer__label">{{ formattedTimeLeft }}</span>
     </div>
     <div id="move">
-      <button  v-on:click="meterDistance()">
-        CHECK DISTANCE
-      </button>
-      <button v-on:click="submitLocationAnswer(),switchToWaitingRoom(),meterDistance()">
+      <button v-on:click="submitLocationAnswer(),switchToWaitingRoom()">
         Submit answer
       </button>
-      distans: {{ distance }}
+
 
     </div>
 
@@ -104,7 +101,6 @@
         <MapContainer :geojson="geojson" v-bind:correctLocation="LocationQuestion.location" v-on:userLocation="userLocation=$event"> </MapContainer>
       </div>
       -->
-      <p>Distans: {{distance}}</p>
     </div>
 
     <div v-if="result === 'true' && displayFollowupQuestion===true" >
@@ -189,7 +185,6 @@ export default {
       userList: [],
       userLocation: {x: 0,
             y: 0},
-      distance: 0,
       index: 0,
       displayLocationQuestion: false,
       displayFollowupQuestion:false,
@@ -336,35 +331,8 @@ export default {
 
     },
 
-    userSetLocation: function (event) {
-      var offset = {
-        x: event.currentTarget.getBoundingClientRect().left,
-        y: event.currentTarget.getBoundingClientRect().top
-      }
-
-      this.UserLocation = {
-        x: event.clientX - 10 - offset.x,
-        y: event.clientY - 10 - offset.y
-      }
-    },
     submitLocationAnswer: function () {
       socket.emit("submitLocationAnswer", {pollId: this.pollId, locationAnswer: this.userLocation})
-    },
-
-    meterDistance() {
-      var holderX1 = this.LocationQuestion.location.x
-      var holderY1 = this.LocationQuestion.location.y
-      var x2 = this.userLocation.x
-      var y2 = this.userLocation.y
-      var R = 6378.137;
-      var dLat = x2 * Math.PI / 180 - holderX1 * Math.PI / 180;
-      var dLon = y2 * Math.PI / 180 - holderY1 * Math.PI / 180;
-      var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-          Math.cos(holderX1 * Math.PI / 180) * Math.cos(x2 * Math.PI / 180) *
-          Math.sin(dLon / 2) * Math.sin(dLon / 2);
-      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      var d = R * c;
-      this.distance = d * 1000;
     },
 
     switchQuestionType: function () {
