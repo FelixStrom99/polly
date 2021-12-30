@@ -81,8 +81,11 @@
       </div>
       <div id="add-locationQuestion-button" v-on:click="addNewPollQuestion" style="cursor: pointer;">
 
+
         <object data="/svg_files/addLocationQuestionButton-2/addLocationQuestionButton.svg"
                 style="pointer-events:none;">
+
+
 
         </object>
 
@@ -585,12 +588,18 @@ export default {
   border: none
 
 }
-
 .Answer-Box-checkbox-prop {
   height: 100%;
   -webkit-transform: scale(2);
+}
+.Answer-Box-checkbox-prop{
+
   transform: scale(2);
   border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  text-align: center;
+  right: 25%;
 }
 
 
@@ -767,7 +776,12 @@ textbox:hover {
   border-color: rgba(82, 77, 77, 0.55);
   column-width: 50px;
   height: 100%;
+<<<<<<< HEAD
   grid-column: 3;
+=======
+  position: relative;
+  grid-column: 3 ;
+>>>>>>> b35c03fc684af65816dbbfd0ea01ced7abf44a01
 
 
 }
