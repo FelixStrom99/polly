@@ -7,7 +7,7 @@
   {{timeLeft}}
   </div>
   <section class="choose-username" v-if="isChooseusername">
-    <h1> Välj användarnamn</h1> <!-- {{ uiLabels.username }}-->
+    <h1> Välj användarnamn</h1> <!-- {{ uiLabels.username }}
     <div>
       <input type="text" v-model="userID" placeholder="Enter username...">
       {{this.userID}}

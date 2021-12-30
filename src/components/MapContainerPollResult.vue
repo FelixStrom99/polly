@@ -4,7 +4,7 @@
        style="width: 100%; height: 100%">
   </div>
 
-  <div> <h1 > You were {{distance}} meters from the correct location!"</h1></div>
+  <div> <h1 > You were {{distance}} meters from the correct location!</h1></div>
 
   <!--<input type="range" v-model="this.userPoint.properties.radius" max="40" min="5">-->
 </template>
