@@ -2,7 +2,7 @@
 
   <section v-if="firstStage===true && secondStage===true">
     <div id="wrapper-pollID-header">
-      <h1 id="enter-pollID-header"> {{ uiLabels.createPoll }}</h1>
+      <h1 id="enter-pollID-header">{{ uiLabels.createPoll }}</h1>
       <div>
         <input type="text" v-model="pollId" placeholder="Enter title...">
       </div>
@@ -15,7 +15,7 @@
 
   <section class="theme  ChooseMap" v-else-if="firstStage===false && secondStage===true">
     <div>
-      <h1> {{ pollId }} </h1>
+      <h1> {{uiLabels.pollID}}: {{ pollId }} </h1>
     </div>
 
     <div class="maps">
@@ -58,7 +58,7 @@
 
       <div class="map-item" id="background_pic_malmö" v-on:click="nextSection();chooseWorld()" style="cursor: pointer;">
         <figure>
-          <h1 class="city_name_charachter_spec">Välj fritt</h1>
+          <h1 class="city_name_charachter_spec">{{uiLabels.chooseFree}}</h1>
         </figure>
       </div>
     </div>
@@ -68,7 +68,7 @@
 
   <section class="create-the-questions-container theme" v-else-if="secondStage===false && firstStage===false">
     <div class="create overview-left-side">
-      <h1>Här ska överblicken av alternativen vara</h1>
+      <h1>{{uiLabels.overView}}</h1>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
         <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)">{{ questionSequence[i][3] }}</div>
         <div class="content"> <!--{{"Fråga "+(i+1)}}  v-bind:placeholder="'Fråga '+(i+1)"-->
@@ -92,12 +92,12 @@
       </div>
     </div>
     <div class="create lq-and-q">
-      <h1>{{ pollId }}</h1>
+      <h1> {{uiLabels.pollID}}: {{ pollId }}</h1>
       <div class="location-question" v-if="createLocationQuestion">
         <div>
           {{ uiLabels.locationQuestion }}:<input type="text" placeholder="Enter question..." v-model="locationQuestion">
         </div>
-        <button v-on:click="editQuestion(this.currentLQ, null)">save</button>
+        <button v-on:click="editQuestion(this.currentLQ, null)">{{ uiLabels.save }}</button>
         <div id="openlayers-map">
           <MapContainerCreate :geojson="geojson"
                               v-on:location="location=$event" v-bind:mapView="mapView" v-bind:location="savedLocation">
@@ -108,7 +108,7 @@
       <div class="create theme" v-if="createMultipleChoiceQuestion">
         {{ uiLabels.question }}:
         <input type="text" placeholder="Enter question..." v-model="question">
-        <button v-on:click="editQuestion(this.currentLQ, currentMQ)">save</button>
+        <button v-on:click="editQuestion(this.currentLQ, currentMQ)">{{ uiLabels.save }}</button>
         <div class="question-multiple">
           {{ uiLabels.answers }}:
           <div class="Answer-box-wrapper">
@@ -177,7 +177,7 @@
 
   <section v-if="secondStage===false && firstStage===true">
     <h1>Host view</h1>
-    <p>PollID: {{ this.pollId }}</p>
+    <p>{{uiLabels.pollID}}: {{ this.pollId }}</p>
     <div>
       <button v-on:click="runQuestion">
         Run Selected Question
@@ -776,12 +776,9 @@ textbox:hover {
   border-color: rgba(82, 77, 77, 0.55);
   column-width: 50px;
   height: 100%;
-<<<<<<< HEAD
   grid-column: 3;
-=======
   position: relative;
   grid-column: 3 ;
->>>>>>> b35c03fc684af65816dbbfd0ea01ced7abf44a01
 
 
 }
