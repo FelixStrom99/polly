@@ -1,11 +1,4 @@
 <template>
-  <div style="color: white">
-    {{"loc:" + displayLocationQuestion}} {{"fol:" + displayFollowupQuestion}} {{"ans:" + displayAnswer}}
-    {{"timep: " + timePassed}}<br>
-    {{"timeleft: " + timeLeft}}<br>
-    {{"submit ans: " + isSubmittedAnswer}}<br>
-    {{"is quest: " + isQuestionNotWaitingRoom}}<br>
-  </div>
   <section class="choose-username" v-if="isChooseusername">
     <h1> Välj användarnamn</h1> <!-- {{ uiLabels.username }}-->
     <div>
@@ -102,14 +95,13 @@
       </div>
     </section>
 
-
   <section class= "format" v-if="displayAnswer===true">
-    <div v-if="displayLocationQuestion===true">
-      <header class="waiting-room-header">This is the result after the location, inte helt färdig</header>
+
+    <div class="map-result" v-if="displayLocationQuestion===true">
+      <p class="waiting-room-header">This is your result after the location question</p>
       <div class="openlayers-map">
         <MapContainerPollResult :geojson="geojson" v-bind:key=updateZoom v-bind:correctLocation="LocationQuestion.location" v-bind:mapView="mapView" v-bind:userLocation="userLocation" v-bind:distance="distance" > </MapContainerPollResult>
       </div>
-
     </div>
 
       <div v-if="result === 'true' && displayFollowupQuestion===true && isSubmittedAnswer===true" >
@@ -127,8 +119,26 @@
           <line class="incorrekt-path-line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3"/>
           <line class="incorrekt-path-line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2"/>
         </svg>
-      </div>
+       </div>
 
+    <div class="waiting-room-info">
+      <div v-if="(index+1)===questions.length">
+        <p>Wait until hos starts next set of questions...</p>
+        <div class="lds-ripple"><div></div><div></div></div>
+      </div>
+      <div v-if="isQuestionNotWaitingRoom===true && (index+1) !== questions.length">
+        <p>Waiting for other players to answer...</p>
+        <div class="lds-ripple"><div></div><div></div></div>
+      </div>
+      <div v-if="isQuestionNotWaitingRoom===false">
+        <div v-if="displayLocationQuestion===true">
+          <p>Next question: {{questions[this.index].q}} in {{timeLeft}}s</p>
+        </div>
+        <div v-if="displayLocationQuestion===false && (index+1) !== questions.length">
+          <p>Next question: {{questions[this.index + (1)].q}} in {{timeLeft}}s</p>
+        </div>
+      </div>
+    </div>
     </section>
 
     <footer class="format">
@@ -491,6 +501,12 @@ button:hover{
   border-radius: 10px;
   padding: 2em;
 }
+.waiting-room-info{
+  position: relative;
+  font-size: 130%;
+  top: -1em
+
+}
 
 waitingroom-users p{
   color: white;
@@ -541,9 +557,10 @@ waitingroom-users p{
   font-size: 150%;
 }
 .incorrekt-marker {
-  width: 100px;
-  display: block;
-  margin: 40px auto 0;
+  position: relative;
+  justify-content: center;
+  padding: 3em;
+  width: 170px;
 }
 .checkmark__circle {
   stroke-dasharray: 166;
@@ -589,13 +606,7 @@ waitingroom-users p{
   height: 30em;
   width: 100%;
 }
-#map-result{
-  position: relative;
-  margin: 0;
-  padding: 0;
-  height: 30em;
-  width: 100%;
-}
+
 .move{
   gap: 10px 10px;
   padding-top: 1em;
@@ -636,6 +647,13 @@ waitingroom-users p{
 .answer-alternative-size-container{
   height: 95vh;
 }
+/* waitingroom result */
+
+.map-result{
+  position: relative;
+  top: -3em;
+}
+
 /* Timer Clock */
 
 .base-timer {
@@ -761,6 +779,40 @@ waitingroom-users p{
   }
 
 }
+/* loading icon*/
+.lds-ripple {
+  display: inline-block;
+  position: relative;
+  width: 30px;
+  height: 30px;
+}
+.lds-ripple div {
+  position: absolute;
+  border: 4px solid #fff;
+  opacity: 1;
+  border-radius: 50%;
+  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.lds-ripple div:nth-child(2) {
+  animation-delay: -0.5s;
+}
+@keyframes lds-ripple {
+  0% {
+    top: 20px;
+    left: 20px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 0px;
+    left: 0px;
+    width: 40px;
+    height: 40px;
+    opacity: 0;
+  }
+}
+/* loading icon end*/
 
 
 </style>
