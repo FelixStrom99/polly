@@ -1,5 +1,20 @@
 <template>
+
+  <ul class="circles">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+
   <section class="choose-username" v-if="isChooseusername">
+    <div id="choose-username-wrapper">
     <h1> {{ uiLabels.username }}</h1>
     <div>
       <input type="text" v-model="userID" placeholder="Enter username...">
@@ -7,6 +22,7 @@
     <button v-on:click="displayWaitingroom">
       {{ uiLabels.save }}
     </button>
+    </div>
   </section>
 
   <section class="waitingroom" v-if="isWaitingroom">
@@ -23,7 +39,7 @@
   </section>
 
   <main>
-    <section class="format" v-if="displayLocationQuestion && displayFollowupQuestion===false && displayAnswer===false">
+    <section v-if="displayLocationQuestion && displayFollowupQuestion===false && displayAnswer===false">
       <header class="quiz-questions">
         {{LocationQuestion.lq}}
       </header>
@@ -63,7 +79,7 @@
 
 
 
-    <section class="format" v-if="displayFollowupQuestion===true && displayLocationQuestion===false && displayAnswer===false">
+    <section v-if="displayFollowupQuestion===true && displayLocationQuestion===false && displayAnswer===false">
       <header class="quiz-questions">
         {{questions[this.index].q}}
       </header>
@@ -94,7 +110,7 @@
       </div>
     </section>
 
-  <section class= "format" v-if="displayAnswer===true">
+  <section v-if="displayAnswer===true">
 
     <div class="map-result" v-if="displayLocationQuestion===true">
       <header class="waiting-room-header">{{ uiLabels.locationResult }}</header>
@@ -141,7 +157,7 @@
     </div>
     </section>
 
-    <footer class="format">
+    <footer>
       Poll ID: {{ pollId }}
     </footer>
 
@@ -461,36 +477,19 @@ export default {
 </script>
 
 <style>
+
 /* General CSS for Poll.vue */
-main{
-}
 
-.format{
-  background-color: #161B40;
-
-}
-
-
-button {
-  display: inline-block;
-  padding: 0.35em 1.2em;
-  border: 0.1em solid #ffffff;
-  margin: 0 0.3em 0.3em 0;
-  border-radius: 0.9em;
-  box-sizing: border-box;
-  text-decoration: none;
-  font-weight: 300;
-  color: #161B40;
-  text-align: center;
-  transition: all 0.2s;
-
-}
-
-button:hover{
-  color:#161B40;
-  background-color: #EFA500;
-}
 /* Choose username */
+
+.choose-username{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+}
+
+
 
 /* Waiting Room */
 #waitingroom-wrapper {
@@ -533,12 +532,6 @@ waitingroom-users p{
   text-align: center;
 }
 
-
-
-
-#waitingroom-item2 {
-  width:100%
-}
 /* Lägg in era egna kategorier */
 
 .waiting-room-header{
@@ -643,15 +636,6 @@ waitingroom-users p{
   width: 10%;
 }
 
-
-.clock_prop {
-  font-family: sans-serif;
-  display: grid;
-  height: 20vh;
-  position: absolute;
-  right: 15px;
-  top: 10px;
-}
 .answer-alternative-size-container{
   height: 95vh;
 }
