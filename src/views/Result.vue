@@ -72,21 +72,28 @@ export default {
       this.locationData={}
       this.updateZoom+=1
       this.correctLocation=update.location
+
     })
     socket.on("userMapView",d =>
         this.mapView=d)
 
     socket.on("locationDataUpdate", update=>{
       this.locationData=update.la
+      });
 
-    //*  this.$refs.MapContainerResults.locationDataPoints()
+    socket.on("sendToPoll",placeholderTillsJagHittarNågotBättre => {
+      console.log(placeholderTillsJagHittarNågotBättre)
+    //*  this.sendToPoll()
 
-  })
+
+  });
 
 
 },
 methods:{
-
+ /* sendToPoll: function () {
+    this.$router.push({ path: `/poll/${this.pollId}` })
+  },*/
 }
 }
 </script>

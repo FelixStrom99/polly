@@ -41,7 +41,7 @@ function sockets(io, socket, data) {
   });
     socket.on('runQuestion', function (d) {
         io.to(d.pollId).emit('newQuestion', data.getQuestion(d.pollId, d.questionNumber));
-
+        io.to(d.pollId).emit('sendToPoll',null)
     });
 
     socket.on('submitAnswer', function (d) {
