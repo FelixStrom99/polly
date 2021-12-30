@@ -30,7 +30,7 @@ Data.prototype.createPoll = function (pollId, lang = "en") {
         poll.questionSequence = [];
         poll.currentLocationQuestion = 0;
         poll.locations = [];
-        poll.mapView={};
+        poll.mapView = {};
         poll.users = [];
         this.polls[pollId] = poll;
         console.log("poll created", pollId, poll);
@@ -44,7 +44,6 @@ Data.prototype.addQuestion = function (pollId, q) {
     if (typeof poll !== 'undefined') {
 
         poll.questionSequence.push(q)
-
 
 
     }
@@ -63,12 +62,11 @@ Data.prototype.setZoom = function (pollId, d) {
     console.log("zoom set to", pollId, d)
     if (typeof poll !== 'undefined') {
 
-        poll.mapView=d
-        console.log("glöggkrök",poll.mapView)
+        poll.mapView = d
+        console.log("glöggkrök", poll.mapView)
 
-    }
-    else{
-        poll.mapview={zoom:0,center:[0,0]}
+    } else {
+        poll.mapview = {zoom: 0, center: [0, 0]}
     }
 }
 
@@ -76,17 +74,14 @@ Data.prototype.getZoom = function (pollId) {
     const poll = this.polls[pollId];
     if (typeof poll !== 'undefined') {
         return poll.mapView
-    }
-    else {
+    } else {
         return {}
-        }
+    }
 
-        //* return {lq: locations.lq, location: [locations.location.x, locations.location.y], image: locations.image};
+    //* return {lq: locations.lq, location: [locations.location.x, locations.location.y], image: locations.image};
 
 
 }
-
-
 
 
 Data.prototype.getQuestion = function (pollId, qId = null) {
@@ -130,15 +125,22 @@ Data.prototype.submitLocationAnswer = function (pollId, answer) {
     const poll = this.polls[pollId];
     console.log("answer submitted for ", pollId, answer);
     if (typeof poll !== 'undefined') {
-        poll.locationAnswer.push(answer)
 
+        if (typeof poll.locationAnswer[poll.currentQuestion] !== 'undefined') {
+            (poll.locationAnswer[poll.currentQuestion]).push(answer)
+
+        } else {
+            poll.locationAnswer[poll.currentQuestion] = [];
+            (poll.locationAnswer[poll.currentQuestion]).push(answer)
+
+        }
     }
 }
 Data.prototype.getAnswers = function (pollId) {
     const poll = this.polls[pollId];
     if (typeof poll !== 'undefined') {
         const answers = poll.answers[poll.currentQuestion]
-        console.log("hej",answers)
+        console.log("hej", poll.answers[poll.currentQuestion])
         if (typeof poll.questionSequence[poll.currentQuestion] !== 'undefined') {
 
             return {q: poll.questionSequence[poll.currentQuestion].q, a: answers};
@@ -152,7 +154,7 @@ Data.prototype.getLocationAnswers = function (pollId) {
 
         if (typeof poll.questionSequence[poll.currentQuestion] !== 'undefined') {
 
-            return {lq: poll.questionSequence[poll.currentLocationQuestion].lq, la:poll.locationAnswer};
+            return {lq: poll.questionSequence[poll.currentQuestion].lq, la: poll.locationAnswer[poll.currentQuestion]};
         }
     }
     return {}
