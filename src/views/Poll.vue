@@ -30,6 +30,7 @@
       <h1 id="waitingroom-text">{{ uiLabels.waitingRoom }}</h1>
       <h2>{{ uiLabels.hostWait }}</h2>
       <div id="waitingroom-item">
+        <h1>USERS:</h1>
         <div id="waitingroom-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i" style="  color: white;font-size:20px;">
           <p>{{u}}</p>
         </div>
@@ -39,7 +40,7 @@
   </section>
 
   <main>
-    <section v-if="displayLocationQuestion && displayFollowupQuestion===false && displayAnswer===false">
+    <section class="location-question" v-if="displayLocationQuestion && displayFollowupQuestion===false && displayAnswer===false">
       <header class="quiz-questions">
         {{LocationQuestion.lq}}
       </header>
@@ -79,7 +80,7 @@
 
 
 
-    <section v-if="displayFollowupQuestion===true && displayLocationQuestion===false && displayAnswer===false">
+    <section class="followup-question" v-if="displayFollowupQuestion===true && displayLocationQuestion===false && displayAnswer===false">
       <header class="quiz-questions">
         {{questions[this.index].q}}
       </header>
@@ -110,25 +111,25 @@
       </div>
     </section>
 
-  <section v-if="displayAnswer===true">
+  <section class="display-answer" v-if="displayAnswer===true">
 
     <div class="map-result" v-if="displayLocationQuestion===true">
-      <header class="waiting-room-header">{{ uiLabels.locationResult }}</header>
+      <header class="waiting-result-room-header">{{ uiLabels.locationResult }}</header>
       <div class="openlayers-map">
         <MapContainerPollResult :geojson="geojson" v-bind:key=updateZoom v-bind:correctLocation="LocationQuestion.location" v-bind:mapView="mapView" v-bind:userLocation="userLocation" v-bind:distance="distance" > </MapContainerPollResult>
       </div>
     </div>
 
       <div v-if="result === 'true' && displayFollowupQuestion===true && isSubmittedAnswer===true" >
-        <header class="waiting-room-header">{{ uiLabels.correctAns }}</header>
+        <header class="waiting-result-room-header"><h1 style="color: #41B853">{{ uiLabels.correctAns}}</h1></header>
         <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
           <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
           <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
         </svg>
       </div>
       <div v-if="result === 'false' && displayFollowupQuestion===true" >
-        <header v-if="displayRanOutTime===true && isSubmittedAnswer===false" class="waiting-room-header" ><h1>{{ uiLabels.timeEnd }}</h1></header>
-        <header v-if="displayRanOutTime===false  && isSubmittedAnswer===true" class="waiting-room-header"><h1 style="color: #F40058">{{ uiLabels.incorrectAns}} </h1></header>
+        <header v-if="displayRanOutTime===true && isSubmittedAnswer===false" class="waiting-result-room-header" ><h1>{{ uiLabels.timeEnd }}</h1></header>
+        <header v-if="displayRanOutTime===false  && isSubmittedAnswer===true" class="waiting-result-room-header"><h1 style="color: #F40058">{{ uiLabels.incorrectAns}} </h1></header>
         <svg class="incorrekt-marker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
           <circle class="incorrekt-path-circle" fill="none" stroke="#D06079" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
           <line class="incorrekt-path-line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3"/>
@@ -137,7 +138,7 @@
        </div>
 
 
-    <div class="waiting-room-info">
+    <div class="waiting-result-room-info">
       <div v-if="(index+1)===questions.length">
         <p>Wait until hos starts next set of questions...</p>
         <div class="lds-ripple"><div></div><div></div></div>
@@ -482,63 +483,85 @@ export default {
 
 /* Choose username */
 
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
 .choose-username{
   display: flex;
   align-items: center;
   justify-content: center;
   height: 90vh;
 }
+.choose-username h1{
+  font-size: 200%;
+}
 
 
 
 /* Waiting Room */
 #waitingroom-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  gap: 5px;
   min-height: 50em;
+  top: -2em;
 }
 #waitingroom-item {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+
   background-color: #1682a8;
+  opacity: 85%;
   height: 50vh;
-  width: 30%;
+  width: 50%;
   border-style: solid;
-  border-width: thick;
+  border-width: 3px;
   border-color: lightgreen;
   border-radius: 10px;
   padding: 2em;
 }
-.waiting-room-info{
-  position: relative;
-  font-size: 130%;
-  top: -1em
-
+#waitingroom-item h1 {
+  font-size: 150%;
+  color: #EFA500;
 }
 
+
+
 waitingroom-users p{
+  width: 32%;
+  padding-bottom: 32%; /* Same as width, sets height */
+  margin-bottom: 2%; /* (100-32*3)/2 */
+  position: relative;
   color: white;
   font-weight: bold;
+  position: relative;
 }
 
 #waitingroom-text {
-  font-size: 500%;
+  font-size: 300%;
   color: white;
   text-shadow: 5px 5px 5px black;
-  position: absolute;
-  top: 10%;
-  left: 0;
-  right: 0;
-  transform: translate(0, -50%);
-  text-align: center;
 }
 
-/* Lägg in era egna kategorier */
+/* waiting/result room */
 
-.waiting-room-header{
+.waiting-result-room-header{
   color: white;
   font-weight: bold;
   font-size: 200%;
   padding-top: 100px;
+}
+.waiting-result-room-info{
+  position: relative;
+  font-size: 130%;
+
 }
 .quiz-questions{
   text-decoration-line: underline;
@@ -554,7 +577,6 @@ waitingroom-users p{
   position: absolute;
   left: 30px;
   top: 10px;
-  font-family: Damascus;
   font-size: 150%;
 }
 .incorrekt-marker {
