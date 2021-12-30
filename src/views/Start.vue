@@ -25,7 +25,7 @@
 
 
       <div id="headertext">
-      <span >
+      <span>
 	<span style="color:#43BEE5">M</span>
 	<span style="color: #EFA500">a</span>
 	<span style="color: #F40058">p</span>
@@ -78,10 +78,10 @@ export default {
   name: 'Start',
   data: function () {
     return {
-      uiLabels: {},
-      id: "",
-      lang: "en",
-      play: false
+      uiLabels:   {},
+      id:         "",
+      lang:       "en",
+      play:       false,
 
     }
   },
@@ -101,7 +101,6 @@ export default {
 
     showPlay: function () {
      this.play=true
-
     }
   }
 }
@@ -140,48 +139,31 @@ body {
 .routerLink {
   color:inherit;
   text-decoration: none;
-
-
 }
+
 input {
   padding: 1em;
   border: none;
   border-radius: 12px;
 }
-.theme {
-  /*background: linear-gradient(-45deg, #ee9052, #d22736, #1682a8, #22d999);
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
-}
 
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }*/
-
-}
 button{
-
   font-size:100%;
   text-align: center;
   border-radius:6px;
 }
+
 button:hover{
   background-color: #EFA500;
   cursor:pointer;
 }
+
 button:active{
   position: relative;
   top: 1px;
 }
-#LangButton {
 
+#LangButton {
   width:10%;
   height: 5%;
   font-size:100%;
@@ -202,11 +184,7 @@ button:active{
   font-size:200%;
 }
 
-
-
-
 #nav {
-
   display: flex;
   justify-content: center;
   grid-gap: 10em;
@@ -234,13 +212,10 @@ button:active{
 }
 @import url('https://fonts.googleapis.com/css?family=Exo:400,700');
 
-
-
 .context {
   width: 100%;
   position: absolute;
   top:50vh;
-
 }
 
 .context h1{

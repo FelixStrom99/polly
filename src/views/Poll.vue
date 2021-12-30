@@ -1,11 +1,5 @@
 <template>
-  <div style="color: white">
-    {{"loc:" + displayLocationQuestion}} {{"fol:" + displayFollowupQuestion}} {{"ans:" + displayAnswer}}
-    {{"timep: " + timePassed}}<br>
-    {{"timeleft: " + timeLeft}}<br>
-    {{"submit ans: " + isSubmittedAnswer}}<br>
-    {{"is quest: " + isQuestionNotWaitingRoom}}<br>
-  </div>
+
   <section class="choose-username" v-if="isChooseusername">
     <h1> Välj användarnamn</h1> <!-- {{ uiLabels.username }}-->
     <div>
@@ -121,7 +115,7 @@
       </div>
       <div v-if="result === 'false' && displayFollowupQuestion===true" >
         <header v-if="displayRanOutTime===true && isSubmittedAnswer===false" class="waiting-room-header">Ran out of time!</header>
-        <header v-if="displayRanOutTime===false  && isSubmittedAnswer===true" class="waiting-room-header">INKORREKT! Men draken flyger i motvind</header>
+        <header v-if="displayRanOutTime===false  && isSubmittedAnswer===true" class="waiting-room-header"> <h1 style="color: #F40058">INKORREKT!</h1>  <p> Men glöm inte, draken flyger i motvind</p> </header>
         <svg class="incorrekt-marker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
           <circle class="incorrekt-path-circle" fill="none" stroke="#D06079" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
           <line class="incorrekt-path-line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3"/>

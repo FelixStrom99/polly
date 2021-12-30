@@ -728,8 +728,6 @@ textbox:hover {
   height: 100%;
   position: relative;
   grid-column: 3 ;
-
-
 }
 
 
