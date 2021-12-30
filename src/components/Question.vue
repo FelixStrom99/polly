@@ -56,15 +56,15 @@ export default {
 }
 
 .answer-alternative-size-wrapper:nth-child(2){
-  background-color: #EFA500;
+  background-color: #43BEE5;
 }
 
 .answer-alternative-size-wrapper:nth-child(3){
-  background-color: #EFA500;
+  background-color: limegreen;
 }
 
 .answer-alternative-size-wrapper:nth-child(4){
-  background-color: #EFA500;
+  background-color: red;
 }
 
 
