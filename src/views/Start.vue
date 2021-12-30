@@ -39,7 +39,7 @@
         <div>
           <div v-if="play">
             <button class="playButtons">
-              <router-link class="routerLink" v-bind:to="'/poll/'+id" tag="button">{{ uiLabels.participatePoll }}</router-link>
+              <router-link class="routerLink" v-bind:to="'/poll/'+id+'/'+lang" tag="button">{{ uiLabels.participatePoll }}</router-link>
             </button>
               <div id="pollID">
             <label>
@@ -56,7 +56,7 @@
 
 
         <button class="playButtons">
-          <router-link class="routerLink" v-bind:to="'/create/'+lang">Create</router-link> <!-- uiLabels.createPoll-->
+          <router-link class="routerLink" v-bind:to="'/create/'+lang">{{ uiLabels.create }}</router-link> <!-- uiLabels.createPoll-->
         </button>
 
       </div>

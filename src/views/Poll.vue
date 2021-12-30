@@ -1,20 +1,19 @@
 <template>
 
   <section class="choose-username" v-if="isChooseusername">
-    <h1> Välj användarnamn</h1> <!-- {{ uiLabels.username }}-->
+    <h1> {{ uiLabels.username }}</h1>
     <div>
       <input type="text" v-model="userID" placeholder="Enter username...">
-      {{this.userID}}
     </div>
     <button v-on:click="displayWaitingroom">
-      Spara <!--{{ uiLabels.save }} -->
+      {{ uiLabels.save }}
     </button>
   </section>
 
   <section class="waitingroom" v-if="isWaitingroom">
     <div id="waitingroom-wrapper">
-      <h1 id="waitingroom-text">Waiting room</h1>
-      <h2>wait for the host to start the game...</h2>
+      <h1 id="waitingroom-text">{{ uiLabels.waitingRoom }}</h1>
+      <h2>{{ uiLabels.hostWait }}</h2>
       <div id="waitingroom-item">
         <div id="waitingroom-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i" style="  color: white;font-size:20px;">
           <p>{{u}}</p>
@@ -29,7 +28,7 @@
       <header class="quiz-questions">
         {{LocationQuestion.lq}}
       </header>
-      <p style="font-weight: bold; color: white">Click on the map to pinpoint the location</p>
+      <p style="font-weight: bold; color: white">{{ uiLabels.pinLocation }}</p>
       <div id="map-question-wrapper">
 
         <div class="base-timer" id="timer-location">
@@ -56,7 +55,7 @@
     </div>
     <div class="move">
       <button v-on:click="submitLocationAnswer(),switchToWaitingRoom(),meterDistance()">
-        Submit location!
+        {{ uiLabels.sendLocation }}
       </button>
     </div>
   </div>
@@ -99,7 +98,7 @@
 
   <section class= "format" v-if="displayAnswer===true">
     <div v-if="displayLocationQuestion===true">
-      <header class="waiting-room-header">This is the result after the location, inte helt färdig</header>
+      <header class="waiting-room-header">{{ uiLabels.locationResult }}</header>
       <div class="openlayers-map">
         <MapContainerPollResult :geojson="geojson" v-bind:key=updateZoom v-bind:correctLocation="LocationQuestion.location" v-bind:mapView="mapView" v-bind:userLocation="userLocation" v-bind:distance="distance" > </MapContainerPollResult>
       </div>
@@ -107,7 +106,7 @@
     </div>
 
       <div v-if="result === 'true' && displayFollowupQuestion===true && isSubmittedAnswer===true" >
-        <header class="waiting-room-header">KORREKT! Du är typ lika smart som Adrian</header>
+        <header class="waiting-room-header">{{ uiLabels.correctAns }}</header>
         <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
           <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
           <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
@@ -116,6 +115,8 @@
       <div v-if="result === 'false' && displayFollowupQuestion===true" >
         <header v-if="displayRanOutTime===true && isSubmittedAnswer===false" class="waiting-room-header">Ran out of time!</header>
         <header v-if="displayRanOutTime===false  && isSubmittedAnswer===true" class="waiting-room-header"> <h1 style="color: #F40058">INKORREKT!</h1>  <p> Men glöm inte, draken flyger i motvind</p> </header>
+        <header v-if="displayRanOutTime===true && isSubmittedAnswer===false" class="waiting-room-header">{{ uiLabels.timeEnd }}</header>
+        <header v-if="displayRanOutTime===false  && isSubmittedAnswer===true" class="waiting-room-header">{{ uiLabels.incorrectAns}}</header>
         <svg class="incorrekt-marker" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
           <circle class="incorrekt-path-circle" fill="none" stroke="#D06079" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
           <line class="incorrekt-path-line" fill="none" stroke="#D06079" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3"/>
@@ -172,6 +173,8 @@ export default {
   },
   data: function () {
     return {
+      lang: "",
+      uiLabels: {},
       timePassed:             0,
       timerInterval:          null,
       result:                 "",
@@ -242,7 +245,13 @@ export default {
   },
 
   created: function () {
-    this.pollId = this.$route.params.id
+    this.pollId = this.$route.params.id;
+    this.lang = this.$route.params.lang;
+
+    socket.emit("pageLoaded", {lang: this.lang, id: this.pollId});
+    socket.on("init", (labels) => {
+      this.uiLabels = labels
+    })
 
     socket.emit('joinPoll', this.pollId)
     socket.on("userMapView",d =>

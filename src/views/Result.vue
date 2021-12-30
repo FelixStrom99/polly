@@ -14,7 +14,7 @@
   </div>
   {{question}}
   <Bars v-bind:data="data"/>
- 
+
 
   <!--- <div id="mapcontainer">
     <div id="dots">
@@ -51,7 +51,7 @@ export default {
           y: 0
         },
       locationQuestion:"",
-      locationData:null,
+      locationData:{},
       mapView: {zoom: 0, center: [0,0]},
       updateZoom:0
     }
@@ -68,7 +68,9 @@ export default {
     socket.on("newQuestion", update => {
       this.question = update.q;
       this.data = {};
-      this.updateZoom=1
+      this.locationQuestion=update.lq
+      this.locationData={}
+      this.updateZoom+=1
       this.correctLocation=update.location
     })
     socket.on("userMapView",d =>
@@ -76,7 +78,6 @@ export default {
 
     socket.on("locationDataUpdate", update=>{
       this.locationData=update.la
-      this.locationQuestion=update.lq
     //*  this.$refs.MapContainerResults.locationDataPoints()
 
   })

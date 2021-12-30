@@ -1,7 +1,7 @@
 <template>
 
   <div ref="map-root"
-       style="width: 100%; height: 100%">
+       style="width: 70%; height: 80%">
   </div>
   <!--<input type="range" v-model="this.userPoint.properties.radius" max="40" min="5">-->
 </template>
@@ -26,9 +26,16 @@ import 'ol/ol.css'
 export default {
   name: 'MapContainerCreate',
   components: {},
-  props:{
-    mapView:Object
+  props: {
+    mapView: Object,
+    location:Object
   },
+  watch: {
+    location() {
+      this.showLocation();
+    }
+  },
+
   data: function () {
     return {
       // store OL objects on the component instance
@@ -91,6 +98,11 @@ export default {
   },
 
   methods: {
+    showLocation() {
+      this.correctPoint.geometry.coordinates=[this.location.x,this.location.y]
+      this.addPoint(this.correctPoint)
+    },
+
     correctPointStyle() {
       return new Style( {
 
