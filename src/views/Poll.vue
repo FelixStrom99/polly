@@ -302,18 +302,23 @@ export default {
     },
     waitingRoomTimer: function(){
       if(this.isQuestionNotWaitingRoom===true){
-        this.isQuestionNotWaitingRoom=false}
+        this.isQuestionNotWaitingRoom=false
+        console.log("this.isQuestionNotWaitingRoom=false")
+      }
       else if (this.isQuestionNotWaitingRoom===false) {
         this.isQuestionNotWaitingRoom=true
+        console.log("this.isQuestionNotWaitingRoom=true")
       }
+
       if(TIME_LIMIT===10 && this.isQuestionNotWaitingRoom===false){
+
         this.timePassed=5
         this.startTimer()
 
       }
       if(TIME_LIMIT===20 && this.isQuestionNotWaitingRoom===false){
         this.timePassed=15
-        console.log("isquest room false")
+
         this.startTimer()
       }
       if(TIME_LIMIT===40 && this.isQuestionNotWaitingRoom===false){
@@ -348,11 +353,11 @@ export default {
         this.isChooseusername       =true
       }
       else{
+        clearInterval(this.timerInterval)
         this.displayLocationQuestion=true
         this.isChooseusername       =false
         this.displayFollowupQuestion=false
         this.displayAnswer          =false
-        this.timePassed=TIME_LIMIT
         this.resetTimer()
       }
 
@@ -373,7 +378,6 @@ export default {
       this.displayRanOutTime = false
       this.switchToWaitingRoom()
       this.isSubmittedAnswer=true
-      this.isQuestionNotWaitingRoom=false
       socket.emit("submitAnswer", {pollId: this.pollId, answer: answer})
       for (let i = 0; i < this.questions.length; i++) {
 
