@@ -76,9 +76,7 @@
         </div>
       </div>
       <div id="add-locationQuestion-button" v-on:click="addNewPollQuestion" style="cursor: pointer;">
-
         <object data="/svg_files/addLocationQuestionButton-2/addLocationQuestionButton.svg" style="pointer-events:none;">
-
         </object>
 
       </div>
@@ -554,10 +552,12 @@ export default {
 }
 
 .Answer-Box-checkbox-prop{
-  height: 100%;
-  -webkit-transform: scale(2);
   transform: scale(2);
   border-radius: 5px;
+  position: absolute;
+  top: 50%;
+  text-align: center;
+  right: 25%;
 }
 
 
@@ -726,6 +726,7 @@ textbox:hover {
   border-color: rgba(82, 77, 77, 0.55);
   column-width: 50px;
   height: 100%;
+  position: relative;
   grid-column: 3 ;
 
 
