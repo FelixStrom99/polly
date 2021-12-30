@@ -19,7 +19,8 @@
     </div>
 
     <div class="maps">
-      <div class="map-item" id="background_pic_uppsala" v-on:click="nextSection();chooseUppsala()" style="cursor: pointer;">
+      <div class="map-item" id="background_pic_uppsala" v-on:click="nextSection();chooseUppsala()"
+           style="cursor: pointer;">
         <figure>
           <h1 class="city_name_charachter_spec">Uppsala</h1>
         </figure>
@@ -34,19 +35,22 @@
       </div>
 
 
-      <div class="map-item" id="background_pic_sundsvall" v-on:click="nextSection();chooseSundsvall();" style="cursor: pointer;">
+      <div class="map-item" id="background_pic_sundsvall" v-on:click="nextSection();chooseSundsvall();"
+           style="cursor: pointer;">
         <figure>
           <h1 class="city_name_charachter_spec">Sundsvall</h1>
         </figure>
       </div>
 
-      <div class="map-item" id="background_pic_västerås" v-on:click="nextSection();chooseVästerås()" style="cursor: pointer;">
+      <div class="map-item" id="background_pic_västerås" v-on:click="nextSection();chooseVästerås()"
+           style="cursor: pointer;">
         <figure>
           <h1 class="city_name_charachter_spec">Västerås</h1>
         </figure>
       </div>
 
-      <div class="map-item" id="background_pic_göteborg" v-on:click="nextSection();chooseGöteborg()" style="cursor: pointer;">
+      <div class="map-item" id="background_pic_göteborg" v-on:click="nextSection();chooseGöteborg()"
+           style="cursor: pointer;">
         <figure>
           <h1 class="city_name_charachter_spec">Göteborg</h1>
         </figure>
@@ -66,10 +70,10 @@
     <div class="create overview-left-side">
       <h1>Här ska överblicken av alternativen vara</h1>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
-        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)"  >{{questionSequence[i][3]}}</div>
+        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)">{{ questionSequence[i][3] }}</div>
         <div class="content"> <!--{{"Fråga "+(i+1)}}  v-bind:placeholder="'Fråga '+(i+1)"-->
           <div class="content-mq" v-for="(_,j) in questionSequence[i][0]" v-bind:key="'answers'+j">
-            <button class="content-mq-button" v-on:click="showMultipleQuestion(j)">{{"Fråga "+(j+1)}}</button>
+            <button class="content-mq-button" v-on:click="showMultipleQuestion(j)">{{ "Fråga " + (j + 1) }}</button>
           </div>
           <button v-on:click="addNewMultipleQuestion(i,j)">Add Question</button>
           <button v-on:click="deleteMultipleQuestion">Delete question</button>
@@ -77,13 +81,14 @@
       </div>
       <div id="add-locationQuestion-button" v-on:click="addNewPollQuestion" style="cursor: pointer;">
 
-        <object data="/svg_files/addLocationQuestionButton-2/addLocationQuestionButton.svg" style="pointer-events:none;">
+        <object data="/svg_files/addLocationQuestionButton-2/addLocationQuestionButton.svg"
+                style="pointer-events:none;">
 
         </object>
 
       </div>
     </div>
-    <div class="create lq-and-q" >
+    <div class="create lq-and-q">
       <h1>{{ pollId }}</h1>
       <div class="location-question" v-if="createLocationQuestion">
         <div>
@@ -92,7 +97,7 @@
         <button v-on:click="editQuestion(this.currentLQ, null)">save</button>
         <div id="openlayers-map">
           <MapContainerCreate :geojson="geojson"
-            v-on:location="location=$event" v-bind:mapView="mapView">
+                              v-on:location="location=$event" v-bind:mapView="mapView" v-bind:location="savedLocation">
           </MapContainerCreate>
         </div>
       </div>
@@ -102,33 +107,34 @@
         <input type="text" placeholder="Enter question..." v-model="question">
         <button v-on:click="editQuestion(this.currentLQ, currentMQ)">save</button>
         <div class="question-multiple">
-          {{ uiLabels.answers}}:
+          {{ uiLabels.answers }}:
           <div class="Answer-box-wrapper">
-          <div class="answer-alternative-size-wrapper" v-for="(_, i) in answers" v-bind:key="'answers'+i">
-            <div id="Answer-Box-symbol-prop" :style="checkBox[i] ? { 'background-color': 'rgba(6, 236, 4, 0.73)' } : null">
-            </div>
-            <div class="Answer-Box-textarea"  >
-              <input class="Answer-Box-textarea-prop"
-                     v-model="answers[i]" v-bind:placeholder="'Alternative '+(i+1)">
-            </div>
-            <div class="Answer-Box-checkbox" >
-              <input type="checkbox"
-                     class="Answer-Box-checkbox-prop
+            <div class="answer-alternative-size-wrapper" v-for="(_, i) in answers" v-bind:key="'answers'+i">
+              <div id="Answer-Box-symbol-prop"
+                   :style="checkBox[i] ? { 'background-color': 'rgba(6, 236, 4, 0.73)' } : null">
+              </div>
+              <div class="Answer-Box-textarea">
+                <input class="Answer-Box-textarea-prop"
+                       v-model="answers[i]" v-bind:placeholder="'Alternative '+(i+1)">
+              </div>
+              <div class="Answer-Box-checkbox">
+                <input type="checkbox"
+                       class="Answer-Box-checkbox-prop
                             animation_rubberband"
-                     v-model="checkBox[i]"
-                     v-bind:key="'checkBox'+i">
+                       v-model="checkBox[i]"
+                       v-bind:key="'checkBox'+i">
 
+              </div>
             </div>
           </div>
-        </div>
-          {{questionSequence}}
+          {{ questionSequence }}
         </div>
       </div>
       <div class="lowerside">
         <div>
 
           <button v-on:click="finishQuizFinal()">
-     {{uiLabels.finishQuiz}}
+            {{ uiLabels.finishQuiz }}
           </button>
 
         </div>
@@ -143,7 +149,7 @@
       <div class="multiple-choice-question-settings" v-if="createMultipleChoiceQuestion">
         <h2>Settings MQ</h2>
         <button v-on:click="addAnswer">
-          {{ uiLabels.addAnswer}}
+          {{ uiLabels.addAnswer }}
         </button>
         <button v-on:click="deleteAnswer">
           {{ uiLabels.deleteAnswer }}
@@ -152,11 +158,12 @@
       <div>
         <h2>Overall Settings</h2>
         <h3>Timer settings</h3>
-        <button>Ändra sånndär duration boom</button>
+        {{savedLocation}}
+        <button v-on:click="deleteLocationQuestion">Ändra sånndär duration boom</button>
         <br>
         <br>
         <button v-on:click="finishQuizFinal">
-          {{uiLabels.finishQuiz}}
+          {{ uiLabels.finishQuiz }}
         </button>
       </div>
     </div>
@@ -166,8 +173,8 @@
 
 
   <section v-if="secondStage===false && firstStage===true">
-  <h1>Host view</h1>
-    <p>PollID: {{this.pollId}}</p>
+    <h1>Host view</h1>
+    <p>PollID: {{ this.pollId }}</p>
     <div>
       <button v-on:click="runQuestion">
         Run Selected Question
@@ -178,36 +185,39 @@
       <button v-on:click="updatePlayers">
         Update players
       </button>
-      <button>  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link></button>
+      <button>
+        <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link>
+      </button>
     </div>
-    {{currentLQ}}
-  <div id="run-question-wrapper">
-    <div class="run-question waitingroom">
-      <h3>Users connected</h3>
-      <div id="run-question-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i" style="  color: white;font-size:20px;">
-        <p>{{u}}</p>
-      </div>
-    </div>
-    <div class="run-question box">
-      <h3>Run questions</h3>
-      <div id="run-question-item" v-for="(_,i) in questionSequence" v-bind:key="'question'+i">
-        <div v-on:click="currentLQ=i; this.previewQuestion()">{{questionSequence[i][3]}} </div>
-      </div>
-    </div>
-    <div class="run-question preview">
-      <h3>Preview of question</h3>
-      <div v-if="isPreviewQuestion" id="preview-question">
-        <p>Location question:</p>
-        {{questionSequence[currentLQ][3]}}
-        <p>Follow-up questions:</p>
-        <div v-for="(ans,i) in questionSequence[currentLQ][0]" v-bind:key="'ans'+i">
-          {{ans[i]}}
+    {{ currentLQ }}
+    <div id="run-question-wrapper">
+      <div class="run-question waitingroom">
+        <h3>Users connected</h3>
+        <div id="run-question-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i"
+             style="  color: white;font-size:20px;">
+          <p>{{ u }}</p>
         </div>
       </div>
-    </div>
+      <div class="run-question box">
+        <h3>Run questions</h3>
+        <div id="run-question-item" v-for="(_,i) in questionSequence" v-bind:key="'question'+i">
+          <div v-on:click="currentLQ=i; this.previewQuestion()">{{ questionSequence[i][3] }}</div>
+        </div>
+      </div>
+      <div class="run-question preview">
+        <h3>Preview of question</h3>
+        <div v-if="isPreviewQuestion" id="preview-question">
+          <p>Location question:</p>
+          {{ questionSequence[currentLQ][3] }}
+          <p>Follow-up questions:</p>
+          <div v-for="(ans,i) in questionSequence[currentLQ][0]" v-bind:key="'ans'+i">
+            {{ ans[i] }}
+          </div>
+        </div>
+      </div>
 
-  </div>
-</section>
+    </div>
+  </section>
 
 
 </template>
@@ -235,7 +245,11 @@ export default {
       locationQuestion: "",
       location: {
         x: 0,
-        y: 0
+        y: 0,
+      },
+      savedLocation: {
+        x: null,
+        y: null
       },
       createLocationQuestion: true,
       createMultipleChoiceQuestion: false,
@@ -280,9 +294,9 @@ export default {
     )
     socket.on("pollCreated", (data) =>
         this.data = data)
-    socket.on("brakrök",(user) =>{
-      this.userList=user
-    } )
+    socket.on("brakrök", (user) => {
+      this.userList = user
+    })
   },
 
   methods: {
@@ -338,13 +352,13 @@ export default {
     nextSection: function () {
       this.secondStage = false
     },
-    goBackEdit: function (){
+    goBackEdit: function () {
       this.firstStage = false
       this.secondStage = false
     },
     finishQuizFinal: function () {
       this.firstStage = true
-      this.currentLQ=0
+      this.currentLQ = 0
       for (var i = 0; i <= this.questionSequence.length; i++) {
         socket.emit("addQuestion", {
           pollId: this.pollId,
@@ -359,7 +373,6 @@ export default {
     },
 
 
-
     addNewMultipleQuestion: function () {
       var index = this.indexArray[this.currentLQ]
       var newAnswer = {[index]: ["", ""]}
@@ -371,9 +384,8 @@ export default {
       this.indexArray[this.currentLQ][0] += 1
       this.fixMaxHeightCollapse()
       this.questionSequence.length
-      this.showMultipleQuestion(this.questionSequence[this.currentLQ][0].length-1)
+      this.showMultipleQuestion(this.questionSequence[this.currentLQ][0].length - 1)
     },
-
 
 
     addAnswer: function () {
@@ -393,17 +405,34 @@ export default {
       this.finalAnswers[this.currentLQ].pop();
       this.finalQuestion[this.currentLQ].pop()
       this.finalCorrect[this.currentLQ].pop()
-      if (this.indexArray[this.currentLQ][0]>0) {
+      if (this.indexArray[this.currentLQ][0] > 0) {
         this.indexArray[this.currentLQ][0] -= 1
       }
     },
+    deleteLocationQuestion: function () {
+      if (this.pollQuestionIndex > 1) {
+        this.pollQuestionIndex -= 1
+        this.questionSequence.pop()
+        this.finalAnswers.pop();
+        this.finalQuestion.pop()
+        this.finalCorrect.pop()
+        this.indexArray.pop()
+
+      }
+
+
+    },
     showLocationQuestion: function () {
+    /*  this.savedLocation={x:0,y:0}
+      this.savedLocation=this.questionSequence[this.currentLQ][4]*/
       this.createLocationQuestion = true;
       this.createMultipleChoiceQuestion = false;
       this.showQuestion(this.currentLQ, null)
 
     },
     showMultipleQuestion: function (j) {
+
+
       this.currentMQ = j
       this.createLocationQuestion = false;
       this.createMultipleChoiceQuestion = true;
@@ -430,6 +459,8 @@ export default {
       } else {
         content.style.maxHeight = content.scrollHeight + 20 + "px";
       }
+      this.savedLocation={x:0,y:0}
+      this.savedLocation=this.questionSequence[this.currentLQ][4]
     },
     previewQuestion: function () {
       this.isPreviewQuestion = true;
@@ -478,7 +509,7 @@ export default {
 
     },
     updatePlayers: function () {
-      socket.emit('test',{pollId:this.pollId})
+      socket.emit('test', {pollId: this.pollId})
     }
   }
 }
@@ -510,6 +541,7 @@ export default {
   height: 100vh;
   width: 100%;
 }
+
 /* Section Create quiz // Left Bar */
 .overview-left-side {
   background-color: rgba(255, 255, 255, 0.54);
@@ -521,12 +553,12 @@ export default {
 .lq-and-q {
   justify-content: space-evenly;
   flex-basis: 70%;
-  clear:both
+  clear: both
 }
+
 /* Section Create quiz // Right Bar */
 
 /* Section Host View */
-
 
 
 .slider {
@@ -539,7 +571,8 @@ export default {
   -webkit-transition: .2s;
   transition: opacity .2s;
 }
-.Answer-Box-textarea-prop{
+
+.Answer-Box-textarea-prop {
 
   width: 100%;
   height: 97%;
@@ -553,7 +586,7 @@ export default {
 
 }
 
-.Answer-Box-checkbox-prop{
+.Answer-Box-checkbox-prop {
   height: 100%;
   -webkit-transform: scale(2);
   transform: scale(2);
@@ -567,16 +600,18 @@ export default {
   flex-basis: 15%;
 
 }
-.animation_rubberband{
+
+.animation_rubberband {
   animation-iteration-count: infinite;
   animation-timing-function: linear;
-  animation: rubberBand  2s infinite;
-}
-.animation_rubberband:hover{
-  animation: 0 ;
+  animation: rubberBand 2s infinite;
 }
 
-#add-locationQuestion-button{
+.animation_rubberband:hover {
+  animation: 0;
+}
+
+#add-locationQuestion-button {
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -584,35 +619,36 @@ export default {
   display: flex;
   justify-content: space-evenly;
 }
+
 #add-locationQuestion-button:hover {
   background-color: rgba(248, 248, 248, 0.44);
 }
 
 @keyframes rubberBand {
-  0%{
-    transform: scale3d(2,2,2);
+  0% {
+    transform: scale3d(2, 2, 2);
   }
-  15%{
-    transform: scale3d(2.15,1.85,2);
+  15% {
+    transform: scale3d(2.15, 1.85, 2);
   }
-  30%{
-    transform: scale3d(1.85,2.15,2);
+  30% {
+    transform: scale3d(1.85, 2.15, 2);
   }
-  45%{
-    transform: scale3d(2.15,1.85,2);
+  45% {
+    transform: scale3d(2.15, 1.85, 2);
   }
-  65%{
-    transform: scale3d(2.05,1.95,2);
+  65% {
+    transform: scale3d(2.05, 1.95, 2);
   }
-  100%{
-    transform: scale3d(2,2,2);
+  100% {
+    transform: scale3d(2, 2, 2);
   }
 
 
 }
 
 
-.Answer-box-wrapper{
+.Answer-box-wrapper {
   padding-top: 15px;
   display: flex;
   flex-wrap: wrap;
@@ -620,13 +656,14 @@ export default {
   justify-content: center;
   height: 40vh;
 }
+
 .collapsible {
   background-color: #43BEE5;
   color: #444;
   text-align: center;
   cursor: pointer;
   padding: 18px;
-  border-width:thin;
+  border-width: thin;
   border-radius: 10px;
   border-color: #444444;
   overflow: hidden;
@@ -641,7 +678,7 @@ export default {
 
 .content {
   margin-right: 2%;
-  margin-left:2% ;
+  margin-left: 2%;
   margin-bottom: 2%;
   border-radius: 0 0 10% 10%;
   background-color: white;
@@ -649,7 +686,8 @@ export default {
   overflow: hidden;
   transition: max-height 0.3s ease-out;
 }
-.header-create-prop{
+
+.header-create-prop {
   height: 10vh;
 }
 
@@ -689,44 +727,47 @@ export default {
 textbox:hover {
 
 }
+
 .answer-alternative-size-wrapper {
   display: flex;
   justify-content: space-evenly;
   align-content: center;
   wrap: flex;
-  border: solid 2px ;
+  border: solid 2px;
   border-color: rgba(82, 77, 77, 0.55);
   background-color: white;
-  height:60%;
+  height: 60%;
   width: 35%;
   min-width: 35%;
-  border-radius: 10px ;
+  border-radius: 10px;
   color: #444;
 
 
 }
+
 #Answer-Box-symbol-prop {
   column-width: 40px;
   background-color: red;
-  border-radius: 7px 0px 0px 7px ;
+  border-radius: 7px 0px 0px 7px;
   height: 100%;
   width: 20%;
 }
+
 .Answer-Box-textarea {
-  border-left: solid 2px ;
+  border-left: solid 2px;
   border-color: rgba(82, 77, 77, 0.55);
-  column-width:auto;
-  grid-column: 2 ;
+  column-width: auto;
+  grid-column: 2;
   width: 93%;
 
 }
 
 .Answer-Box-checkbox {
-  border-left: solid 2px ;
+  border-left: solid 2px;
   border-color: rgba(82, 77, 77, 0.55);
   column-width: 50px;
   height: 100%;
-  grid-column: 3 ;
+  grid-column: 3;
 
 
 }
@@ -836,12 +877,14 @@ textbox:hover {
   text-align: center;
 
 }
+
 #run-question-wrapper {
   display: flex;
   justify-content: center;
   min-height: 50em;
-  height:auto;
+  height: auto;
 }
+
 .run-question {
   background-color: #1682a8;
   height: 50vh;
@@ -851,47 +894,53 @@ textbox:hover {
   border-radius: 10px;
   padding: 2em;
 }
-.run-question box {
-   min-width: 30%;
 
- }
+.run-question box {
+  min-width: 30%;
+
+}
+
 .run-question waitingroom {
   width: 15%;
 }
+
 #preview-question {
   background-color: white;
   color: black;
   min-height: 10em;
   border-radius: 7px;
 }
- #run-question-item {
-   width: 100%;
-   background-color: orange;
-   margin: 1em;
- }
+
+#run-question-item {
+  width: 100%;
+  background-color: orange;
+  margin: 1em;
+}
+
 #run-question-item:hover, selected {
   cursor: pointer;
   background-color: mediumpurple;
 }
 
-   /*background-color: rgba(34, 76, 182, 0.58);
-   color: #fcf8f8;
-   text-align: center;
-   cursor: pointer;
-   padding: 18px;
-   border-width:thin;
-   border-color: #444444;
-   overflow: hidden;
-   border-radius: 10%;
-   text-align: left;
-   outline: none;
-   font-size: 15px;*/
- #waitingroom-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 50em;
-  }
+/*background-color: rgba(34, 76, 182, 0.58);
+color: #fcf8f8;
+text-align: center;
+cursor: pointer;
+padding: 18px;
+border-width:thin;
+border-color: #444444;
+overflow: hidden;
+border-radius: 10%;
+text-align: left;
+outline: none;
+font-size: 15px;*/
+#waitingroom-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50em;
+}
+
 #waitingroom-item {
   background-color: #1682a8;
   height: 50vh;
