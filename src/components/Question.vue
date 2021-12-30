@@ -37,8 +37,8 @@ export default {
   gap: 40px 150px;
   width: 100%;
   height: 30%;
-  background: #161B40;
   background-size: 50%;
+  z-index: -1;
 }
 .answer-alternative-size-wrapper {
   border: solid 2px;
