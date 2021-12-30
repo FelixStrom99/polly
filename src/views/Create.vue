@@ -111,10 +111,11 @@
         </div>
         <div id="openlayers-map">
           <MapContainerCreate :geojson="geojson"
-                              v-on:location="location=$event" v-bind:mapView="mapView" v-bind:location="savedLocation">
+                              v-on:location="location=$event" v-bind:mapView="mapView" v-bind:location="savedLocation" >
           </MapContainerCreate>
         </div>
         <button v-on:click="editQuestion(this.currentLQ, null)">save</button>
+
       </div>
 
       <div class="create theme" v-if="createMultipleChoiceQuestion">
@@ -184,8 +185,9 @@
       <button v-on:click="updatePlayers">
         Update players
       </button>
-      <button>
-        <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link>
+      <button v-on:click="checkResult()"
+      >Check Result
+      <!--  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link> -->
       </button>
     </div>
     {{ currentLQ }}
@@ -422,16 +424,13 @@ export default {
 
     },
     showLocationQuestion: function () {
-    /*  this.savedLocation={x:0,y:0}
-      this.savedLocation=this.questionSequence[this.currentLQ][4]*/
       this.createLocationQuestion = true;
       this.createMultipleChoiceQuestion = false;
       this.showQuestion(this.currentLQ, null)
 
+
     },
     showMultipleQuestion: function (j) {
-
-
       this.currentMQ = j
       this.createLocationQuestion = false;
       this.createMultipleChoiceQuestion = true;
@@ -458,8 +457,8 @@ export default {
       } else {
         content.style.maxHeight = content.scrollHeight + 20 + "px";
       }
-      this.savedLocation={x:0,y:0}
-      this.savedLocation=this.questionSequence[this.currentLQ][4]
+
+      this.savedLocation = this.questionSequence[this.currentLQ][4]
     },
     previewQuestion: function () {
       this.isPreviewQuestion = true;
@@ -509,6 +508,9 @@ export default {
     },
     updatePlayers: function () {
       socket.emit('test', {pollId: this.pollId})
+    },
+    checkResult: function () {
+      socket.emit('sendToResult', {pollId: this.pollId})
     }
   }
 }

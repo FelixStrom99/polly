@@ -3,10 +3,10 @@
   <div ref="map-root"
        style="width: 100%; height: 100%">
   </div>
-  <div>
+ <!-- <div>
     <button type="button" v-on:click="locationDataPoints"> Show All locations!</button>
     <button type="button" v-on:click="clearAll"> Clear the map!</button>
-  </div>
+  </div> -->
 
   <!--<input type="range" v-model="this.userPoint.properties.radius" max="40" min="5">-->
 
@@ -42,7 +42,8 @@ export default {
   props:{
     mapView:Object,
     correctLocation:Object,
-    locationData:Object
+    locationData:Object,
+
   },
   data: function () {
     return {
@@ -114,6 +115,7 @@ export default {
         features: [], // the vector layer is now created empty
       }),
     })
+    this.locationDataPoints()
 
     this.olMap = new Map({
       target: this.$refs['map-root'],

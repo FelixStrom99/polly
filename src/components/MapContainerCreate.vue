@@ -4,8 +4,9 @@
        style="width: 70%; height: 80%">
   </div>
   <!--<input type="range" v-model="this.userPoint.properties.radius" max="40" min="5">-->
+
 </template>
-'
+
 <script>
 import View from 'ol/View'
 import Map from 'ol/Map'
@@ -32,6 +33,7 @@ export default {
   },
   watch: {
     location() {
+      console.log("japp",this.location)
       this.showLocation();
     }
   },
@@ -65,7 +67,7 @@ export default {
         features: [], // the vector layer is now created empty
       }),
     })
-
+    this.showLocation()
     this.olMap = new Map({
       target: this.$refs['map-root'],
       layers: [

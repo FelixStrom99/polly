@@ -124,6 +124,7 @@
     <div class="waiting-room-info">
       <div v-if="(index+1)===questions.length">
         <p>Wait until hos starts next set of questions...</p>
+
         <div class="lds-ripple"><div></div><div></div></div>
       </div>
       <div v-if="isQuestionNotWaitingRoom===true && (index+1) !== questions.length">
@@ -139,11 +140,13 @@
         </div>
       </div>
     </div>
+
     </section>
 
     <footer class="format">
       Poll ID: {{ pollId }}
     </footer>
+
 
   </main>
 
@@ -216,7 +219,8 @@ export default {
       newGame:                true,
       boolTimerStart:         false,
       isSubmittedAnswer:      false,
-      isQuestionNotWaitingRoom:true
+      isQuestionNotWaitingRoom:true,
+
     }
 
   },
@@ -279,6 +283,10 @@ export default {
     socket.on("userUpdate",update => {
       this.userList=update;
     })
+    socket.on("checkResult",result => {
+      this.sendToResult(result)
+    })
+
   },
   watch: {
     timeLeft(newValue) {
@@ -453,6 +461,9 @@ export default {
         this.displayAnswer=false}
       else{
         this.displayAnswer=true}
+    },
+    sendToResult: function () {
+      this.$router.push({ path: `/result/${this.pollId}` })
     },
 
   }

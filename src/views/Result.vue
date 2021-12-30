@@ -4,7 +4,7 @@
   <p>locationdata</p>
   {{locationData}}
   <div id="openlayers-map">
-    <MapContainerResults :geojson="geojson" v-bind:key=updateZoom v-bind:locationData="locationData" v-bind:correctLocation="correctLocation" v-bind:mapView="mapView"> </MapContainerResults>
+    <MapContainerResults :geojson="geojson" v-bind:key=updateZoom  v-bind:locationData="locationData" v-bind:correctLocation="correctLocation" v-bind:mapView="mapView"> </MapContainerResults>
   </div>
 
   <div v-for="(title,i) in question"
@@ -12,7 +12,7 @@
        v-bind:key="title[i]">
     {{title[i]}}
   </div>
-  {{question}}
+
   <Bars v-bind:data="data"/>
 
 
@@ -24,8 +24,7 @@ T
     </div>
     </div>
   </div> -->
-
-
+  k
 </template>
 
 <script>
@@ -53,7 +52,8 @@ export default {
       locationQuestion:"",
       locationData:{},
       mapView: {zoom: 0, center: [0,0]},
-      updateZoom:0
+      updateZoom:0,
+
     }
 
   },
@@ -78,6 +78,7 @@ export default {
 
     socket.on("locationDataUpdate", update=>{
       this.locationData=update.la
+
     //*  this.$refs.MapContainerResults.locationDataPoints()
 
   })
