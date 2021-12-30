@@ -3,9 +3,7 @@ function sockets(io, socket, data) {
   
   socket.on('pageLoaded', function (d) {
     socket.emit('init', data.getUILabels(d.lang));
-    console.log("skickas dethär??")
   });
-
 
   socket.on('switchLanguage', function(lang) {
     socket.emit('init', data.getUILabels(lang));
