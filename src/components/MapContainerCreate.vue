@@ -1,9 +1,8 @@
 <template>
 
   <div ref="map-root"
-       style="width: 100%; height: 100%">
+       style="width: 70%; height: 80%">
   </div>
-  {{location}}
   <!--<input type="range" v-model="this.userPoint.properties.radius" max="40" min="5">-->
 </template>
 '

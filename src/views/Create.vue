@@ -10,6 +10,18 @@
         {{ uiLabels.save }}
       </button>
     </div>
+    <ul class="circles">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
   </section>
 
 
@@ -68,7 +80,7 @@
 
   <section class="create-the-questions-container theme" v-else-if="secondStage===false && firstStage===false">
     <div class="create overview-left-side">
-      <h1>Här ska överblicken av alternativen vara</h1>
+      <h1>Overview</h1>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
         <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)">{{ questionSequence[i][3] }}</div>
         <div class="content"> <!--{{"Fråga "+(i+1)}}  v-bind:placeholder="'Fråga '+(i+1)"-->
@@ -79,30 +91,30 @@
           <button v-on:click="deleteMultipleQuestion">Delete question</button>
         </div>
       </div>
-      <div id="add-locationQuestion-button" v-on:click="addNewPollQuestion" style="cursor: pointer;">
-
-
+      <span class="locationQuestion-button" v-on:click="addNewPollQuestion" style="cursor: pointer;">
         <object data="/svg_files/addLocationQuestionButton-2/addLocationQuestionButton.svg"
                 style="pointer-events:none;">
-
-
-
         </object>
+      </span>
+      <span class="locationQuestion-button" v-on:click="deleteLocationQuestion" style="cursor: pointer;">
+          <object data="/svg_files/addLocationQuestionButton-3/addLocationQuestionButton.svg"
+              style="pointer-events:none;">
+          </object>
+      </span>
 
-      </div>
     </div>
     <div class="create lq-and-q">
       <h1>{{ pollId }}</h1>
       <div class="location-question" v-if="createLocationQuestion">
         <div>
-          {{ uiLabels.locationQuestion }}:<input type="text" placeholder="Enter question..." v-model="locationQuestion">
+          <input type="text" placeholder="Enter question..." v-model="locationQuestion">
         </div>
-        <button v-on:click="editQuestion(this.currentLQ, null)">save</button>
         <div id="openlayers-map">
           <MapContainerCreate :geojson="geojson"
                               v-on:location="location=$event" v-bind:mapView="mapView" v-bind:location="savedLocation">
           </MapContainerCreate>
         </div>
+        <button v-on:click="editQuestion(this.currentLQ, null)">save</button>
       </div>
 
       <div class="create theme" v-if="createMultipleChoiceQuestion">
@@ -110,7 +122,6 @@
         <input type="text" placeholder="Enter question..." v-model="question">
         <button v-on:click="editQuestion(this.currentLQ, currentMQ)">save</button>
         <div class="question-multiple">
-          {{ uiLabels.answers }}:
           <div class="Answer-box-wrapper">
             <div class="answer-alternative-size-wrapper" v-for="(_, i) in answers" v-bind:key="'answers'+i">
               <div id="Answer-Box-symbol-prop"
@@ -133,22 +144,8 @@
           {{ questionSequence }}
         </div>
       </div>
-      <div class="lowerside">
-        <div>
-
-          <button v-on:click="finishQuizFinal()">
-            {{ uiLabels.finishQuiz }}
-          </button>
-
-        </div>
-      </div>
     </div>
     <div class=" create alternative-right-side">
-      <h1>Här ska vi ha knappar med lite rolig funktionalitet</h1>
-      <div class="location-question-settings" v-if="createLocationQuestion">
-        <h2>Settings LQ</h2>
-        <button>Do some cool stuff</button>
-      </div>
       <div class="multiple-choice-question-settings" v-if="createMultipleChoiceQuestion">
         <h2>Settings MQ</h2>
         <button v-on:click="addAnswer">
@@ -159,9 +156,8 @@
         </button>
       </div>
       <div>
-        <h2>Overall Settings</h2>
+        <h2>Settings</h2>
         <h3>Timer settings</h3>
-        {{savedLocation}}
         <button v-on:click="deleteLocationQuestion">Ändra sånndär duration boom</button>
         <br>
         <br>
@@ -472,7 +468,7 @@ export default {
     fixMaxHeightCollapse: function () {
       var coll = document.getElementsByClassName("collapsible");
       var content = coll[this.currentLQ].nextElementSibling
-      content.style.maxHeight = content.scrollHeight + 20 + "px";
+      content.style.maxHeight = content.scrollHeight + 40 + "px";
     },
 
     runQuestion: function () {
@@ -547,9 +543,11 @@ export default {
 
 /* Section Create quiz // Left Bar */
 .overview-left-side {
-  background-color: rgba(255, 255, 255, 0.54);
+  background-color: #2d3572;
+  border: 0.3em solid #EFA500;
   flex-basis: 15%;
   justify-content: space-evenly;
+
 }
 
 /* Section Create quiz // Middle */
@@ -585,15 +583,12 @@ export default {
   font-family: sans-serif;
   font-weight: 600;
   outline: none;
-  border: none
+  border: none;
+  padding: 0;
 
 }
-.Answer-Box-checkbox-prop {
-  height: 100%;
-  -webkit-transform: scale(2);
-}
+
 .Answer-Box-checkbox-prop{
-
   transform: scale(2);
   border-radius: 5px;
   position: absolute;
@@ -604,7 +599,8 @@ export default {
 
 
 .alternative-right-side {
-  background-color: rgba(255, 255, 255, 0.54);
+  background-color: #2d3572;
+  border: 0.3em solid #EFA500;
   justify-content: space-evenly;
   flex-basis: 15%;
 
@@ -620,18 +616,20 @@ export default {
   animation: 0;
 }
 
-#add-locationQuestion-button {
+.locationQuestion-button {
   width: 50px;
   height: 50px;
   border-radius: 50%;
   margin-left: 35%;
   display: flex;
   justify-content: space-evenly;
+  position: relative;
 }
 
-#add-locationQuestion-button:hover {
+.locationQuestion-button:hover {
   background-color: rgba(248, 248, 248, 0.44);
 }
+
 
 @keyframes rubberBand {
   0% {
@@ -772,18 +770,12 @@ textbox:hover {
 }
 
 .Answer-Box-checkbox {
-  border-left: solid 2px;
+  border-left: solid 2px ;
   border-color: rgba(82, 77, 77, 0.55);
   column-width: 50px;
   height: 100%;
-<<<<<<< HEAD
-  grid-column: 3;
-=======
   position: relative;
   grid-column: 3 ;
->>>>>>> b35c03fc684af65816dbbfd0ea01ced7abf44a01
-
-
 }
 
 
@@ -948,26 +940,26 @@ border-radius: 10%;
 text-align: left;
 outline: none;
 font-size: 15px;*/
-#waitingroom-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 50em;
-}
 
-#waitingroom-item {
-  background-color: #1682a8;
-  height: 50vh;
-  width: 30%;
-  border-style: solid;
-  border-width: thick;
-  border-color: lightgreen;
-  border-radius: 10px;
-  padding: 2em;
-}
 
 .routerLink {
   text-decoration: none;
+}
+
+@keyframes animate {
+
+  0%{
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+    border-radius: 0;
+  }
+
+  100%{
+    transform: translateY(-1000px) rotate(720deg);
+    opacity: 0;
+    border-radius: 50%;
+  }
+
 }
 
 </style>
