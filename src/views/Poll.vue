@@ -71,7 +71,7 @@
     </div>
     <div class="move">
       <button v-on:click="submitLocationAnswer(),switchToWaitingRoom(),meterDistance()">
-        {{ uiLabels.sendLocation }}
+        {{ uiLabels.submitLocation }}
       </button>
     </div>
   </div>
