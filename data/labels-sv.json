@@ -5,7 +5,7 @@
 	"username": "Välj ditt användarnamn",
 	"participatePoll": "Delta i spel",
 	"question": "Fråga",
-	"changeLanguage": "Change to English",
+	"changeLanguage": "SWE",
 	"locationQuestion": "Fråga för karta",
 	"answers": "Svar",
 	"play": "Spela",
@@ -30,5 +30,12 @@
 	"locationResult": "Här kan du se den rätta platsen",
 	"timeEnd": "Tiden tog slut!",
 	"chooseFree": "Välj fritt!",
-	"overView": "Överblick av frågorna"
+	"overView": "Överblick av frågorna",
+	"userWait": "Vänta tills värden startar nästa fråga...",
+	"answerWait": "Vänta tills alla spelare svarat...",
+	"nextQuestion": "Nästa fråga",
+	"in": "inom",
+	"settings": "Inställningar",
+	"enterQuestion": "Skriv in fråga...",
+	"enterTitle": "Skriv in titel..."
 }

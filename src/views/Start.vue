@@ -8,7 +8,11 @@
       <object data="/svg_files/Language_symbol/language-symbol.svg" type="image/svg+xml" style="float: left; padding-top:3%" >
       </object>
       </div>
-      {{uiLabels.changeLanguage}}</button>
+      <div>
+      {{uiLabels.changeLanguage}}
+      </div>
+    </button>
+
     <ul class="circles">
       <li></li>
       <li></li>

@@ -4,7 +4,7 @@
     <div id="wrapper-pollID-header">
       <h1 id="enter-pollID-header">{{ uiLabels.createPoll }}</h1>
       <div>
-        <input type="text" v-model="pollId" placeholder="Enter title...">
+        <input type="text" v-model="pollId" v-bind:placeholder=uiLabels.enterTitle>
       </div>
       <button v-on:click="createPoll">
         {{ uiLabels.save }}
@@ -107,20 +107,20 @@
       <h1> {{uiLabels.pollID}}: {{ pollId }}</h1>
       <div class="location-question" v-if="createLocationQuestion">
         <div>
-          <input type="text" placeholder="Enter question..." v-model="locationQuestion">
+          <input type="text" v-bind:placeholder=uiLabels.enterQuestion v-model="locationQuestion">
         </div>
         <div id="openlayers-map">
           <MapContainerCreate :geojson="geojson"
                               v-on:location="location=$event" v-bind:mapView="mapView" v-bind:location="savedLocation" >
           </MapContainerCreate>
         </div>
-        <button v-on:click="editQuestion(this.currentLQ, null)">save</button>
+        <button v-on:click="editQuestion(this.currentLQ, null)">{{ uiLabels.save }}</button>
 
       </div>
 
       <div class="create theme" v-if="createMultipleChoiceQuestion">
         {{ uiLabels.question }}:
-        <input type="text" placeholder="Enter question..." v-model="question">
+        <input type="text" v-bind:placeholder=uiLabels.enterQuestion v-model="question">
         <button v-on:click="editQuestion(this.currentLQ, currentMQ)">{{ uiLabels.save }}</button>
         <div class="question-multiple">
           <div class="Answer-box-wrapper">
@@ -157,7 +157,7 @@
         </button>
       </div>
       <div>
-        <h2>Settings</h2>
+        <h2>{{uiLabels.settings}}</h2>
         <h3>Timer settings</h3>
         <button v-on:click="deleteLocationQuestion">Ändra sånndär duration boom</button>
         <br>

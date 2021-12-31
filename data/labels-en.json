@@ -5,7 +5,7 @@
 	"username": "Choose your username",
 	"participatePoll": "Participate in game",
 	"question": "Question",
-	"changeLanguage": "Byt till svenska",
+	"changeLanguage": "EN",
 	"locationQuestion": "Location Question",
 	"answers": "Answers",
 	"play": "Play",
@@ -30,6 +30,13 @@
 	"locationResult": "Here you can see the correct pin",
 	"timeEnd": "Ran out of time!",
 	"chooseFree": "Whole world",
-	"overView": "Overview of questions"
+	"overView": "Overview of questions",
+	"userWait": "Wait until host starts next set of questions...",
+	"answerWait": "Waiting for other players to answer...",
+	"nextQuestion": "Next question",
+	"in": "in",
+	"settings": "Settings",
+	"enterQuestion": "Enter question...",
+	"enterTitle": "Enter title..."
 
 }

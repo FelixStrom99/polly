@@ -140,20 +140,20 @@
 
     <div class="waiting-result-room-info">
       <div v-if="(index+1)===questions.length">
-        <p>Wait until hos starts next set of questions...</p>
+        <p>{{uiLabels.userWait}}</p>
 
         <div class="lds-ripple"><div></div><div></div></div>
       </div>
       <div v-if="isQuestionNotWaitingRoom===true && (index+1) !== questions.length">
-        <p>Waiting for other players to answer...</p>
+        <p>{{ uiLabels.answerWait }}</p>
         <div class="lds-ripple"><div></div><div></div></div>
       </div>
       <div v-if="isQuestionNotWaitingRoom===false">
         <div v-if="displayLocationQuestion===true">
-          <p>Next question: {{questions[this.index].q}} in {{timeLeft}}s</p>
+          <p>{{ uiLabels.nextQuestion }}: {{questions[this.index].q}} {{ uiLabels.in}}{{timeLeft}}s</p>
         </div>
         <div v-if="displayLocationQuestion===false && (index+1) !== questions.length">
-          <p>Next question: {{questions[this.index + (1)].q}} in {{timeLeft}}s</p>
+          <p> {{ uiLabels.nextQuestion }}: {{questions[this.index + (1)].q}} {{ uiLabels.in}} {{timeLeft}}s</p>
         </div>
       </div>
     </div>
@@ -161,7 +161,7 @@
     </section>
 
     <footer>
-      Poll ID: {{ pollId }}
+      {{ uiLabels.pollID }} {{ pollId }}
     </footer>
 
 
