@@ -289,7 +289,7 @@ button {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 97%;
   height: 100%;
   overflow: hidden;
 }
@@ -405,6 +405,5 @@ button {
     opacity: 0;
     border-radius: 50%;
   }
-
 }
 </style>

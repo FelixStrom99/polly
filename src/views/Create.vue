@@ -120,7 +120,7 @@
         </div>
         <div id="openlayers-map">
           <MapContainerCreate :geojson="geojson"
-                              v-on:location="location=$event" v-bind:mapView="mapView" v-bind:location="savedLocation" >
+                              v-on:location="location=$event" v-bind:mapView="mapView" v-bind:location="savedLocation"  id="mapLq-and-q">
           </MapContainerCreate>
         </div>
         <button v-on:click="editQuestion(this.currentLQ, null)" class="playButtons">{{ uiLabels.save }}</button>
@@ -863,9 +863,16 @@ textbox:hover {
   background-size: cover;
   background-position: center;
 }
+#mapLq-and-q{
+  margin-top: 5%;
+  border-radius: 6px;
+}
 
 
 #openlayers-map {
+  display: flex;
+  border-radius: 6px;
+  justify-content: center;
   position: relative;
   height: 30em;
   width: 99%;
