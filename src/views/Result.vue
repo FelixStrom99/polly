@@ -24,7 +24,7 @@ T
     </div>
     </div>
   </div> -->
-  k
+
 </template>
 
 <script>

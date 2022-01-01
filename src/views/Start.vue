@@ -42,24 +42,30 @@
       <div id="nav">
         <div>
           <div v-if="play">
+            <div id="pollID">
+              <label style="font-size: 20px; font-weight: bold">
+                {{ uiLabels.writePollId }}:
+                <input id="participateInput" type="text" v-model="id">
+              </label>
+            </div>
             <button class="playButtons">
               <router-link class="routerLink" v-bind:to="'/poll/'+id+'/'+lang" tag="button">{{ uiLabels.participatePoll }}</router-link>
             </button>
-              <div id="pollID">
-            <label>
-              {{ uiLabels.writePollId }}:
-              <input type="text" v-model="id">
-            </label>
-              </div>
+
             </div>
           <div v-else>
             <button class="playButtons" v-on:click="showPlay">{{ uiLabels.play }}</button>
+          </div>
+          <div id="backToMainButtonCenter">
+          <button v-if="play===true" v-on:click="showPlayFalse" class="playButtons"  id="backToMainButton">
+            Back to main
+          </button>
           </div>
         </div>
 
 
 
-        <button class="playButtons">
+        <button v-if="play===false" class="playButtons">
           <router-link class="routerLink" v-bind:to="'/create/'+lang">{{ uiLabels.create }}</router-link> <!-- uiLabels.createPoll-->
         </button>
 
@@ -105,6 +111,9 @@ export default {
 
     showPlay: function () {
      this.play=true
+    },
+    showPlayFalse:function(){
+      this.play=false
     }
   }
 }
@@ -146,9 +155,10 @@ body {
 }
 
 input {
+  outline: none;
   padding: 1em;
   border: none;
-  border-radius: 12px;
+  border-radius: 6px;
 }
 
 button{
@@ -187,6 +197,18 @@ button:active{
   width:auto;
   font-size:200%;
 }
+#backToMainButton{
+  float: left;
+  margin-left: 1%;
+  margin-top: 1%;
+  font-size: 100%;
+  border: 0.2em solid #F40058
+}
+#backToMainButtonCenter{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 #nav {
   display: flex;
@@ -213,6 +235,7 @@ button:active{
 #pollID{
   position:relative;
   top:1em;
+  margin-bottom: 10%;
 }
 @import url('https://fonts.googleapis.com/css?family=Exo:400,700');
 
@@ -226,6 +249,19 @@ button:active{
   text-align: center;
   color: #fff;
   font-size: 50px;
+}
+#participateInput{
+  text-align: center;
+  outline: none;
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 5%;
+  height: 22px;
+  width: 85%;
+  padding: 1em;
+  border: none;
+  border-radius: 6px;
 }
 
 button {

@@ -1,27 +1,29 @@
 <template>
+  <ul class="circles">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
 
   <section v-if="firstStage===true && secondStage===true">
     <div id="wrapper-pollID-header">
       <h1 id="enter-pollID-header">{{ uiLabels.createPoll }}</h1>
-      <div>
-        <input type="text" v-model="pollId" v-bind:placeholder=uiLabels.enterTitle>
+      <div style="margin-top:10%">
+        <h1> Enter title:</h1>
+        <input type="text" v-model="pollId" id="createPollInput">
       </div>
-      <button v-on:click="createPoll">
+      <button v-on:click="createPoll" class="playButtons">
         {{ uiLabels.save }}
       </button>
     </div>
-    <ul class="circles">
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
+
   </section>
 
 
@@ -91,16 +93,23 @@
           <button v-on:click="deleteMultipleQuestion">Delete question</button>
         </div>
       </div>
-      <span class="locationQuestion-button" v-on:click="addNewPollQuestion" style="cursor: pointer;">
-        <object data="/svg_files/addLocationQuestionButton-2/addLocationQuestionButton.svg"
+      <div>
+        <span>
+          <div id="locationQuestion-button1" v-on:click="addNewPollQuestion" style="cursor: pointer;">
+            <object data="/svg_files/addLocationQuestionButton-2/addLocationQuestionButton.svg"
                 style="pointer-events:none;">
-        </object>
-      </span>
-      <span class="locationQuestion-button" v-on:click="deleteLocationQuestion" style="cursor: pointer;">
-          <object data="/svg_files/addLocationQuestionButton-3/addLocationQuestionButton.svg"
+            </object>
+          </div>
+        </span>
+        <span>
+          <div id="locationQuestion-button2"  v-on:click="deleteLocationQuestion" style="cursor: pointer;">
+            <object data="/svg_files/addLocationQuestionButton-3/addLocationQuestionButton.svg"
               style="pointer-events:none;">
-          </object>
-      </span>
+            </object>
+          </div>
+        </span>
+
+    </div>
 
     </div>
     <div class="create lq-and-q">
@@ -114,7 +123,7 @@
                               v-on:location="location=$event" v-bind:mapView="mapView" v-bind:location="savedLocation" >
           </MapContainerCreate>
         </div>
-        <button v-on:click="editQuestion(this.currentLQ, null)">{{ uiLabels.save }}</button>
+        <button v-on:click="editQuestion(this.currentLQ, null)" class="playButtons">{{ uiLabels.save }}</button>
 
       </div>
 
@@ -525,7 +534,6 @@ export default {
 #enter-pollID-header {
   font-size: 500%;
   color: white;
-  text-shadow: 5px 5px 5px black;
   margin-bottom: 1em;
 }
 
@@ -618,14 +626,19 @@ export default {
   animation: 0;
 }
 
-.locationQuestion-button {
+#locationQuestion-button1 {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  margin-left: 35%;
-  display: flex;
-  justify-content: space-evenly;
-  position: relative;
+  float: left;
+  margin-left: 24%;
+  margin-right: 2%;
+}
+#locationQuestion-button2 {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  float: left;
 }
 
 .locationQuestion-button:hover {
@@ -712,12 +725,19 @@ export default {
   pointer-events: none;
 }
 
-
+#createPollInput{
+  font-size: 18px;
+  font-weight: bold;
+  height: 30px;
+  width: 20%;
+  margin-bottom: 40px;
+  text-align: center;
+}
 .city_name_charachter_spec {
   font-family: sans-serif;
   text-align: center;
   font-weight: bold;
-  text-shadow: 0 0 4px white;
+  text-shadow: 0 0 4px black;
 }
 
 .textbox {
