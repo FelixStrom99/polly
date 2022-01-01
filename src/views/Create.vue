@@ -471,7 +471,7 @@ export default {
     },
 
     runQuestion: function () {
-      socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.currentLQ})
+      socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.currentLQ,lang:this.lang})
     },
 
     chooseUppsala: function () {

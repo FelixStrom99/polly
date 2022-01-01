@@ -21,11 +21,12 @@ function sockets(io, socket, data) {
 
     socket.on('joinPoll', function (pollId) {
         socket.join(pollId);
-        socket.emit('newQuestion', data.getQuestion(pollId))
+        socket.emit('checkIfNewGame', data.checkIfNewGame(pollId));
         socket.emit("userMapView", data.getZoom(pollId))
-        socket.emit('dataUpdate', data.getAnswers(pollId))
+        socket.emit('newQuestion', data.getQuestion(pollId))
         socket.emit('locationDataUpdate', data.getLocationAnswers(pollId));
-        /* socket.emit('dataUpdate', data.getLocationAnswers(pollId))*/
+        socket.emit('dataUpdate', data.getAnswers(pollId))
+
 
     });
     socket.on('test', function (d) {
@@ -36,12 +37,11 @@ function sockets(io, socket, data) {
         io.to(d.pollId).emit('userUpdate', data.getUsers(d.pollId))
     });
   socket.on('sendToResult', function (d) {
-    data.addToUsers(d.pollId, d.users);
-    io.to(d.pollId).emit('checkResult', true)
+    io.to(d.pollId).emit('checkResult',true)
   });
     socket.on('runQuestion', function (d) {
+        io.to(d.pollId).emit('sendToPoll',d.lang)
         io.to(d.pollId).emit('newQuestion', data.getQuestion(d.pollId, d.questionNumber));
-        io.to(d.pollId).emit('sendToPoll',null)
     });
 
     socket.on('submitAnswer', function (d) {

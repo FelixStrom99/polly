@@ -69,7 +69,7 @@ export default {
       this.question = update.q;
       this.data = {};
       this.locationQuestion=update.lq
-      this.locationData={}
+      //* this.locationData={}
       this.updateZoom+=1
       this.correctLocation=update.location
 
@@ -79,11 +79,11 @@ export default {
 
     socket.on("locationDataUpdate", update=>{
       this.locationData=update.la
+      this.updateZoom+=1
       });
 
-    socket.on("sendToPoll",placeholderTillsJagHittarNågotBättre => {
-      console.log(placeholderTillsJagHittarNågotBättre)
-    //*  this.sendToPoll()
+    socket.on("sendToPoll",lang => {
+      this.sendToPoll(lang)
 
 
   });
@@ -91,9 +91,10 @@ export default {
 
 },
 methods:{
- /* sendToPoll: function () {
-    this.$router.push({ path: `/poll/${this.pollId}` })
-  },*/
+  sendToPoll: function (lang) {
+    console.log(lang)
+    this.$router.push({ path: `/poll/${this.pollId}/en` })
+  },
 }
 }
 </script>

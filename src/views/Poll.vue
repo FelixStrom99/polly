@@ -233,7 +233,6 @@ export default {
       isChooseusername:       false,
       displayAnswer:          false,
       displayRanOutTime:      false,
-      newGame:                true,
       boolTimerStart:         false,
       isSubmittedAnswer:      false,
       isQuestionNotWaitingRoom:true,
@@ -295,13 +294,16 @@ export default {
     )
     socket.on("newQuestion", q =>
         this.createQuestionArray(q),
-
     )
     socket.on("userUpdate",update => {
       this.userList=update;
     })
     socket.on("checkResult",result => {
       this.sendToResult(result)
+    })
+
+    socket.on("checkIfNewGame",newGame => {
+      this.checkIfNewGame(newGame)
     })
 
   },
@@ -401,20 +403,6 @@ export default {
     createQuestionArray: function (Data) {
       this.index=0
       this.updateZoom+=1
-      if(this.newGame){
-        this.displayLocationQuestion=false
-        this.displayFollowupQuestion=false
-        this.displayAnswer          =false
-        this.isChooseusername       =true
-      }
-      else{
-        clearInterval(this.timerInterval)
-        this.displayLocationQuestion=true
-        this.isChooseusername       =false
-        this.displayFollowupQuestion=false
-        this.displayAnswer          =false
-        this.resetTimer()
-      }
 
       var questionArray = []
       for (let i = 0; i < Data.q.length; i++) {
@@ -429,6 +417,24 @@ export default {
 
 
     },
+    checkIfNewGame: function (newGame) {
+      if(newGame){
+        this.displayLocationQuestion=false
+        this.displayFollowupQuestion=false
+        this.displayAnswer          =false
+        this.isChooseusername       =true
+      }
+      else{
+        clearInterval(this.timerInterval)
+        this.displayLocationQuestion=true
+        this.isChooseusername       =false
+        this.displayFollowupQuestion=false
+        this.displayAnswer          =false
+        this.resetTimer()
+      }
+
+    },
+
     submitAnswer: function (answer, title) {
       this.displayRanOutTime = false
       this.switchToWaitingRoom()
