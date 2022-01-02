@@ -15,11 +15,11 @@
 
   <section class="choose-username" v-if="isChooseusername">
     <div id="choose-username-wrapper">
-    <h1> {{ uiLabels.username }}</h1>
+    <h1> {{ uiLabels.username }}:</h1>
     <div>
-      <input type="text" v-model="userID" placeholder="Enter username...">
+      <input id="participateInput" type="text" v-model="userID" placeholder="Enter username..." autocomplete="off">
     </div>
-    <button v-on:click="displayWaitingroom">
+    <button style="margin-top: 7%" class ="playButtons" v-on:click="displayWaitingroom">
       {{ uiLabels.save }}
     </button>
     </div>
@@ -35,7 +35,7 @@
           <p>{{u}}</p>
         </div>
       </div>
-      <button v-on:click="this.skipWaitingroomTemporary()">klicka här ifall du vill komma vidare ändå</button>
+      <button class ="playButtons" v-on:click="this.skipWaitingroomTemporary()">klicka här ifall du vill komma vidare ändå</button>
     </div>
   </section>
 
@@ -70,7 +70,7 @@
       <MapContainer :geojson="geojson" v-bind:key=updateZoom v-bind:correctLocation="LocationQuestion.location" v-bind:mapView="mapView" v-on:userLocation="userLocation=$event"> </MapContainer>
     </div>
     <div class="move">
-      <button v-on:click="submitLocationAnswer(),switchToWaitingRoom(),meterDistance()">
+      <button class ="playButtons" v-on:click="submitLocationAnswer(),switchToWaitingRoom(),meterDistance()">
         {{ uiLabels.submitLocation }}
       </button>
     </div>
@@ -150,10 +150,10 @@
       </div>
       <div v-if="isQuestionNotWaitingRoom===false">
         <div v-if="displayLocationQuestion===true">
-          <p>{{ uiLabels.nextQuestion }}: {{questions[this.index].q}} {{ uiLabels.in}}{{timeLeft}}s</p>
+          <p>{{ uiLabels.nextQuestion }}: <span style="color: #43BEE5">{{questions[this.index].q}} </span> {{ uiLabels.in}} {{timeLeft}}s </p>
         </div>
         <div v-if="displayLocationQuestion===false && (index+1) !== questions.length">
-          <p> {{ uiLabels.nextQuestion }}: {{questions[this.index + (1)].q}} {{ uiLabels.in}} {{timeLeft}}s</p>
+          <p> {{ uiLabels.nextQuestion }}: <span style="color: #43BEE5">{{questions[this.index + (1)].q}}</span> {{ uiLabels.in}} {{timeLeft}}s</p>
         </div>
       </div>
     </div>
@@ -161,7 +161,7 @@
     </section>
 
     <footer>
-      {{ uiLabels.pollID }} {{ pollId }}
+      <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
     </footer>
 
 
@@ -513,7 +513,7 @@ footer {
   height: 90vh;
 }
 .choose-username h1{
-  font-size: 200%;
+  font-weight: bold;
 }
 
 

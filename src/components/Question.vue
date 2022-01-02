@@ -36,9 +36,10 @@ export default {
   padding-top: 100px;
   gap: 40px 150px;
   width: 100%;
-  height: 30%;
+  height: 50%;
   background-size: 50%;
   z-index: -1;
+  margin-top: 5%;
 }
 .answer-alternative-size-wrapper {
   border: solid 2px;

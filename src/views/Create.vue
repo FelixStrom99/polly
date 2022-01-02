@@ -12,6 +12,8 @@
     <li></li>
   </ul>
 
+
+
   <section v-if="firstStage===true && secondStage===true">
     <div id="wrapper-pollID-header">
       <h1 id="enter-pollID-header">{{ uiLabels.createPoll }}</h1>
@@ -29,7 +31,7 @@
 
   <section class="theme  ChooseMap" v-else-if="firstStage===false && secondStage===true">
     <div>
-      <h1> {{uiLabels.pollID}}: {{ pollId }} </h1>
+      <h1>Choose your location</h1>
     </div>
 
     <div class="maps">
@@ -42,40 +44,41 @@
 
       <div class="map-item"
            id="background_pic_stockholm"
-           v-on:click="nextSection();chooseStockholm();" style="cursor: pointer;">
+           v-on:click="nextSection();chooseStockholm();">
         <figure>
           <h1 class="city_name_charachter_spec">Stockholm</h1>
         </figure>
+
       </div>
 
 
-      <div class="map-item" id="background_pic_sundsvall" v-on:click="nextSection();chooseSundsvall();"
-           style="cursor: pointer;">
+      <div class="map-item" id="background_pic_sundsvall" v-on:click="nextSection();chooseSundsvall();">
         <figure>
           <h1 class="city_name_charachter_spec">Sundsvall</h1>
         </figure>
       </div>
 
-      <div class="map-item" id="background_pic_västerås" v-on:click="nextSection();chooseVästerås()"
-           style="cursor: pointer;">
+      <div class="map-item" id="background_pic_västerås" v-on:click="nextSection();chooseVästerås()">
         <figure>
           <h1 class="city_name_charachter_spec">Västerås</h1>
         </figure>
       </div>
 
-      <div class="map-item" id="background_pic_göteborg" v-on:click="nextSection();chooseGöteborg()"
-           style="cursor: pointer;">
+      <div class="map-item" id="background_pic_göteborg" v-on:click="nextSection();chooseGöteborg()">
         <figure>
           <h1 class="city_name_charachter_spec">Göteborg</h1>
         </figure>
       </div>
 
-      <div class="map-item" id="background_pic_malmö" v-on:click="nextSection();chooseWorld()" style="cursor: pointer;">
+      <div class="map-item" id="background_pic_malmö" v-on:click="nextSection();chooseWorld()">
         <figure>
           <h1 class="city_name_charachter_spec">{{uiLabels.chooseFree}}</h1>
         </figure>
       </div>
     </div>
+    <footer v-if="firstStage!=true">
+      <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
+    </footer>
 
   </section>
 
@@ -113,7 +116,6 @@
 
     </div>
     <div class="create lq-and-q">
-      <h1> {{uiLabels.pollID}}: {{ pollId }}</h1>
       <div class="location-question" v-if="createLocationQuestion">
         <div>
           <input type="text" v-bind:placeholder=uiLabels.enterQuestion v-model="locationQuestion">
@@ -124,7 +126,9 @@
           </MapContainerCreate>
         </div>
         <button v-on:click="editQuestion(this.currentLQ, null)" class="playButtons">{{ uiLabels.save }}</button>
-
+        <div style="bottom: 0" v-if="firstStage!=true">
+          <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
+        </div>
       </div>
 
       <div class="create theme" v-if="createMultipleChoiceQuestion">
@@ -153,6 +157,9 @@
           </div>
           {{ questionSequence }}
         </div>
+        <div style="bottom: 0" v-if="firstStage!=true">
+          <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
+        </div>
       </div>
     </div>
     <div class=" create alternative-right-side">
@@ -176,6 +183,7 @@
         </button>
       </div>
     </div>
+
 
 
   </section>
@@ -228,7 +236,6 @@
 
     </div>
   </section>
-
 
 </template>
 
@@ -557,6 +564,7 @@ export default {
   border: 0.3em solid #EFA500;
   flex-basis: 15%;
   justify-content: space-evenly;
+  opacity: 80%;
 
 }
 
@@ -564,7 +572,7 @@ export default {
 .lq-and-q {
   justify-content: space-evenly;
   flex-basis: 70%;
-  clear: both
+  clear: both;
 }
 
 /* Section Create quiz // Right Bar */
@@ -613,6 +621,7 @@ export default {
   border: 0.3em solid #EFA500;
   justify-content: space-evenly;
   flex-basis: 15%;
+  opacity: 80%;
 
 }
 
@@ -825,6 +834,12 @@ textbox:hover {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+}
+
+.map-item:hover{
+  opacity: 80%;
+  cursor: pointer;
+
 }
 
 #background_pic_uppsala {
