@@ -18,8 +18,8 @@
     <div id="wrapper-pollID-header">
       <h1 id="enter-pollID-header">{{ uiLabels.createPoll }}</h1>
       <div style="margin-top:10%">
-        <h1> Enter title:</h1>
-        <input type="text" v-model="pollId" id="createPollInput">
+        <h1> {{uiLabels.enterTitleHead}}</h1>
+        <input type="text" v-model="pollId" id="createPollInput" v-bind:placeholder=uiLabels.enterTitle>
       </div>
       <button v-on:click="createPoll" class="playButtons">
         {{ uiLabels.save }}
@@ -90,10 +90,10 @@
         <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)">{{ questionSequence[i][3] }}</div>
         <div class="content"> <!--{{"Fråga "+(i+1)}}  v-bind:placeholder="'Fråga '+(i+1)"-->
           <div class="content-mq" v-for="(_,j) in questionSequence[i][0]" v-bind:key="'answers'+j">
-            <button class="content-mq-button" v-on:click="showMultipleQuestion(j)">{{ "Fråga " + (j + 1) }}</button>
+            <button class="content-mq-button" v-on:click="showMultipleQuestion(j)">{{ uiLabels.question + " " +(j + 1) }}</button>
           </div>
-          <button v-on:click="addNewMultipleQuestion(i,j)">Add Question</button>
-          <button v-on:click="deleteMultipleQuestion">Delete question</button>
+          <button v-on:click="addNewMultipleQuestion(i,j)">{{uiLabels.addQuestion}}</button>
+          <button v-on:click="deleteMultipleQuestion">{{uiLabels.deleteQuestion}}</button>
         </div>
       </div>
       <div>
@@ -118,7 +118,7 @@
     <div class="create lq-and-q">
       <div class="location-question" v-if="createLocationQuestion">
         <div>
-          <input type="text" v-bind:placeholder=uiLabels.enterQuestion v-model="locationQuestion">
+          <input type="text" v-bind:placeholder=uiLabels.enterLocationQuestion v-model="locationQuestion">
         </div>
         <div id="openlayers-map">
           <MapContainerCreate :geojson="geojson"
@@ -129,11 +129,14 @@
         <div style="bottom: 0" v-if="firstStage!=true">
           <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
         </div>
+        <button v-on:click="editQuestion(this.currentLQ, null)" class="playButtons">{{ uiLabels.saveLocation }}</button>
+
+
       </div>
 
       <div class="create theme" v-if="createMultipleChoiceQuestion">
         {{ uiLabels.question }}:
-        <input type="text" v-bind:placeholder=uiLabels.enterQuestion v-model="question">
+        <input type="text" v-bind:placeholder=uiLabels.enterFollowUp v-model="question">
         <button v-on:click="editQuestion(this.currentLQ, currentMQ)">{{ uiLabels.save }}</button>
         <div class="question-multiple">
           <div class="Answer-box-wrapper">
