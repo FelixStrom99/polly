@@ -15,7 +15,7 @@ function sockets(io, socket, data) {
 
 
     socket.on('addQuestion', function (d) {
-        data.addQuestion(d.pollId, {q: d.q, a: d.a, correct: d.correct, lq: d.lq, location: d.location});
+        data.addQuestion(d.pollId, {q: d.q, a: d.a, correct: d.correct, lq: d.lq, location: d.location,timer:d.timer});
         socket.emit('dataUpdate', data.getLocationAnswers(d.pollId));
     });
 
