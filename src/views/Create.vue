@@ -195,21 +195,24 @@
   <section v-if="secondStage===false && firstStage===true">
     <h1>Host view</h1>
     <p>{{uiLabels.pollID}}: {{ this.pollId }}</p>
-    <div>
-      <button v-on:click="runQuestion">
-        Run Selected Question
-      </button>
-      <button v-on:click="goBackEdit">
-        Go back to editing
-      </button>
-      <button v-on:click="updatePlayers">
-        Update players
-      </button>
-      <button v-on:click="checkResult()"
-      >Check Result
-      <!--  <router-link class="routerLink" v-bind:to="'/result/'+pollId">Check result</router-link> -->
+    <div v-if="gameStarted===true">
+      <button v-on:click="startGame">
+        Start the Game!
       </button>
     </div>
+    <div v-else-if="gameStarted===false">
+      <button v-on:click="runQuestion" v-if="questionRunning===false">
+        Run Selected Question
+      </button>
+      <button v-on:click="checkResult()" v-else-if="questionRunning===true"
+      >Check Result  </button>
+     <!-- <button v-on:click="goBackEdit">
+        Go back to editing
+      </button> -->
+    </div>
+    <button v-on:click="updatePlayers">
+      Update players
+    </button>
     {{ currentLQ }}
     <div id="run-question-wrapper">
       <div class="run-question waitingroom">
@@ -292,6 +295,8 @@ export default {
       questionSequence: [],
       userList: [],
       isPreviewQuestion: false,
+      gameStarted:true,
+      questionRunning:true
     }
   },
   /*mounted() {
@@ -491,6 +496,7 @@ export default {
 
     runQuestion: function () {
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.currentLQ,lang:this.lang})
+      this.questionRunning=true
     },
 
     chooseUppsala: function () {
@@ -528,8 +534,13 @@ export default {
     updatePlayers: function () {
       socket.emit('test', {pollId: this.pollId})
     },
+    startGame: function () {
+      socket.emit('startGame', {pollId: this.pollId})
+      this.gameStarted=false
+    },
     checkResult: function () {
       socket.emit('sendToResult', {pollId: this.pollId})
+      this.questionRunning=false
     }
   }
 }
