@@ -42,5 +42,7 @@
 	"in": "inom",
 	"settings": "Inställningar",
 	"enterQuestion": "Skriv in fråga...",
-	"enterTitle": "Skriv in titel..."
+	"enterTitle": "Skriv in titel...",
+	"results": "Resultat",
+	"resultsInfo": "Här kan du se var alla spelare har nålat!"
 }

@@ -491,7 +491,7 @@ export default {
         this.displayAnswer=true}
     },
     sendToResult: function () {
-      this.$router.push({ path: `/result/${this.pollId}` })
+      this.$router.push({ path: `/result/${this.pollId}/`+this.lang })
     },
 
   }

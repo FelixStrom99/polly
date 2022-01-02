@@ -42,6 +42,8 @@
 	"in": "in",
 	"settings": "Settings",
 	"enterQuestion": "Enter question...",
-	"enterTitle": "Enter title..."
+	"enterTitle": "Enter title...",
+	"results": "Results",
+	"resultsInfo": "Here you can see where all the users have pinned!"
 
 }
