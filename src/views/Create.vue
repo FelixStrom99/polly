@@ -17,10 +17,10 @@
       <h1 id="enter-pollID-header">{{ uiLabels.createPoll }}</h1>
       <div style="margin-top:10%">
         <h1> Enter title:</h1>
-        <input type="text" v-model="pollId" id="createPollInput">
+        <input type="text" v-model="pollId" id="createPollInput" autocomplete="off">
       </div>
       <button v-on:click="createPoll" class="playButtons">
-        {{ uiLabels.save }}
+        {{ uiLabels.save}}
       </button>
     </div>
 
