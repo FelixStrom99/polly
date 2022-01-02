@@ -306,6 +306,11 @@ export default {
       this.checkIfNewGame(newGame)
     })
 
+    socket.on("endWaitingRoom",placeHolder => {
+      console.log(placeHolder)
+      this.skipWaitingroomTemporary()
+    });
+
   },
   watch: {
     timeLeft(newValue) {

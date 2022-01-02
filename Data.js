@@ -39,7 +39,7 @@ Data.prototype.createPoll = function (pollId, lang = "en") {
     return this.polls[pollId];
 }
 
-Data.prototype.checkIfNewGame  = function (pollId) {
+Data.prototype.startGame  = function (pollId) {
     this.polls[pollId].newGame=false
 }
 Data.prototype.checkIfNewGame  = function (pollId) {
