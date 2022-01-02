@@ -19,6 +19,11 @@ function sockets(io, socket, data) {
         socket.emit('dataUpdate', data.getLocationAnswers(d.pollId));
     });
 
+    socket.on('startGame',function (d){
+        data.startGame(d.pollId)
+        io.to(d.pollId).emit('endWaitingRoom', null)
+    });
+
     socket.on('joinPoll', function (pollId) {
         socket.join(pollId);
         socket.emit('checkIfNewGame', data.checkIfNewGame(pollId));
