@@ -48,8 +48,9 @@
                 <input id="participateInput" type="text" v-model="id">
               </label>
             </div>
-            <button class="playButtons">
-              <router-link class="routerLink" v-bind:to="'/poll/'+id+'/'+lang" tag="button">{{ uiLabels.participatePoll }}</router-link>
+            <button class="playButtons" v-on:click="checkGame()">
+              {{ uiLabels.participatePoll }}
+              <!--<router-link  class="routerLink" v-bind:to="'/poll/'+id+'/'+lang" tag="button">{{ uiLabels.participatePoll }}</router-link> -->
             </button>
 
             </div>
@@ -99,21 +100,36 @@ export default {
     socket.on("init", (labels) => {
       this.uiLabels = labels
     })
+    socket.on("gameChecked", (status) => {
+      this.gameChecked(status)
+    })
   },
   methods: {
+
     switchLanguage: function () {
       if (this.lang === "en")
         this.lang = "sv"
       else
         this.lang = "en"
       socket.emit("switchLanguage", this.lang)
+
     },
 
     showPlay: function () {
-     this.play=true
+      this.play = true
     },
-    showPlayFalse:function(){
-      this.play=false
+    showPlayFalse: function () {
+      this.play = false
+    },
+    checkGame: function () {
+      socket.emit('checkGame', {id:this.id});
+      }
+    },
+      gameChecked: function (status) {
+        if (this.id===status.id){
+          this.$router.push({ path: `/poll/${this.pollId}/`+this.lang })
+        }
+
     }
   }
 }

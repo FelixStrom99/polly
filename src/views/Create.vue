@@ -297,7 +297,7 @@ export default {
       isPreviewQuestion: false,
       gameStarted:true,
       questionRunning:true,
-      timer:15
+      timer:10
     }
   },
   /*mounted() {

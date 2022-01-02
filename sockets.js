@@ -24,6 +24,7 @@ function sockets(io, socket, data) {
         io.to(d.pollId).emit('endWaitingRoom', null)
     });
 
+
     socket.on('joinPoll', function (pollId) {
         socket.join(pollId);
         socket.emit('checkIfNewGame', data.checkIfNewGame(pollId));
