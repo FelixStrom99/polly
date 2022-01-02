@@ -660,14 +660,16 @@ export default {
   margin-left: 24%;
   margin-right: 2%;
 }
+#locationQuestion-button1:hover {
+  background-color: rgba(248, 248, 248, 0.44);
+}
 #locationQuestion-button2 {
   width: 50px;
   height: 50px;
   border-radius: 50%;
   float: left;
 }
-
-.locationQuestion-button:hover {
+#locationQuestion-button2:hover {
   background-color: rgba(248, 248, 248, 0.44);
 }
 
