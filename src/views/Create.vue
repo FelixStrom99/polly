@@ -19,7 +19,7 @@
       <h1 id="enter-pollID-header">{{ uiLabels.createPoll }}</h1>
       <div style="margin-top:10%">
         <h1> {{uiLabels.enterTitleHead}}</h1>
-        <input type="text" v-model="pollId" id="createPollInput" v-bind:placeholder=uiLabels.enterTitle>
+        <input type="text" v-model="pollId" id="createPollInput" v-bind:placeholder=uiLabels.enterTitle autocomplete="off">
       </div>
       <button v-on:click="createPoll" class="playButtons">
         {{ uiLabels.save }}
@@ -29,7 +29,7 @@
   </section>
 
 
-  <section class="theme  ChooseMap" v-else-if="firstStage===false && secondStage===true">
+  <section style="position: relative; bottom: 1em" class="theme  ChooseMap" v-else-if="firstStage===false && secondStage===true">
     <div>
       <h1>Choose your location</h1>
     </div>
@@ -76,7 +76,7 @@
         </figure>
       </div>
     </div>
-    <footer v-if="firstStage!=true">
+    <footer style="position: relative; bottom: 1em" v-if="firstStage!=true">
       <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
     </footer>
 
@@ -118,7 +118,7 @@
     <div class="create lq-and-q">
       <div class="location-question" v-if="createLocationQuestion">
         <div>
-          <input class="playerButton" type="text" v-bind:placeholder=uiLabels.enterLocationQuestion v-model="locationQuestion">
+          <input class="participateInput" style="width: 40%" type="text" v-bind:placeholder=uiLabels.enterLocationQuestion v-model="locationQuestion" autocomplete="off">
         </div>
         <div id="openlayers-map">
           <MapContainerCreate :geojson="geojson"
@@ -126,18 +126,17 @@
           </MapContainerCreate>
         </div>
 
-        <button v-on:click="editQuestion(this.currentLQ, null)" class="playButtons">{{ uiLabels.saveLocation }}</button>
+        <button  class="playButtons" v-on:click="editQuestion(this.currentLQ, null)" >{{ uiLabels.saveLocation }}</button>
 
-        <div style="bottom: 0" v-if="firstStage!=true">
+        <div style="position: relative; top: 5em" v-if="firstStage!=true">
           <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
         </div>
 
       </div>
 
       <div class="create theme" v-if="createMultipleChoiceQuestion">
-        {{ uiLabels.question }}:
-        <input type="text" v-bind:placeholder=uiLabels.enterFollowUp v-model="question">
-        <button v-on:click="editQuestion(this.currentLQ, currentMQ)">{{ uiLabels.save }}</button>
+        <!--{{ uiLabels.question }}:-->
+        <input class="participateInput" style="width: 40%" type="text" v-bind:placeholder=uiLabels.enterFollowUp v-model="question">
         <div class="question-multiple">
           <div class="Answer-box-wrapper">
             <div class="answer-alternative-size-wrapper" v-for="(_, i) in answers" v-bind:key="'answers'+i">
@@ -158,9 +157,10 @@
               </div>
             </div>
           </div>
-          {{ questionSequence }}
+          <button class="playButtons" style="position: relative; top: 4em" v-on:click="editQuestion(this.currentLQ, currentMQ)">{{ uiLabels.save }}</button>
+
         </div>
-        <div style="bottom: 0" v-if="firstStage!=true">
+        <div style="position: relative; top: 14em" v-if="firstStage!=true">
           <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
         </div>
       </div>
@@ -181,7 +181,7 @@
         <button v-on:click="deleteLocationQuestion">Ändra sånndär duration boom</button>
         <br>
         <br>
-        <button v-on:click="finishQuizFinal">
+        <button style="position: absolute; bottom: 10px; margin-left: -5.5em" v-on:click="finishQuizFinal">
           {{ uiLabels.finishQuiz }}
         </button>
       </div>
@@ -590,6 +590,11 @@ export default {
   justify-content: space-evenly;
   flex-basis: 70%;
   clear: both;
+}
+
+.question-multiple {
+  position: relative;
+  top: 5em;
 }
 
 /* Section Create quiz // Right Bar */
