@@ -4,7 +4,7 @@
  <h1>{{ locationQuestion }} </h1>
 
   {{locationData}}
-  <h3> </h3>
+  <h3> {{uiLabels.resultsInfo}}</h3>
   <div id="openlayers-map">
     <MapContainerResults :geojson="geojson" v-bind:key=updateZoom  v-bind:locationData="locationData" v-bind:correctLocation="correctLocation" v-bind:mapView="mapView"> </MapContainerResults>
   </div>
