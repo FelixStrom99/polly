@@ -178,7 +178,7 @@ import MapContainerPollResult from "../components/MapContainerPollResult";
 
 const socket = io();
 const FULL_DASH_ARRAY = 283;
-const TIME_LIMIT = 10;
+var TIME_LIMIT = 10;
 const WARNING_THRESHOLD = TIME_LIMIT/2;
 const ALERT_THRESHOLD = TIME_LIMIT/4;
 
@@ -413,11 +413,13 @@ export default {
       for (let i = 0; i < Data.q.length; i++) {
         questionArray[i] = {q: (Data.q[i])[i], a: (Data.a[i])[i]}
       }
+      TIME_LIMIT=Data.timer
       this.questions = questionArray
       this.LocationQuestion.lq=Data.lq
       this.LocationQuestion.location=Data.location
       this.correctans=Data.correct
-      this.newGame=false
+
+
 
 
 

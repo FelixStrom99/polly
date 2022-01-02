@@ -296,7 +296,8 @@ export default {
       userList: [],
       isPreviewQuestion: false,
       gameStarted:true,
-      questionRunning:true
+      questionRunning:true,
+      timer:15
     }
   },
   /*mounted() {
@@ -384,6 +385,7 @@ export default {
     finishQuizFinal: function () {
       this.firstStage = true
       this.currentLQ = 0
+
       for (var i = 0; i <= this.questionSequence.length; i++) {
         socket.emit("addQuestion", {
           pollId: this.pollId,
@@ -391,10 +393,10 @@ export default {
           a: this.questionSequence[i][1],
           correct: this.questionSequence[i][2],
           lq: this.questionSequence[i][3],
-          location: this.questionSequence[i][4]
+          location: this.questionSequence[i][4],
+          timer: this.timer
         })
       }
-
     },
 
 
@@ -497,6 +499,7 @@ export default {
     runQuestion: function () {
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.currentLQ,lang:this.lang})
       this.questionRunning=true
+
     },
 
     chooseUppsala: function () {
