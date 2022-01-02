@@ -118,19 +118,19 @@
     <div class="create lq-and-q">
       <div class="location-question" v-if="createLocationQuestion">
         <div>
-          <input type="text" v-bind:placeholder=uiLabels.enterLocationQuestion v-model="locationQuestion">
+          <input class="playerButton" type="text" v-bind:placeholder=uiLabels.enterLocationQuestion v-model="locationQuestion">
         </div>
         <div id="openlayers-map">
           <MapContainerCreate :geojson="geojson"
                               v-on:location="location=$event" v-bind:mapView="mapView" v-bind:location="savedLocation"  id="mapLq-and-q">
           </MapContainerCreate>
         </div>
-        <button v-on:click="editQuestion(this.currentLQ, null)" class="playButtons">{{ uiLabels.save }}</button>
+
+        <button v-on:click="editQuestion(this.currentLQ, null)" class="playButtons">{{ uiLabels.saveLocation }}</button>
+
         <div style="bottom: 0" v-if="firstStage!=true">
           <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
         </div>
-        <button v-on:click="editQuestion(this.currentLQ, null)" class="playButtons">{{ uiLabels.saveLocation }}</button>
-
 
       </div>
 
