@@ -103,7 +103,7 @@ export default {
 methods:{
   sendToPoll: function (lang) {
     console.log(lang)
-    this.$router.push({ path: `/poll/${this.pollId}/en` })
+    this.$router.push({ path: `/poll/${this.pollId}/`+lang })
   },
 }
 }
