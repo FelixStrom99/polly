@@ -202,9 +202,8 @@
 
   <section v-if="secondStage===false && firstStage===true">
     <h1>Host view</h1>
-    <p>{{uiLabels.pollID}}: {{ this.pollId }}</p>
     <div v-if="gameStarted===true">
-      <button v-on:click="startGame">
+      <button  class="playButtons" v-on:click="startGame">
         Start the Game!
       </button>
     </div>
@@ -212,16 +211,14 @@
       <button v-on:click="runQuestion" v-if="questionRunning===false">
         Run Selected Question
       </button>
-      <button v-on:click="checkResult()" v-else-if="questionRunning===true"
-      >Check Result  </button>
+      <button v-on:click="checkResult()" v-else-if="questionRunning===true">Check Result</button>
      <!-- <button v-on:click="goBackEdit">
         Go back to editing
       </button> -->
     </div>
-    <button v-on:click="updatePlayers">
+    <button class="playButtons" v-on:click="updatePlayers">
       Update players
     </button>
-    {{ currentLQ }}
     <div id="run-question-wrapper">
       <div class="run-question waitingroom">
         <h3>Users connected</h3>
@@ -247,6 +244,8 @@
           </div>
         </div>
       </div>
+      <p style="position: absolute; bottom: 0">{{uiLabels.pollID}}: {{ this.pollId }}</p>
+
 
     </div>
   </section>
@@ -306,6 +305,7 @@ export default {
       gameStarted:true,
       questionRunning:true,
       timer:10
+
     }
   },
   /*mounted() {
@@ -975,6 +975,8 @@ textbox:hover {
   justify-content: center;
   min-height: 50em;
   height: auto;
+  gap: 5%;
+  opacity: 90%;
 }
 
 .run-question {
@@ -988,6 +990,11 @@ textbox:hover {
 }
 
 .run-question box {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   min-width: 30%;
 
 }

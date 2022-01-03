@@ -17,7 +17,7 @@
     <div id="choose-username-wrapper">
     <h1> {{ uiLabels.username }}:</h1>
     <div>
-      <input id="participateInput" type="text" v-model="userID" placeholder="Enter username..." autocomplete="off">
+      <input class="participateInput" type="text" v-model="userID" placeholder="Enter username..." autocomplete="off">
     </div>
     <button style="margin-top: 7%" class ="playButtons" v-on:click="displayWaitingroom">
       {{ uiLabels.save }}

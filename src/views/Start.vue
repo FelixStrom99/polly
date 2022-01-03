@@ -5,10 +5,10 @@
 
     <button id="LangButton" style  v-on:click="switchLanguage">
       <div>
-      <object data="/svg_files/Language_symbol/language-symbol.svg" type="image/svg+xml" style="float: left; padding-top:3%" >
+      <object data="/svg_files/Language_symbol/language-symbol.svg" type="image/svg+xml" style="float: left" >
       </object>
       </div>
-      <div>
+      <div style="position: relative;top:20%">
       {{uiLabels.changeLanguage}}
       </div>
     </button>
