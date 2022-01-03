@@ -216,7 +216,7 @@ button:active{
 }
 
 #LangButton {
-  width:10%;
+  width:8%;
   height: 5%;
   font-size:100%;
   text-align: center;
