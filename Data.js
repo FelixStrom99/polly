@@ -39,6 +39,16 @@ Data.prototype.createPoll = function (pollId, lang = "en") {
     return this.polls[pollId];
 }
 
+Data.prototype.checkGameStatus  = function (pollId) {
+   const poll=this.polls[pollId]
+    if (typeof poll === 'undefined') {
+        return {pollStatus:false,newGame:false,id:pollId}
+    }
+    else{
+        return {pollStatus:true,newGame:poll.newGame,id:pollId}
+    }
+}
+
 Data.prototype.startGame  = function (pollId) {
     this.polls[pollId].newGame=false
 }

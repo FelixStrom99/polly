@@ -12,10 +12,13 @@ function sockets(io, socket, data) {
     socket.on('createPoll', function (d) {
         socket.emit('pollCreated', data.createPoll(d.pollId, d.lang));
     });
+    socket.on('checkGame', function (d){
+        socket.emit('gameChecked', data.checkGameStatus(d.id));
+    });
 
 
     socket.on('addQuestion', function (d) {
-        data.addQuestion(d.pollId, {q: d.q, a: d.a, correct: d.correct, lq: d.lq, location: d.location});
+        data.addQuestion(d.pollId, {q: d.q, a: d.a, correct: d.correct, lq: d.lq, location: d.location,timer:d.timer});
         socket.emit('dataUpdate', data.getLocationAnswers(d.pollId));
     });
 
@@ -23,6 +26,7 @@ function sockets(io, socket, data) {
         data.startGame(d.pollId)
         io.to(d.pollId).emit('endWaitingRoom', null)
     });
+
 
     socket.on('joinPoll', function (pollId) {
         socket.join(pollId);

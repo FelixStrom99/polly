@@ -1,7 +1,7 @@
 <template>
 
   <div ref="map-root"
-       style="width: 100%; height: 100%">
+       style="width: 100%; height: 100%; border: groove 5px; border-color: #5862a6;">
   </div>
 
 <div>

@@ -17,7 +17,7 @@
     <div id="choose-username-wrapper">
     <h1> {{ uiLabels.username }}:</h1>
     <div>
-      <input id="participateInput" type="text" v-model="userID" placeholder="Enter username..." autocomplete="off">
+      <input class="participateInput" type="text" v-model="userID" placeholder="Enter username..." autocomplete="off">
     </div>
     <button style="margin-top: 7%" class ="playButtons" v-on:click="displayWaitingroom">
       {{ uiLabels.save }}
@@ -30,7 +30,7 @@
       <h1 id="waitingroom-text">{{ uiLabels.waitingRoom }}</h1>
       <h2>{{ uiLabels.hostWait }}</h2>
       <div id="waitingroom-item">
-        <h1>USERS:</h1>
+        <h1>{{uiLabels.players}}:</h1>
         <div id="waitingroom-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i" style="  color: white;font-size:20px;">
           <p>{{u}}</p>
         </div>
@@ -178,9 +178,10 @@ import MapContainerPollResult from "../components/MapContainerPollResult";
 
 const socket = io();
 const FULL_DASH_ARRAY = 283;
-const TIME_LIMIT = 10;
+var TIME_LIMIT = 0;
 const WARNING_THRESHOLD = TIME_LIMIT/2;
 const ALERT_THRESHOLD = TIME_LIMIT/4;
+console.log("hej")
 
 
 const COLOR_CODES = {
@@ -236,7 +237,6 @@ export default {
       boolTimerStart:         false,
       isSubmittedAnswer:      false,
       isQuestionNotWaitingRoom:true,
-
     }
 
   },
@@ -258,6 +258,7 @@ export default {
     },
 
     timeLeft() {
+      console.log(TIME_LIMIT - this.timePassed)
       return TIME_LIMIT - this.timePassed;
     },
 
@@ -294,6 +295,8 @@ export default {
     )
     socket.on("newQuestion", q =>
         this.createQuestionArray(q),
+
+        console.log("TESTEST")
     )
     socket.on("userUpdate",update => {
       this.userList=update;
@@ -313,7 +316,7 @@ export default {
 
   },
   watch: {
-    timeLeft(newValue) {
+    timeLeft (newValue) {
       if (newValue === 0) {
         this.onTimesUp();
 
@@ -351,6 +354,7 @@ export default {
     },
 
     onTimesUp() {
+      console.log(TIME_LIMIT)
       clearInterval(this.timerInterval);
       if(this.displayFollowupQuestion===true && this.isQuestionNotWaitingRoom===false){
         this.index += 1}
@@ -374,26 +378,30 @@ export default {
         console.log("this.isQuestionNotWaitingRoom=true")
       }
 
-      if(TIME_LIMIT===10 && this.isQuestionNotWaitingRoom===false){
+      if(TIME_LIMIT==10 && this.isQuestionNotWaitingRoom==false){
         this.timePassed=5
         this.startTimer()
 
       }
-      if(TIME_LIMIT===20 && this.isQuestionNotWaitingRoom===false){
+      if(TIME_LIMIT==20 && this.isQuestionNotWaitingRoom==false){
         this.timePassed=15
         this.startTimer()
       }
-      if(TIME_LIMIT===40 && this.isQuestionNotWaitingRoom===false){
+      console.log(TIME_LIMIT + "this is the timeledt before if statement")
+      if(TIME_LIMIT==40 && this.isQuestionNotWaitingRoom==false){
+        console.log("timePassed = 35 test")
         this.timePassed=35
         this.startTimer()
+        console.log(this.timePassed + "this is the time passed")
+        console.log(TIME_LIMIT + " this is the time left when timer started")
       }
-      if(TIME_LIMIT===60 && this.isQuestionNotWaitingRoom===false){
+      if(TIME_LIMIT==60 && this.isQuestionNotWaitingRoom==false){
         this.timePassed=55
         this.startTimer()
       }
 
       if(this.isQuestionNotWaitingRoom===true){
-
+        console.log( )
         this.isSubmittedAnswer=false
         this.resetTimer()
         this.switchToWaitingRoom()
@@ -417,7 +425,9 @@ export default {
       this.LocationQuestion.lq=Data.lq
       this.LocationQuestion.location=Data.location
       this.correctans=Data.correct
-      this.newGame=false
+      TIME_LIMIT = Data.timer
+
+
 
 
 
@@ -473,7 +483,6 @@ export default {
     },
     displayWaitingroom: function (){
       socket.emit("addUser", {pollId: this.pollId, users: this.userID})
-
       this.isChooseusername = false;
       this.isWaitingroom = true;
     },
@@ -491,7 +500,7 @@ export default {
         this.displayAnswer=true}
     },
     sendToResult: function () {
-      this.$router.push({ path: `/result/${this.pollId}` })
+      this.$router.push({ path: `/result/${this.pollId}/`+this.lang })
     },
 
   }

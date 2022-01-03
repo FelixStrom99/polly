@@ -5,10 +5,10 @@
 
     <button id="LangButton" style  v-on:click="switchLanguage">
       <div>
-      <object data="/svg_files/Language_symbol/language-symbol.svg" type="image/svg+xml" style="float: left; padding-top:3%" >
+      <object data="/svg_files/Language_symbol/language-symbol.svg" type="image/svg+xml" style="float: left" >
       </object>
       </div>
-      <div>
+      <div style="position: relative;top:20%">
       {{uiLabels.changeLanguage}}
       </div>
     </button>
@@ -39,19 +39,21 @@
 	<span style="color: #41B853 ">z</span>
 </span>
       </div>
+
       <div id="nav">
         <div>
           <div v-if="play">
             <div id="pollID">
               <label style="font-size: 20px; font-weight: bold">
                 {{ uiLabels.writePollId }}:
-                <input id="participateInput" type="text" v-model="id">
+                <input class="participateInput" type="text" v-model="id">
               </label>
             </div>
-            <button class="playButtons">
-              <router-link class="routerLink" v-bind:to="'/poll/'+id+'/'+lang" tag="button">{{ uiLabels.participatePoll }}</router-link>
+            <p v-if="gameStatus===false" style="color: #c01313"> Game does not exist </p>
+            <p v-else-if="gameStatus===true" style="color: #c01313"> Game is already in session </p>
+            <button class="playButtons" v-on:click="checkGame()">
+              {{ uiLabels.participatePoll }}
             </button>
-
             </div>
           <div v-else>
             <button class="playButtons" v-on:click="showPlay">{{ uiLabels.play }}</button>
@@ -88,10 +90,11 @@ export default {
   name: 'Start',
   data: function () {
     return {
-      uiLabels:   {},
-      id:         "",
-      lang:       "en",
-      play:       false,
+      uiLabels: {},
+      id: "",
+      lang: "en",
+      play: false,
+      gameStatus:null
 
     }
   },
@@ -99,24 +102,50 @@ export default {
     socket.on("init", (labels) => {
       this.uiLabels = labels
     })
+    socket.on("gameChecked", (status) => {
+      this.gameChecked(status)
+    })
   },
   methods: {
+
     switchLanguage: function () {
       if (this.lang === "en")
         this.lang = "sv"
       else
         this.lang = "en"
       socket.emit("switchLanguage", this.lang)
+
     },
 
     showPlay: function () {
-     this.play=true
+      this.play = true
     },
-    showPlayFalse:function(){
-      this.play=false
+    showPlayFalse: function () {
+      this.play = false
+      this.gameStatus=null
+    },
+    checkGame: function () {
+      socket.emit('checkGame', {id: this.id});
+    },
+
+    gameChecked: function (status) {
+      if (this.id === status.id) {
+        if (status.pollStatus === false) {
+          this.gameStatus=false
+        } else if (status.pollStatus === true && status.newGame === false) {
+          this.gameStatus=true
+        } else if (status.pollStatus === true && status.newGame === true) {
+          this.$router.push({path: `/poll/${this.id}/` + this.lang})
+        }
+      }
+      else {
+        console.log(status.id, this.id)
+      }
+
     }
   }
 }
+
 
 
 </script>
@@ -162,10 +191,22 @@ input {
   border-radius: 6px;
 }
 
-button{
-  font-size:100%;
-  text-align: center;
+
+
+button {
+  display: inline-block;
+  padding: 0.35em 1.2em;
+  border: 0.1em solid #EFA500;
   border-radius:6px;
+  margin: 0 0.3em 0.3em 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-weight: bold;
+  color: #161B40;
+  text-align: center;
+  transition: all 0.2s;
+  /*background-color: transparent;*/
+
 }
 
 button:hover{
@@ -179,7 +220,7 @@ button:active{
 }
 
 #LangButton {
-  width:10%;
+  width:8%;
   height: 5%;
   font-size:100%;
   text-align: center;
@@ -255,7 +296,7 @@ button:active{
   color: #fff;
   font-size: 50px;
 }
-#participateInput{
+.participateInput{
   text-align: center;
   outline: none;
   border: none;
@@ -269,19 +310,6 @@ button:active{
   border-radius: 6px;
 }
 
-button {
-  display: inline-block;
-  padding: 0.35em 1.2em;
-  border: 0.1em solid #EFA500;
-  margin: 0 0.3em 0.3em 0;
-  box-sizing: border-box;
-  text-decoration: none;
-  font-weight: 300;
-  color: #161B40;
-  text-align: center;
-  transition: all 0.2s;
-
-}
 
 
 

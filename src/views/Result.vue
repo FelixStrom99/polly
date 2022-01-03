@@ -1,16 +1,17 @@
 <template>
 
- <h1>{{ locationQuestion }} </h1>
-  <p>locationdata</p>
-  {{locationData}}
+  <h1> {{uiLabels.results}}</h1>
+ <h2> {{ locationQuestion }} </h2>
+
+  <h3> {{uiLabels.resultsInfo}}</h3>
   <div id="openlayers-map">
     <MapContainerResults :geojson="geojson" v-bind:key=updateZoom  v-bind:locationData="locationData" v-bind:correctLocation="correctLocation" v-bind:mapView="mapView"> </MapContainerResults>
   </div>
-
+<h2> {{uiLabels.followUpQuestion}}</h2>
   <div v-for="(title,i) in question"
        v-bind:title="title"
        v-bind:key="title[i]">
-    {{title[i]}}
+    <h3>{{title[i]}}</h3>
   </div>
 
   <Bars v-bind:data="data"/>
@@ -42,6 +43,8 @@ export default {
   },
   data: function () {
     return {
+      lang: "",
+      uiLabels: {},
       question: "",
       data: {
       },
@@ -59,6 +62,12 @@ export default {
   },
   created: function () {
     this.pollId = this.$route.params.id
+    this.lang = this.$route.params.lang;
+
+    socket.emit("pageLoaded", {lang: this.lang, id: this.pollId});
+    socket.on("init", (labels) => {
+      this.uiLabels = labels
+    })
     socket.emit('joinPoll', this.pollId)
     socket.on("dataUpdate", (update) => {
       this.data = update.a;
@@ -93,7 +102,7 @@ export default {
 methods:{
   sendToPoll: function (lang) {
     console.log(lang)
-    this.$router.push({ path: `/poll/${this.pollId}/en` })
+    this.$router.push({ path: `/poll/${this.pollId}/`+lang })
   },
 }
 }
