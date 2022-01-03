@@ -131,11 +131,7 @@
         <div style="bottom: 0" v-if="firstStage!=true">
           <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
         </div>
-        <button  class="playButtons" v-on:click="editQuestion(this.currentLQ, null)" >{{ uiLabels.saveLocation }}</button>
 
-        <div style="position: relative; top: 5em" v-if="firstStage!=true">
-          <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
-        </div>
       </div>
 
       <div class="create theme" v-if="createMultipleChoiceQuestion">
@@ -385,6 +381,10 @@ export default {
       this.questionSequence.push(newQuestion)
       this.pollQuestionIndex += 1
       this.currentLQ = (this.questionSequence.length - 1)
+      this.savedLocation= {
+        x: null,
+        y: null
+      }
       if(this.questionSequence.length > 1) {
         this.showLocationQuestion()
       }
