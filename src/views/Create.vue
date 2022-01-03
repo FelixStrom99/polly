@@ -19,7 +19,7 @@
       <h1 id="enter-pollID-header">{{ uiLabels.createPoll }}</h1>
       <div style="margin-top:10%">
         <h1> {{uiLabels.enterTitleHead}}</h1>
-        <input type="text" v-model="pollId" id="createPollInput" v-bind:placeholder=uiLabels.enterTitle>
+        <input type="text" v-model="pollId" id="createPollInput" v-bind:placeholder=uiLabels.enterTitle autocomplete="off">
       </div>
       <button v-on:click="createPoll" class="playButtons">
         {{ uiLabels.save }}
@@ -29,9 +29,9 @@
   </section>
 
 
-  <section class="theme  ChooseMap" v-else-if="firstStage===false && secondStage===true">
+  <section style="position: relative; bottom: 1em" class="theme  ChooseMap" v-else-if="firstStage===false && secondStage===true">
     <div>
-      <h1>Choose your location</h1>
+      <h1>{{ uiLabels.chooseLocation }}</h1>
     </div>
 
     <div class="maps">
@@ -76,7 +76,7 @@
         </figure>
       </div>
     </div>
-    <footer v-if="firstStage!=true">
+    <footer style="position: relative; bottom: 1em" v-if="firstStage!=true">
       <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
     </footer>
 
@@ -118,26 +118,26 @@
     <div class="create lq-and-q">
       <div class="location-question" v-if="createLocationQuestion">
         <div>
-          <input type="text" v-bind:placeholder=uiLabels.enterLocationQuestion v-model="locationQuestion">
+          <input class="participateInput" style="width: 40%" type="text" v-bind:placeholder=uiLabels.enterLocationQuestion v-model="locationQuestion" autocomplete="off">
         </div>
+        <h3>{{uiLabels.createInfo}}</h3>
         <div id="openlayers-map">
           <MapContainerCreate :geojson="geojson"
                               v-on:location="location=$event" v-bind:mapView="mapView" v-bind:location="savedLocation"  id="mapLq-and-q">
           </MapContainerCreate>
         </div>
-        <button v-on:click="editQuestion(this.currentLQ, null)" class="playButtons">{{ uiLabels.save }}</button>
-        <div style="bottom: 0" v-if="firstStage!=true">
+
+        <button  class="playButtons" v-on:click="editQuestion(this.currentLQ, null)" >{{ uiLabels.saveLocation }}</button>
+
+        <div style="position: relative; top: 5em" v-if="firstStage!=true">
           <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
         </div>
-        <button v-on:click="editQuestion(this.currentLQ, null)" class="playButtons">{{ uiLabels.saveLocation }}</button>
-
 
       </div>
 
       <div class="create theme" v-if="createMultipleChoiceQuestion">
-        {{ uiLabels.question }}:
-        <input type="text" v-bind:placeholder=uiLabels.enterFollowUp v-model="question">
-        <button v-on:click="editQuestion(this.currentLQ, currentMQ)">{{ uiLabels.save }}</button>
+        <!--{{ uiLabels.question }}:-->
+        <input class="participateInput" style="width: 40%" type="text" v-bind:placeholder=uiLabels.enterFollowUp v-model="question">
         <div class="question-multiple">
           <div class="Answer-box-wrapper">
             <div class="answer-alternative-size-wrapper" v-for="(_, i) in answers" v-bind:key="'answers'+i">
@@ -158,9 +158,11 @@
               </div>
             </div>
           </div>
-          {{ questionSequence }}
+          {{questionSequence}}
+          <button class="playButtons" style="position: relative; top: 4em" v-on:click="editQuestion(this.currentLQ, currentMQ)">{{ uiLabels.save }}</button>
+
         </div>
-        <div style="bottom: 0" v-if="firstStage!=true">
+        <div style="position: relative; top: 14em" v-if="firstStage!=true">
           <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
         </div>
       </div>
@@ -177,68 +179,67 @@
       </div>
       <div>
         <h2>{{uiLabels.settings}}</h2>
-        <h3>Timer settings</h3>
-        <button v-on:click="deleteLocationQuestion">Ändra sånndär duration boom</button>
-        <br>
-        <br>
+        <h3>Global timer settings</h3>
+        <span>Question runtime:</span>
+        <select v-model="timer">
+          <option disabled value="">Please select one</option>
+          <option value="10">10 seconds</option>
+          <option value="20">20 seconds</option>
+          <option value="40">40 seconds</option>
+          <option value="60">60 seconds</option>
+        </select>
+
         <button v-on:click="finishQuizFinal">
           {{ uiLabels.finishQuiz }}
         </button>
       </div>
     </div>
-
-
-
   </section>
 
 
   <section v-if="secondStage===false && firstStage===true">
-    <h1>Host view</h1>
-    <p>{{uiLabels.pollID}}: {{ this.pollId }}</p>
+
+    <h1>{{uiLabels.hostView}}</h1>
     <div v-if="gameStarted===true">
-      <button v-on:click="startGame">
-        Start the Game!
-      </button>
+      <button class="playButtons" v-on:click="startGame">{{ uiLabels.startGame }}</button>
     </div>
     <div v-else-if="gameStarted===false">
-      <button v-on:click="runQuestion" v-if="questionRunning===false">
-        Run Selected Question
-      </button>
-      <button v-on:click="checkResult()" v-else-if="questionRunning===true"
-      >Check Result  </button>
+      <button v-on:click="runQuestion" v-if="questionRunning===false">{{uiLabels.runQuestion }}</button>
+      <button v-on:click="checkResult()" v-else-if="questionRunning===true">{{ uiLabels.checkResult }}  </button>
      <!-- <button v-on:click="goBackEdit">
         Go back to editing
       </button> -->
     </div>
-    <button v-on:click="updatePlayers">
-      Update players
-    </button>
-    {{ currentLQ }}
+
+    <button class="playButtons" v-on:click="updatePlayers">{{uiLabels.updatePlayers }}</button>
     <div id="run-question-wrapper">
       <div class="run-question waitingroom">
-        <h3>Users connected</h3>
+        <h3>{{ uiLabels.playersConnected }}</h3>
         <div id="run-question-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i"
              style="  color: white;font-size:20px;">
           <p>{{ u }}</p>
         </div>
       </div>
+
       <div class="run-question box">
-        <h3>Run questions</h3>
+        <h3>{{ uiLabels.runQuestions }}</h3>
         <div id="run-question-item" v-for="(_,i) in questionSequence" v-bind:key="'question'+i">
           <div v-on:click="currentLQ=i; this.previewQuestion()">{{ questionSequence[i][3] }}</div>
         </div>
       </div>
+
       <div class="run-question preview">
-        <h3>Preview of question</h3>
+        <h3>{{uiLabels.questionPreview}}</h3>
         <div v-if="isPreviewQuestion" id="preview-question">
-          <p>Location question:</p>
+          <p>{{uiLabels.locationQuestion}}:</p>
           {{ questionSequence[currentLQ][3] }}
-          <p>Follow-up questions:</p>
+          <p>{{uiLabels.followUpQuestion}}:</p>
           <div v-for="(ans,i) in questionSequence[currentLQ][0]" v-bind:key="'ans'+i">
             {{ ans[i] }}
           </div>
         </div>
       </div>
+      <p style="position: absolute; bottom: 0">{{uiLabels.pollID}}: <span style="color: #43BEE5" >{{ pollId }}</span></p>
 
     </div>
   </section>
@@ -298,6 +299,7 @@ export default {
       gameStarted:true,
       questionRunning:true,
       timer:10
+
     }
   },
   /*mounted() {
@@ -374,6 +376,11 @@ export default {
       })
       this.questionSequence.push(newQuestion)
       this.pollQuestionIndex += 1
+      this.currentLQ = (this.questionSequence.length - 1)
+      if(this.questionSequence.length > 1) {
+        this.showLocationQuestion()
+      }
+
     },
     nextSection: function () {
       this.secondStage = false
@@ -383,19 +390,24 @@ export default {
       this.secondStage = false
     },
     finishQuizFinal: function () {
-      this.firstStage = true
-      this.currentLQ = 0
+      if (this.questionSequence[0][3] == null){
+        alert("Make a Location question")
+      }
+      else {
+        this.firstStage = true
+        this.currentLQ = 0
 
-      for (var i = 0; i <= this.questionSequence.length; i++) {
-        socket.emit("addQuestion", {
-          pollId: this.pollId,
-          q: this.questionSequence[i][0],
-          a: this.questionSequence[i][1],
-          correct: this.questionSequence[i][2],
-          lq: this.questionSequence[i][3],
-          location: this.questionSequence[i][4],
-          timer: this.timer
-        })
+        for (var i = 0; i <= this.questionSequence.length; i++) {
+          socket.emit("addQuestion", {
+            pollId: this.pollId,
+            q: this.questionSequence[i][0],
+            a: this.questionSequence[i][1],
+            correct: this.questionSequence[i][2],
+            lq: this.questionSequence[i][3],
+            location: this.questionSequence[i][4],
+            timer: this.timer
+          })
+        }
       }
     },
 
@@ -481,7 +493,7 @@ export default {
       if (content.style.maxHeight && !this.currentLQ) {
         content.style.maxHeight = null;
       } else {
-        content.style.maxHeight = content.scrollHeight + 20 + "px";
+        content.style.maxHeight = content.scrollHeight + 40 + "px";
       }
 
       this.savedLocation = this.questionSequence[this.currentLQ][4]
@@ -582,7 +594,7 @@ export default {
   flex-basis: 15%;
   justify-content: space-evenly;
   opacity: 80%;
-
+  overflow: scroll;
 }
 
 /* Section Create quiz // Middle */
@@ -590,6 +602,11 @@ export default {
   justify-content: space-evenly;
   flex-basis: 70%;
   clear: both;
+}
+
+.question-multiple {
+  position: relative;
+  top: 5em;
 }
 
 /* Section Create quiz // Right Bar */
@@ -660,14 +677,16 @@ export default {
   margin-left: 24%;
   margin-right: 2%;
 }
+#locationQuestion-button1:hover {
+  background-color: rgba(248, 248, 248, 0.44);
+}
 #locationQuestion-button2 {
   width: 50px;
   height: 50px;
   border-radius: 50%;
   float: left;
 }
-
-.locationQuestion-button:hover {
+#locationQuestion-button2:hover {
   background-color: rgba(248, 248, 248, 0.44);
 }
 
@@ -908,6 +927,7 @@ textbox:hover {
   position: relative;
   height: 30em;
   width: 99%;
+
 }
 
 #map div {
@@ -950,6 +970,8 @@ textbox:hover {
   justify-content: center;
   min-height: 50em;
   height: auto;
+  gap: 5%;
+  opacity: 90%;
 }
 
 .run-question {
@@ -963,6 +985,11 @@ textbox:hover {
 }
 
 .run-question box {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   min-width: 30%;
 
 }

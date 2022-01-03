@@ -5,10 +5,10 @@
 
     <button id="LangButton" style  v-on:click="switchLanguage">
       <div>
-      <object data="/svg_files/Language_symbol/language-symbol.svg" type="image/svg+xml" style="float: left; padding-top:3%" >
+      <object data="/svg_files/Language_symbol/language-symbol.svg" type="image/svg+xml" style="float: left" >
       </object>
       </div>
-      <div>
+      <div style="position: relative;top:20%">
       {{uiLabels.changeLanguage}}
       </div>
     </button>
@@ -46,7 +46,7 @@
             <div id="pollID">
               <label style="font-size: 20px; font-weight: bold">
                 {{ uiLabels.writePollId }}:
-                <input id="participateInput" type="text" v-model="id">
+                <input class="participateInput" type="text" v-model="id">
               </label>
             </div>
             <p v-if="gameStatus===false" style="color: #c01313"> Game does not exist </p>
@@ -187,10 +187,22 @@ input {
   border-radius: 6px;
 }
 
-button{
-  font-size:100%;
-  text-align: center;
+
+
+button {
+  display: inline-block;
+  padding: 0.35em 1.2em;
+  border: 0.1em solid #EFA500;
   border-radius:6px;
+  margin: 0 0.3em 0.3em 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-weight: bold;
+  color: #161B40;
+  text-align: center;
+  transition: all 0.2s;
+  /*background-color: transparent;*/
+
 }
 
 button:hover{
@@ -276,7 +288,7 @@ button:active{
   color: #fff;
   font-size: 50px;
 }
-#participateInput{
+.participateInput{
   text-align: center;
   outline: none;
   border: none;
@@ -290,19 +302,6 @@ button:active{
   border-radius: 6px;
 }
 
-button {
-  display: inline-block;
-  padding: 0.35em 1.2em;
-  border: 0.1em solid #EFA500;
-  margin: 0 0.3em 0.3em 0;
-  box-sizing: border-box;
-  text-decoration: none;
-  font-weight: 300;
-  color: #161B40;
-  text-align: center;
-  transition: all 0.2s;
-
-}
 
 
 
