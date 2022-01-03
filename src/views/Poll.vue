@@ -30,7 +30,7 @@
       <h1 id="waitingroom-text">{{ uiLabels.waitingRoom }}</h1>
       <h2>{{ uiLabels.hostWait }}</h2>
       <div id="waitingroom-item">
-        <h1>USERS:</h1>
+        <h1>{{uiLabels.players}}:</h1>
         <div id="waitingroom-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i" style="  color: white;font-size:20px;">
           <p>{{u}}</p>
         </div>
