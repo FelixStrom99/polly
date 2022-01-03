@@ -118,8 +118,9 @@
     <div class="create lq-and-q">
       <div class="location-question" v-if="createLocationQuestion">
         <div>
-          <input class="playerButton" type="text" v-bind:placeholder=uiLabels.enterLocationQuestion v-model="locationQuestion">
+          <input class="playerButton" type="text" v-bind:placeholder="uiLabels.enterLocationQuestion" v-model="locationQuestion">
         </div>
+        <p>Mark the spot on the map that is the correct answer to the question</p>
         <div id="openlayers-map">
           <MapContainerCreate :geojson="geojson"
                               v-on:location="location=$event" v-bind:mapView="mapView" v-bind:location="savedLocation"  id="mapLq-and-q">
@@ -136,7 +137,7 @@
 
       <div class="create theme" v-if="createMultipleChoiceQuestion">
         {{ uiLabels.question }}:
-        <input type="text" v-bind:placeholder=uiLabels.enterFollowUp v-model="question">
+        <input type="text" v-bind:placeholder="uiLabels.enterFollowUp" v-model="question">
         <button v-on:click="editQuestion(this.currentLQ, currentMQ)">{{ uiLabels.save }}</button>
         <div class="question-multiple">
           <div class="Answer-box-wrapper">
@@ -177,10 +178,16 @@
       </div>
       <div>
         <h2>{{uiLabels.settings}}</h2>
-        <h3>Timer settings</h3>
-        <button v-on:click="deleteLocationQuestion">Ändra sånndär duration boom</button>
-        <br>
-        <br>
+        <h3>Global timer settings</h3>
+        <span>Question runtime:</span>
+        <select v-model="timer">
+          <option disabled value="">Please select one</option>
+          <option value="10">10 seconds</option>
+          <option value="20">20 seconds</option>
+          <option value="40">40 seconds</option>
+          <option value="60">60 seconds</option>
+        </select>
+
         <button v-on:click="finishQuizFinal">
           {{ uiLabels.finishQuiz }}
         </button>
@@ -297,7 +304,7 @@ export default {
       isPreviewQuestion: false,
       gameStarted:true,
       questionRunning:true,
-      timer:15
+      timer:10
     }
   },
   /*mounted() {
@@ -374,6 +381,11 @@ export default {
       })
       this.questionSequence.push(newQuestion)
       this.pollQuestionIndex += 1
+      this.currentLQ = (this.questionSequence.length - 1)
+      if(this.questionSequence.length > 1) {
+        this.showLocationQuestion()
+      }
+
     },
     nextSection: function () {
       this.secondStage = false
@@ -481,7 +493,7 @@ export default {
       if (content.style.maxHeight && !this.currentLQ) {
         content.style.maxHeight = null;
       } else {
-        content.style.maxHeight = content.scrollHeight + 20 + "px";
+        content.style.maxHeight = content.scrollHeight + 40 + "px";
       }
 
       this.savedLocation = this.questionSequence[this.currentLQ][4]
@@ -582,7 +594,7 @@ export default {
   flex-basis: 15%;
   justify-content: space-evenly;
   opacity: 80%;
-
+  overflow: scroll;
 }
 
 /* Section Create quiz // Middle */
