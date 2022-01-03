@@ -20,6 +20,7 @@
       <div style="margin-top:10%">
         <h1> {{uiLabels.enterTitleHead}}</h1>
         <input type="text" v-model="pollId" id="createPollInput" v-bind:placeholder=uiLabels.enterTitle autocomplete="off">
+        <p v-if="pollIdErrorMessage===true" style="color: #c01313"> No Input </p>
       </div>
       <button v-on:click="createPoll" class="playButtons">
         {{ uiLabels.save}}
@@ -262,6 +263,7 @@ export default {
     return {
       lang: "",
       pollId: "",
+      pollIdErrorMessage:false,
       title: "",
       question: [""],
       answers: ["", ""],
@@ -331,8 +333,13 @@ export default {
   methods: {
 
     createPoll: function () {
-      socket.emit("createPoll", {pollId: this.pollId, lang: this.lang})
+      if (this.pollId !== ""){
+        socket.emit("createPoll", {pollId: this.pollId, lang: this.lang})
       this.firstStage = false
+    }
+      else {
+        this.pollIdErrorMessage=true
+      }
     },
     showQuestion: function (firstIndex, secondIndex) {
       if (secondIndex !== null) {
