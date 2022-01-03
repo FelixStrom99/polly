@@ -12,6 +12,9 @@ function sockets(io, socket, data) {
     socket.on('createPoll', function (d) {
         socket.emit('pollCreated', data.createPoll(d.pollId, d.lang));
     });
+    socket.on('checkGame', function (d){
+        socket.emit('gameChecked', data.checkGameStatus(d.id));
+    });
 
 
     socket.on('addQuestion', function (d) {

@@ -39,6 +39,7 @@
 	<span style="color: #41B853 ">z</span>
 </span>
       </div>
+
       <div id="nav">
         <div>
           <div v-if="play">
@@ -48,11 +49,11 @@
                 <input id="participateInput" type="text" v-model="id">
               </label>
             </div>
+            <p v-if="gameStatus===false" style="color: #c01313"> Game does not exist </p>
+            <p v-else-if="gameStatus===true" style="color: #c01313"> Game is already in session </p>
             <button class="playButtons" v-on:click="checkGame()">
               {{ uiLabels.participatePoll }}
-              <!--<router-link  class="routerLink" v-bind:to="'/poll/'+id+'/'+lang" tag="button">{{ uiLabels.participatePoll }}</router-link> -->
             </button>
-
             </div>
           <div v-else>
             <button class="playButtons" v-on:click="showPlay">{{ uiLabels.play }}</button>
@@ -89,10 +90,11 @@ export default {
   name: 'Start',
   data: function () {
     return {
-      uiLabels:   {},
-      id:         "",
-      lang:       "en",
-      play:       false,
+      uiLabels: {},
+      id: "",
+      lang: "en",
+      play: false,
+      gameStatus:null
 
     }
   },
@@ -120,19 +122,27 @@ export default {
     },
     showPlayFalse: function () {
       this.play = false
+      this.gameStatus=null
     },
     checkGame: function () {
-      socket.emit('checkGame', {id:this.id});
-      }
+      socket.emit('checkGame', {id: this.id});
     },
-      gameChecked: function (status) {
-        if (this.id===status.id){
-          this.$router.push({ path: `/poll/${this.pollId}/`+this.lang })
+
+    gameChecked: function (status) {
+      if (this.id === status.id) {
+        if (status.pollStatus === false) {
+          this.gameStatus=false
+        } else if (status.pollStatus === true && status.newGame === false) {
+          this.gameStatus=true
+        } else if (status.pollStatus === true && status.newGame === true) {
+          this.$router.push({path: `/poll/${this.id}/` + this.lang})
         }
+      }
 
     }
   }
 }
+
 
 
 </script>
