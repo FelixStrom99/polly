@@ -29,7 +29,7 @@
   </section>
 
 
-  <section style="position: relative; bottom: 1em" class="theme  ChooseMap" v-else-if="firstStage===false && secondStage===true">
+  <section class="theme  ChooseMap" v-else-if="firstStage===false && secondStage===true" style="position: relative; bottom: 1em">
     <div>
       <h1>Choose your location</h1>
     </div>
@@ -189,14 +189,11 @@
           <option value="60">60 seconds</option>
         </select>
 
-        <button v-on:click="finishQuizFinal">
+        <button v-on:click="finishQuizFinal" style="position: absolute; bottom:10px; margin-left: -10em;">
           {{ uiLabels.finishQuiz }}
         </button>
       </div>
     </div>
-
-
-
   </section>
 
 
