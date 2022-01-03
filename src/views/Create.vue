@@ -31,7 +31,7 @@
 
   <section style="position: relative; bottom: 1em" class="theme  ChooseMap" v-else-if="firstStage===false && secondStage===true">
     <div>
-      <h1>Choose your location</h1>
+      <h1>{{ uiLabels.chooseLocation }}</h1>
     </div>
 
     <div class="maps">
