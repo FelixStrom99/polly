@@ -32,20 +32,31 @@ Data.prototype.createPoll = function (pollId, lang = "en") {
         poll.locations = [];
         poll.mapView = {};
         poll.users = [];
+        poll.newGame=true
         this.polls[pollId] = poll;
         console.log("poll created", pollId, poll);
     }
     return this.polls[pollId];
 }
 
+Data.prototype.startGame  = function (pollId) {
+    this.polls[pollId].newGame=false
+}
+Data.prototype.checkIfNewGame  = function (pollId) {
+    const poll=this.polls[pollId]
+    if (typeof poll !== 'undefined') {
+        return poll.newGame
+    }
+    else {
+        return true
+    }
+}
+
 Data.prototype.addQuestion = function (pollId, q) {
     const poll = this.polls[pollId];
     console.log("question added to", pollId, q, "Här kommer questions arrayen", poll.questions);
     if (typeof poll !== 'undefined') {
-
         poll.questionSequence.push(q)
-
-
     }
 }
 Data.prototype.addToUsers = function (pollId, d) {
@@ -87,10 +98,10 @@ Data.prototype.getZoom = function (pollId) {
 Data.prototype.getQuestion = function (pollId, qId = null) {
     const poll = this.polls[pollId];
     console.log("question requested for normal ", pollId, qId);
-
     if (typeof poll !== 'undefined') {
         if (qId !== null) {
             poll.currentQuestion = qId;
+
         }
         console.log(poll.questionSequence[poll.currentQuestion])
 
