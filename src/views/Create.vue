@@ -158,6 +158,7 @@
               </div>
             </div>
           </div>
+          {{questionSequence}}
           <button class="playButtons" style="position: relative; top: 4em" v-on:click="editQuestion(this.currentLQ, currentMQ)">{{ uiLabels.save }}</button>
 
         </div>
@@ -395,19 +396,24 @@ export default {
       this.secondStage = false
     },
     finishQuizFinal: function () {
-      this.firstStage = true
-      this.currentLQ = 0
+      if (this.questionSequence[0][3] == null){
+        alert("Make a Location question")
+      }
+      else {
+        this.firstStage = true
+        this.currentLQ = 0
 
-      for (var i = 0; i <= this.questionSequence.length; i++) {
-        socket.emit("addQuestion", {
-          pollId: this.pollId,
-          q: this.questionSequence[i][0],
-          a: this.questionSequence[i][1],
-          correct: this.questionSequence[i][2],
-          lq: this.questionSequence[i][3],
-          location: this.questionSequence[i][4],
-          timer: this.timer
-        })
+        for (var i = 0; i <= this.questionSequence.length; i++) {
+          socket.emit("addQuestion", {
+            pollId: this.pollId,
+            q: this.questionSequence[i][0],
+            a: this.questionSequence[i][1],
+            correct: this.questionSequence[i][2],
+            lq: this.questionSequence[i][3],
+            location: this.questionSequence[i][4],
+            timer: this.timer
+          })
+        }
       }
     },
 
