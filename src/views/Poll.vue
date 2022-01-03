@@ -294,6 +294,7 @@ export default {
     )
     socket.on("newQuestion", q =>
         this.createQuestionArray(q),
+        console.log("TESTEST")
     )
     socket.on("userUpdate",update => {
       this.userList=update;
