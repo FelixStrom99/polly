@@ -1,7 +1,7 @@
 <template>
 
   <div ref="map-root"
-       style="width: 100%; height: 100%">
+       style="width: 100%; height: 100%; border: groove 5px; border-color: #5862a6;">
   </div>
  <!-- <div>
     <button type="button" v-on:click="locationDataPoints"> Show All locations!</button>
@@ -130,8 +130,8 @@ export default {
         center: this.mapView.center,
         constrainResolution: true
       }),
-    })
 
+    })
 
        /* ,this.olMap.on('click', (event) => {
           let myTarget = JSON.parse(JSON.stringify(transform(event.coordinate, 'EPSG:3857', 'EPSG:4326')));
@@ -159,6 +159,8 @@ export default {
 
         console.log( "locationx="+Target.x)
         console.log("locationy="+Target.y)
+        this.correctPoint.geometry.coordinates = [this.correctLocation.x, this.correctLocation.y]
+        this.updateSource(this.correctPoint, this.correctPointStyle)
       }
 
 

@@ -17,7 +17,7 @@
     <div id="choose-username-wrapper">
     <h1> {{ uiLabels.username }}:</h1>
     <div>
-      <input id="participateInput" type="text" v-model="userID" placeholder="Enter username..." autocomplete="off">
+      <input class="participateInput" type="text" v-model="userID" placeholder="Enter username..." autocomplete="off">
     </div>
     <button style="margin-top: 7%" class ="playButtons" v-on:click="displayWaitingroom">
       {{ uiLabels.save }}
@@ -30,7 +30,7 @@
       <h1 id="waitingroom-text">{{ uiLabels.waitingRoom }}</h1>
       <h2>{{ uiLabels.hostWait }}</h2>
       <div id="waitingroom-item">
-        <h1>USERS:</h1>
+        <h1>{{uiLabels.players}}:</h1>
         <div id="waitingroom-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i" style="  color: white;font-size:20px;">
           <p>{{u}}</p>
         </div>
