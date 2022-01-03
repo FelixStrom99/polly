@@ -31,7 +31,7 @@
 
   <section style="position: relative; bottom: 1em" class="theme  ChooseMap" v-else-if="firstStage===false && secondStage===true">
     <div>
-      <h1>Choose your location</h1>
+      <h1>{{ uiLabels.chooseLocation }}</h1>
     </div>
 
     <div class="maps">
@@ -120,7 +120,7 @@
         <div>
           <input class="participateInput" style="width: 40%" type="text" v-bind:placeholder=uiLabels.enterLocationQuestion v-model="locationQuestion" autocomplete="off">
         </div>
-        <p>Mark the spot on the map that is the correct answer to the question</p>
+        <h3>{{uiLabels.createInfo}}</h3>
         <div id="openlayers-map">
           <MapContainerCreate :geojson="geojson"
                               v-on:location="location=$event" v-bind:mapView="mapView" v-bind:location="savedLocation"  id="mapLq-and-q">
@@ -194,58 +194,52 @@
         </button>
       </div>
     </div>
-
-
-
   </section>
 
 
   <section v-if="secondStage===false && firstStage===true">
-    <h1>Host view</h1>
+
+    <h1>{{uiLabels.hostView}}</h1>
     <div v-if="gameStarted===true">
-      <button  class="playButtons" v-on:click="startGame">
-        Start the Game!
-      </button>
+      <button class="playButtons" v-on:click="startGame">{{ uiLabels.startGame }}</button>
     </div>
     <div v-else-if="gameStarted===false">
-      <button v-on:click="runQuestion" v-if="questionRunning===false">
-        Run Selected Question
-      </button>
-      <button v-on:click="checkResult()" v-else-if="questionRunning===true">Check Result</button>
+      <button v-on:click="runQuestion" v-if="questionRunning===false">{{uiLabels.runQuestion }}</button>
+      <button v-on:click="checkResult()" v-else-if="questionRunning===true">{{ uiLabels.checkResult }}  </button>
      <!-- <button v-on:click="goBackEdit">
         Go back to editing
       </button> -->
     </div>
-    <button class="playButtons" v-on:click="updatePlayers">
-      Update players
-    </button>
+
+    <button class="playButtons" v-on:click="updatePlayers">{{uiLabels.updatePlayers }}</button>
     <div id="run-question-wrapper">
       <div class="run-question waitingroom">
-        <h3>Users connected</h3>
+        <h3>{{ uiLabels.playersConnected }}</h3>
         <div id="run-question-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i"
              style="  color: white;font-size:20px;">
           <p>{{ u }}</p>
         </div>
       </div>
+
       <div class="run-question box">
-        <h3>Run questions</h3>
+        <h3>{{ uiLabels.runQuestions }}</h3>
         <div id="run-question-item" v-for="(_,i) in questionSequence" v-bind:key="'question'+i">
           <div v-on:click="currentLQ=i; this.previewQuestion()">{{ questionSequence[i][3] }}</div>
         </div>
       </div>
+
       <div class="run-question preview">
-        <h3>Preview of question</h3>
+        <h3>{{uiLabels.questionPreview}}</h3>
         <div v-if="isPreviewQuestion" id="preview-question">
-          <p>Location question:</p>
+          <p>{{uiLabels.locationQuestion}}:</p>
           {{ questionSequence[currentLQ][3] }}
-          <p>Follow-up questions:</p>
+          <p>{{uiLabels.followUpQuestion}}:</p>
           <div v-for="(ans,i) in questionSequence[currentLQ][0]" v-bind:key="'ans'+i">
             {{ ans[i] }}
           </div>
         </div>
       </div>
-      <p style="position: absolute; bottom: 0">{{uiLabels.pollID}}: {{ this.pollId }}</p>
-
+      <p style="position: absolute; bottom: 0">{{uiLabels.pollID}}: <span style="color: #43BEE5" >{{ pollId }}</span></p>
 
     </div>
   </section>
@@ -933,6 +927,7 @@ textbox:hover {
   position: relative;
   height: 30em;
   width: 99%;
+
 }
 
 #map div {
