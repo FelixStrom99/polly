@@ -65,9 +65,11 @@
           </button>
           </div>
         </div>
+        <div id="create-button">
         <button v-if="play===false" class="playButtons">
           <router-link class="routerLink" v-bind:to="'/create/'+lang">{{ uiLabels.create }}</router-link> <!-- uiLabels.createPoll-->
         </button>
+        </div>
 
       </div>
     </section>
@@ -196,7 +198,7 @@ button {
   padding: 0.35em 1.2em;
   border: 0.1em solid #EFA500;
   border-radius:6px;
-  margin: 0 0.3em 0.3em 0;
+  margin: 0 0 0.3em 0;
   box-sizing: border-box;
   text-decoration: none;
   font-weight: bold;
@@ -226,14 +228,31 @@ button:hover{
 }
 
 .playButtons{
-  flex-shrink: 2;
-  color: white;
-  font-weight: bold;
-  background-color: transparent;
-  height:auto;
-  width:auto;
-  font-size:xxx-large;
+    flex-shrink: 2;
+    color: white;
+    font-weight: bold;
+    background-color: transparent;
+    height:auto;
+    width:auto;
+    font-size:xxx-large;
 }
+@media only screen and (max-width: 600px) {
+  .playButtons{
+    flex-shrink: 2;
+    color: white;
+    font-weight: bold;
+    background-color: transparent;
+    height:auto;
+    width:auto;
+    font-size:6vw;
+  }
+}
+@media only screen and (max-width: 813px) {
+  #create-button{
+    display: none;
+  }
+}
+
 .playButtons:active{
   position: relative;
   top: 1px;
@@ -263,7 +282,9 @@ button:hover{
 
 #nav {
   display: flex;
+  width: 100%;
   justify-content: center;
+  justify-items: center;
   flex-wrap: wrap;
   grid-gap: 10%;
   grid-template-columns: 10em 10em 10em;
@@ -273,6 +294,8 @@ button:hover{
 }
 @media only screen and (max-width: 600px){
   #nav {
+    display: flex;
+    flex-direction: column;
     margin-top: 40%;
   }
 }
@@ -295,6 +318,7 @@ button:hover{
   font-size: 8vw;
   color: white;
   font-weight: bold;
+  justify-content: center;
 }
 
 #pollID{

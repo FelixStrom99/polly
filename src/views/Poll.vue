@@ -652,10 +652,7 @@ waitingroom-users p{
 .openlayers-map {
   position: relative;
   height: 30em;
-  width: 90%;
-  display: flex;
-  border-radius: 6px;
-  justify-content: center;
+  width: 100%;
 }
 
 .move{

@@ -925,9 +925,9 @@ textbox:hover {
   border: 1px solid rgba(0, 0, 0, 0.8);
   border-radius: 10px;
   padding: 20px;
-  font-size: 30px;
-  width: 400px;
-  height: 300px;
+  font-size: 2vw;
+  width: 25vw;
+  height: 20vw;
   margin-left: auto;
   margin-right: auto;
   text-align: center;

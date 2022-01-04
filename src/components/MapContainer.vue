@@ -1,7 +1,7 @@
 <template>
 
   <div ref="map-root"
-       style="width: 90%; height: 100%; border: groove 5px; border-color: #5862a6; cursor:crosshair;">
+       style="width: 100%; height: 100%; border: groove 5px; border-color: #5862a6; cursor:crosshair;">
   </div>
   <!--<input type="range" v-model="this.userPoint.properties.radius" max="40" min="5">-->
 </template>
