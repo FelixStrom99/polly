@@ -20,9 +20,10 @@
       <div style="margin-top:10%">
         <h1> {{uiLabels.enterTitleHead}}</h1>
         <input type="text" v-model="pollId" id="createPollInput" v-bind:placeholder=uiLabels.enterTitle autocomplete="off">
+        <p v-if="pollIdErrorMessage===true" style="color: #c01313"> No Input </p>
       </div>
       <button v-on:click="createPoll" class="playButtons">
-        {{ uiLabels.save }}
+        {{ uiLabels.save}}
       </button>
     </div>
 
@@ -135,10 +136,8 @@
                               v-on:location="location=$event" v-bind:mapView="mapView" v-bind:location="savedLocation"  id="mapLq-and-q">
           </MapContainerCreate>
         </div>
-
-        <button  class="playButtons" v-on:click="editQuestion(this.currentLQ, null)" >{{ uiLabels.saveLocation }}</button>
-
-        <div style="position: relative; top: 5em" v-if="firstStage!=true">
+        <button v-on:click="editQuestion(this.currentLQ, null)" class="playButtons">{{ uiLabels.saveLocation }}</button>
+        <div style="bottom: 0" v-if="firstStage!=true">
           <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
         </div>
 
@@ -176,7 +175,6 @@
           </div>
           <button class="playButtons" style="position: relative;top: 3em;"
                   v-on:click="editQuestion(this.currentLQ, currentMQ)">{{ uiLabels.save }}</button>
-
         </div>
         <div style="position: relative; top: 14em" v-if="firstStage!=true">
           <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
@@ -268,6 +266,7 @@ export default {
     return {
       lang: "",
       pollId: "",
+      pollIdErrorMessage:false,
       title: "",
       question: [""],
       answers: ["", ""],
@@ -337,8 +336,13 @@ export default {
   methods: {
 
     createPoll: function () {
-      socket.emit("createPoll", {pollId: this.pollId, lang: this.lang})
+      if (this.pollId !== ""){
+        socket.emit("createPoll", {pollId: this.pollId, lang: this.lang})
       this.firstStage = false
+    }
+      else {
+        this.pollIdErrorMessage=true
+      }
     },
     showQuestion: function (firstIndex, secondIndex) {
       if (secondIndex !== null) {
@@ -384,6 +388,10 @@ export default {
       this.questionSequence.push(newQuestion)
       this.pollQuestionIndex += 1
       this.currentLQ = (this.questionSequence.length - 1)
+      this.savedLocation= {
+        x: null,
+        y: null
+      }
       if(this.questionSequence.length > 1) {
         this.showLocationQuestion()
       }
