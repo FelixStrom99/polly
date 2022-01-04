@@ -127,7 +127,7 @@
         <button v-on:click="editQuestion(this.currentLQ, null); getResponseButton()" class="playButtons">{{ uiLabels.saveLocation }}</button>
         </span>
         <span>
-          <p v-if="showResponseButton===true" class="hideMe">{{ uiLabels.savedLocation }}</p>
+          <p v-if="showResponseButton===true" class="hideMe">{{ uiLabels.locationSaved }}</p>
         </span>
         <div style="bottom: 0" v-if="firstStage!=true">
           <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
@@ -165,14 +165,11 @@
               {{ uiLabels.deleteAnswer }}
             </button>
           </div>
-          <button class="playButtons" style="position: relative;top: 3em;"
+          <button class="playButtons" style="position: relative;top: 2.5em;"
                   v-on:click="editQuestion(this.currentLQ, currentMQ); getResponseButton() ">{{ uiLabels.save }}</button>
           <span>
-            <p v-if="showResponseButton===true" class="hideMe">Your location is saved!</p>
+            <p v-if="showResponseButton===true" class="hideMe">{{ uiLabels.questionSaved }}</p>
           </span>
-        </div>
-        <div style="position: relative; top: 14em" v-if="firstStage!=true">
-          <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
         </div>
       </div>
     </div>
