@@ -1,7 +1,7 @@
 <template>
 
   <div ref="map-root"
-       style="width: 80%; height: 80%; border: groove 5px; border-color: #5862a6; opacity: 90%;cursor:crosshair;">
+       style="width: 80%; height: 90%; border: groove 5px; border-color: #5862a6; opacity: 90%;cursor:crosshair;">
   </div>
   <!--<input type="range" v-model="this.userPoint.properties.radius" max="40" min="5">-->
 
@@ -33,7 +33,6 @@ export default {
   },
   watch: {
     location() {
-      console.log("japp",this.location)
       this.showLocation();
     }
   },

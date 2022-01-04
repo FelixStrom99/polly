@@ -66,9 +66,9 @@
         </figure>
       </div>
     </div>
-    <footer style="position: relative; bottom: 1em" v-if="firstStage!=true">
+    <div style="position: relative; bottom: 1em" v-if="firstStage!=true">
       <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
-    </footer>
+    </div>
 
   </section>
 
@@ -122,6 +122,7 @@
                               v-on:location="location=$event" v-bind:mapView="mapView" v-bind:location="savedLocation"  id="mapLq-and-q">
           </MapContainerCreate>
         </div>
+        <div>
         <span>
         <button v-on:click="editQuestion(this.currentLQ, null); getResponseButton()" class="playButtons">{{ uiLabels.saveLocation }}</button>
         </span>
@@ -131,7 +132,7 @@
         <div style="bottom: 0" v-if="firstStage!=true">
           <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
         </div>
-
+        </div>
       </div>
 
       <div class="create theme" v-if="createMultipleChoiceQuestion">
@@ -923,9 +924,9 @@ textbox:hover {
   border: 1px solid rgba(0, 0, 0, 0.8);
   border-radius: 10px;
   padding: 20px;
-  font-size: 30px;
-  width: 400px;
-  height: 300px;
+  font-size: 2vw;
+  width: 25vw;
+  height: 20vw;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -974,7 +975,7 @@ textbox:hover {
   background-position: center;
 }
 #mapLq-and-q{
-  margin-top: 5%;
+  margin-top: 1%;
   border-radius: 6px;
 }
 
@@ -984,8 +985,8 @@ textbox:hover {
   border-radius: 6px;
   justify-content: center;
   position: relative;
-  height: 30em;
-  width: 99%;
+  height: 25rem;
+  width: 100%;
 
 }
 

@@ -368,6 +368,7 @@ button:hover{
   width: 97%;
   height: 100%;
   overflow: hidden;
+  margin-block-start: 0;
 }
 
 .circles li{
