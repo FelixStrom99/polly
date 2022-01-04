@@ -228,12 +228,13 @@ button:hover{
 }
 
 .playButtons{
+  flex-shrink: 2;
   color: white;
   font-weight: bold;
   background-color: transparent;
   height:auto;
   width:auto;
-  font-size:200%;
+  font-size:xxx-large;
 }
 .playButtons:active{
   position: relative;
@@ -261,14 +262,21 @@ button:hover{
   justify-content: center;
 }
 
+
 #nav {
   display: flex;
   justify-content: center;
-  grid-gap: 10em;
+  flex-wrap: wrap;
+  grid-gap: 10%;
   grid-template-columns: 10em 10em 10em;
   padding-top: 10%;
   padding-left: 2em;
   padding-right: 2em;
+}
+@media only screen and (max-width: 600px){
+  #nav {
+    margin-top: 40%;
+  }
 }
 .header-prop{
   background: white;
@@ -423,14 +431,108 @@ button:hover{
 .circles li:nth-child(10){
   left: 85%;
   background-color: #43BEE5;
-  width: 150px;
-  height: 150px;
+  width: 20px;
+  height: 20px;
   animation-delay: 0s;
   animation-duration: 11s;
 }
+@media only screen and (max-width: 600px) {
+  .circles li{
+
+    position: absolute;
+    display: block;
+    list-style: none;
+    width: 10px;
+    height: 10px;
+    background-color: #41B853;
+    animation: animate 25s linear infinite;
 
 
+  }
 
+  .circles li:nth-child(1){
+    left: 25%;
+    background-color: #EFA500;
+    width: 20px;
+    height: 20px;
+    animation-delay: 0s;
+  }
+
+
+  .circles li:nth-child(2){
+    left: 10%;
+    background-color:#43BEE5;
+    width: 10px;
+    height: 10px;
+    animation-delay: 2s;
+    animation-duration: 12s;
+  }
+
+  .circles li:nth-child(3){
+    left: 70%;
+    background-color:#43BEE5;
+    width: 10px;
+    height: 10px;
+    animation-delay: 4s;
+  }
+
+  .circles li:nth-child(4){
+    left: 40%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 0s;
+    animation-duration: 18s;
+  }
+
+  .circles li:nth-child(5){
+    left: 65%;
+    background-color: #EFA500;
+    width: 10px;
+    height: 10px;
+    animation-delay: 0s;
+  }
+
+  .circles li:nth-child(6){
+    left: 75%;
+    width: 30px;
+    height: 30px;
+    animation-delay: 3s;
+  }
+
+  .circles li:nth-child(7){
+    left: 35%;
+    width: 50px;
+    height: 50px;
+    animation-delay: 7s;
+  }
+
+  .circles li:nth-child(8){
+    left: 50%;
+    background-color: #F40058;
+    width: 10px;
+    height: 10px;
+    animation-delay: 15s;
+    animation-duration: 45s;
+  }
+
+  .circles li:nth-child(9){
+    left: 20%;
+    width: 10px;
+    height: 10px;
+    background-color: #F40058;
+    animation-delay: 2s;
+    animation-duration: 35s;
+  }
+
+  .circles li:nth-child(10){
+    left: 85%;
+    background-color: #43BEE5;
+    width: 10px;
+    height: 10px;
+    animation-delay: 0s;
+    animation-duration: 11s;
+}
+}
 @keyframes animate {
 
   0%{
