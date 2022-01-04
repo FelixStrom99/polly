@@ -50,8 +50,8 @@
                 <input class="participateInput" type="text" v-model="id">
               </label>
             </div>
-            <p v-if="gameStatus===false" style="color: #c01313"> Game does not exist </p>
-            <p v-else-if="gameStatus===true" style="color: #c01313"> Game is already in session </p>
+            <p v-if="gameStatus===false" style="color: #c01313"> {{uiLabels.gameExist}} </p>
+            <p v-else-if="gameStatus===true" style="color: #c01313"> {{ uiLabels.gameSession }} </p>
             <button class="playButtons" v-on:click="checkGame()">
               {{ uiLabels.participatePoll }}
             </button>
@@ -61,7 +61,7 @@
           </div>
           <div id="backToMainButtonCenter">
           <button v-if="play===true" v-on:click="showPlayFalse" class="playButtons"  id="backToMainButton">
-            Back to main
+            {{uiLabels.backMain }}
           </button>
           </div>
         </div>

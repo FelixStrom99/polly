@@ -56,5 +56,16 @@
 	"runQuestions": "Run questions",
 	"questionPreview": "Question preview",
 	"players": "Players",
-	"chooseLocation": "Choose your location!"
+	"chooseLocation": "Choose your location!",
+	"expand": "Expand below to add follow-up questions",
+	"locationSaved": "Location saved!",
+	"timerSettings": "Timer settings",
+	"questionRunTime": "Choose timer runtime",
+	"plaseSelect": "Please select one",
+	"noInput": "No Input",
+	"gameExist": "Game does not exist",
+	"gameSession": "Game is already in session",
+	"backMain": " Back to start",
+	"seconds": "seconds"
+
 }

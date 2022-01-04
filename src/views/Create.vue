@@ -17,7 +17,7 @@
       <div style="margin-top:10%">
         <h1> {{uiLabels.enterTitleHead}}</h1>
         <input type="text" v-model="pollId" id="createPollInput" v-bind:placeholder=uiLabels.enterTitle autocomplete="off">
-        <p v-if="pollIdErrorMessage===true" style="color: #c01313"> No Input </p>
+        <p v-if="pollIdErrorMessage===true" style="color: #c01313"> {{ uiLabels.noInput }} </p>
       </div>
       <button v-on:click="createPoll" class="playButtons">
         {{ uiLabels.save}}
@@ -76,7 +76,7 @@
   <section class="create-the-questions-container theme" v-else-if="secondStage===false && firstStage===false">
     <div class="create overview-left-side">
       <h1>{{uiLabels.overView}}</h1>
-      <span>Click to expand below to add follow ups</span>
+      <span>{{ uiLabels.expand }}: </span>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
         <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i);removeResponse()">
           <div v-if="questionSequence[i][3] == ''">{{this.uiLabels.newQuestion}}</div>
@@ -112,7 +112,7 @@
     </div>
     <div class="create lq-and-q">
       <div class="location-question" v-if="createLocationQuestion">
-        <h1>Create Location Question {{this.currentLQ+1}}</h1>
+        <h1>{{ uiLabels.create }} {{uiLabels.locationQuestion}} {{this.currentLQ+1}}</h1>
         <div>
           <input class="participateInput" style="width: 40%" type="text" v-bind:placeholder=uiLabels.enterLocationQuestion v-model="locationQuestion" autocomplete="off">
         </div>
@@ -127,7 +127,7 @@
         <button v-on:click="editQuestion(this.currentLQ, null); getResponseButton()" class="playButtons">{{ uiLabels.saveLocation }}</button>
         </span>
         <span>
-          <p v-if="showResponseButton===true" class="hideMe">Your location is saved!</p>
+          <p v-if="showResponseButton===true" class="hideMe">{{ uiLabels.savedLocation }}</p>
         </span>
         <div style="bottom: 0" v-if="firstStage!=true">
           <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
@@ -136,7 +136,7 @@
       </div>
 
       <div class="create theme" v-if="createMultipleChoiceQuestion">
-        <h1>Create Follow-up Question {{this.currentMQ+1}}</h1>
+        <h1>{{ uiLabels.create }} {{uiLabels.followUpQuestion}} {{this.currentMQ+1}}</h1>
         <input class="participateInput" style="width: 40%" type="text" v-bind:placeholder=uiLabels.enterFollowUp v-model="question">
         <div class="question-multiple">
           <div class="Answer-box-wrapper">
@@ -179,14 +179,14 @@
     <div class=" create alternative-right-side">
       <div>
         <h2>{{uiLabels.settings}}</h2>
-        <h3>Global timer settings</h3>
-        <span>Question runtime:</span>
+        <h3>{{ uiLabels.timerSettings }}</h3>
+        <span>{{ uiLabels.timerRunTime }}</span>
         <select v-model="timer">
-          <option disabled value="">Please select one</option>
-          <option value="10">10 seconds</option>
-          <option value="20">20 seconds</option>
-          <option value="40">40 seconds</option>
-          <option value="60">60 seconds</option>
+          <option disabled value="">{{uiLabels.pleaseSelect}}</option>
+          <option value="10">10 {{uiLabels.seconds}}</option>
+          <option value="20">20 {{uiLabels.seconds}}</option>
+          <option value="40">40 {{uiLabels.seconds}}</option>
+          <option value="60">60 {{uiLabels.seconds}}</option>
         </select>
 
         <button class="finish-quiz-button" v-on:click="finishQuizFinal">
@@ -1104,6 +1104,9 @@ textbox:hover {
 #run-question-item:hover, selected {
   cursor: pointer;
   background-color: #EFA500;
+}
+.question-boxes{
+  margin-top:1vh;
 }
 
 /*background-color: rgba(34, 76, 182, 0.58);
