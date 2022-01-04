@@ -65,7 +65,6 @@
           </button>
           </div>
         </div>
-
         <div id="create-button">
         <button v-if="play===false" class="playButtons">
           <router-link class="routerLink" v-bind:to="'/create/'+lang">{{ uiLabels.create }}</router-link> <!-- uiLabels.createPoll-->
@@ -173,6 +172,7 @@ Green #41B853
 }
 
 body {
+  margin: 0;
   width: auto;
   height: auto;
   background: #161B40;
@@ -369,14 +369,12 @@ button:hover{
   position: absolute;
   top: 0;
   left: 0;
-  width: 97%;
+  width: 100%;
   height: 100%;
   overflow: hidden;
   margin-block-start: 0;
   margin-block-end: 0;
-  margin-inline-start: 0;
-  margin-inline-end: 0;
-  padding-inline-start: 0;
+  padding-left: 0;
 
 }
 

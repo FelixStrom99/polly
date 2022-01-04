@@ -112,7 +112,7 @@
     </div>
     <div class="create lq-and-q">
       <div class="location-question" v-if="createLocationQuestion">
-        <h1>Create Location Question</h1>
+        <h1>Create Location Question {{this.currentLQ+1}}</h1>
         <div>
           <input class="participateInput" style="width: 40%" type="text" v-bind:placeholder=uiLabels.enterLocationQuestion v-model="locationQuestion" autocomplete="off">
         </div>
@@ -136,7 +136,7 @@
       </div>
 
       <div class="create theme" v-if="createMultipleChoiceQuestion">
-        <h1>Create Follow-up Question</h1>
+        <h1>Create Follow-up Question {{this.currentMQ+1}}</h1>
         <input class="participateInput" style="width: 40%" type="text" v-bind:placeholder=uiLabels.enterFollowUp v-model="question">
         <div class="question-multiple">
           <div class="Answer-box-wrapper">
@@ -600,7 +600,7 @@ export default {
 
 .create-the-questions-container {
   display: flex;
-  height: 100vh;
+  height: 100%;
   width: 100%;
 }
 
@@ -653,7 +653,8 @@ export default {
   color: white;
   font-weight: bolder;
   position: absolute;
-  bottom: 10px;
+  bottom: 0px;
+  float:right;
   margin-left: -8.75em;
   width: 14%;
   height: 15%;
@@ -738,7 +739,7 @@ export default {
   margin-right: 2%;
 }
 #locationQuestion-button1:hover {
-  background-color: #78cc86;
+  background-color: #EFA500;
 }
 #locationQuestion-button2 {
   width: 50px;
@@ -747,7 +748,7 @@ export default {
   float: left;
 }
 #locationQuestion-button2:hover {
-  background-color: #e35f8e;
+  background-color: #EFA500;
 }
 
 
