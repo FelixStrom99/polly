@@ -66,9 +66,9 @@
         </figure>
       </div>
     </div>
-    <footer style="position: relative; bottom: 1em" v-if="firstStage!=true">
+    <div style="position: relative; bottom: 1em" v-if="firstStage!=true">
       <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
-    </footer>
+    </div>
 
   </section>
 
@@ -122,6 +122,7 @@
                               v-on:location="location=$event" v-bind:mapView="mapView" v-bind:location="savedLocation"  id="mapLq-and-q">
           </MapContainerCreate>
         </div>
+        <div>
         <span>
         <button v-on:click="editQuestion(this.currentLQ, null); getResponseButton()" class="playButtons">{{ uiLabels.saveLocation }}</button>
         </span>
@@ -131,7 +132,7 @@
         <div style="bottom: 0" v-if="firstStage!=true">
           <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
         </div>
-
+        </div>
       </div>
 
       <div class="create theme" v-if="createMultipleChoiceQuestion">
@@ -156,10 +157,6 @@
               </div>
             </div>
           </div>
-          <button class="playButtons" style="position: relative; top: 4em" v-on:click="editQuestion(this.currentLQ, currentMQ); getResponseButton() ">{{ uiLabels.save }}</button>
-          <span>
-            <p v-if="showResponseButton===true" class="hideMe">Your location is saved!</p>
-          </span>
           <div id="alternative-questions-wrapper">
             <button class="playButtons add-alt" v-on:click="addAnswer">
               {{ uiLabels.addAnswer }}
@@ -169,7 +166,7 @@
             </button>
           </div>
           <button class="playButtons" style="position: relative;top: 3em;"
-                  v-on:click="editQuestion(this.currentLQ, currentMQ)">{{ uiLabels.save }}</button>
+                  v-on:click="editQuestion(this.currentLQ, currentMQ); getResponseButton()">{{ uiLabels.save }}</button>
         </div>
         <div style="position: relative; top: 14em" v-if="firstStage!=true">
           <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
@@ -975,7 +972,7 @@ textbox:hover {
   background-position: center;
 }
 #mapLq-and-q{
-  margin-top: 5%;
+  margin-top: 1%;
   border-radius: 6px;
 }
 
@@ -985,8 +982,8 @@ textbox:hover {
   border-radius: 6px;
   justify-content: center;
   position: relative;
-  height: 30em;
-  width: 99%;
+  height: 25rem;
+  width: 100%;
 
 }
 

@@ -111,13 +111,6 @@ methods:{
 }
 </script>
 <style>
-/*#mapcontainer {
-  width: 800px;
-  height: 450px;
-  overflow: scroll;
-  margin-bottom: 20px;
-  border: groove
-}*/
 
 #boxResult{
   display:flex;
@@ -128,6 +121,6 @@ methods:{
   margin: 0;
   padding: 0;
   height: 20em;
-  width: 80%;
+  width: 90%;
 }
 </style>
