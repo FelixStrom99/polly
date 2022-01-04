@@ -653,6 +653,7 @@ export default {
 .finish-quiz-button:hover {
   background-color: #ffc544;
 }
+
 /* Section Host View */
 
 
