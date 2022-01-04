@@ -189,7 +189,6 @@
           <option value="60">60 seconds</option>
         </select>
 
-        <button class="playButtons" v-on:click="finishQuizFinal" style="position: absolute; bottom:10px; margin-left: -10em;">
         <button class="finish-quiz-button" v-on:click="finishQuizFinal">
           {{ uiLabels.finishQuiz }}
         </button>
