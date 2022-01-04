@@ -108,9 +108,7 @@
             </object>
           </div>
         </span>
-
-    </div>
-
+      </div>
     </div>
     <div class="create lq-and-q">
       <div class="location-question" v-if="createLocationQuestion">
@@ -158,7 +156,6 @@
               </div>
             </div>
           </div>
-          {{questionSequence}}
           <div id="alternative-questions-wrapper">
             <button class="playButtons add-alt" v-on:click="addAnswer">
               {{ uiLabels.addAnswer }}
@@ -199,21 +196,25 @@
   </section>
 
 
-  <section v-if="secondStage===false && firstStage===true">
-
+  <section class="host-view" v-if="secondStage===false && firstStage===true">
     <h1>{{uiLabels.hostView}}</h1>
+    <p>{{uiLabels.pollID}}: <span style="color: #43BEE5" >{{ pollId }}</span></p>
+
+  <div id="host-view-buttons">
     <div v-if="gameStarted===true">
       <button class="playButtons" v-on:click="startGame">{{ uiLabels.startGame }}</button>
     </div>
     <div v-else-if="gameStarted===false">
-      <button v-on:click="runQuestion" v-if="questionRunning===false">{{uiLabels.runQuestion }}</button>
-      <button v-on:click="checkResult()" v-else-if="questionRunning===true">{{ uiLabels.checkResult }}  </button>
+      <button class="playButtons" v-on:click="runQuestion" v-if="questionRunning===false">{{uiLabels.runQuestion }}</button>
+      <button class="playButtons" v-on:click="checkResult()" v-else-if="questionRunning===true">{{ uiLabels.checkResult }}  </button>
      <!-- <button v-on:click="goBackEdit">
         Go back to editing
       </button> -->
     </div>
 
     <button class="playButtons" v-on:click="updatePlayers">{{uiLabels.updatePlayers }}</button>
+  </div>
+
     <div id="run-question-wrapper">
       <div class="run-question waitingroom">
         <h3>{{ uiLabels.playersConnected }}</h3>
@@ -241,7 +242,6 @@
           </div>
         </div>
       </div>
-      <p style="position: absolute; bottom: 0">{{uiLabels.pollID}}: <span style="color: #43BEE5" >{{ pollId }}</span></p>
 
     </div>
   </section>
@@ -660,6 +660,7 @@ export default {
 .finish-quiz-button:hover {
   background-color: #ffc544;
 }
+
 /* Section Host View */
 
 
@@ -1022,56 +1023,85 @@ textbox:hover {
   text-align: center;
 
 }
+.host-view h1{
+  font-size: 250%;
+}
+
+#host-view-buttons{
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+}
+
 
 #run-question-wrapper {
   display: flex;
   justify-content: center;
-  min-height: 50em;
+  min-height: 10em;
   height: auto;
   gap: 5%;
-  opacity: 90%;
+  opacity: 95%;
 }
 
 .run-question {
-  background-color: #1682a8;
-  height: 50vh;
+  background-color: #2d3572;
+  height: 60vh;
   border-style: solid;
   border-width: thick;
-  border-color: lightgreen;
+  border-color:  #EFA500;
   border-radius: 10px;
   padding: 2em;
+  min-width: 15%;
 }
 
 .run-question box {
-  display: flex;
   position: relative;
+  display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  min-width: 30%;
+  min-width: 10%;
+
+}
+
+#run-question-item {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin-top: 1em;
+  width: 100%;
+  border: solid 0.1em;
+  border-radius: 1em;
+  background-color: transparent;
+  border-color: #EFA500;
 
 }
 
 .run-question waitingroom {
-  width: 15%;
+  min-width: 10%;
+  margin-left: 5%;
 }
 
+.run-question preview{
+  min-width: 10%;
+  margin-right: 5%;
+}
+
+
 #preview-question {
-  background-color: white;
-  color: black;
+  background-color: #EFA500;
+  color: white;
   min-height: 10em;
   border-radius: 7px;
 }
 
-#run-question-item {
-  width: 100%;
-  background-color: orange;
-  margin: 1em;
-}
 
 #run-question-item:hover, selected {
   cursor: pointer;
-  background-color: mediumpurple;
+  background-color: #EFA500;
 }
 
 /*background-color: rgba(34, 76, 182, 0.58);
