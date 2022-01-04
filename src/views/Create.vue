@@ -177,7 +177,7 @@
       <div>
         <h2>{{uiLabels.settings}}</h2>
         <h3>{{ uiLabels.timerSettings }}</h3>
-        <span>{{ uiLabels.timerRunTime }}</span>
+        <span>{{ uiLabels.questionRunTime }}:</span>
         <select v-model="timer">
           <option disabled value="">{{uiLabels.pleaseSelect}}</option>
           <option value="10">10 {{uiLabels.seconds}}</option>
@@ -196,21 +196,44 @@
 
   <section class="host-view" v-if="secondStage===false && firstStage===true">
     <h1>{{uiLabels.hostView}}</h1>
+
+    <div class="base-timer" id="timer-location">
+      <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <g class="base-timer__circle">
+          <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+          <path
+              :stroke-dasharray="circleDasharray"
+              class="base-timer__path-remaining"
+              :class="remainingPathColor"
+              d="
+            M 50, 50
+            m -45, 0
+            a 45,45 0 1,0 90,0
+            a 45,45 0 1,0 -90,0
+          "
+          ></path>
+        </g>
+      </svg>
+      <span class="base-timer__label">{{ formattedTimeLeft }}</span>
+    </div>
+
     <p>{{uiLabels.pollID}}: <span style="color: #43BEE5" >{{ pollId }}</span></p>
+
+
 
   <div id="host-view-buttons">
     <div v-if="gameStarted===true">
-      <button class="playButtons" v-on:click="startGame">{{ uiLabels.startGame }}</button>
+      <button class="hostButtons" v-on:click="startGame">{{ uiLabels.startGame }}</button>
     </div>
     <div v-else-if="gameStarted===false">
-      <button class="playButtons" v-on:click="runQuestion" v-if="questionRunning===false">{{uiLabels.runQuestion }}</button>
-      <button class="playButtons" v-on:click="checkResult()" v-else-if="questionRunning===true">{{ uiLabels.checkResult }}  </button>
+      <button class="hostButtons" v-on:click="runQuestion" v-if="questionRunning===false">{{uiLabels.runQuestion }}</button>
+      <button class="hostButtons" v-on:click="checkResult()" v-else-if="questionRunning===true">{{ uiLabels.checkResult }}  </button>
      <!-- <button v-on:click="goBackEdit">
         Go back to editing
       </button> -->
     </div>
 
-    <button class="playButtons" v-on:click="updatePlayers">{{uiLabels.updatePlayers }}</button>
+    <button class="hostButtons" v-on:click="updatePlayers">{{uiLabels.updatePlayers }}</button>
   </div>
 
     <div id="run-question-wrapper">
@@ -242,6 +265,7 @@
       </div>
 
     </div>
+
   </section>
 
 </template>
@@ -251,6 +275,27 @@ import io from 'socket.io-client';
 import MapContainerCreate from "../components/MapContainerCreate";
 
 const socket = io();
+const FULL_DASH_ARRAY = 283;
+var TIME_LIMIT = 0;
+const WARNING_THRESHOLD = TIME_LIMIT/2;
+const ALERT_THRESHOLD = TIME_LIMIT/4;
+console.log("hej")
+
+
+const COLOR_CODES = {
+  info: {
+    color: "green"
+  },
+  warning: {
+    color: "orange",
+    threshold: WARNING_THRESHOLD
+  },
+  alert: {
+    color: "red",
+    threshold: ALERT_THRESHOLD
+  }
+};
+
 
 export default {
   name: 'Create',
@@ -301,7 +346,13 @@ export default {
       isPreviewQuestion: false,
       gameStarted:true,
       questionRunning:true,
-      timer:10
+      timer:10,
+
+      timePassed:             0,
+      timerInterval:          null,
+      displayRanOutTime:      false,
+      boolTimerStart:         false,
+      isQuestionNotWaitingRoom:true,
 
     }
   },
@@ -311,6 +362,59 @@ export default {
     } )
 
   },*/
+  computed: {
+    circleDasharray() {
+      return `${(this.timeFraction * FULL_DASH_ARRAY).toFixed(0)} 283`;
+    },
+
+    formattedTimeLeft() {
+      const timeLeft = this.timeLeft;
+
+      let seconds = timeLeft % 60;
+
+      if (seconds < 10) {
+        seconds = `0${seconds}`;
+      }
+
+      return `${seconds}`;
+    },
+
+    timeLeft() {
+      console.log(TIME_LIMIT - this.timePassed)
+      return TIME_LIMIT - this.timePassed;
+    },
+
+    timeFraction() {
+      const rawTimeFraction = this.timeLeft / TIME_LIMIT;
+      return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
+    },
+
+    remainingPathColor() {
+      const { alert, warning, info } = COLOR_CODES;
+
+      if (this.timeLeft <= alert.threshold) {
+        return alert.color;
+      } else if (this.timeLeft <= warning.threshold) {
+        return warning.color;
+      } else {
+        return info.color;
+      }
+    }
+  },
+  watch: {
+    timeLeft (newValue) {
+      if (newValue === 0) {
+        this.onTimesUp();
+
+      }
+    }
+  },
+  mounted() {
+    if(this.boolTimerStart === true) {
+      this.startTimer();
+    }
+  },
+
   created: function () {
 
     this.lang = this.$route.params.lang;
@@ -524,6 +628,9 @@ export default {
 
     runQuestion: function () {
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.currentLQ,lang:this.lang})
+      this.boolTimerStart=true;
+      clearInterval(this.timerInterval);
+      this.resetTimer()
       this.questionRunning=true
 
     },
@@ -565,13 +672,86 @@ export default {
     },
     startGame: function () {
       socket.emit('startGame', {pollId: this.pollId})
+      TIME_LIMIT=this.timer;
+      this.boolTimerStart=true;
+      this.resetTimer()
       this.gameStarted=false
+
     },
     checkResult: function () {
       socket.emit('sendToResult', {pollId: this.pollId})
       this.questionRunning=false
-    }
+    },
+    resetTimer(){
+      this.displayRanOutTime=false
+      this.timePassed = 0
+      this.startTimer()
+    },
+
+    onTimesUp() {
+      clearInterval(this.timerInterval);
+      if(this.displayFollowupQuestion===true && this.isQuestionNotWaitingRoom===false){
+        this.index += 1}
+      if(this.isWaitingroom === false && this.isChooseusername ===false && this.isSubmittedAnswer===false){
+        this.result = 'false'
+        this.displayRanOutTime=true
+        this.displayAnswer=true}
+      console.log("nu åker till watingroom")
+      this.waitingRoomTimer()
+    },
+
+    startTimer() {
+      this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
+    },
+    waitingRoomTimer: function(){
+        console.log(this.isQuestionNotWaitingRoom)
+        console.log(TIME_LIMIT)
+      if(this.isQuestionNotWaitingRoom===true){
+        this.isQuestionNotWaitingRoom=false
+        console.log(TIME_LIMIT + "this is waiting room")
+        console.log("this.isQuestionNotWaitingRoom=false")
+      }
+      else if (this.isQuestionNotWaitingRoom===false) {
+        this.isQuestionNotWaitingRoom=true
+        console.log("this.isQuestionNotWaitingRoom=true")
+      }
+
+      if(TIME_LIMIT==10 && this.isQuestionNotWaitingRoom==false){
+        console.log(this.isQuestionNotWaitingRoom + "this is waiting room")
+        console.log(TIME_LIMIT + "this is waiting room")
+        this.timePassed=5
+        this.startTimer()
+        console.log("nu ska timepassed vara 5")
+
+      }
+      if(TIME_LIMIT==20 && this.isQuestionNotWaitingRoom==false){
+        this.timePassed=15
+        this.startTimer()
+      }
+      console.log(TIME_LIMIT + "this is the timeledt before if statement")
+      if(TIME_LIMIT==40 && this.isQuestionNotWaitingRoom==false){
+        console.log("timePassed = 35 test")
+        this.timePassed=35
+        this.startTimer()
+        console.log(this.timePassed + "this is the time passed")
+        console.log(TIME_LIMIT + " this is the time left when timer started")
+      }
+      if(TIME_LIMIT==60 && this.isQuestionNotWaitingRoom==false){
+        this.timePassed=55
+        this.startTimer()
+      }
+      if(this.isQuestionNotWaitingRoom===true){
+        console.log( )
+        
+        this.resetTimer()
+
+      }
+
+
+
+    },
   }
+
 }
 
 </script>
@@ -662,17 +842,6 @@ export default {
 
 /* Section Host View */
 
-
-.slider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 25px;
-  background: #d3d3d3;
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
-}
 .hideMe {
    animation: removeResponse  5s forwards;
    animation-fill-mode: forwards;
@@ -1033,6 +1202,15 @@ textbox:hover {
   flex-direction: row;
   justify-content: center;
 }
+.hostButtons{
+  flex-shrink: 2;
+  color: white;
+  font-weight: bold;
+  background-color: transparent;
+  height:auto;
+  width:auto;
+  font-size:xx-large;
+}
 
 
 #run-question-wrapper {
@@ -1122,6 +1300,97 @@ font-size: 15px;*/
 
 .routerLink {
   text-decoration: none;
+}
+/* Timer Clock */
+
+.base-timer {
+  float: right;
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.base-timer__circle {
+  fill: none;
+  stroke: none;
+}
+
+.base-timer__path-elapsed {
+  stroke-width: 7px;
+  stroke: rgba(89, 187, 148, 0.58);
+}
+
+.base-timer__path-remaining {
+  stroke-width: 7px;
+  stroke-linecap: round;
+  transform: rotate(90deg);
+  transform-origin: center;
+  transition: 1s linear all;
+  fill-rule: nonzero;
+  stroke: currentColor;
+}
+
+.base-timer__path-remaining.green {
+  color: #41B853;
+}
+
+.base-timer__path-remaining.orange {
+  color: #EFA500;
+}
+
+.base-timer__path-remaining.red {
+  color: #F40058;
+}
+
+.base-timer__label {
+  color: white;
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  margin-left: 25px;
+  top: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+}
+
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes scale {
+  0%, 100% {
+    transform: scale3d(2.5,2.5,2.5);
+  }
+  50% {
+    transform: scale3d(2.75, 2.75, 2.5);
+  }
+}
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 30px #7ac142;
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes dash-check {
+  0% {
+    stroke-dashoffset: -100;
+  }
+  100% {
+    stroke-dashoffset: 900;
+  }
 }
 
 @keyframes animate {
