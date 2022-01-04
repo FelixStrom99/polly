@@ -1,7 +1,7 @@
 <template>
 
   <main>
-  <section style="height: 10em">
+  <section>
       <button id="LangButton" style="width: 10%" v-on:click="switchLanguage">
         <div>
         <object data="/svg_files/Language_symbol/language-symbol.svg" type="image/svg+xml" style="float: left" >
@@ -27,7 +27,7 @@
     <section>
 
 
-      <div id="headertext">
+      <div class="headertext">
         <div>
       <span>
       <span style="color:#43BEE5">M</span>
@@ -172,8 +172,8 @@ Green #41B853
 }
 
 body {
-  width: 100%;
-  height: 90%;
+  width: auto;
+  height: auto;
   background: #161B40;
   color: white;
 }
@@ -271,14 +271,20 @@ button:active{
   height: 20%
 }
 
-#headertext {
-  padding-top: 5%;
+@media only screen and (max-width: 600px) {
+  .headertext div{
+    margin-top: 1em;
+    font-size: 20vw;
+    color: white;
+    font-weight: bold;
+  }
+}
+
+.headertext {
+  margin-top: 1em;
   font-size: 8vw;
   color: white;
   font-weight: bold;
-}
-
-#headertext div{
 }
 
 #pollID{
