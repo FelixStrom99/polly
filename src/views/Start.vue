@@ -65,8 +65,6 @@
           </button>
           </div>
         </div>
-
-
         <button v-if="play===false" class="playButtons">
           <router-link class="routerLink" v-bind:to="'/create/'+lang">{{ uiLabels.create }}</router-link> <!-- uiLabels.createPoll-->
         </button>
@@ -346,6 +344,7 @@ button:hover{
   height: 100%;
   overflow: hidden;
   margin-block-start: 0;
+  margin-block-end: 0;
 }
 
 .circles li{
