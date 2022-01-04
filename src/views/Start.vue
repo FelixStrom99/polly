@@ -214,11 +214,6 @@ button:hover{
   cursor:pointer;
 }
 
-button:active{
-  position: relative;
-  top: 1px;
-}
-
 #LangButton {
   width:8%;
   height: 5%;
@@ -239,6 +234,11 @@ button:active{
   width:auto;
   font-size:200%;
 }
+.playButtons:active{
+  position: relative;
+  top: 1px;
+}
+
 #backToMainButton{
   float: left;
   margin-left: 1%;
@@ -248,6 +248,10 @@ button:active{
 }
 #backToMainButton:hover{
   background-color: #F40058;
+}
+#backToMainButton:active{
+  position: relative;
+  top: 1px;
 }
 
 #backToMainButtonCenter{
