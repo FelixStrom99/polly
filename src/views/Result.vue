@@ -4,17 +4,20 @@
  <h2> {{ locationQuestion }} </h2>
 
   <h3> {{uiLabels.resultsInfo}}</h3>
+  <div id="boxResult">
   <div id="openlayers-map">
     <MapContainerResults :geojson="geojson" v-bind:key=updateZoom  v-bind:locationData="locationData" v-bind:correctLocation="correctLocation" v-bind:mapView="mapView"> </MapContainerResults>
+  </div>
   </div>
 <h2> {{uiLabels.followUpQuestion}}</h2>
   <div v-for="(title,i) in question"
        v-bind:title="title"
        v-bind:key="title[i]">
     <h3>{{title[i]}}</h3>
+    <Bars v-bind:data="data"/>
   </div>
 
-  <Bars v-bind:data="data"/>
+
 
 
   <!--- <div id="mapcontainer">
@@ -116,12 +119,15 @@ methods:{
   border: groove
 }*/
 
-
+#boxResult{
+  display:flex;
+  justify-content: center;
+}
 #openlayers-map {
   position: relative;
   margin: 0;
   padding: 0;
-  height: 30em;
-  width: 100%;
+  height: 20em;
+  width: 80%;
 }
 </style>
