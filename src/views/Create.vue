@@ -166,7 +166,10 @@
             </button>
           </div>
           <button class="playButtons" style="position: relative;top: 3em;"
-                  v-on:click="editQuestion(this.currentLQ, currentMQ); getResponseButton()">{{ uiLabels.save }}</button>
+                  v-on:click="editQuestion(this.currentLQ, currentMQ); getResponseButton() ">{{ uiLabels.save }}</button>
+          <span>
+            <p v-if="showResponseButton===true" class="hideMe">Your location is saved!</p>
+          </span>
         </div>
         <div style="position: relative; top: 14em" v-if="firstStage!=true">
           <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
