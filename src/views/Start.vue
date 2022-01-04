@@ -138,6 +138,9 @@ export default {
           this.$router.push({path: `/poll/${this.id}/` + this.lang})
         }
       }
+      else {
+        console.log(status.id, this.id)
+      }
 
     }
   }
@@ -181,6 +184,7 @@ body {
 }
 
 input {
+
   outline: none;
   padding: 1em;
   border: none;
@@ -217,6 +221,7 @@ button:active{
 
 #LangButton {
   width:50%;
+  width:8%;
   height: 5%;
   font-size:100%;
   text-align: center;
@@ -242,6 +247,10 @@ button:active{
   font-size: 100%;
   border: 0.2em solid #F40058
 }
+#backToMainButton:hover{
+  background-color: #F40058;
+}
+
 #backToMainButtonCenter{
   display: flex;
   align-items: center;
@@ -296,7 +305,6 @@ button:active{
   border: none;
   font-size: 20px;
   font-weight: bold;
-  margin-top: 5%;
   height: 22px;
   width: 85%;
   padding: 1em;

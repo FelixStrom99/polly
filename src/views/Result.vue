@@ -1,18 +1,17 @@
 <template>
 
   <h1> {{uiLabels.results}}</h1>
- <h1>{{ locationQuestion }} </h1>
+ <h2> {{ locationQuestion }} </h2>
 
-  {{locationData}}
   <h3> {{uiLabels.resultsInfo}}</h3>
   <div id="openlayers-map">
     <MapContainerResults :geojson="geojson" v-bind:key=updateZoom  v-bind:locationData="locationData" v-bind:correctLocation="correctLocation" v-bind:mapView="mapView"> </MapContainerResults>
   </div>
-
+<h2> {{uiLabels.followUpQuestion}}</h2>
   <div v-for="(title,i) in question"
        v-bind:title="title"
        v-bind:key="title[i]">
-    {{title[i]}}
+    <h3>{{title[i]}}</h3>
   </div>
 
   <Bars v-bind:data="data"/>
