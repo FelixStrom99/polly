@@ -87,15 +87,22 @@
     <div class="create overview-left-side">
       <h1>{{uiLabels.overView}}</h1>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
-        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)">{{ questionSequence[i][3] }}</div>
-        <div class="content"> <!--{{"Fråga "+(i+1)}}  v-bind:placeholder="'Fråga '+(i+1)"-->
+        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)">
+          <div v-if="questionSequence[i][3] == ''">{{this.uiLabels.newQuestion}}</div>
+          <div v-else>{{questionSequence[i][3]}}</div>
+        </div>
+        <div class="content">
           <div class="content-mq" v-for="(_,j) in questionSequence[i][0]" v-bind:key="'answers'+j">
-            <button class="content-mq-button" v-on:click="showMultipleQuestion(j)">{{ uiLabels.question + " " +(j + 1) }}</button>
+            <button class="content-mq-button" v-on:click="showMultipleQuestion(j)">
+              <div v-if="questionSequence[i][0][j][j] == ''">{{ uiLabels.question + " " +(j + 1) }}</div>
+              <div v-else>{{questionSequence[i][0][j][j]}}</div>
+            </button>
           </div>
           <button v-on:click="addNewMultipleQuestion(i,j)">{{uiLabels.addQuestion}}</button>
           <button v-on:click="deleteMultipleQuestion">{{uiLabels.deleteQuestion}}</button>
         </div>
       </div>
+      {{this.currentMQ}}
       <div>
         <span>
           <div id="locationQuestion-button1" v-on:click="addNewPollQuestion" style="cursor: pointer;">
@@ -117,6 +124,8 @@
     </div>
     <div class="create lq-and-q">
       <div class="location-question" v-if="createLocationQuestion">
+        <h1>Create Location Question</h1>
+        {{questionSequence}}
         <div>
           <input class="participateInput" style="width: 40%" type="text" v-bind:placeholder=uiLabels.enterLocationQuestion v-model="locationQuestion" autocomplete="off">
         </div>
@@ -136,13 +145,13 @@
       </div>
 
       <div class="create theme" v-if="createMultipleChoiceQuestion">
-        <!--{{ uiLabels.question }}:-->
+        <h1>Create Follow-up Question</h1>
         <input class="participateInput" style="width: 40%" type="text" v-bind:placeholder=uiLabels.enterFollowUp v-model="question">
         <div class="question-multiple">
           <div class="Answer-box-wrapper">
             <div class="answer-alternative-size-wrapper" v-for="(_, i) in answers" v-bind:key="'answers'+i">
               <div id="Answer-Box-symbol-prop"
-                   :style="checkBox[i] ? { 'background-color': 'rgba(6, 236, 4, 0.73)' } : null">
+                   :style="checkBox[i] ? { 'background-color': '#41B853' } : null">
               </div>
               <div class="Answer-Box-textarea">
                 <input class="Answer-Box-textarea-prop"
@@ -154,12 +163,19 @@
                             animation_rubberband"
                        v-model="checkBox[i]"
                        v-bind:key="'checkBox'+i">
-
               </div>
             </div>
           </div>
-          {{questionSequence}}
-          <button class="playButtons" style="position: relative; top: 4em" v-on:click="editQuestion(this.currentLQ, currentMQ)">{{ uiLabels.save }}</button>
+          <div id="alternative-questions-wrapper">
+            <button class="playButtons add-alt" v-on:click="addAnswer">
+              {{ uiLabels.addAnswer }}
+            </button>
+            <button class="playButtons delete-alt" v-on:click="deleteAnswer">
+              {{ uiLabels.deleteAnswer }}
+            </button>
+          </div>
+          <button class="playButtons" style="position: relative;top: 3em;"
+                  v-on:click="editQuestion(this.currentLQ, currentMQ)">{{ uiLabels.save }}</button>
 
         </div>
         <div style="position: relative; top: 14em" v-if="firstStage!=true">
@@ -168,15 +184,6 @@
       </div>
     </div>
     <div class=" create alternative-right-side">
-      <div class="multiple-choice-question-settings" v-if="createMultipleChoiceQuestion">
-        <h2>Settings MQ</h2>
-        <button v-on:click="addAnswer">
-          {{ uiLabels.addAnswer }}
-        </button>
-        <button v-on:click="deleteAnswer">
-          {{ uiLabels.deleteAnswer }}
-        </button>
-      </div>
       <div>
         <h2>{{uiLabels.settings}}</h2>
         <h3>Global timer settings</h3>
@@ -189,7 +196,7 @@
           <option value="60">60 seconds</option>
         </select>
 
-        <button v-on:click="finishQuizFinal" style="position: absolute; bottom:10px; margin-left: -10em;">
+        <button class="playButtons" v-on:click="finishQuizFinal" style="position: absolute; bottom:10px; margin-left: -10em;">
           {{ uiLabels.finishQuiz }}
         </button>
       </div>
@@ -368,7 +375,7 @@ export default {
       newQuestion.push(this.finalQuestion[this.pollQuestionIndex])
       newQuestion.push(this.finalAnswers[this.pollQuestionIndex])
       newQuestion.push(this.finalCorrect[this.pollQuestionIndex])
-      newQuestion.push(this.locationQuestion = this.uiLabels.newQuestion)
+      newQuestion.push(this.locationQuestion = "")
       newQuestion.push(this.location = {
         x: 0,
         y: 0
@@ -456,10 +463,7 @@ export default {
         this.finalQuestion.pop()
         this.finalCorrect.pop()
         this.indexArray.pop()
-
       }
-
-
     },
     showLocationQuestion: function () {
       this.createLocationQuestion = true;
@@ -604,9 +608,30 @@ export default {
   clear: both;
 }
 
-.question-multiple {
+#alternative-questions-wrapper {
+  justify-content: center;
   position: relative;
-  top: 5em;
+  top: 6em;
+  margin-left: 2em;
+}
+
+.add-alt delete-alt {
+  width: 40%
+}
+
+.add-alt {
+  border-color: #41B853;
+  font-size: 150%
+}
+.add-alt:hover {
+  background-color: #41B853;
+}
+.delete-alt{
+  border-color: #F40058;
+  font-size: 150%
+}
+.delete-alt:hover{
+  background-color: #F40058;
 }
 
 /* Section Create quiz // Right Bar */
@@ -678,7 +703,7 @@ export default {
   margin-right: 2%;
 }
 #locationQuestion-button1:hover {
-  background-color: rgba(248, 248, 248, 0.44);
+  background-color: #78cc86;
 }
 #locationQuestion-button2 {
   width: 50px;
@@ -687,7 +712,7 @@ export default {
   float: left;
 }
 #locationQuestion-button2:hover {
-  background-color: rgba(248, 248, 248, 0.44);
+  background-color: #e35f8e;
 }
 
 
@@ -821,7 +846,7 @@ textbox:hover {
 
 #Answer-Box-symbol-prop {
   column-width: 40px;
-  background-color: red;
+  background-color: #F40058;
   border-radius: 7px 0px 0px 7px;
   height: 100%;
   width: 20%;

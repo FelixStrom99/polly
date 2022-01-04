@@ -294,7 +294,6 @@ button:active{
   border: none;
   font-size: 20px;
   font-weight: bold;
-  margin-top: 5%;
   height: 22px;
   width: 85%;
   padding: 1em;
