@@ -35,7 +35,6 @@
           <p>{{u}}</p>
         </div>
       </div>
-      <button class ="playButtons" v-on:click="this.skipWaitingroomTemporary()">klicka här ifall du vill komma vidare ändå</button>
     </div>
   </section>
 
@@ -546,15 +545,11 @@ footer {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-
-  background-color: #1682a8;
   opacity: 85%;
   height: 50vh;
   width: 50%;
-  border-style: solid;
-  border-width: 3px;
-  border-color: lightgreen;
-  border-radius: 10px;
+  background-color: #2d3572;
+  border: 0.3em solid #EFA500;
   padding: 2em;
 }
 #waitingroom-item h1 {
