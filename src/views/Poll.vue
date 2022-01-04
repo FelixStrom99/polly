@@ -531,7 +531,6 @@ footer {
 }
 
 
-
 /* Waiting Room */
 #waitingroom-wrapper {
   position: relative;
