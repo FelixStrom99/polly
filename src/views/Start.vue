@@ -42,7 +42,7 @@
       </div>
 
       <div id="nav">
-        <div>
+        <div id="test">
           <div v-if="play">
             <div id="pollID">
               <label style="font-size: 20px; font-weight: bold">
@@ -194,6 +194,7 @@ input {
 
 
 
+
 button {
   display: inline-block;
   padding: 0.35em 1.2em;
@@ -239,7 +240,7 @@ button:hover{
 }
 @media only screen and (max-width: 600px) {
   .playButtons{
-    flex-shrink: 2;
+    flex-basis: content;
     color: white;
     font-weight: bold;
     background-color: transparent;
@@ -283,7 +284,7 @@ button:hover{
 
 #nav {
   display: flex;
-  width: 100%;
+  width: 95%;
   justify-content: center;
   justify-items: center;
   flex-wrap: wrap;
@@ -295,8 +296,11 @@ button:hover{
 }
 @media only screen and (max-width: 600px){
   #nav {
+    padding-left: 0px;
+    padding-right: 0px;
     display: flex;
     flex-direction: column;
+    width: 100%;
     margin-top: 40%;
   }
 }
@@ -369,6 +373,11 @@ button:hover{
   height: 100%;
   overflow: hidden;
   margin-block-start: 0;
+  margin-block-end: 0;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  padding-inline-start: 0;
+
 }
 
 .circles li{
