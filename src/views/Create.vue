@@ -87,6 +87,7 @@
   <section class="create-the-questions-container theme" v-else-if="secondStage===false && firstStage===false">
     <div class="create overview-left-side">
       <h1>{{uiLabels.overView}}</h1>
+      <span>Click to expand below to add follow ups</span>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
         <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)">
           <div v-if="questionSequence[i][3] == ''">{{this.uiLabels.newQuestion}}</div>
@@ -103,7 +104,6 @@
           <button v-on:click="deleteMultipleQuestion">{{uiLabels.deleteQuestion}}</button>
         </div>
       </div>
-      {{this.currentMQ}}
       <div>
         <span>
           <div id="locationQuestion-button1" v-on:click="addNewPollQuestion" style="cursor: pointer;">
@@ -126,7 +126,6 @@
     <div class="create lq-and-q">
       <div class="location-question" v-if="createLocationQuestion">
         <h1>Create Location Question</h1>
-        {{questionSequence}}
         <div>
           <input class="participateInput" style="width: 40%" type="text" v-bind:placeholder=uiLabels.enterLocationQuestion v-model="locationQuestion" autocomplete="off">
         </div>
@@ -194,7 +193,7 @@
           <option value="60">60 seconds</option>
         </select>
 
-        <button class="playButtons" v-on:click="finishQuizFinal" style="position: absolute; bottom:10px; margin-left: -10em;">
+        <button class="finish-quiz-button" v-on:click="finishQuizFinal">
           {{ uiLabels.finishQuiz }}
         </button>
       </div>
@@ -395,7 +394,6 @@ export default {
       if(this.questionSequence.length > 1) {
         this.showLocationQuestion()
       }
-
     },
     nextSection: function () {
       this.secondStage = false
@@ -437,7 +435,6 @@ export default {
       this.finalCorrect[this.currentLQ].push(newCorrect)
       this.indexArray[this.currentLQ][0] += 1
       this.fixMaxHeightCollapse()
-      this.questionSequence.length
       this.showMultipleQuestion(this.questionSequence[this.currentLQ][0].length - 1)
     },
 
@@ -605,7 +602,6 @@ export default {
   border: 0.3em solid #EFA500;
   flex-basis: 15%;
   justify-content: space-evenly;
-  opacity: 80%;
   overflow: scroll;
 }
 
@@ -643,7 +639,20 @@ export default {
 }
 
 /* Section Create quiz // Right Bar */
-
+.finish-quiz-button {
+  background-color: #EFA500;
+  font-size: larger;
+  color: white;
+  font-weight: bolder;
+  position: absolute;
+  bottom: 10px;
+  margin-left: -8.75em;
+  width: 14%;
+  height: 15%;
+}
+.finish-quiz-button:hover {
+  background-color: #ffc544;
+}
 /* Section Host View */
 
 
@@ -688,8 +697,6 @@ export default {
   border: 0.3em solid #EFA500;
   justify-content: space-evenly;
   flex-basis: 15%;
-  opacity: 80%;
-
 }
 
 .animation_rubberband {
