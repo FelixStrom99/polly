@@ -78,8 +78,7 @@
       <h1>{{uiLabels.overView}}</h1>
       <span>Click to expand below to add follow ups</span>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
-        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i);removeResponse()">{{ questionSequence[i][3] }}</div>
-        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)">
+        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i);removeResponse()">
           <div v-if="questionSequence[i][3] == ''">{{this.uiLabels.newQuestion}}</div>
           <div v-else>{{questionSequence[i][3]}}</div>
         </div>
@@ -160,10 +159,6 @@
             </div>
           </div>
           {{questionSequence}}
-          <button class="playButtons" style="position: relative; top: 4em" v-on:click="editQuestion(this.currentLQ, currentMQ); getResponseButton() ">{{ uiLabels.save }}</button>
-          <span>
-            <p v-if="showResponseButton===true" class="hideMe">Your location is saved!</p>
-          </span>
           <div id="alternative-questions-wrapper">
             <button class="playButtons add-alt" v-on:click="addAnswer">
               {{ uiLabels.addAnswer }}
@@ -173,7 +168,10 @@
             </button>
           </div>
           <button class="playButtons" style="position: relative;top: 3em;"
-                  v-on:click="editQuestion(this.currentLQ, currentMQ)">{{ uiLabels.save }}</button>
+                  v-on:click="editQuestion(this.currentLQ, currentMQ); getResponseButton() ">{{ uiLabels.save }}</button>
+          <span>
+            <p v-if="showResponseButton===true" class="hideMe">Your location is saved!</p>
+          </span>
         </div>
         <div style="position: relative; top: 14em" v-if="firstStage!=true">
           <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
@@ -212,7 +210,7 @@
       <button v-on:click="checkResult()" v-else-if="questionRunning===true">{{ uiLabels.checkResult }}  </button>
      <!-- <button v-on:click="goBackEdit">
         Go back to editing
-      </button> -->ç
+      </button> -->
     </div>
 
     <button class="playButtons" v-on:click="updatePlayers">{{uiLabels.updatePlayers }}</button>
