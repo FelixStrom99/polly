@@ -926,7 +926,7 @@ textbox:hover {
   padding: 20px;
   font-size: 2vw;
   width: 25vw;
-  height: 20vw;
+  height: 18vw;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
