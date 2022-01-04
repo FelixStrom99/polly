@@ -1,17 +1,16 @@
 <template>
 
   <main>
-  <section style="width: 100% ;height: 45em">
-
-    <button id="LangButton" style  v-on:click="switchLanguage">
-      <div>
-      <object data="/svg_files/Language_symbol/language-symbol.svg" type="image/svg+xml" style="float: left" >
-      </object>
-      </div>
-      <div style="position: relative;top:20%">
-      {{uiLabels.changeLanguage}}
-      </div>
-    </button>
+  <section style="height: 10em">
+      <button id="LangButton" style="width: 10%" v-on:click="switchLanguage">
+        <div>
+        <object data="/svg_files/Language_symbol/language-symbol.svg" type="image/svg+xml" style="float: left" >
+        </object>
+        </div>
+        <div style="position: relative;top:20%">
+        {{uiLabels.changeLanguage}}
+        </div>
+      </button>
 
     <ul class="circles">
       <li></li>
@@ -29,15 +28,17 @@
 
 
       <div id="headertext">
+        <div>
       <span>
-	<span style="color:#43BEE5">M</span>
-	<span style="color: #EFA500">a</span>
-	<span style="color: #F40058">p</span>
-	<span style="color:#43BEE5">Q</span>
-	<span style="color: #F40058">u</span>
-	<span style="color: #EFA500 ">i</span>
-	<span style="color: #41B853 ">z</span>
-</span>
+      <span style="color:#43BEE5">M</span>
+      <span style="color: #EFA500">a</span>
+      <span style="color: #F40058">p</span>
+      <span style="color:#43BEE5">Q</span>
+      <span style="color: #F40058">u</span>
+      <span style="color: #EFA500 ">i</span>
+      <span style="color: #41B853 ">z</span>
+      </span>
+        </div>
       </div>
 
       <div id="nav">
@@ -64,7 +65,6 @@
           </button>
           </div>
         </div>
-
 
 
         <button v-if="play===false" class="playButtons">
@@ -216,7 +216,7 @@ button:active{
 }
 
 #LangButton {
-  width:10%;
+  width:50%;
   height: 5%;
   font-size:100%;
   text-align: center;
@@ -255,7 +255,7 @@ button:active{
   grid-template-columns: 10em 10em 10em;
   padding-top: 10%;
   padding-left: 2em;
-  padding-rightright: 2em;
+  padding-right: 2em;
 }
 .header-prop{
   background: white;
@@ -264,12 +264,14 @@ button:active{
 
 #headertext {
   padding-top: 5%;
-  font-size: 700%;
+  font-size: 8vw;
   color: white;
   font-weight: bold;
-
-
 }
+
+#headertext div{
+}
+
 #pollID{
   position:relative;
   top:1em;
