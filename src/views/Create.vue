@@ -11,9 +11,6 @@
     <li></li>
     <li></li>
   </ul>
-
-
-
   <section v-if="firstStage===true && secondStage===true">
     <div id="wrapper-pollID-header">
       <h1 id="enter-pollID-header">{{ uiLabels.createPoll }}</h1>
@@ -26,15 +23,11 @@
         {{ uiLabels.save}}
       </button>
     </div>
-
   </section>
-
-
   <section class="theme  ChooseMap" v-else-if="firstStage===false && secondStage===true" style="position: relative; bottom: 1em">
     <div>
       <h1>{{ uiLabels.chooseLocation }}</h1>
     </div>
-
     <div class="maps">
       <div class="map-item" id="background_pic_uppsala" v-on:click="nextSection();chooseUppsala()"
            style="cursor: pointer;">
@@ -42,17 +35,13 @@
           <h1 class="city_name_charachter_spec">Uppsala</h1>
         </figure>
       </div>
-
       <div class="map-item"
            id="background_pic_stockholm"
            v-on:click="nextSection();chooseStockholm();">
         <figure>
           <h1 class="city_name_charachter_spec">Stockholm</h1>
         </figure>
-
       </div>
-
-
       <div class="map-item" id="background_pic_sundsvall" v-on:click="nextSection();chooseSundsvall();">
         <figure>
           <h1 class="city_name_charachter_spec">Sundsvall</h1>
@@ -88,12 +77,12 @@
     <div class="create overview-left-side">
       <h1>{{uiLabels.overView}}</h1>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
-        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i)">{{ questionSequence[i][3] }}</div>
+        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i);removeResponse()">{{ questionSequence[i][3] }}</div>
         <div class="content">
           <div class="content-mq" v-for="(_,j) in questionSequence[i][0]" v-bind:key="'answers'+j">
             <button class="content-mq-button" v-on:click="showMultipleQuestion(j)">{{ uiLabels.question + " " +(j + 1) }}</button>
           </div>
-          <button v-on:click="addNewMultipleQuestion(i,j)">{{uiLabels.addQuestion}}</button>
+          <button v-on:click="addNewMultipleQuestion(i,j); removeResponse()">{{uiLabels.addQuestion}}</button>
           <button v-on:click="deleteMultipleQuestion">{{uiLabels.deleteQuestion}}</button>
         </div>
       </div>
@@ -127,7 +116,12 @@
                               v-on:location="location=$event" v-bind:mapView="mapView" v-bind:location="savedLocation"  id="mapLq-and-q">
           </MapContainerCreate>
         </div>
-        <button v-on:click="editQuestion(this.currentLQ, null)" class="playButtons">{{ uiLabels.saveLocation }}</button>
+        <span>
+        <button v-on:click="editQuestion(this.currentLQ, null); getResponseButton()" class="playButtons">{{ uiLabels.saveLocation }}</button>
+        </span>
+        <span>
+          <p v-if="showResponseButton===true" class="hideMe">Your location is saved!</p>
+        </span>
         <div style="bottom: 0" v-if="firstStage!=true">
           <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
         </div>
@@ -153,12 +147,14 @@
                             animation_rubberband"
                        v-model="checkBox[i]"
                        v-bind:key="'checkBox'+i">
-
               </div>
             </div>
           </div>
           {{questionSequence}}
-          <button class="playButtons" style="position: relative; top: 4em" v-on:click="editQuestion(this.currentLQ, currentMQ)">{{ uiLabels.save }}</button>
+          <button class="playButtons" style="position: relative; top: 4em" v-on:click="editQuestion(this.currentLQ, currentMQ); getResponseButton() ">{{ uiLabels.save }}</button>
+          <span>
+            <p v-if="showResponseButton===true" class="hideMe">Your location is saved!</p>
+          </span>
         </div>
         <div style="position: relative; top: 14em" v-if="firstStage!=true">
           <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
@@ -257,6 +253,8 @@ export default {
   },
   data: function () {
     return {
+
+      showResponseButton: false,
       lang: "",
       pollId: "",
       pollIdErrorMessage:false,
@@ -327,6 +325,12 @@ export default {
   },
 
   methods: {
+      getResponseButton: function() {
+        this.showResponseButton = true
+      },
+    removeResponse:function (){
+      this.showResponseButton = false
+    },
 
     createPoll: function () {
       if (this.pollId !== ""){
@@ -391,6 +395,7 @@ export default {
 
     },
     nextSection: function () {
+      console.log(this.showResponseButton)
       this.secondStage = false
     },
     goBackEdit: function () {
@@ -551,9 +556,9 @@ export default {
       this.mapView.zoom = 0;
       this.mapView.center = [0, 0]
       socket.emit("mapView", {pollId: this.pollId, zoom: this.mapView.zoom, center: this.mapView.center})
-
-
     },
+
+
     updatePlayers: function () {
       socket.emit('test', {pollId: this.pollId})
     },
@@ -631,6 +636,17 @@ export default {
   opacity: 0.7;
   -webkit-transition: .2s;
   transition: opacity .2s;
+}
+.hideMe {
+   animation: removeResponse  5s forwards;
+   animation-fill-mode: forwards;
+ }
+@keyframes removeResponse {
+  to {
+    width:0;
+    height:0;
+    overflow:hidden;
+  }
 }
 
 .Answer-Box-textarea-prop {
