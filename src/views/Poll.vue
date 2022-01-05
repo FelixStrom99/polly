@@ -180,7 +180,6 @@ const FULL_DASH_ARRAY = 283;
 var TIME_LIMIT = 0;
 const WARNING_THRESHOLD = TIME_LIMIT/2;
 const ALERT_THRESHOLD = TIME_LIMIT/4;
-console.log("hej")
 
 
 const COLOR_CODES = {
@@ -420,11 +419,11 @@ export default {
       for (let i = 0; i < Data.q.length; i++) {
         questionArray[i] = {q: (Data.q[i])[i], a: (Data.a[i])[i]}
       }
+      TIME_LIMIT = Data.timer
       this.questions = questionArray
       this.LocationQuestion.lq=Data.lq
       this.LocationQuestion.location=Data.location
       this.correctans=Data.correct
-      TIME_LIMIT = Data.timer
 
 
 
@@ -769,15 +768,6 @@ waitingroom-users p{
   }
 }
 
-@-webkit-keyframes dash {
-  0% {
-    stroke-dashoffset: 1000;
-  }
-  100% {
-    stroke-dashoffset: 0;
-  }
-}
-
 @keyframes dash {
   0% {
     stroke-dashoffset: 1000;
@@ -787,14 +777,6 @@ waitingroom-users p{
   }
 }
 
-@-webkit-keyframes dash-check {
-  0% {
-    stroke-dashoffset: -100;
-  }
-  100% {
-    stroke-dashoffset: 900;
-  }
-}
 
 @keyframes dash-check {
   0% {

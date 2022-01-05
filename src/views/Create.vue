@@ -17,7 +17,7 @@
       <div style="margin-top:10%">
         <h1> {{uiLabels.enterTitleHead}}</h1>
         <input type="text" v-model="pollId" id="createPollInput" v-bind:placeholder=uiLabels.enterTitle autocomplete="off">
-        <p v-if="pollIdErrorMessage===true" style="color: #c01313"> No Input </p>
+        <p v-if="pollIdErrorMessage===true" style="color: #c01313"> {{ uiLabels.noInput }} </p>
       </div>
       <button v-on:click="createPoll" class="playButtons">
         {{ uiLabels.save}}
@@ -76,7 +76,7 @@
   <section class="create-the-questions-container theme" v-else-if="secondStage===false && firstStage===false">
     <div class="create overview-left-side">
       <h1>{{uiLabels.overView}}</h1>
-      <span>Click to expand below to add follow ups</span>
+      <span>{{ uiLabels.expand }}: </span>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
         <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i);removeResponse()">
           <div v-if="questionSequence[i][3] == ''">{{this.uiLabels.newQuestion}}</div>
@@ -112,7 +112,7 @@
     </div>
     <div class="create lq-and-q">
       <div class="location-question" v-if="createLocationQuestion">
-        <h1>Create Location Question</h1>
+        <h1>{{ uiLabels.create }} {{uiLabels.locationQuestion}} {{this.currentLQ+1}}</h1>
         <div>
           <input class="participateInput" style="width: 40%" type="text" v-bind:placeholder=uiLabels.enterLocationQuestion v-model="locationQuestion" autocomplete="off">
         </div>
@@ -127,7 +127,7 @@
         <button v-on:click="editQuestion(this.currentLQ, null); getResponseButton()" class="playButtons">{{ uiLabels.saveLocation }}</button>
         </span>
         <span>
-          <p v-if="showResponseButton===true" class="hideMe">Your location is saved!</p>
+          <p v-if="showResponseButton===true" class="hideMe">{{ uiLabels.locationSaved }}</p>
         </span>
         <div style="bottom: 0" v-if="firstStage!=true">
           <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
@@ -136,7 +136,7 @@
       </div>
 
       <div class="create theme" v-if="createMultipleChoiceQuestion">
-        <h1>Create Follow-up Question</h1>
+        <h1>{{ uiLabels.create }} {{uiLabels.followUpQuestion}} {{this.currentMQ+1}}</h1>
         <input class="participateInput" style="width: 40%" type="text" v-bind:placeholder=uiLabels.enterFollowUp v-model="question">
         <div class="question-multiple">
           <div class="Answer-box-wrapper">
@@ -157,21 +157,22 @@
               </div>
             </div>
           </div>
-          <div id="alternative-questions-wrapper">
-            <button class="playButtons add-alt" v-on:click="addAnswer">
-              {{ uiLabels.addAnswer }}
-            </button>
-            <button class="playButtons delete-alt" v-on:click="deleteAnswer">
-              {{ uiLabels.deleteAnswer }}
-            </button>
-          </div>
-          <button class="playButtons" style="position: relative;top: 3em;"
-                  v-on:click="editQuestion(this.currentLQ, currentMQ); getResponseButton() ">{{ uiLabels.save }}</button>
-          <span>
-            <p v-if="showResponseButton===true" class="hideMe">Your location is saved!</p>
-          </span>
         </div>
-        <div style="position: relative; top: 14em" v-if="firstStage!=true">
+        <div id="alternative-questions-wrapper">
+          <button class="playButtons add-alt" v-on:click="addAnswer">
+            {{ uiLabels.addAnswer }}
+          </button>
+          <button class="playButtons delete-alt" v-on:click="deleteAnswer">
+            {{ uiLabels.deleteAnswer }}
+          </button>
+          <span>
+            <button class="playButtons save-button-create"
+                    v-on:click="editQuestion(this.currentLQ, currentMQ); getResponseButton() ">{{ uiLabels.save }}</button>
+
+            <span v-if="showResponseButton===true" class="hideMe">Your location is saved!</span>
+            </span>
+        </div>
+        <div style="position: relative; top: 6em" v-if="firstStage!=true">
           <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
         </div>
       </div>
@@ -179,14 +180,14 @@
     <div class=" create alternative-right-side">
       <div>
         <h2>{{uiLabels.settings}}</h2>
-        <h3>Global timer settings</h3>
-        <span>Question runtime:</span>
+        <h3>{{ uiLabels.timerSettings }}</h3>
+        <span>{{ uiLabels.questionRunTime }}:</span>
         <select v-model="timer">
-          <option disabled value="">Please select one</option>
-          <option value="10">10 seconds</option>
-          <option value="20">20 seconds</option>
-          <option value="40">40 seconds</option>
-          <option value="60">60 seconds</option>
+          <option disabled value="">{{uiLabels.pleaseSelect}}</option>
+          <option value="10">10 {{uiLabels.seconds}}</option>
+          <option value="20">20 {{uiLabels.seconds}}</option>
+          <option value="40">40 {{uiLabels.seconds}}</option>
+          <option value="60">60 {{uiLabels.seconds}}</option>
         </select>
 
         <button class="finish-quiz-button" v-on:click="finishQuizFinal">
@@ -199,21 +200,44 @@
 
   <section class="host-view" v-if="secondStage===false && firstStage===true">
     <h1>{{uiLabels.hostView}}</h1>
+
+    <div class="base-timer" id="timer-location">
+      <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <g class="base-timer__circle">
+          <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+          <path
+              :stroke-dasharray="circleDasharray"
+              class="base-timer__path-remaining"
+              :class="remainingPathColor"
+              d="
+            M 50, 50
+            m -45, 0
+            a 45,45 0 1,0 90,0
+            a 45,45 0 1,0 -90,0
+          "
+          ></path>
+        </g>
+      </svg>
+      <span class="base-timer__label">{{ formattedTimeLeft }}</span>
+    </div>
+
     <p>{{uiLabels.pollID}}: <span style="color: #43BEE5" >{{ pollId }}</span></p>
+
+
 
   <div id="host-view-buttons">
     <div v-if="gameStarted===true">
-      <button class="playButtons" v-on:click="startGame">{{ uiLabels.startGame }}</button>
+      <button class="hostButtons" v-on:click="startGame">{{ uiLabels.startGame }}</button>
     </div>
     <div v-else-if="gameStarted===false">
-      <button class="playButtons" v-on:click="runQuestion" v-if="questionRunning===false">{{uiLabels.runQuestion }}</button>
-      <button class="playButtons" v-on:click="checkResult()" v-else-if="questionRunning===true">{{ uiLabels.checkResult }}  </button>
+      <button class="hostButtons" v-on:click="runQuestion" v-if="questionRunning===false">{{uiLabels.runQuestion }}</button>
+      <button class="hostButtons" v-on:click="checkResult()" v-else-if="questionRunning===true">{{ uiLabels.checkResult }}  </button>
      <!-- <button v-on:click="goBackEdit">
         Go back to editing
       </button> -->
     </div>
 
-    <button class="playButtons" v-on:click="updatePlayers">{{uiLabels.updatePlayers }}</button>
+    <button class="hostButtons" v-on:click="updatePlayers">{{uiLabels.updatePlayers }}</button>
   </div>
 
     <div id="run-question-wrapper">
@@ -245,6 +269,7 @@
       </div>
 
     </div>
+
   </section>
 
 </template>
@@ -254,6 +279,27 @@ import io from 'socket.io-client';
 import MapContainerCreate from "../components/MapContainerCreate";
 
 const socket = io();
+const FULL_DASH_ARRAY = 283;
+var TIME_LIMIT = 0;
+const WARNING_THRESHOLD = TIME_LIMIT/2;
+const ALERT_THRESHOLD = TIME_LIMIT/4;
+console.log("hej")
+
+
+const COLOR_CODES = {
+  info: {
+    color: "green"
+  },
+  warning: {
+    color: "orange",
+    threshold: WARNING_THRESHOLD
+  },
+  alert: {
+    color: "red",
+    threshold: ALERT_THRESHOLD
+  }
+};
+
 
 export default {
   name: 'Create',
@@ -304,7 +350,13 @@ export default {
       isPreviewQuestion: false,
       gameStarted:true,
       questionRunning:true,
-      timer:10
+      timer:10,
+
+      timePassed:             0,
+      timerInterval:          null,
+      displayRanOutTime:      false,
+      boolTimerStart:         false,
+      isQuestionNotWaitingRoom:true,
 
     }
   },
@@ -314,6 +366,59 @@ export default {
     } )
 
   },*/
+  computed: {
+    circleDasharray() {
+      return `${(this.timeFraction * FULL_DASH_ARRAY).toFixed(0)} 283`;
+    },
+
+    formattedTimeLeft() {
+      const timeLeft = this.timeLeft;
+
+      let seconds = timeLeft % 60;
+
+      if (seconds < 10) {
+        seconds = `0${seconds}`;
+      }
+
+      return `${seconds}`;
+    },
+
+    timeLeft() {
+      console.log(TIME_LIMIT - this.timePassed)
+      return TIME_LIMIT - this.timePassed;
+    },
+
+    timeFraction() {
+      const rawTimeFraction = this.timeLeft / TIME_LIMIT;
+      return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
+    },
+
+    remainingPathColor() {
+      const { alert, warning, info } = COLOR_CODES;
+
+      if (this.timeLeft <= alert.threshold) {
+        return alert.color;
+      } else if (this.timeLeft <= warning.threshold) {
+        return warning.color;
+      } else {
+        return info.color;
+      }
+    }
+  },
+  watch: {
+    timeLeft (newValue) {
+      if (newValue === 0) {
+        this.onTimesUp();
+
+      }
+    }
+  },
+  mounted() {
+    if(this.boolTimerStart === true) {
+      this.startTimer();
+    }
+  },
+
   created: function () {
 
     this.lang = this.$route.params.lang;
@@ -476,6 +581,10 @@ export default {
         this.finalQuestion.pop()
         this.finalCorrect.pop()
         this.indexArray.pop()
+        this.currentLQ = (this.questionSequence.length - 1)
+        this.savedLocation = this.questionSequence[this.currentLQ][4]
+        this.showLocationQuestion()
+
       }
     },
     showLocationQuestion: function () {
@@ -527,6 +636,9 @@ export default {
 
     runQuestion: function () {
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.currentLQ,lang:this.lang})
+      this.boolTimerStart=true;
+      clearInterval(this.timerInterval);
+      this.resetTimer()
       this.questionRunning=true
 
     },
@@ -568,13 +680,86 @@ export default {
     },
     startGame: function () {
       socket.emit('startGame', {pollId: this.pollId})
+      TIME_LIMIT=this.timer;
+      this.boolTimerStart=true;
+      this.resetTimer()
       this.gameStarted=false
+
     },
     checkResult: function () {
       socket.emit('sendToResult', {pollId: this.pollId})
       this.questionRunning=false
-    }
+    },
+    resetTimer(){
+      this.displayRanOutTime=false
+      this.timePassed = 0
+      this.startTimer()
+    },
+
+    onTimesUp() {
+      clearInterval(this.timerInterval);
+      if(this.displayFollowupQuestion===true && this.isQuestionNotWaitingRoom===false){
+        this.index += 1}
+      if(this.isWaitingroom === false && this.isChooseusername ===false && this.isSubmittedAnswer===false){
+        this.result = 'false'
+        this.displayRanOutTime=true
+        this.displayAnswer=true}
+      console.log("nu åker till watingroom")
+      this.waitingRoomTimer()
+    },
+
+    startTimer() {
+      this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
+    },
+    waitingRoomTimer: function(){
+        console.log(this.isQuestionNotWaitingRoom)
+        console.log(TIME_LIMIT)
+      if(this.isQuestionNotWaitingRoom===true){
+        this.isQuestionNotWaitingRoom=false
+        console.log(TIME_LIMIT + "this is waiting room")
+        console.log("this.isQuestionNotWaitingRoom=false")
+      }
+      else if (this.isQuestionNotWaitingRoom===false) {
+        this.isQuestionNotWaitingRoom=true
+        console.log("this.isQuestionNotWaitingRoom=true")
+      }
+
+      if(TIME_LIMIT==10 && this.isQuestionNotWaitingRoom==false){
+        console.log(this.isQuestionNotWaitingRoom + "this is waiting room")
+        console.log(TIME_LIMIT + "this is waiting room")
+        this.timePassed=5
+        this.startTimer()
+        console.log("nu ska timepassed vara 5")
+
+      }
+      if(TIME_LIMIT==20 && this.isQuestionNotWaitingRoom==false){
+        this.timePassed=15
+        this.startTimer()
+      }
+      console.log(TIME_LIMIT + "this is the timeledt before if statement")
+      if(TIME_LIMIT==40 && this.isQuestionNotWaitingRoom==false){
+        console.log("timePassed = 35 test")
+        this.timePassed=35
+        this.startTimer()
+        console.log(this.timePassed + "this is the time passed")
+        console.log(TIME_LIMIT + " this is the time left when timer started")
+      }
+      if(TIME_LIMIT==60 && this.isQuestionNotWaitingRoom==false){
+        this.timePassed=55
+        this.startTimer()
+      }
+      if(this.isQuestionNotWaitingRoom===true){
+        console.log( )
+        
+        this.resetTimer()
+
+      }
+
+
+
+    },
   }
+
 }
 
 </script>
@@ -600,7 +785,7 @@ export default {
 
 .create-the-questions-container {
   display: flex;
-  height: 100vh;
+  height: 100%;
   width: 100%;
 }
 
@@ -621,14 +806,20 @@ export default {
 }
 
 #alternative-questions-wrapper {
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  gap:2%;
   position: relative;
-  top: 6em;
-  margin-left: 2em;
+  width: 80%;
+  top: 7em;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 .add-alt delete-alt {
-  width: 40%
+  width: 60%;
+  justify-content: space-evenly;
 }
 
 .add-alt {
@@ -645,7 +836,9 @@ export default {
 .delete-alt:hover{
   background-color: #F40058;
 }
-
+.save-button-create {
+  font-size: xx-large;
+}
 /* Section Create quiz // Right Bar */
 .finish-quiz-button {
   background-color: #EFA500;
@@ -653,7 +846,8 @@ export default {
   color: white;
   font-weight: bolder;
   position: absolute;
-  bottom: 10px;
+  bottom: 0px;
+  float:right;
   margin-left: -8.75em;
   width: 14%;
   height: 15%;
@@ -664,17 +858,6 @@ export default {
 
 /* Section Host View */
 
-
-.slider {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 25px;
-  background: #d3d3d3;
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
-}
 .hideMe {
    animation: removeResponse  5s forwards;
    animation-fill-mode: forwards;
@@ -738,7 +921,7 @@ export default {
   margin-right: 2%;
 }
 #locationQuestion-button1:hover {
-  background-color: #78cc86;
+  background-color: #EFA500;
 }
 #locationQuestion-button2 {
   width: 50px;
@@ -747,7 +930,7 @@ export default {
   float: left;
 }
 #locationQuestion-button2:hover {
-  background-color: #e35f8e;
+  background-color: #EFA500;
 }
 
 
@@ -779,8 +962,9 @@ export default {
   padding-top: 15px;
   display: flex;
   flex-wrap: wrap;
-  gap: 20px 40px;
   justify-content: center;
+  gap: 20px 40px;
+
   height: 40vh;
 }
 
@@ -926,7 +1110,7 @@ textbox:hover {
   padding: 20px;
   font-size: 2vw;
   width: 25vw;
-  height: 20vw;
+  height: 18vw;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -1035,6 +1219,15 @@ textbox:hover {
   flex-direction: row;
   justify-content: center;
 }
+.hostButtons{
+  flex-shrink: 2;
+  color: white;
+  font-weight: bold;
+  background-color: transparent;
+  height:auto;
+  width:auto;
+  font-size:xx-large;
+}
 
 
 #run-question-wrapper {
@@ -1104,6 +1297,9 @@ textbox:hover {
   cursor: pointer;
   background-color: #EFA500;
 }
+.question-boxes{
+  margin-top:1vh;
+}
 
 /*background-color: rgba(34, 76, 182, 0.58);
 color: #fcf8f8;
@@ -1121,6 +1317,97 @@ font-size: 15px;*/
 
 .routerLink {
   text-decoration: none;
+}
+/* Timer Clock */
+
+.base-timer {
+  float: right;
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.base-timer__circle {
+  fill: none;
+  stroke: none;
+}
+
+.base-timer__path-elapsed {
+  stroke-width: 7px;
+  stroke: rgba(89, 187, 148, 0.58);
+}
+
+.base-timer__path-remaining {
+  stroke-width: 7px;
+  stroke-linecap: round;
+  transform: rotate(90deg);
+  transform-origin: center;
+  transition: 1s linear all;
+  fill-rule: nonzero;
+  stroke: currentColor;
+}
+
+.base-timer__path-remaining.green {
+  color: #41B853;
+}
+
+.base-timer__path-remaining.orange {
+  color: #EFA500;
+}
+
+.base-timer__path-remaining.red {
+  color: #F40058;
+}
+
+.base-timer__label {
+  color: white;
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  margin-left: 25px;
+  top: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+}
+
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes scale {
+  0%, 100% {
+    transform: scale3d(2.5,2.5,2.5);
+  }
+  50% {
+    transform: scale3d(2.75, 2.75, 2.5);
+  }
+}
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 30px #7ac142;
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes dash-check {
+  0% {
+    stroke-dashoffset: -100;
+  }
+  100% {
+    stroke-dashoffset: 900;
+  }
 }
 
 @keyframes animate {

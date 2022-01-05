@@ -42,7 +42,7 @@
       </div>
 
       <div id="nav">
-        <div>
+        <div id="test">
           <div v-if="play">
             <div id="pollID">
               <label style="font-size: 20px; font-weight: bold">
@@ -50,8 +50,8 @@
                 <input class="participateInput" type="text" v-model="id">
               </label>
             </div>
-            <p v-if="gameStatus===false" style="color: #c01313"> Game does not exist </p>
-            <p v-else-if="gameStatus===true" style="color: #c01313"> Game is already in session </p>
+            <p v-if="gameStatus===false" style="color: #c01313"> {{uiLabels.gameExist}} </p>
+            <p v-else-if="gameStatus===true" style="color: #c01313"> {{ uiLabels.gameSession }} </p>
             <button class="playButtons" v-on:click="checkGame()">
               {{ uiLabels.participatePoll }}
             </button>
@@ -61,11 +61,10 @@
           </div>
           <div id="backToMainButtonCenter">
           <button v-if="play===true" v-on:click="showPlayFalse" class="playButtons"  id="backToMainButton">
-            Back to main
+            {{uiLabels.backMain }}
           </button>
           </div>
         </div>
-
         <div id="create-button">
         <button v-if="play===false" class="playButtons">
           <router-link class="routerLink" v-bind:to="'/create/'+lang">{{ uiLabels.create }}</router-link> <!-- uiLabels.createPoll-->
@@ -173,6 +172,7 @@ Green #41B853
 }
 
 body {
+  margin: 0;
   width: auto;
   height: auto;
   background: #161B40;
@@ -191,6 +191,7 @@ input {
   border: none;
   border-radius: 6px;
 }
+
 
 
 
@@ -239,7 +240,7 @@ button:hover{
 }
 @media only screen and (max-width: 600px) {
   .playButtons{
-    flex-shrink: 2;
+    flex-basis: content;
     color: white;
     font-weight: bold;
     background-color: transparent;
@@ -298,7 +299,7 @@ button:hover{
 
 #nav {
   display: flex;
-  width: 100%;
+  width: 95%;
   justify-content: center;
   justify-items: center;
   flex-wrap: wrap;
@@ -308,7 +309,20 @@ button:hover{
   padding-left: 2em;
   padding-right: 2em;
 }
+<<<<<<< HEAD
 
+=======
+@media only screen and (max-width: 600px){
+  #nav {
+    padding-left: 0px;
+    padding-right: 0px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 40%;
+  }
+}
+>>>>>>> ea1ed1b4a3c577cefe7dc143a181fecd7555725e
 .header-prop{
   background: white;
   height: 20%
@@ -371,7 +385,11 @@ button:hover{
   overflow: hidden;
   margin-block-start: 0;
   margin-block-end: 0;
+<<<<<<< HEAD
   padding-inline-start: 0;
+=======
+  padding-left: 0;
+>>>>>>> ea1ed1b4a3c577cefe7dc143a181fecd7555725e
 
 }
 
