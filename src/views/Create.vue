@@ -155,7 +155,6 @@
                        v-model="checkBox[i]"
                        v-bind:key="'checkBox'+i">
               </div>
-
             </div>
           </div>
         </div>
@@ -271,7 +270,6 @@
 
   </section>
 
-
 </template>
 
 <script>
@@ -351,7 +349,6 @@ export default {
       gameStarted:true,
       questionRunning:true,
       timer:10,
-
       timePassed:             0,
       timerInterval:          null,
       displayRanOutTime:      false,
@@ -384,7 +381,6 @@ export default {
     },
 
     timeLeft() {
-      console.log(TIME_LIMIT - this.timePassed)
       return TIME_LIMIT - this.timePassed;
     },
 
@@ -415,14 +411,12 @@ export default {
   },
   mounted() {
     if(this.boolTimerStart === true) {
-      this.startTimer();
+      this.startTimer(); /* start timer first time */
     }
   },
 
   created: function () {
-
     this.lang = this.$route.params.lang;
-
     this.addNewPollQuestion()
     socket.emit("pageLoaded", {lang: this.lang, id: this.pollId});
     socket.on("init", (labels) => {
@@ -680,7 +674,8 @@ export default {
     },
     startGame: function () {
       socket.emit('startGame', {pollId: this.pollId})
-      TIME_LIMIT=this.timer;
+      TIME_LIMIT=this.timer*(this.finalQuestion[this.currentLQ].length +1) + 5*this.finalQuestion[this.currentLQ].length
+      console.log(this.timer*(this.finalQuestion[this.currentLQ].length +1) + 5*this.finalQuestion[this.currentLQ].length)
       this.boolTimerStart=true;
       this.resetTimer()
       this.gameStarted=false
@@ -698,13 +693,6 @@ export default {
 
     onTimesUp() {
       clearInterval(this.timerInterval);
-      if(this.displayFollowupQuestion===true && this.isQuestionNotWaitingRoom===false){
-        this.index += 1}
-      if(this.isWaitingroom === false && this.isChooseusername ===false && this.isSubmittedAnswer===false){
-        this.result = 'false'
-        this.displayRanOutTime=true
-        this.displayAnswer=true}
-      console.log("nu åker till watingroom")
       this.waitingRoomTimer()
     },
 
@@ -712,47 +700,35 @@ export default {
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     },
     waitingRoomTimer: function(){
-        console.log(this.isQuestionNotWaitingRoom)
-        console.log(TIME_LIMIT)
+
       if(this.isQuestionNotWaitingRoom===true){
         this.isQuestionNotWaitingRoom=false
-        console.log(TIME_LIMIT + "this is waiting room")
-        console.log("this.isQuestionNotWaitingRoom=false")
+
       }
       else if (this.isQuestionNotWaitingRoom===false) {
         this.isQuestionNotWaitingRoom=true
-        console.log("this.isQuestionNotWaitingRoom=true")
       }
 
       if(TIME_LIMIT==10 && this.isQuestionNotWaitingRoom==false){
-        console.log(this.isQuestionNotWaitingRoom + "this is waiting room")
-        console.log(TIME_LIMIT + "this is waiting room")
         this.timePassed=5
         this.startTimer()
-        console.log("nu ska timepassed vara 5")
+
 
       }
       if(TIME_LIMIT==20 && this.isQuestionNotWaitingRoom==false){
         this.timePassed=15
         this.startTimer()
       }
-      console.log(TIME_LIMIT + "this is the timeledt before if statement")
       if(TIME_LIMIT==40 && this.isQuestionNotWaitingRoom==false){
-        console.log("timePassed = 35 test")
         this.timePassed=35
         this.startTimer()
-        console.log(this.timePassed + "this is the time passed")
-        console.log(TIME_LIMIT + " this is the time left when timer started")
       }
       if(TIME_LIMIT==60 && this.isQuestionNotWaitingRoom==false){
         this.timePassed=55
         this.startTimer()
       }
       if(this.isQuestionNotWaitingRoom===true){
-        console.log( )
-        
         this.resetTimer()
-
       }
 
 
