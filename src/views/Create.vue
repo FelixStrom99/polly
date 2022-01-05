@@ -370,17 +370,15 @@ export default {
 
     formattedTimeLeft() {
       const timeLeft = this.timeLeft;
-
-      let seconds = timeLeft % 60;
-
+      let seconds = timeLeft;
       if (seconds < 10) {
         seconds = `0${seconds}`;
       }
-
       return `${seconds}`;
     },
 
     timeLeft() {
+      console.log(TIME_LIMIT - this.timePassed)
       return TIME_LIMIT - this.timePassed;
     },
 
@@ -632,8 +630,9 @@ export default {
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.currentLQ,lang:this.lang})
       this.boolTimerStart=true;
       clearInterval(this.timerInterval);
-      this.resetTimer()
+      this.startTimer()
       this.questionRunning=true
+
 
     },
 
@@ -675,65 +674,28 @@ export default {
     startGame: function () {
       socket.emit('startGame', {pollId: this.pollId})
       TIME_LIMIT=this.timer*(this.finalQuestion[this.currentLQ].length +1) + 5*this.finalQuestion[this.currentLQ].length
-      console.log(this.timer*(this.finalQuestion[this.currentLQ].length +1) + 5*this.finalQuestion[this.currentLQ].length)
       this.boolTimerStart=true;
-      this.resetTimer()
-      this.gameStarted=false
+      this.gameStarted=false;
+      this.startTimer();
 
     },
     checkResult: function () {
       socket.emit('sendToResult', {pollId: this.pollId})
+      clearInterval(this.timerInterval);
       this.questionRunning=false
-    },
-    resetTimer(){
-      this.displayRanOutTime=false
-      this.timePassed = 0
-      this.startTimer()
     },
 
     onTimesUp() {
+        console.log("ska stannaaaaa")
       clearInterval(this.timerInterval);
-      this.waitingRoomTimer()
+
     },
 
     startTimer() {
+      this.timePassed=0;
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     },
-    waitingRoomTimer: function(){
 
-      if(this.isQuestionNotWaitingRoom===true){
-        this.isQuestionNotWaitingRoom=false
-
-      }
-      else if (this.isQuestionNotWaitingRoom===false) {
-        this.isQuestionNotWaitingRoom=true
-      }
-
-      if(TIME_LIMIT==10 && this.isQuestionNotWaitingRoom==false){
-        this.timePassed=5
-        this.startTimer()
-
-
-      }
-      if(TIME_LIMIT==20 && this.isQuestionNotWaitingRoom==false){
-        this.timePassed=15
-        this.startTimer()
-      }
-      if(TIME_LIMIT==40 && this.isQuestionNotWaitingRoom==false){
-        this.timePassed=35
-        this.startTimer()
-      }
-      if(TIME_LIMIT==60 && this.isQuestionNotWaitingRoom==false){
-        this.timePassed=55
-        this.startTimer()
-      }
-      if(this.isQuestionNotWaitingRoom===true){
-        this.resetTimer()
-      }
-
-
-
-    },
   }
 
 }
