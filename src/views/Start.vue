@@ -314,7 +314,6 @@ button:hover{
   padding-right: 2em;
 }
 
-
 @media only screen and (max-width: 600px){
   #nav {
     padding-left: 0px;
@@ -326,6 +325,10 @@ button:hover{
   }
 }
 
+.header-prop{
+  background: white;
+  height: 20%
+}
 
 .headertext {
   margin-top: 1em;
