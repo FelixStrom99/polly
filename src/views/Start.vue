@@ -309,9 +309,7 @@ button:hover{
   padding-left: 2em;
   padding-right: 2em;
 }
-<<<<<<< HEAD
 
-=======
 @media only screen and (max-width: 600px){
   #nav {
     padding-left: 0px;
@@ -322,7 +320,7 @@ button:hover{
     margin-top: 40%;
   }
 }
->>>>>>> ea1ed1b4a3c577cefe7dc143a181fecd7555725e
+
 .header-prop{
   background: white;
   height: 20%
@@ -385,11 +383,8 @@ button:hover{
   overflow: hidden;
   margin-block-start: 0;
   margin-block-end: 0;
-<<<<<<< HEAD
-  padding-inline-start: 0;
-=======
   padding-left: 0;
->>>>>>> ea1ed1b4a3c577cefe7dc143a181fecd7555725e
+
 
 }
 
