@@ -65,8 +65,8 @@
           </button>
           </div>
         </div>
-        <div id="create-button">
-        <button v-if="play===false" class="playButtons">
+        <div v-if="play===false" id="create-button">
+        <button  class="playButtons">
           <router-link class="routerLink" v-bind:to="'/create/'+lang">{{ uiLabels.create }}</router-link> <!-- uiLabels.createPoll-->
         </button>
         </div>
@@ -251,7 +251,11 @@ button:hover{
   #nav {
     display: flex;
     flex-direction: column;
-    margin-top: 40%;
+    width: 95%;
+    justify-content: center;
+    justify-items: center;
+    flex-wrap: wrap;
+    margin-top: 80%;
   }
 
   .headertext div{
@@ -309,9 +313,8 @@ button:hover{
   padding-left: 2em;
   padding-right: 2em;
 }
-<<<<<<< HEAD
 
-=======
+
 @media only screen and (max-width: 600px){
   #nav {
     padding-left: 0px;
@@ -321,11 +324,6 @@ button:hover{
     width: 100%;
     margin-top: 40%;
   }
-}
->>>>>>> ea1ed1b4a3c577cefe7dc143a181fecd7555725e
-.header-prop{
-  background: white;
-  height: 20%
 }
 
 
@@ -344,11 +342,6 @@ button:hover{
 }
 @import url('https://fonts.googleapis.com/css?family=Exo:400,700');
 
-.context {
-  width: 100%;
-  position: absolute;
-  top:50vh;
-}
 
 .context h1{
   text-align: center;
@@ -383,13 +376,7 @@ button:hover{
   width: 100%;
   height: 100%;
   overflow: hidden;
-  margin-block-start: 0;
-  margin-block-end: 0;
-<<<<<<< HEAD
-  padding-inline-start: 0;
-=======
   padding-left: 0;
->>>>>>> ea1ed1b4a3c577cefe7dc143a181fecd7555725e
 
 }
 
