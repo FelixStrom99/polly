@@ -30,6 +30,7 @@
             v-bind:data="followUpData[i]"/>
     </div>
   </div>
+
 </template>
 
 <script>

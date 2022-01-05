@@ -73,9 +73,7 @@ function startTimer() {
 }
 
 function formatTime(time) {
-
   let seconds = time % 60;
-
   if (seconds < 10) {
     seconds = `0${seconds}`;
   }

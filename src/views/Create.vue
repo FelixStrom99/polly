@@ -201,7 +201,8 @@
 
   <section class="host-view" v-if="secondStage===false && firstStage===true">
     <h1>{{uiLabels.hostView}}</h1>
-
+<div>
+  {{uiLabels.hostTimeLeft}}
     <div class="base-timer" id="timer-location">
       <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <g class="base-timer__circle">
@@ -221,7 +222,7 @@
       </svg>
       <span class="base-timer__label">{{ formattedTimeLeft }}</span>
     </div>
-
+</div>
     <p>{{uiLabels.pollID}}: <span style="color: #43BEE5" >{{ pollId }}</span></p>
 
 
