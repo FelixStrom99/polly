@@ -155,6 +155,7 @@
                        v-model="checkBox[i]"
                        v-bind:key="'checkBox'+i">
               </div>
+
             </div>
           </div>
         </div>
