@@ -137,7 +137,7 @@ Data.prototype.submitAnswer = function (pollId, answer,title) {
         } else {
             console.log("test", poll.answers[poll.currentQuestion])
             for (let i = 0; i < poll.answers[poll.currentQuestion].length; i++) {
-               console.log(1,answers[i].q,2,answers[i][answer])
+
                 if (answers[i].q == title && typeof answers[i][answer] !== 'undefined') {
 
                     answers[i][answer] += 1
@@ -190,10 +190,11 @@ Data.prototype.getAnswers = function (pollId) {
         console.log("hej", poll.answers[poll.currentQuestion])
         if (typeof poll.questionSequence[poll.currentQuestion] !== 'undefined') {
 
-            return {q: poll.questionSequence[poll.currentQuestion].q, a: answers};
+            return answers;
         }
+    } else {
+        return {}
     }
-    return {}
 }
 Data.prototype.getLocationAnswers = function (pollId) {
     const poll = this.polls[pollId];

@@ -35,8 +35,7 @@ function sockets(io, socket, data) {
         socket.emit('newQuestion', data.getQuestion(pollId))
         socket.emit('locationDataUpdate', data.getLocationAnswers(pollId));
         socket.emit('dataUpdate', data.getAnswers(pollId))
-
-
+        
     });
     socket.on('test', function (d) {
         socket.emit('brakrök', data.getUsers(d.pollId))

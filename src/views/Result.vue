@@ -8,23 +8,17 @@
     <MapContainerResults :geojson="geojson" v-bind:key=updateZoom  v-bind:locationData="locationData" v-bind:correctLocation="correctLocation" v-bind:mapView="mapView"> </MapContainerResults>
   </div>
 <h2> {{uiLabels.followUpQuestion}}</h2>
-  <div v-for="(title,i) in question"
-       v-bind:title="title"
-       v-bind:key="title[i]">
-    <h3>{{title[i]}}</h3>
-  </div>
 
-  <Bars v-bind:data="data"/>
+  <Bars v-for="(title,i) in question"
+        v-bind:key="title"
+        v-bind:title="title"
+        v-bind:data="followUpData[i]"/>
 
 
-  <!--- <div id="mapcontainer">
-    <div id="dots">
-    <div v-for="(location,key) in locationData" v-bind:style="{ left: location.x + 'px', top: location.y + 'px'}" v-bind:key="'dots'+ key">
-T
 
-    </div>
-    </div>
-  </div> -->
+
+
+
 
 </template>
 
@@ -45,17 +39,16 @@ export default {
     return {
       lang: "",
       uiLabels: {},
-      question: "",
-      data: {
+      question: [],
+      followUpData:[],
+      correctLocation: {
+        x: 0,
+        y: 0
       },
-        correctLocation: {
-          x: 0,
-          y: 0
-        },
-      locationQuestion:"",
-      locationData:{},
-      mapView: {zoom: 0, center: [0,0]},
-      updateZoom:0,
+      locationQuestion: "",
+      locationData: {},
+      mapView: {zoom: 0, center: [0, 0]},
+      updateZoom: 0,
 
     }
 
@@ -70,42 +63,56 @@ export default {
     })
     socket.emit('joinPoll', this.pollId)
     socket.on("dataUpdate", (update) => {
-      this.data = update.a;
-      this.question = update.q;
+      this.createAnswerArray(update)
+      /*  this.data = update.a;
+      this.question = update.q;*/
 
     });
     socket.on("newQuestion", update => {
-      this.question = update.q;
-      this.data = {};
-      this.locationQuestion=update.lq
+      this.question=[]
+      this.followUpData = [];
+      this.locationQuestion = update.lq
       //* this.locationData={}
-      this.updateZoom+=1
-      this.correctLocation=update.location
+      this.updateZoom += 1
+      this.correctLocation = update.location
 
     })
-    socket.on("userMapView",d =>
-        this.mapView=d)
+    socket.on("userMapView", d =>
+        this.mapView = d)
 
-    socket.on("locationDataUpdate", update=>{
-      this.locationData=update.la
-      this.updateZoom+=1
-      });
+    socket.on("locationDataUpdate", update => {
+      this.locationData = update.la
+      this.updateZoom += 1
+    });
 
-    socket.on("sendToPoll",lang => {
+    socket.on("sendToPoll", lang => {
       this.sendToPoll(lang)
 
 
-  });
+    });
 
 
-},
-methods:{
+  },
+  methods: {
+
+    createAnswerArray: function (answerData) {
+      console.log("mja",this.question)
+      for (let i = 0; i < answerData.length; i++) {
+        this.question.push((answerData[i].q))
+        console.log(answerData[i].q,"hej")
+        delete answerData[i].q
+        this.followUpData.push(answerData[i])
+      }
+
+    },
+
   sendToPoll: function (lang) {
     console.log(lang)
-    this.$router.push({ path: `/poll/${this.pollId}/`+lang })
+    this.$router.push({path: `/poll/${this.pollId}/` + lang})
   },
 }
 }
+
 </script>
 <style>
 /*#mapcontainer {
