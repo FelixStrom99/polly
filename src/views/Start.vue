@@ -315,6 +315,8 @@ button:hover{
   padding-right: 2em;
 }
 
+
+
 @media only screen and (max-width: 600px){
   #nav {
     padding-left: 0px;
@@ -380,8 +382,6 @@ button:hover{
   width: 100%;
   height: 100%;
   overflow: hidden;
-  padding-left: 0;
-
 }
 
 .circles li{
