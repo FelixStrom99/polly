@@ -2,7 +2,7 @@
   <h3>{{title}}</h3>
 <div class="answer-alternative-size-wrapper">
   <div class="bar" v-for="(item, key) in data" v-bind:key="key">
-    <div v-bind:style="{height: item + 'px'}">
+    <div v-bind:style="{height: item*0.3 + 'vh'}">
       <span> {{item}} </span>
     </div>
     <div> 
@@ -26,7 +26,7 @@ export default {
 <style scoped>
 .bar {
   display: inline-block;
-  width: 50px;
+  width: 5vw;
   vertical-align: bottom;
 }
 
@@ -35,16 +35,16 @@ export default {
   top: -1.2em;
 }
 .bar:nth-child(1) div:nth-child(1) {
-  background-color:red;
+  background-color:#F40058;
 }
 .bar:nth-child(2) div:nth-child(1) {
-  background-color:blue;
+  background-color:#43BEE5;
 }
 .bar:nth-child(3) div:nth-child(1) {
-  background-color:teal;
+  background-color:#41B853;
 }
 .bar:nth-child(4) div:nth-child(1) {
-  background-color:purple;
+  background-color:#EFA500
 }
 .bar:nth-child(5) div:nth-child(1) {
   background-color:yellow;

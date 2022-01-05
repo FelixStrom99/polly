@@ -60,7 +60,7 @@
         </figure>
       </div>
 
-      <div class="map-item" id="background_pic_malmö" v-on:click="nextSection();chooseWorld()">
+      <div class="map-item" id="background_pic_world" v-on:click="nextSection();chooseWorld()">
         <figure>
           <h1 class="city_name_charachter_spec">{{uiLabels.chooseFree}}</h1>
         </figure>
@@ -181,7 +181,7 @@
       <div>
         <h2>{{uiLabels.settings}}</h2>
         <h3>{{ uiLabels.timerSettings }}</h3>
-        <span>{{ uiLabels.questionRunTime }}:</span>
+        <span id="margin-down">{{ uiLabels.questionRunTime }}:</span>
         <select v-model="timer">
           <option disabled value="">{{uiLabels.pleaseSelect}}</option>
           <option value="10">10 {{uiLabels.seconds}}</option>
@@ -189,10 +189,11 @@
           <option value="40">40 {{uiLabels.seconds}}</option>
           <option value="60">60 {{uiLabels.seconds}}</option>
         </select>
-
+          <div id="finish-button-div">
         <button class="finish-quiz-button" v-on:click="finishQuizFinal">
           {{ uiLabels.finishQuiz }}
         </button>
+        </div>
       </div>
     </div>
   </section>
@@ -778,15 +779,17 @@ export default {
   font-size: larger;
   color: white;
   font-weight: bolder;
-  position: absolute;
-  bottom: 0px;
-  float:right;
-  margin-left: -8.75em;
-  width: 14%;
-  height: 15%;
+  position: relative;
+  height:18vh;
 }
 .finish-quiz-button:hover {
   background-color: #ffc544;
+}
+#finish-button-div{
+  position:relative;
+  width:100%;
+  height:25vh;
+  margin-top:58vh;
 }
 
 /* Section Host View */
@@ -1054,40 +1057,43 @@ textbox:hover {
   cursor: pointer;
 
 }
+#margin-down{
+  margin-bottom:1vh;
+}
 
 #background_pic_uppsala {
-  background-image: url("https://www.liveit.se/images/std/uppsala-lan.jpg");
+  background-image: url('/img/uppsalaBild.jpeg');
   background-size: cover;
   background-position: center;
 }
 
 #background_pic_stockholm {
-  background-image: url("https://media.istockphoto.com/photos/old-town-in-stockholm-sweden-picture-id521418487?k=20&m=521418487&s=612x612&w=0&h=w820j5TprwQZer-NQhlrJ17c6UT-LFPDXQe3M7jqdks=");
+  background-image: url('/img/stockholmBild.jpeg');
   background-size: cover;
   background-position: center;
 }
 
 #background_pic_sundsvall {
-  background-image: url("https://www.energi.se/siteassets/artiklar/2020-6/nyheter/sundsvall-219.jpg?w=1440&h=0&quality=100&format=jpg&mode=crop");
+  background-image:url('/img/sundsvallBild.jpeg');
   background-size: cover;
   background-position: center;
 }
 
 #background_pic_västerås {
-  background-image: url("https://www.happydays.nu/storage/img/hotels/stemning/6999/gen/good-morning-vasteras-20.jpg?1601458565 ");
+  background-image: url('/img/västeråsBild.jpeg');
   background-size: cover;
   background-position: center;
 }
 
 #background_pic_göteborg {
-  background-image: url("https://goteborgco.se/wp-content/uploads/2019/12/tradgardsforeningen_167-11-2048x947.jpg");
+  background-image: url('/img/göteborgBild.jpeg');
   background-size: cover;
   background-position: center;
 
 }
 
-#background_pic_malmö {
-  background-image: url("https://as1.ftcdn.net/v2/jpg/00/67/55/82/1000_F_67558277_XSMpXHfJjW1hSddFXevf2lCmhlme6OVU.jpg");
+#background_pic_world {
+  background-image: url('/img/worldBild.jpeg');
   background-size: cover;
   background-position: center;
 }

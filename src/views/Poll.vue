@@ -574,7 +574,6 @@ waitingroom-users p{
 #waitingroom-text {
   font-size: 300%;
   color: white;
-  text-shadow: 5px 5px 5px black;
 }
 
 /* waiting/result room */

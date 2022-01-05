@@ -42,10 +42,14 @@
 
 {{question}}
 
+=======
+>>>>>>> e0ae660f5ed966836d1623f1b05e471be1745d40
 
 
-
-
+  <Bars v-for="(title,i) in question"
+        v-bind:key="title"
+        v-bind:title="title"
+        v-bind:data="followUpData[i]"/>
 </template>
 
 <script>
