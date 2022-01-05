@@ -1,5 +1,5 @@
 <template>
-
+  <title>Mapquiz</title>
   <main>
   <section>
       <button id="LangButton" style="width: 10%" v-on:click="switchLanguage">
@@ -65,8 +65,8 @@
           </button>
           </div>
         </div>
-        <div id="create-button">
-        <button v-if="play===false" class="playButtons">
+        <div v-if="play===false" id="create-button">
+        <button  class="playButtons">
           <router-link class="routerLink" v-bind:to="'/create/'+lang">{{ uiLabels.create }}</router-link> <!-- uiLabels.createPoll-->
         </button>
         </div>
@@ -94,7 +94,7 @@ export default {
       id: "",
       lang: "en",
       play: false,
-      gameStatus:null
+      gameStatus:null,
 
     }
   },
@@ -105,6 +105,7 @@ export default {
     socket.on("gameChecked", (status) => {
       this.gameChecked(status)
     })
+    document.title = "Mapquiz"
   },
   methods: {
 
@@ -251,7 +252,11 @@ button:hover{
   #nav {
     display: flex;
     flex-direction: column;
-    margin-top: 40%;
+    width: 95%;
+    justify-content: center;
+    justify-items: center;
+    flex-wrap: wrap;
+    margin-top: 80%;
   }
 
   .headertext div{
@@ -328,7 +333,6 @@ button:hover{
   height: 20%
 }
 
-
 .headertext {
   margin-top: 1em;
   font-size: 8vw;
@@ -344,11 +348,6 @@ button:hover{
 }
 @import url('https://fonts.googleapis.com/css?family=Exo:400,700');
 
-.context {
-  width: 100%;
-  position: absolute;
-  top:50vh;
-}
 
 .context h1{
   text-align: center;
@@ -383,11 +382,15 @@ button:hover{
   width: 100%;
   height: 100%;
   overflow: hidden;
+
   margin-block-start: 0;
   margin-block-end: 0;
   padding-inline-start: 0;
   padding-left: 0;
 
+=======
+  padding-left: 0;
+>>>>>>> 70924f062a41a1270640a7fc2506bc0237c2e4d3
 
 }
 

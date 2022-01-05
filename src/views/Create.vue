@@ -228,13 +228,11 @@
   <div id="host-view-buttons">
     <div v-if="gameStarted===true">
       <button class="hostButtons" v-on:click="startGame">{{ uiLabels.startGame }}</button>
+      <button class="hostbuttons" v-on:click="goBackEdit">Go back to editing</button>
     </div>
     <div v-else-if="gameStarted===false">
       <button class="hostButtons" v-on:click="runQuestion" v-if="questionRunning===false">{{uiLabels.runQuestion }}</button>
       <button class="hostButtons" v-on:click="checkResult()" v-else-if="questionRunning===true">{{ uiLabels.checkResult }}  </button>
-     <!-- <button v-on:click="goBackEdit">
-        Go back to editing
-      </button> -->
     </div>
 
     <button class="hostButtons" v-on:click="updatePlayers">{{uiLabels.updatePlayers }}</button>
@@ -271,7 +269,6 @@
     </div>
 
   </section>
-
 
 </template>
 
@@ -352,7 +349,6 @@ export default {
       gameStarted:true,
       questionRunning:true,
       timer:10,
-
       timePassed:             0,
       timerInterval:          null,
       displayRanOutTime:      false,
@@ -374,13 +370,10 @@ export default {
 
     formattedTimeLeft() {
       const timeLeft = this.timeLeft;
-
-      let seconds = timeLeft % 60;
-
+      let seconds = timeLeft;
       if (seconds < 10) {
         seconds = `0${seconds}`;
       }
-
       return `${seconds}`;
     },
 
@@ -416,14 +409,12 @@ export default {
   },
   mounted() {
     if(this.boolTimerStart === true) {
-      this.startTimer();
+      this.startTimer(); /* start timer first time */
     }
   },
 
   created: function () {
-
     this.lang = this.$route.params.lang;
-
     this.addNewPollQuestion()
     socket.emit("pageLoaded", {lang: this.lang, id: this.pollId});
     socket.on("init", (labels) => {
@@ -517,10 +508,6 @@ export default {
       this.secondStage = false
     },
     finishQuizFinal: function () {
-      if (this.questionSequence[0][3] == null){
-        alert("Make a Location question")
-      }
-      else {
         this.firstStage = true
         this.currentLQ = 0
 
@@ -535,7 +522,6 @@ export default {
             timer: this.timer
           })
         }
-      }
     },
 
 
@@ -639,8 +625,9 @@ export default {
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.currentLQ,lang:this.lang})
       this.boolTimerStart=true;
       clearInterval(this.timerInterval);
-      this.resetTimer()
+      this.startTimer()
       this.questionRunning=true
+
 
     },
 
@@ -681,84 +668,29 @@ export default {
     },
     startGame: function () {
       socket.emit('startGame', {pollId: this.pollId})
-      TIME_LIMIT=this.timer;
+      TIME_LIMIT=this.timer*(this.finalQuestion[this.currentLQ].length +1) + 5*this.finalQuestion[this.currentLQ].length
       this.boolTimerStart=true;
-      this.resetTimer()
-      this.gameStarted=false
+      this.gameStarted=false;
+      this.startTimer();
 
     },
     checkResult: function () {
       socket.emit('sendToResult', {pollId: this.pollId})
+      clearInterval(this.timerInterval);
       this.questionRunning=false
-    },
-    resetTimer(){
-      this.displayRanOutTime=false
-      this.timePassed = 0
-      this.startTimer()
     },
 
     onTimesUp() {
+        console.log("ska stannaaaaa")
       clearInterval(this.timerInterval);
-      if(this.displayFollowupQuestion===true && this.isQuestionNotWaitingRoom===false){
-        this.index += 1}
-      if(this.isWaitingroom === false && this.isChooseusername ===false && this.isSubmittedAnswer===false){
-        this.result = 'false'
-        this.displayRanOutTime=true
-        this.displayAnswer=true}
-      console.log("nu åker till watingroom")
-      this.waitingRoomTimer()
+
     },
 
     startTimer() {
+      this.timePassed=0;
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
     },
-    waitingRoomTimer: function(){
-        console.log(this.isQuestionNotWaitingRoom)
-        console.log(TIME_LIMIT)
-      if(this.isQuestionNotWaitingRoom===true){
-        this.isQuestionNotWaitingRoom=false
-        console.log(TIME_LIMIT + "this is waiting room")
-        console.log("this.isQuestionNotWaitingRoom=false")
-      }
-      else if (this.isQuestionNotWaitingRoom===false) {
-        this.isQuestionNotWaitingRoom=true
-        console.log("this.isQuestionNotWaitingRoom=true")
-      }
 
-      if(TIME_LIMIT==10 && this.isQuestionNotWaitingRoom==false){
-        console.log(this.isQuestionNotWaitingRoom + "this is waiting room")
-        console.log(TIME_LIMIT + "this is waiting room")
-        this.timePassed=5
-        this.startTimer()
-        console.log("nu ska timepassed vara 5")
-
-      }
-      if(TIME_LIMIT==20 && this.isQuestionNotWaitingRoom==false){
-        this.timePassed=15
-        this.startTimer()
-      }
-      console.log(TIME_LIMIT + "this is the timeledt before if statement")
-      if(TIME_LIMIT==40 && this.isQuestionNotWaitingRoom==false){
-        console.log("timePassed = 35 test")
-        this.timePassed=35
-        this.startTimer()
-        console.log(this.timePassed + "this is the time passed")
-        console.log(TIME_LIMIT + " this is the time left when timer started")
-      }
-      if(TIME_LIMIT==60 && this.isQuestionNotWaitingRoom==false){
-        this.timePassed=55
-        this.startTimer()
-      }
-      if(this.isQuestionNotWaitingRoom===true){
-        console.log( )
-        
-        this.resetTimer()
-
-      }
-
-
-
-    },
   }
 
 }
@@ -1036,7 +968,7 @@ export default {
   padding: 1.25rem;
   margin: 5px;
   background: #ffffff;
-  opacity: 90%;
+  opacity: 0.9;
   outline: black;
   border: 2px;
   border-radius: 15px;
@@ -1118,7 +1050,7 @@ textbox:hover {
 }
 
 .map-item:hover{
-  opacity: 80%;
+  opacity: 0.8;
   cursor: pointer;
 
 }
@@ -1237,7 +1169,6 @@ textbox:hover {
   min-height: 10em;
   height: auto;
   gap: 5%;
-  opacity: 95%;
 }
 
 .run-question {
