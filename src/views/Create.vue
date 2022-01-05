@@ -201,9 +201,13 @@
 
   <section class="host-view" v-if="secondStage===false && firstStage===true">
     <h1>{{uiLabels.hostView}}</h1>
-<div>
-  {{uiLabels.hostTimeLeft}}
-    <div class="base-timer" id="timer-location">
+
+    <div class="playing-info">
+      <div class="playing-info-items">
+    <p v-if="isUserInGame===true">{{uiLabels.hostTimeLeft}}</p>
+    <p v-if="isUserInGame===false">{{uiLabels.hostGameNot}}</p>
+
+    <div v-if="gameStarted===false" class="base-timer" id="timer-location">
       <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <g class="base-timer__circle">
           <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
@@ -221,8 +225,11 @@
         </g>
       </svg>
       <span class="base-timer__label">{{ formattedTimeLeft }}</span>
+      </div>
     </div>
+
 </div>
+
     <p>{{uiLabels.pollID}}: <span style="color: #43BEE5" >{{ pollId }}</span></p>
 
 
@@ -367,7 +374,7 @@ export default {
       displayRanOutTime:      false,
       boolTimerStart:         false,
       isQuestionNotWaitingRoom:true,
-
+      isUserInGame            :false
     }
   },
   /*mounted() {
@@ -638,6 +645,7 @@ export default {
     runQuestion: function () {
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.currentLQ,lang:this.lang})
       this.boolTimerStart=true;
+      this.isUserInGame = true;
       clearInterval(this.timerInterval);
       this.startTimer()
       this.questionRunning=true
@@ -685,6 +693,7 @@ export default {
       TIME_LIMIT=this.timer*(this.finalQuestion[this.currentLQ].length +1) + 5*this.finalQuestion[this.currentLQ].length
       this.boolTimerStart=true;
       this.gameStarted=false;
+      this.isUserInGame=true;
       this.startTimer();
 
     },
@@ -698,6 +707,7 @@ export default {
 
     onTimesUp() {
         console.log("ska stannaaaaa")
+      this.isUserInGame=false;
       clearInterval(this.timerInterval);
 
     },
@@ -1273,9 +1283,28 @@ font-size: 15px;*/
 }
 /* Timer Clock */
 
+.playing-info{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  left: 1vw;
+  top: 2vw;
+
+
+
+}
+.playing-info-items{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: left;
+}
+
 .base-timer {
-  float: right;
   position: relative;
+  left: 4.5vw;
   width: 100px;
   height: 100px;
 }

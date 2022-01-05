@@ -68,6 +68,7 @@
 	"gameSession": "Game is already in session",
 	"backMain": " Back to start",
 	"seconds": "seconds",
-	"hostTimeLeft": "Time until all players have answered the chosen question:"
+	"hostTimeLeft": "Time until all players have answered the chosen question:",
+	"hostGameNot": "No question is running"
 
 }
