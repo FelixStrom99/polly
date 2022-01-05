@@ -68,5 +68,6 @@
 	"gameSession": "Spelet är redan igång",
 	"backMain": "Tillbaka till start",
 	"seconds": "sekunder",
-	"hostTimeLeft": "Tid kvar till alla spelare svarat på vald fråga:"
+	"hostTimeLeft": "Tid kvar till alla spelare svarat på vald fråga:",
+	"hostGameNot": "Ingen fråga är igång"
 }

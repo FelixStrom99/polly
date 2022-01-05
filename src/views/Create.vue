@@ -201,9 +201,13 @@
 
   <section class="host-view" v-if="secondStage===false && firstStage===true">
     <h1>{{uiLabels.hostView}}</h1>
-<div>
-  {{uiLabels.hostTimeLeft}}
-    <div class="base-timer" id="timer-location">
+
+    <div class="playing-info">
+      <div class="playing-info-items">
+    <p v-if="isUserInGame===true">{{uiLabels.hostTimeLeft}}</p>
+    <p v-if="isUserInGame===false">{{uiLabels.hostGameNot}}</p>
+
+    <div v-if="gameStarted===false" class="base-timer" id="timer-location">
       <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <g class="base-timer__circle">
           <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
@@ -221,8 +225,11 @@
         </g>
       </svg>
       <span class="base-timer__label">{{ formattedTimeLeft }}</span>
+      </div>
     </div>
+
 </div>
+
     <p>{{uiLabels.pollID}}: <span style="color: #43BEE5" >{{ pollId }}</span></p>
 
 
@@ -249,21 +256,32 @@
         </div>
       </div>
 
-      <div class="run-question box">
+      <!-- <div class="run-question box">
         <h3>{{ uiLabels.runQuestions }}</h3>
         <div id="run-question-item" v-for="(_,i) in questionSequence" v-bind:key="'question'+i">
           <div v-on:click="currentLQ=i; this.previewQuestion()">{{ questionSequence[i][3] }}</div>
         </div>
-      </div>
+      </div> -->
 
       <div class="run-question preview">
         <h3>{{uiLabels.questionPreview}}</h3>
-        <div v-if="isPreviewQuestion" id="preview-question">
+        <div class="preview-question">
           <p>{{uiLabels.locationQuestion}}:</p>
           {{ questionSequence[currentLQ][3] }}
           <p>{{uiLabels.followUpQuestion}}:</p>
           <div v-for="(ans,i) in questionSequence[currentLQ][0]" v-bind:key="'ans'+i">
             {{ ans[i] }}
+          </div>
+        </div>
+        <div v-if="questionSequence.length > 1 && currentLQ+1 !== questionSequence.length">
+          <p>Next question</p>
+          <div class="preview-question">
+            <p>{{uiLabels.locationQuestion}}:</p>
+            {{ questionSequence[currentLQ+1][3] }}
+            <p>{{uiLabels.followUpQuestion}}:</p>
+            <div v-for="(ans,i) in questionSequence[currentLQ+1][0]" v-bind:key="'ans'+i">
+              {{ ans[i] }}
+            </div>
           </div>
         </div>
       </div>
@@ -356,7 +374,7 @@ export default {
       displayRanOutTime:      false,
       boolTimerStart:         false,
       isQuestionNotWaitingRoom:true,
-
+      isUserInGame            :false
     }
   },
   /*mounted() {
@@ -405,6 +423,8 @@ export default {
     timeLeft (newValue) {
       if (newValue === 0) {
         this.onTimesUp();
+        this.currentLQ += 1;
+        this.previewQuestion()
 
       }
     }
@@ -626,6 +646,7 @@ export default {
     runQuestion: function () {
       socket.emit("runQuestion", {pollId: this.pollId, questionNumber: this.currentLQ,lang:this.lang})
       this.boolTimerStart=true;
+      this.isUserInGame = true;
       clearInterval(this.timerInterval);
       this.startTimer()
       this.questionRunning=true
@@ -673,6 +694,7 @@ export default {
       TIME_LIMIT=this.timer*(this.finalQuestion[this.currentLQ].length +1) + 5*this.finalQuestion[this.currentLQ].length
       this.boolTimerStart=true;
       this.gameStarted=false;
+      this.isUserInGame=true;
       this.startTimer();
 
     },
@@ -684,6 +706,7 @@ export default {
 
     onTimesUp() {
         console.log("ska stannaaaaa")
+      this.isUserInGame=false;
       clearInterval(this.timerInterval);
 
     },
@@ -1224,7 +1247,7 @@ textbox:hover {
 }
 
 
-#preview-question {
+.preview-question {
   background-color: #EFA500;
   color: white;
   min-height: 10em;
@@ -1259,9 +1282,28 @@ font-size: 15px;*/
 }
 /* Timer Clock */
 
+.playing-info{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  left: 1vw;
+  top: 2vw;
+
+
+
+}
+.playing-info-items{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: left;
+}
+
 .base-timer {
-  float: right;
   position: relative;
+  left: 4.5vw;
   width: 100px;
   height: 100px;
 }
