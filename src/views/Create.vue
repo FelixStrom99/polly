@@ -416,8 +416,7 @@ export default {
     timeLeft (newValue) {
       if (newValue === 0) {
         this.onTimesUp();
-        this.currentLQ += 1;
-        this.previewQuestion()
+
 
       }
     }
@@ -693,6 +692,8 @@ export default {
       socket.emit('sendToResult', {pollId: this.pollId})
       clearInterval(this.timerInterval);
       this.questionRunning=false
+      this.currentLQ += 1;
+      this.previewQuestion()
     },
 
     onTimesUp() {
