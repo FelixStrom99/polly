@@ -388,10 +388,6 @@ button:hover{
   padding-inline-start: 0;
   padding-left: 0;
 
-=======
-  padding-left: 0;
->>>>>>> 70924f062a41a1270640a7fc2506bc0237c2e4d3
-
 }
 
 .circles li{

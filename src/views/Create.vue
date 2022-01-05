@@ -248,21 +248,32 @@
         </div>
       </div>
 
-      <div class="run-question box">
+      <!-- <div class="run-question box">
         <h3>{{ uiLabels.runQuestions }}</h3>
         <div id="run-question-item" v-for="(_,i) in questionSequence" v-bind:key="'question'+i">
           <div v-on:click="currentLQ=i; this.previewQuestion()">{{ questionSequence[i][3] }}</div>
         </div>
-      </div>
+      </div> -->
 
       <div class="run-question preview">
         <h3>{{uiLabels.questionPreview}}</h3>
-        <div v-if="isPreviewQuestion" id="preview-question">
+        <div class="preview-question">
           <p>{{uiLabels.locationQuestion}}:</p>
           {{ questionSequence[currentLQ][3] }}
           <p>{{uiLabels.followUpQuestion}}:</p>
           <div v-for="(ans,i) in questionSequence[currentLQ][0]" v-bind:key="'ans'+i">
             {{ ans[i] }}
+          </div>
+        </div>
+        <div v-if="questionSequence.length > 1 && currentLQ+1 !== questionSequence.length">
+          <p>Next question</p>
+          <div class="preview-question">
+            <p>{{uiLabels.locationQuestion}}:</p>
+            {{ questionSequence[currentLQ+1][3] }}
+            <p>{{uiLabels.followUpQuestion}}:</p>
+            <div v-for="(ans,i) in questionSequence[currentLQ+1][0]" v-bind:key="'ans'+i">
+              {{ ans[i] }}
+            </div>
           </div>
         </div>
       </div>
@@ -404,6 +415,8 @@ export default {
     timeLeft (newValue) {
       if (newValue === 0) {
         this.onTimesUp();
+        this.currentLQ += 1;
+        this.previewQuestion()
 
       }
     }
@@ -1223,7 +1236,7 @@ textbox:hover {
 }
 
 
-#preview-question {
+.preview-question {
   background-color: #EFA500;
   color: white;
   min-height: 10em;
