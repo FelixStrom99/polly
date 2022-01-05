@@ -157,21 +157,22 @@
               </div>
             </div>
           </div>
-          <div id="alternative-questions-wrapper">
-            <button class="playButtons add-alt" v-on:click="addAnswer">
-              {{ uiLabels.addAnswer }}
-            </button>
-            <button class="playButtons delete-alt" v-on:click="deleteAnswer">
-              {{ uiLabels.deleteAnswer }}
-            </button>
-          </div>
-          <button class="playButtons" style="position: relative;top: 3em;"
-                  v-on:click="editQuestion(this.currentLQ, currentMQ); getResponseButton() ">{{ uiLabels.save }}</button>
-          <span>
-            <p v-if="showResponseButton===true" class="hideMe">Your location is saved!</p>
-          </span>
         </div>
-        <div style="position: relative; top: 14em" v-if="firstStage!=true">
+        <div id="alternative-questions-wrapper">
+          <button class="playButtons add-alt" v-on:click="addAnswer">
+            {{ uiLabels.addAnswer }}
+          </button>
+          <button class="playButtons delete-alt" v-on:click="deleteAnswer">
+            {{ uiLabels.deleteAnswer }}
+          </button>
+          <span>
+            <button class="playButtons save-button-create"
+                    v-on:click="editQuestion(this.currentLQ, currentMQ); getResponseButton() ">{{ uiLabels.save }}</button>
+
+            <span v-if="showResponseButton===true" class="hideMe">Your location is saved!</span>
+            </span>
+        </div>
+        <div style="position: relative; top: 6em" v-if="firstStage!=true">
           <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
         </div>
       </div>
@@ -476,6 +477,10 @@ export default {
         this.finalQuestion.pop()
         this.finalCorrect.pop()
         this.indexArray.pop()
+        this.currentLQ = (this.questionSequence.length - 1)
+        this.savedLocation = this.questionSequence[this.currentLQ][4]
+        this.showLocationQuestion()
+
       }
     },
     showLocationQuestion: function () {
@@ -621,14 +626,20 @@ export default {
 }
 
 #alternative-questions-wrapper {
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  gap:2%;
   position: relative;
-  top: 6em;
-  margin-left: 2em;
+  width: 80%;
+  top: 7em;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 .add-alt delete-alt {
-  width: 40%
+  width: 60%;
+  justify-content: space-evenly;
 }
 
 .add-alt {
@@ -645,7 +656,9 @@ export default {
 .delete-alt:hover{
   background-color: #F40058;
 }
-
+.save-button-create {
+  font-size: xx-large;
+}
 /* Section Create quiz // Right Bar */
 .finish-quiz-button {
   background-color: #EFA500;
@@ -780,8 +793,9 @@ export default {
   padding-top: 15px;
   display: flex;
   flex-wrap: wrap;
-  gap: 20px 40px;
   justify-content: center;
+  gap: 20px 40px;
+
   height: 40vh;
 }
 
