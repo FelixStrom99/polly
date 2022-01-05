@@ -1,4 +1,5 @@
 <template>
+  <h3>{{title}}</h3>
 <div class="answer-alternative-size-wrapper">
   <div class="bar" v-for="(item, key) in data" v-bind:key="key">
     <div v-bind:style="{height: item + 'px'}">
@@ -15,6 +16,7 @@
 export default {
   name: 'Bars',
   props: {
+    title:String,
     data: Object
   }
 }

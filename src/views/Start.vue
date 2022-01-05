@@ -383,9 +383,8 @@ button:hover{
   overflow: hidden;
   margin-block-start: 0;
   margin-block-end: 0;
+  padding-inline-start: 0;
   padding-left: 0;
-
-
 }
 
 .circles li{

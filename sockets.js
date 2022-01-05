@@ -35,8 +35,7 @@ function sockets(io, socket, data) {
         socket.emit('newQuestion', data.getQuestion(pollId))
         socket.emit('locationDataUpdate', data.getLocationAnswers(pollId));
         socket.emit('dataUpdate', data.getAnswers(pollId))
-
-
+        
     });
     socket.on('test', function (d) {
         socket.emit('brakrök', data.getUsers(d.pollId))
@@ -54,7 +53,7 @@ function sockets(io, socket, data) {
     });
 
     socket.on('submitAnswer', function (d) {
-        data.submitAnswer(d.pollId, d.answer);
+        data.submitAnswer(d.pollId, d.answer,d.title);
         io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId));
     });
 
