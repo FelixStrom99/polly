@@ -29,14 +29,6 @@
             v-bind:data="followUpData[i]"/>
     </div>
   </div>
-
-<h2> {{uiLabels.followUpQuestion}}</h2>
-
-
-  <Bars v-for="(title,i) in question"
-        v-bind:key="title"
-        v-bind:title="title"
-        v-bind:data="followUpData[i]"/>
 </template>
 
 <script>
