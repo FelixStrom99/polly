@@ -138,7 +138,7 @@
 
 
     <div class="waiting-result-room-info">
-      <div v-if="(index+1)===questions.length">
+      <div v-if="(index+1)===questions.length && displayLocationQuestion===false">
         <p>{{uiLabels.userWait}}</p>
 
         <div class="lds-ripple"><div></div><div></div></div>
