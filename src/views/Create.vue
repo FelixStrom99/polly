@@ -510,10 +510,6 @@ export default {
       this.secondStage = false
     },
     finishQuizFinal: function () {
-      if (this.questionSequence[0][3] == null){
-        alert("Make a Location question")
-      }
-      else {
         this.firstStage = true
         this.currentLQ = 0
 
@@ -528,7 +524,6 @@ export default {
             timer: this.timer
           })
         }
-      }
     },
 
 
@@ -1011,7 +1006,7 @@ export default {
   padding: 1.25rem;
   margin: 5px;
   background: #ffffff;
-  opacity: 90%;
+  opacity: 0.9;
   outline: black;
   border: 2px;
   border-radius: 15px;
@@ -1093,7 +1088,7 @@ textbox:hover {
 }
 
 .map-item:hover{
-  opacity: 80%;
+  opacity: 0.8;
   cursor: pointer;
 
 }
@@ -1212,7 +1207,6 @@ textbox:hover {
   min-height: 10em;
   height: auto;
   gap: 5%;
-  opacity: 95%;
 }
 
 .run-question {
