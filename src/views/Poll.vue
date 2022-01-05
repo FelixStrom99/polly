@@ -449,10 +449,11 @@ export default {
     },
 
     submitAnswer: function (answer, title) {
+      console.log(title)
       this.displayRanOutTime = false
       this.switchToWaitingRoom()
       this.isSubmittedAnswer=true
-      socket.emit("submitAnswer", {pollId: this.pollId, answer: answer})
+      socket.emit("submitAnswer", {pollId: this.pollId, answer: answer,title:title})
       for (let i = 0; i < this.questions.length; i++) {
 
         if ((this.questions[i]).q === title) {

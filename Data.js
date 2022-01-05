@@ -32,32 +32,30 @@ Data.prototype.createPoll = function (pollId, lang = "en") {
         poll.locations = [];
         poll.mapView = {};
         poll.users = [];
-        poll.newGame=true
+        poll.newGame = true
         this.polls[pollId] = poll;
         console.log("poll created", pollId, poll);
     }
     return this.polls[pollId];
 }
 
-Data.prototype.checkGameStatus  = function (pollId) {
-   const poll=this.polls[pollId]
+Data.prototype.checkGameStatus = function (pollId) {
+    const poll = this.polls[pollId]
     if (typeof poll === 'undefined') {
-        return {pollStatus:false,newGame:false,id:pollId}
-    }
-    else{
-        return {pollStatus:true,newGame:poll.newGame,id:pollId}
+        return {pollStatus: false, newGame: false, id: pollId}
+    } else {
+        return {pollStatus: true, newGame: poll.newGame, id: pollId}
     }
 }
 
-Data.prototype.startGame  = function (pollId) {
-    this.polls[pollId].newGame=false
+Data.prototype.startGame = function (pollId) {
+    this.polls[pollId].newGame = false
 }
-Data.prototype.checkIfNewGame  = function (pollId) {
-    const poll=this.polls[pollId]
+Data.prototype.checkIfNewGame = function (pollId) {
+    const poll = this.polls[pollId]
     if (typeof poll !== 'undefined') {
         return poll.newGame
-    }
-    else {
+    } else {
         return true
     }
 }
@@ -126,22 +124,50 @@ Data.prototype.getQuestion = function (pollId, qId = null) {
 
 }
 
-Data.prototype.submitAnswer = function (pollId, answer) {
+Data.prototype.submitAnswer = function (pollId, answer,title) {
     const poll = this.polls[pollId];
     console.log("answer submitted for ", pollId, answer);
     if (typeof poll !== 'undefined') {
         let answers = poll.answers[poll.currentQuestion];
-        if (typeof answers !== 'object') {
-            answers = {};
-            answers[answer] = 1;
-            poll.answers.push(answers);
-        } else if (typeof answers[answer] === 'undefined')
-            answers[answer] = 1;
-        else
-            answers[answer] += 1
-        console.log("answers looks like ", answers, typeof answers);
+        if (Array.isArray(answers)==false) {
+            poll.answers.push([])
+
+            let currentAnswer = {q: title, [answer]: 1}
+            poll.answers[poll.currentQuestion].push(currentAnswer)
+        } else {
+            console.log("test", poll.answers[poll.currentQuestion])
+            for (let i = 0; i < poll.answers[poll.currentQuestion].length; i++) {
+
+                if (answers[i].q == title && typeof answers[i][answer] !== 'undefined') {
+
+                    answers[i][answer] += 1
+                    break
+                } else if (answers[i].q == title && typeof answers[i][answer] == 'undefined') {
+
+                    answers[i][answer] = 1
+                    break
+                } else if (answers[i].q !== title && i==poll.answers[poll.currentQuestion].length-1) {
+                    let currentAnswer = {q: title, [answer]: 1}
+                    poll.answers[poll.currentQuestion].push(currentAnswer)
+                    break
+                }
+
+            }
+        }
+
+        console.log("answers looks like",answers)
     }
+
 }
+/*   answers[answer] = 1;
+   poll.answers.push(answers);
+} else if (typeof answers[answer] === 'undefined')
+   answers[answer] = 1;
+else
+   answers[answer] += 1
+console.log("answers looks like ", answers, typeof answers);
+}
+}*/
 Data.prototype.submitLocationAnswer = function (pollId, answer) {
     const poll = this.polls[pollId];
     console.log("answer submitted for ", pollId, answer);
@@ -164,10 +190,11 @@ Data.prototype.getAnswers = function (pollId) {
         console.log("hej", poll.answers[poll.currentQuestion])
         if (typeof poll.questionSequence[poll.currentQuestion] !== 'undefined') {
 
-            return {q: poll.questionSequence[poll.currentQuestion].q, a: answers};
+            return answers;
         }
+    } else {
+        return {}
     }
-    return {}
 }
 Data.prototype.getLocationAnswers = function (pollId) {
     const poll = this.polls[pollId];
