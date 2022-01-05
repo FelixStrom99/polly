@@ -201,7 +201,7 @@
 
   <section class="host-view" v-if="secondStage===false && firstStage===true">
     <h1>{{uiLabels.hostView}}</h1>
-<div>
+<div id="fixedwalla">
   {{uiLabels.hostTimeLeft}}
     <div class="base-timer" id="timer-location">
       <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -794,6 +794,11 @@ export default {
 }
 
 /* Section Host View */
+#fixedwalla{
+  position:fixed;
+  top:1vh;
+  right:1vm;
+}
 
 .hideMe {
    animation: removeResponse  5s forwards;
