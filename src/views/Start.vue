@@ -1,5 +1,5 @@
 <template>
-
+  <title>Mapquiz</title>
   <main>
   <section>
       <button id="LangButton" style="width: 10%" v-on:click="switchLanguage">
@@ -94,7 +94,7 @@ export default {
       id: "",
       lang: "en",
       play: false,
-      gameStatus:null
+      gameStatus:null,
 
     }
   },
@@ -105,6 +105,7 @@ export default {
     socket.on("gameChecked", (status) => {
       this.gameChecked(status)
     })
+    document.title = "Mapquiz"
   },
   methods: {
 
