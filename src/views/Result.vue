@@ -105,12 +105,14 @@ export default {
   methods: {
 
     createAnswerArray: function (answerData) {
-      console.log("mja",this.question)
       for (let i = 0; i < answerData.length; i++) {
         this.question.push((answerData[i].q))
-        console.log(answerData[i].q,"hej")
-        delete answerData[i].q
-        this.followUpData.push(answerData[i])
+       let keys=Object.keys(answerData[i])
+        let answers={}
+        for (let index = 1; index < keys.length; index++) {
+          answers[keys[index]]=answerData[i][keys[index]]
+        }
+        this.followUpData.push(answers)
       }
 
     },
