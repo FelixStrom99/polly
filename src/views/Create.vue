@@ -229,13 +229,11 @@
   <div id="host-view-buttons">
     <div v-if="gameStarted===true">
       <button class="hostButtons" v-on:click="startGame">{{ uiLabels.startGame }}</button>
+      <button class="hostbuttons" v-on:click="goBackEdit">Go back to editing</button>
     </div>
     <div v-else-if="gameStarted===false">
       <button class="hostButtons" v-on:click="runQuestion" v-if="questionRunning===false">{{uiLabels.runQuestion }}</button>
       <button class="hostButtons" v-on:click="checkResult()" v-else-if="questionRunning===true">{{ uiLabels.checkResult }}  </button>
-     <!-- <button v-on:click="goBackEdit">
-        Go back to editing
-      </button> -->
     </div>
 
     <button class="hostButtons" v-on:click="updatePlayers">{{uiLabels.updatePlayers }}</button>

@@ -1,24 +1,34 @@
 <template>
-
+  <ul class="circles">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
   <h1> {{uiLabels.results}}</h1>
  <h2> {{ locationQuestion }} </h2>
 
   <h3> {{uiLabels.resultsInfo}}</h3>
   <div id="boxResult">
-  <div id="openlayers-map">
-    <MapContainerResults :geojson="geojson" v-bind:key=updateZoom  v-bind:locationData="locationData" v-bind:correctLocation="correctLocation" v-bind:mapView="mapView"> </MapContainerResults>
+    <div id="openlayers-map">
+      <MapContainerResults :geojson="geojson" v-bind:key=updateZoom  v-bind:locationData="locationData" v-bind:correctLocation="correctLocation" v-bind:mapView="mapView"> </MapContainerResults>
+    </div>
   </div>
+  <div class="result-bar-container">
+    <h2> {{uiLabels.followUpQuestion}}</h2>
+    <div class="result-bar-wrapper">
+      <Bars class="result-bar-item" v-for="(title,i) in question"
+            v-bind:key="title"
+            v-bind:title="title"
+            v-bind:data="followUpData[i]"/>
+    </div>
   </div>
-<h2> {{uiLabels.followUpQuestion}}</h2>
-
-
-  <Bars v-for="(title,i) in question"
-        v-bind:key="title"
-        v-bind:title="title"
-        v-bind:data="followUpData[i]"/>
-
-
-
 
 
 
@@ -130,5 +140,21 @@ export default {
   padding: 0;
   height: 20em;
   width: 90%;
+}
+.result-bar-container {
+  margin-top: 1vw;
+  background-color: #2d3572;
+  border: 0.3em solid #EFA500;
+  height:auto;
+}
+.result-bar-wrapper{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex-wrap: wrap;
+
+}
+.result-bar-item {
+
 }
 </style>
