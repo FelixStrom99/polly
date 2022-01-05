@@ -241,6 +241,7 @@
 
     </div>
   </section>
+  {{finalQuestion}}
 
 </template>
 

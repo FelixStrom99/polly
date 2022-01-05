@@ -54,7 +54,7 @@ function sockets(io, socket, data) {
     });
 
     socket.on('submitAnswer', function (d) {
-        data.submitAnswer(d.pollId, d.answer);
+        data.submitAnswer(d.pollId, d.answer,d.title);
         io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId));
     });
 
