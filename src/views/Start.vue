@@ -57,7 +57,7 @@
             </button>
             </div>
           <div v-else>
-            <button class="playButtons" v-on:click="showPlay">{{ uiLabels.play }}</button>
+            <button class="playButtons" id="play-button" v-on:click="showPlay">{{ uiLabels.play }}</button>
           </div>
           <div id="backToMainButtonCenter">
           <button v-if="play===true" v-on:click="showPlayFalse" class="playButtons"  id="backToMainButton">
@@ -247,6 +247,21 @@ button:hover{
     width:auto;
     font-size:6vw;
   }
+  #nav {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40%;
+  }
+
+  .headertext div{
+    margin-top: 1em;
+    font-size: 20vw;
+    color: white;
+    font-weight: bold;
+  }
+  #play-button{
+    font-size: 15vw;
+  }
 }
 @media only screen and (max-width: 813px) {
   #create-button{
@@ -293,26 +308,12 @@ button:hover{
   padding-left: 2em;
   padding-right: 2em;
 }
-@media only screen and (max-width: 600px){
-  #nav {
-    display: flex;
-    flex-direction: column;
-    margin-top: 40%;
-  }
-}
+
 .header-prop{
   background: white;
   height: 20%
 }
 
-@media only screen and (max-width: 600px) {
-  .headertext div{
-    margin-top: 1em;
-    font-size: 20vw;
-    color: white;
-    font-weight: bold;
-  }
-}
 
 .headertext {
   margin-top: 1em;
@@ -365,10 +366,13 @@ button:hover{
   position: absolute;
   top: 0;
   left: 0;
-  width: 97%;
+  width: 100%;
   height: 100%;
   overflow: hidden;
   margin-block-start: 0;
+  margin-block-end: 0;
+  padding-inline-start: 0;
+
 }
 
 .circles li{

@@ -43,9 +43,9 @@
       <header class="quiz-questions">
         {{LocationQuestion.lq}}
       </header>
-      <p style="font-weight: bold; color: white">{{ uiLabels.pinLocation }}</p>
-      <div id="map-question-wrapper">
 
+      <div id="map-question-wrapper">
+        <p style="font-weight: bold; color: white">{{ uiLabels.pinLocation }}</p>
         <div class="base-timer" id="timer-location">
           <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
             <g class="base-timer__circle">
@@ -65,7 +65,7 @@
           </svg>
           <span class="base-timer__label">{{ formattedTimeLeft }}</span>
         </div>
-    <div class="openlayers-map">
+    <div class="openlayers-map" id="guess-map">
       <MapContainer :geojson="geojson" v-bind:key=updateZoom v-bind:correctLocation="LocationQuestion.location" v-bind:mapView="mapView" v-on:userLocation="userLocation=$event"> </MapContainer>
     </div>
     <div class="move">
@@ -114,7 +114,7 @@
 
     <div class="map-result" v-if="displayLocationQuestion===true">
       <header class="waiting-result-room-header">{{ uiLabels.locationResult }}</header>
-      <div class="openlayers-map">
+      <div class="openlayers-map" id="result-map">
         <MapContainerPollResult :geojson="geojson" v-bind:key=updateZoom v-bind:correctLocation="LocationQuestion.location" v-bind:mapView="mapView" v-bind:userLocation="userLocation" v-bind:distance="distance" > </MapContainerPollResult>
       </div>
     </div>
@@ -509,6 +509,8 @@ export default {
 
 <style>
 
+
+
 /* General CSS for Poll.vue */
 
 /* Choose username */
@@ -580,12 +582,12 @@ waitingroom-users p{
 .waiting-result-room-header{
   color: white;
   font-weight: bold;
-  font-size: 200%;
+  font-size: 4vh;
   padding-top: 100px;
 }
 .waiting-result-room-info{
   position: relative;
-  font-size: 130%;
+  font-size: 2vw;
 
 }
 .quiz-questions{
@@ -852,6 +854,58 @@ waitingroom-users p{
   }
 }
 /* loading icon end*/
+
+@media only screen and (max-width: 600px) {
+
+  .waiting-result-room-header h1{
+    font-size: 8vw;
+    margin-bottom: 5em;
+  }
+  .waiting-result-room-info p{
+    font-size: 5vw;
+    margin-top: 5em;
+  }
+  .incorrekt-marker{
+    margin-top: -6em;
+  }
+  #guess-map{
+    height: 100vw;
+  }
+  #result-map{
+    height: 100vw;
+  }
+  #timer-location{
+    position: absolute;
+    top: 21vw;
+    left: 37%;
+    z-index: 100;
+  }
+  #map-question-wrapper{
+    margin-top: 25vw;
+  }
+
+  .poll-container{
+    margin-top: 25vw;
+  }
+  #timer-followup{
+    position: absolute;
+    top: 23vw;
+    left: 37%;
+    z-index: 100;
+  }
+
+  .quiz-questions{
+    font-size: 5vw;
+  }
+
+
+  #question-counter{
+    margin-top: 12vw;
+  }
+
+
+
+}
 
 
 </style>
