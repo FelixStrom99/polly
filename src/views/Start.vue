@@ -334,6 +334,8 @@ button:hover{
   padding-right: 2em;
 }
 
+
+
 @media only screen and (max-width: 600px){
   #nav {
     padding-left: 0px;
@@ -399,7 +401,15 @@ button:hover{
   width: 100%;
   height: 100%;
   overflow: hidden;
+
+  margin-block-start: 0;
+  margin-block-end: 0;
+  padding-inline-start: 0;
   padding-left: 0;
+
+=======
+  padding-left: 0;
+>>>>>>> 70924f062a41a1270640a7fc2506bc0237c2e4d3
 
 }
 
