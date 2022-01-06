@@ -374,7 +374,7 @@ export default {
       displayRanOutTime:      false,
       boolTimerStart:         false,
       isQuestionNotWaitingRoom:true,
-      isUserInGame            :false
+      isUserInGame            :false,
     }
   },
   /*mounted() {
@@ -529,9 +529,14 @@ export default {
       this.secondStage = false
     },
     finishQuizFinal: function () {
-        this.firstStage = true
-        this.currentLQ = 0
-
+      for (var j = 0; j <= this.questionSequence.length; j++) {
+        if (this.questionSequence[j][4].x == 0 && this.questionSequence[j][4].y == 0){
+          alert(this.questionSequence[j][3]+" doesn't have a location clicked ")
+          return
+        }
+      }
+      this.firstStage = true
+      this.currentLQ = 0
         for (var i = 0; i <= this.questionSequence.length; i++) {
           socket.emit("addQuestion", {
             pollId: this.pollId,

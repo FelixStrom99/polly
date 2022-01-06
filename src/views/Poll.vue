@@ -547,7 +547,7 @@ footer {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  opacity: 85%;
+  opacity: 0.85;
   height: 50vh;
   width: 50%;
   background-color: #2d3572;
