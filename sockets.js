@@ -51,6 +51,10 @@ function sockets(io, socket, data) {
         io.to(d.pollId).emit('sendToPoll',d.lang)
         io.to(d.pollId).emit('newQuestion', data.getQuestion(d.pollId, d.questionNumber));
     });
+    socket.on('submitQuestions', function (d) {
+        data.submitQuestions(d.pollId, d.questions);
+        console.log("kom det hit?")
+    });
 
     socket.on('submitAnswer', function (d) {
         data.submitAnswer(d.pollId, d.answer,d.title);

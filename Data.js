@@ -123,41 +123,35 @@ Data.prototype.getQuestion = function (pollId, qId = null) {
     }
 
 }
-
+Data.prototype.submitQuestions = function (pollId, questions) {
+    const poll = this.polls[pollId];
+    if (typeof poll !== 'undefined') {
+            if (Array.isArray(poll.answers[poll.currentQuestion]) == false) {
+                poll.answers.push([])
+                for (let i = 0; i < questions.length; i++) {
+                    let answer = {question:(questions[i]).q}
+                    for (let index = 0; index < (questions[i].a).length; index++) {
+                        answer[((questions[i]).a)[index]] = 0
+                    }
+                    poll.answers[poll.currentQuestion].push(answer)
+                }
+            console.log("answersfinal",poll.answers[poll.currentQuestion])
+        }
+    }
+}
 Data.prototype.submitAnswer = function (pollId, answer,title) {
     const poll = this.polls[pollId];
     console.log("answer submitted for ", pollId, answer);
     if (typeof poll !== 'undefined') {
         let answers = poll.answers[poll.currentQuestion];
-        if (Array.isArray(answers)==false) {
-            poll.answers.push([])
-
-            let currentAnswer = {q: title, [answer]: 1}
-            poll.answers[poll.currentQuestion].push(currentAnswer)
-        } else {
-            console.log("test", poll.answers[poll.currentQuestion])
-            for (let i = 0; i < poll.answers[poll.currentQuestion].length; i++) {
-
-                if (answers[i].q == title && typeof answers[i][answer] !== 'undefined') {
-
+            for (let i = 0; i < answers.length; i++) {
+                if (answers[i].question == title) {
                     answers[i][answer] += 1
                     break
-                } else if (answers[i].q == title && typeof answers[i][answer] == 'undefined') {
-
-                    answers[i][answer] = 1
-                    break
-                } else if (answers[i].q !== title && i==poll.answers[poll.currentQuestion].length-1) {
-                    let currentAnswer = {q: title, [answer]: 1}
-                    poll.answers[poll.currentQuestion].push(currentAnswer)
-                    break
                 }
-
             }
         }
-
-        console.log("answers looks like",answers)
-    }
-
+        console.log("answers looks like",poll.answers[poll.currentQuestion])
 }
 /*   answers[answer] = 1;
    poll.answers.push(answers);
@@ -190,7 +184,7 @@ Data.prototype.getAnswers = function (pollId) {
         console.log("hej", poll.answers[poll.currentQuestion])
         if (typeof poll.questionSequence[poll.currentQuestion] !== 'undefined') {
 
-            return answers;
+            return {answers:answers,correct:poll.questionSequence[poll.currentQuestion][2]};
         }
     } else {
         return {}
