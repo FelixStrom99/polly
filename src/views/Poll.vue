@@ -163,7 +163,6 @@
       <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
     </footer>
 
-{{correctans}}
   </main>
 
 </template>

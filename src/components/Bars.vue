@@ -1,13 +1,14 @@
 <template>
   <h3>{{title}}</h3>
 <div class="answer-alternative-size-wrapper">
-  <div class="bar" v-for="(item, key) in data" v-bind:key="key">
+  <div class="bar" v-for="(item, key,i) in data" v-bind:key="key">
     <div v-bind:style="{height: item*0.3 + 'vh'}">
       <span> {{item}} </span>
     </div>
     <div> 
       {{key}}
     </div>
+    {{correct[i]}}
   </div>
 </div>
 </template>
@@ -17,7 +18,8 @@ export default {
   name: 'Bars',
   props: {
     title:String,
-    data: Object
+    data: Object,
+    correct:Array
   }
 }
 </script>

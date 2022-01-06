@@ -53,12 +53,12 @@ function sockets(io, socket, data) {
     });
     socket.on('submitQuestions', function (d) {
         data.submitQuestions(d.pollId, d.questions);
-        console.log("kom det hit?")
+       
     });
 
     socket.on('submitAnswer', function (d) {
         data.submitAnswer(d.pollId, d.answer,d.title);
-        io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId));
+       //* io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId));
     });
 
     socket.on('submitLocationAnswer', function (d) {

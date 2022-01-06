@@ -181,10 +181,8 @@ Data.prototype.getAnswers = function (pollId) {
     const poll = this.polls[pollId];
     if (typeof poll !== 'undefined') {
         const answers = poll.answers[poll.currentQuestion]
-        console.log("hej", poll.answers[poll.currentQuestion])
         if (typeof poll.questionSequence[poll.currentQuestion] !== 'undefined') {
-
-            return {answers:answers,correct:poll.questionSequence[poll.currentQuestion][2]};
+            return {answers:answers,correct:(poll.questionSequence[poll.currentQuestion]).correct};
         }
     } else {
         return {}
