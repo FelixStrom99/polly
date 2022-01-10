@@ -2,8 +2,8 @@
   <title>Mapquiz</title>
   <main>
   <section>
-      <button id="LangButton" style="width: 10%" v-on:click="switchLanguage">
-        <div>
+      <button id="LangButtonContainer"  v-on:click="switchLanguage">
+        <div id="langIcon">
         <object data="/svg_files/Language_symbol/language-symbol.svg" type="image/svg+xml" style="float: left" >
         </object>
         </div>
@@ -217,13 +217,14 @@ button:hover{
   cursor:pointer;
 }
 
-#LangButton {
-  width:50%;
-  width:8%;
-  height: 5%;
+#LangButtonContainer {
+  border: 0.05em solid white;
+  color: white;
+  background:none;
+  width:115px;
+  height: 35px;
   font-size:100%;
   text-align: center;
-  border: none;
   border-radius: 6px;
   position: absolute;
   top: 20px;
@@ -240,6 +241,24 @@ button:hover{
     font-size:xxx-large;
 }
 @media only screen and (max-width: 600px) {
+  #langIcon{
+    display: none ;
+  }
+  #LangButtonContainer {
+    border: none;
+    color: white;
+    border-radius: 50%;
+    background:none;
+    width:8%;
+    height: 5%;
+    font-size:100%;
+    text-align: center;
+
+    border-radius: 6px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
   .playButtons{
     flex-basis: content;
     color: white;
@@ -371,9 +390,6 @@ button:hover{
 
 
 
-
-
-
 .circles{
   z-index: -1;
   position: absolute;
@@ -382,11 +398,6 @@ button:hover{
   width: 100%;
   height: 100%;
   overflow: hidden;
-
-  margin-block-start: 0;
-  margin-block-end: 0;
-  padding-inline-start: 0;
-  padding-left: 0;
 }
 
 .circles li{

@@ -31,8 +31,8 @@
 	"hostWait": "Wait for the host to start the game...",
 	"submitLocation": "Submit location!",
 	"pinLocation": "Click on the map to pinpoint the location",
-	"correctAns": "Correct answer, you are almost as bright as Adrian!",
-	"incorrectAns": "Incorrect.. but the dragon flies in head-wind",
+	"correctAns": "Correct answer, good job!",
+	"incorrectAns": "Incorrect.. better luck next time!",
 	"locationResult": "Here you can see the correct pin",
 	"timeEnd": "Ran out of time!",
 	"chooseFree": "Whole world",
@@ -68,6 +68,7 @@
 	"gameSession": "Game is already in session",
 	"backMain": " Back to start",
 	"seconds": "seconds",
-	"hostTimeLeft": "Time until all players have answered the chosen question:"
+	"hostTimeLeft": "Time until all players have answered the chosen question:",
+	"hostGameNot": "No question is running"
 
 }
