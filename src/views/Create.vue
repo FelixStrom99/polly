@@ -264,14 +264,16 @@
         </div>
       </div> -->
 
-      <div class="run-question preview">
+      <div class="run-question preview" style="overflow: scroll">
         <h3>{{uiLabels.questionPreview}}</h3>
         <div class="preview-question">
           <p>{{uiLabels.locationQuestion}}:</p>
-          {{ questionSequence[currentLQ][3] }}
-          <p>{{uiLabels.followUpQuestion}}:</p>
-          <div v-for="(ans,i) in questionSequence[currentLQ][0]" v-bind:key="'ans'+i">
-            {{ ans[i] }}
+          <div class="preview-question-text">
+            {{ questionSequence[currentLQ][3] }}
+            <p>{{uiLabels.followUpQuestion}}:</p>
+            <div v-for="(ans,i) in questionSequence[currentLQ][0]" v-bind:key="'ans'+i" style="word-wrap: break-word; margin-bottom: 1em;">
+              {{ ans[i] }}
+            </div>
           </div>
         </div>
         <div v-if="questionSequence.length > 1 && currentLQ+1 !== questionSequence.length">
@@ -280,7 +282,7 @@
             <p>{{uiLabels.locationQuestion}}:</p>
             {{ questionSequence[currentLQ+1][3] }}
             <p>{{uiLabels.followUpQuestion}}:</p>
-            <div v-for="(ans,i) in questionSequence[currentLQ+1][0]" v-bind:key="'ans'+i">
+            <div v-for="(ans,i) in questionSequence[currentLQ+1][0]" v-bind:key="'ans'+i" style="word-wrap: break-word; margin-bottom: 1em;">
               {{ ans[i] }}
             </div>
           </div>
@@ -432,6 +434,7 @@ export default {
 
   created: function () {
     this.lang = this.$route.params.lang;
+    document.title = "Mapquiz"
     this.addNewPollQuestion()
     socket.emit("pageLoaded", {lang: this.lang, id: this.pollId});
     socket.on("init", (labels) => {
@@ -513,11 +516,11 @@ export default {
         x: null,
         y: null
       }
+      this.currentLQ = this.questionSequence.length-1
+      this.showLocationQuestion()
       if(this.questionSequence.length > 1) {
         this.expandAndCollapseBox(this.questionSequence.length-1)
-        this.showLocationQuestion()
       }
-
     },
     nextSection: function () {
       this.secondStage = false
@@ -1183,6 +1186,10 @@ textbox:hover {
   flex-direction: row;
   justify-content: center;
 }
+#host-view-buttons button {
+  margin-left: 0.5em;
+}
+
 .hostButtons{
   flex-shrink: 2;
   color: white;
@@ -1253,6 +1260,16 @@ textbox:hover {
   color: white;
   min-height: 10em;
   border-radius: 7px;
+  padding: 1em;
+}
+
+.preview-question p {
+  padding-top: 0.5em;
+  margin-top: 0;
+  border-radius: 7px;
+  background-color: #161B40;
+  text-decoration: underline;
+
 }
 
 
