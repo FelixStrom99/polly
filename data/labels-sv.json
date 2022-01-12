@@ -71,5 +71,12 @@
 	"backMain": "Tillbaka till start",
 	"seconds": "sekunder",
 	"hostTimeLeft": "Tid kvar till alla spelare svarat på vald fråga:",
-	"hostGameNot": "Ingen fråga är igång"
+	"hostGameNot": "Ingen fråga är igång",
+	"gameFinished": "Spelet är färdigt!",
+	"thankGame": "Tack för att spelat:",
+	"finishedFooter": "Appen skapad av: ",
+	"finishTheGame": "Avsluta spelet",
+	"noAnswer": "Ingen plats skickad",
+	"youWere": "Du var ",
+	"metersLocation": " meter från rätt plats!"
 }

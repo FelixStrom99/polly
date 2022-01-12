@@ -78,7 +78,7 @@
       <h1>{{uiLabels.overView}}</h1>
       <span>{{ uiLabels.expand }}: </span>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
-        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i);removeResponse(); showLocationQuestion()">
+        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i);removeResponse(); showLocationQuestion(),updateZoom+=1">
           <div v-if="questionSequence[i][3] == ''">{{this.uiLabels.newQuestion + " " + (i+1)}}</div>
           <div v-else>{{questionSequence[i][3]}}</div>
         </div>
@@ -119,7 +119,7 @@
         <h3>{{uiLabels.createInfo}}</h3>
         <div id="openlayers-map">
           <MapContainerCreate :geojson="geojson"
-                              v-on:location="location=$event" v-bind:mapView="mapView" v-bind:location="savedLocation"  id="mapLq-and-q">
+                              v-on:location="location=$event" v-bind:key="updateZoom" v-bind:mapView="mapView" v-bind:location="savedLocation"  id="mapLq-and-q">
           </MapContainerCreate>
         </div>
         <div>
@@ -247,7 +247,7 @@
       <p v-if="questionRunning==false">Players are checking result...</p>
     </div>
     <button  class="hostButtons" v-if="gameIsFinished" v-on:click="finishGame()">
-      <router-link class="routerLink" v-bind:to="'/finished/'+pollId+'/'+lang">Finished</router-link> <!-- uiLabels.createPoll-->
+      <router-link class="routerLink" v-bind:to="'/finished/'+pollId+'/'+lang">{{uiLabels.finishTheGame}}</router-link> <!-- uiLabels.createPoll-->
     </button>
     <p v-if="questionRunning==false && gameIsFinished">Players are checking result...</p>
     <div>
@@ -386,6 +386,7 @@ export default {
       boolTimerStart:         false,
       isQuestionNotWaitingRoom:true,
       isUserInGame            :false,
+      updateZoom:0,
       gameIsFinished: false,
     }
   },
@@ -505,7 +506,7 @@ export default {
     },
 
     addNewPollQuestion: function () {
-
+      this.updateZoom+=1
       var newQuestion = []
       this.indexArray.push([0])
       this.finalQuestion.push([])
@@ -1291,9 +1292,7 @@ textbox:hover {
   padding-top: 0.5em;
   margin-top: 0;
   border-radius: 7px;
-  background-color: #161B40;
-  text-decoration: underline;
-
+  font-size: 120%;
 }
 
 
