@@ -78,8 +78,8 @@
       <h1>{{uiLabels.overView}}</h1>
       <span>{{ uiLabels.expand }}: </span>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
-        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i);removeResponse()">
-          <div v-if="questionSequence[i][3] == ''">{{this.uiLabels.newQuestion}}</div>
+        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i);removeResponse(); showLocationQuestion()">
+          <div v-if="questionSequence[i][3] == ''">{{this.uiLabels.newQuestion + " " + (i+1)}}</div>
           <div v-else>{{questionSequence[i][3]}}</div>
         </div>
         <div class="content">
@@ -238,19 +238,18 @@
   <div id="host-view-buttons">
     <div v-if="gameStarted===true">
       <button class="hostButtons" v-on:click="startGame">{{ uiLabels.startGame }}</button>
-      <button class="hostbuttons" v-on:click="goBackEdit">Go back to editing</button>
+      <button class="hostButtons" v-on:click="goBackEdit">Go back to editing</button>
     </div>
     <div v-else-if="gameStarted===false">
       <button class="hostButtons" v-on:click="runQuestion" v-if="questionRunning===false">{{uiLabels.runQuestion }}</button>
-      <button class="hostButtons" v-on:click="checkResult()" v-else-if="questionRunning===true">{{ uiLabels.checkResult }}  </button>
+      <button class="hostButtons" v-on:click="checkResult()" v-else-if="/*questionRunning===true &&*/ isUserInGame===false">{{ uiLabels.checkResult }}  </button>
     </div>
-
-    <button class="hostButtons" v-on:click="updatePlayers">{{uiLabels.updatePlayers }}</button>
   </div>
 
     <div id="run-question-wrapper">
       <div class="run-question waitingroom">
         <h3>{{ uiLabels.playersConnected }}</h3>
+        <button v-if="gameStarted" v-on:click="updatePlayers">{{uiLabels.updatePlayers }}</button>
         <div id="run-question-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i"
              style="  color: white;font-size:20px;">
           <p>{{ u }}</p>
@@ -488,6 +487,8 @@ export default {
         this.questionSequence[firstIndex][4].x = this.location.x
         this.questionSequence[firstIndex][4].y = this.location.y
       }
+      if(!this.createMultipleChoiceQuestion)
+      this.expandAndCollapseBox(this.currentLQ)
     },
 
     addNewPollQuestion: function () {
@@ -507,14 +508,15 @@ export default {
       })
       this.questionSequence.push(newQuestion)
       this.pollQuestionIndex += 1
-      this.currentLQ = (this.questionSequence.length - 1)
       this.savedLocation= {
         x: null,
         y: null
       }
       if(this.questionSequence.length > 1) {
+        this.expandAndCollapseBox(this.questionSequence.length-1)
         this.showLocationQuestion()
       }
+
     },
     nextSection: function () {
       this.secondStage = false
@@ -605,7 +607,6 @@ export default {
     },
     expandAndCollapseBox: function (imp) {
       this.currentLQ = imp
-      this.showLocationQuestion()
       var coll = document.getElementsByClassName("collapsible");
       var content
       var j

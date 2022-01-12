@@ -34,8 +34,6 @@
 
 
 
-
-
 </template>
 
 <script>
@@ -88,7 +86,6 @@ export default {
       this.question=[]
       this.followUpData = [];
       this.locationQuestion = update.lq
-      //* this.locationData={}
       this.updateZoom += 1
       this.correctLocation = update.location
 
