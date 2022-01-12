@@ -385,11 +385,8 @@ export default {
       boolTimerStart:         false,
       isQuestionNotWaitingRoom:true,
       isUserInGame            :false,
-<<<<<<< HEAD
-      updateZoom:0
-=======
+      updateZoom:0,
       gameIsFinished: false,
->>>>>>> e8dd956d2865e3d2ccacb96a0201102a830e5adf
     }
   },
 
