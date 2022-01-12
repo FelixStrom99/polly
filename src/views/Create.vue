@@ -240,9 +240,15 @@
       <button class="hostButtons" v-on:click="startGame">{{ uiLabels.startGame }}</button>
       <button class="hostButtons" v-on:click="goBackEdit">Go back to editing</button>
     </div>
-    <div v-else-if="gameStarted===false">
+    <div v-else-if="gameStarted===false && currentLQ < questionSequence.length-1">
       <button class="hostButtons" v-on:click="runQuestion" v-if="questionRunning===false">{{uiLabels.runQuestion }}</button>
-      <button class="hostButtons" v-on:click="checkResult()" v-else-if="/*questionRunning===true &&*/ isUserInGame===false">{{ uiLabels.checkResult }}  </button>
+      <button class="hostButtons" v-on:click="checkResult()" v-else-if="isUserInGame===false">{{ uiLabels.checkResult }}  </button>
+    </div>
+    <button  class="hostButtons" v-if="currentLQ == questionSequence.length-1">
+      <router-link class="routerLink" v-bind:to="'/finished/'+lang">{{ uiLabels.create }}</router-link> <!-- uiLabels.createPoll-->
+    </button>
+    <div>
+
     </div>
   </div>
 
