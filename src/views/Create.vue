@@ -79,8 +79,8 @@
       <span>{{ uiLabels.expand }}: </span>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
         <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i);removeResponse(); showLocationQuestion(),updateZoom+=1">
-          <div v-if="questionSequence[i][3] == ''">{{this.uiLabels.newQuestion + " " + (i+1)}}</div>
-          <div v-else>{{questionSequence[i][3]}}</div>
+          <div v-if="questionSequence[i][3] == ''" style="color:white">{{this.uiLabels.locationQuestion + " " + (i+1)}}</div>
+          <div v-else style="color:white">{{questionSequence[i][3]}}</div>
         </div>
         <div class="content">
           <div class="content-mq" v-for="(_,j) in questionSequence[i][0]" v-bind:key="'answers'+j">
@@ -112,7 +112,7 @@
     </div>
     <div class="create lq-and-q">
       <div class="location-question" v-if="createLocationQuestion">
-        <h1>{{ uiLabels.create }} {{uiLabels.locationQuestion}} {{this.currentLQ+1}}</h1>
+        <h1>{{uiLabels.locationQuestion}} {{this.currentLQ+1}}</h1>
         <div>
           <input class="participateInput" style="width: 40%" type="text" v-bind:placeholder=uiLabels.enterLocationQuestion v-model="locationQuestion" autocomplete="off">
         </div>
@@ -136,7 +136,7 @@
       </div>
 
       <div class="create theme" v-if="createMultipleChoiceQuestion">
-        <h1>{{ uiLabels.create }} {{uiLabels.followUpQuestion}} {{this.currentMQ+1}}</h1>
+        <h1>{{uiLabels.followUpQuestion}} {{this.currentMQ+1}}</h1>
         <input class="participateInput" style="width: 40%" type="text" v-bind:placeholder=uiLabels.enterFollowUp v-model="question">
         <div class="question-multiple">
           <div class="Answer-box-wrapper">
@@ -256,7 +256,7 @@
   </div>
 
     <div id="run-question-wrapper">
-      <div class="run-question waitingroom">
+      <div class="run-question waitingroom" style="overflow: scroll">
         <h3>{{ uiLabels.playersConnected }}</h3>
         <button v-if="gameStarted" v-on:click="updatePlayers">{{uiLabels.updatePlayers }}</button>
         <div id="run-question-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i"
@@ -635,7 +635,7 @@ export default {
       coll[imp].classList.toggle("active");
       content = coll[imp].nextElementSibling;
       if (content.style.maxHeight && !this.currentLQ) {
-        content.style.maxHeight = null;
+          content.style.maxHeight = null;
       } else {
         content.style.maxHeight = content.scrollHeight + 40 + "px";
       }
@@ -1272,6 +1272,7 @@ textbox:hover {
 .run-question waitingroom {
   min-width: 10%;
   margin-left: 5%;
+
 }
 
 .run-question preview{
