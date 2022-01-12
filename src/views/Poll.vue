@@ -71,7 +71,7 @@
           <span class="base-timer__label">{{ formattedTimeLeft }}</span>
         </div>
     <div class="openlayers-map-poll" id="guess-map">
-      <MapContainer :geojson="geojson" v-bind:key=updateZoom v-bind:correctLocation="LocationQuestion.location" v-bind:mapView="mapView" v-on:userLocation="userLocation=$event"> </MapContainer>
+      <MapContainer :geojson="geojson" v-bind:key=updateZoom v-bind:correctLocation="LocationQuestion.location" v-bind:mapView="mapView" v-on:userLocation="userLocation=$event" v-bind:uiLabels="uiLabels" v-bind:lang="lang"> </MapContainer>
     </div>
     <div class="move">
       <button class ="playButtons" v-on:click="submitLocationAnswer(),switchToWaitingRoom(),meterDistance()">
@@ -119,7 +119,7 @@
 
     <div class="map-result" v-if="displayLocationQuestion===true">
       <header class="waiting-result-room-header">{{ uiLabels.locationResult }}</header>
-      <div class="openlayers-map-poll" id="result-map">
+      <div class="openlayers-map-poll-result" id="result-map">
         <MapContainerPollResult :geojson="geojson" v-bind:key=updateZoom v-bind:correctLocation="LocationQuestion.location" v-bind:mapView="mapView" v-bind:userLocation="userLocation" v-bind:distance="distance" > </MapContainerPollResult>
       </div>
     </div>
@@ -679,6 +679,11 @@ waitingroom-users p{
   height: 30em;
   width: 100%;
 }
+.openlayers-map-poll-result {
+  position: relative;
+  height: 30em;
+  width: 100%;
+}
 
 .move{
   gap: 10px 10px;
@@ -916,6 +921,17 @@ waitingroom-users p{
   .checkmark-wrapper {
     padding-bottom: 20vw;
   }
+
+  #waitingroom-item{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    justify-content: space-evenly;
+
+
+  }
+
+
 
 
 

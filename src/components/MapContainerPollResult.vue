@@ -5,8 +5,8 @@
   </div>
 
 <div>
-  <h1 v-if="userLocation.x==500 && userLocation.y==500"> {{uiLabels.noAnswer}} </h1>
-  <h1 v-else> {{ uiLabels.youWere}}  <span style="color: #43BEE5">{{distance}} </span> {{uiLabels.metersLocation}}</h1>
+  <h1 v-if="userLocation.x==500 && userLocation.y==500"> No location submitted! </h1>
+  <h1 v-else> You were  <span style="color: #43BEE5">{{distance}} </span> meters from the correct location!</h1>
 
 </div>
 
@@ -43,6 +43,8 @@ export default {
     mapView:Object,
     userLocation:Object,
     distance:Object,
+    uiLabels:Object,
+    lang:String
 
   },
   data: function () {
