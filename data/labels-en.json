@@ -75,5 +75,8 @@
 	"gameFinished": "Game is finished!",
 	"thankGame": "Thank you for playing:",
 	"finishedFooter": "App created by: ",
-	"finishTheGame": "Finish the game"
+	"finishTheGame": "Finish the game",
+	"noAnswer": "No location submitted",
+	"youWere": "You were ",
+	"metersLocation": " meters from the correct location!"
 }
