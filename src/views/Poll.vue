@@ -282,6 +282,7 @@ export default {
   created: function () {
     this.pollId = this.$route.params.id;
     this.lang = this.$route.params.lang;
+    document.title = "Mapquiz"
 
     socket.emit("pageLoaded", {lang: this.lang, id: this.pollId});
     socket.on("init", (labels) => {
