@@ -917,6 +917,17 @@ waitingroom-users p{
     padding-bottom: 20vw;
   }
 
+  #waitingroom-item{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    justify-content: space-evenly;
+
+
+  }
+
+
+
 
 
 }
