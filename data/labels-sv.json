@@ -3,6 +3,8 @@
 	"invite": "Bjud in deltagare med den här länken:",
 	"createPoll": "Skapa spel",
 	"username": "Välj ditt användarnamn",
+	"enterUsername": "Skriv in användarnamn...",
+	"needUsername": "Du måste skriva in ett användarnamn",
 	"participatePoll": "Delta i spel",
 	"question": "Fråga",
 	"changeLanguage": "SWE",

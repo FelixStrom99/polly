@@ -3,6 +3,8 @@
 	"invite": "Invite participants with this link:",
 	"createPoll": "Create game",
 	"username": "Choose your username",
+	"enterUsername": "Enter username...",
+	"needUsername": "You need to enter a username",
 	"participatePoll": "Participate in game",
 	"question": "Follow-up",
 	"changeLanguage": "EN",
@@ -69,6 +71,5 @@
 	"backMain": " Back to start",
 	"seconds": "seconds",
 	"hostTimeLeft": "Time until all players have answered the chosen question:",
-	"hostGameNot": "No question is running",
-
+	"hostGameNot": "No question is running"
 }

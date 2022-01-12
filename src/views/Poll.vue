@@ -17,8 +17,9 @@
     <div id="choose-username-wrapper">
     <h1> {{ uiLabels.username }}:</h1>
     <div>
-      <input class="participateInput" type="text" v-model="userID" placeholder="Enter username..." autocomplete="off">
+      <input class="participateInput" type="text" v-model="userID" v-bind:placeholder=uiLabels.enterUsername autocomplete="off">
     </div>
+      <p v-if="validUsername===false" style="color: #c01313"> {{uiLabels.needUsername}} </p>
     <button style="margin-top: 7%" class ="playButtons" v-on:click="displayWaitingroom">
       {{ uiLabels.save }}
     </button>
@@ -28,14 +29,18 @@
   <section class="waitingroom" v-if="isWaitingroom">
     <div id="waitingroom-wrapper">
       <h1 id="waitingroom-text">{{ uiLabels.waitingRoom }}</h1>
+      <h3>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </h3>
       <h2>{{ uiLabels.hostWait }}</h2>
+
       <div id="waitingroom-item">
         <h1>{{uiLabels.players}}:</h1>
         <div id="waitingroom-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i" style="  color: white;font-size:20px;">
           <p>{{u}}</p>
         </div>
+
       </div>
     </div>
+
   </section>
 
   <main>
@@ -161,10 +166,6 @@
 
     </section>
 
-    <footer>
-      <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
-    </footer>
-
   </main>
 
 </template>
@@ -236,6 +237,7 @@ export default {
       boolTimerStart:         false,
       isSubmittedAnswer:      false,
       isQuestionNotWaitingRoom:true,
+      validUsername:null
     }
 
   },
@@ -483,9 +485,16 @@ export default {
       }
     },
     displayWaitingroom: function (){
-      socket.emit("addUser", {pollId: this.pollId, users: this.userID})
-      this.isChooseusername = false;
-      this.isWaitingroom = true;
+      if(this.userID!==""){
+        socket.emit("addUser", {pollId: this.pollId, users: this.userID})
+        this.isChooseusername = false;
+        this.isWaitingroom = true;
+        this.validUsername=true;
+      }
+      else{
+        this.validUsername=false
+      }
+
     },
     skipWaitingroomTemporary: function() {
       this.displayLocationQuestion = true;
