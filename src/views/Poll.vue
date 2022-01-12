@@ -221,7 +221,7 @@ export default {
       pollId:                 "inactive poll",
       userID:                 "",
       userList:               [],
-      userLocation:           {x: 0, y: 0},
+      userLocation:           {x: 500, y: 500},
       mapView:                {zoom: 0, center: [0,0]},
       updateZoom:             0,
       distance:               0,
@@ -236,6 +236,7 @@ export default {
       boolTimerStart:         false,
       isSubmittedAnswer:      false,
       isQuestionNotWaitingRoom:true,
+      locationAnswerSubmitted:false
     }
 
   },
@@ -468,11 +469,15 @@ export default {
 
 
     submitLocationAnswer: function () {
+      this.locationAnswerSubmitted=true
       socket.emit("submitLocationAnswer", {pollId: this.pollId, locationAnswer: this.userLocation})
     },
 
     switchQuestionType: function () {
       if (this.displayLocationQuestion === true && this.displayFollowupQuestion === false) {
+        if(this.locationAnswerSubmitted==false){
+          socket.emit("submitLocationAnswer", {pollId: this.pollId, locationAnswer: this.userLocation})
+        }
         this.displayLocationQuestion = false
         this.displayFollowupQuestion = true
       }

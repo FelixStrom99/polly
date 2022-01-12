@@ -509,8 +509,8 @@ export default {
       this.questionSequence.push(newQuestion)
       this.pollQuestionIndex += 1
       this.savedLocation= {
-        x: null,
-        y: null
+        x: 500,
+        y: 500
       }
       if(this.questionSequence.length > 1) {
         this.expandAndCollapseBox(this.questionSequence.length-1)
