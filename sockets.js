@@ -51,10 +51,14 @@ function sockets(io, socket, data) {
         io.to(d.pollId).emit('sendToPoll',d.lang)
         io.to(d.pollId).emit('newQuestion', data.getQuestion(d.pollId, d.questionNumber));
     });
+    socket.on('submitQuestions', function (d) {
+        data.submitQuestions(d.pollId, d.questions);
+       
+    });
 
     socket.on('submitAnswer', function (d) {
         data.submitAnswer(d.pollId, d.answer,d.title);
-        io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId));
+       //* io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId));
     });
 
     socket.on('submitLocationAnswer', function (d) {

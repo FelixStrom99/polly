@@ -163,7 +163,6 @@
       <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
     </footer>
 
-
   </main>
 
 </template>
@@ -424,6 +423,7 @@ export default {
       this.LocationQuestion.lq=Data.lq
       this.LocationQuestion.location=Data.location
       this.correctans=Data.correct
+      socket.emit('submitQuestions',{questions:this.questions,pollId:this.pollId})
 
 
 

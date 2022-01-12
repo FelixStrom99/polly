@@ -208,6 +208,7 @@
     <p v-if="isUserInGame===false">{{uiLabels.hostGameNot}}</p>
 
     <div v-if="gameStarted===false" class="base-timer" id="timer-location">
+
       <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <g class="base-timer__circle">
           <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
@@ -518,8 +519,8 @@ export default {
         y: null
       }
       if(this.questionSequence.length > 1) {
-        this.showLocationQuestion()
         this.expandAndCollapseBox(this.questionSequence.length-1)
+        this.showLocationQuestion()
       }
 
     },
@@ -532,14 +533,6 @@ export default {
       this.secondStage = false
     },
     finishQuizFinal: function () {
-        /*
-      for (var j = 0; j <= this.questionSequence.length; j++) {
-        if (this.questionSequence[j][4].x == 0 && this.questionSequence[j][4].y == 0){
-          alert(this.questionSequence[j][3]+" doesn't have a location clicked ")
-          return
-        }
-      }
-      */
       this.firstStage = true
       this.currentLQ = 0
         for (var i = 0; i <= this.questionSequence.length; i++) {
@@ -827,6 +820,11 @@ export default {
 }
 
 /* Section Host View */
+#fixedwalla{
+  position:fixed;
+  top:1vh;
+  right:1vm;
+}
 
 .hideMe {
    animation: removeResponse  5s forwards;
