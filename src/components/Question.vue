@@ -1,6 +1,4 @@
 <template>
-
-
   <div class="Answer-box-wrapper" >
    <button class="answer-alternative-size-wrapper" v-bind:key="a" v-for="a in question.a" v-on:click="answer(a,question.q)">
        {{ a }}
@@ -15,8 +13,6 @@ export default {
   name: "Question",
   props: {
     question: Object
-
-
   },
 
   methods: {
@@ -76,8 +72,6 @@ export default {
   .answer-alternative-size-wrapper{
     font-size: 5vw;
   }
-
-
 }
 
 

@@ -72,6 +72,7 @@
 	"seconds": "sekunder",
 	"hostTimeLeft": "Tid kvar till alla spelare svarat på vald fråga:",
 	"hostGameNot": "Ingen fråga är igång",
+	"followupInfo": "Här ser du vad andra spelare har svarat",
 	"gameFinished": "Spelet är färdigt!",
 	"thankGame": "Tack för att spelat:",
 	"finishedFooter": "Appen skapad av: ",

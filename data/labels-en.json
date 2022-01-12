@@ -72,6 +72,7 @@
 	"seconds": "seconds",
 	"hostTimeLeft": "Time until all players have answered the chosen question:",
 	"hostGameNot": "No question is running",
+	"followupInfo": "Here you can see how users answered",
 	"gameFinished": "Game is finished!",
 	"thankGame": "Thank you for playing:",
 	"finishedFooter": "App created by: ",
