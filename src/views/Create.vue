@@ -237,8 +237,6 @@
 
 
   <div id="host-view-buttons">
-    {{currentLQ}}
-    {{gameIsFinished}}
 
     <div v-if="gameStarted===true">
       <button class="hostButtons" v-on:click="startGame">{{ uiLabels.startGame }}</button>

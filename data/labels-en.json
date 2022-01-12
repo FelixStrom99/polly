@@ -71,5 +71,8 @@
 	"backMain": " Back to start",
 	"seconds": "seconds",
 	"hostTimeLeft": "Time until all players have answered the chosen question:",
-	"hostGameNot": "No question is running"
+	"hostGameNot": "No question is running",
+	"gameFinished": "Game is finished!",
+	"thankGame": "Thank you for playing:",
+	"finishedFooter": "App created by: "
 }
