@@ -74,5 +74,6 @@
 	"hostGameNot": "No question is running",
 	"gameFinished": "Game is finished!",
 	"thankGame": "Thank you for playing:",
-	"finishedFooter": "App created by: "
+	"finishedFooter": "App created by: ",
+	"finishTheGame": "Finish the game"
 }

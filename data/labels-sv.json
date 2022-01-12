@@ -74,5 +74,6 @@
 	"hostGameNot": "Ingen fråga är igång",
 	"gameFinished": "Spelet är färdigt!",
 	"thankGame": "Tack för att spelat:",
-	"finishedFooter": "Appen skapad av: "
+	"finishedFooter": "Appen skapad av: ",
+	"finishTheGame": "Avsluta spelet"
 }

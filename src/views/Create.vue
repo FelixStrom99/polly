@@ -247,7 +247,7 @@
       <button class="hostButtons" v-on:click="checkResult()" v-else-if="isUserInGame===false">{{ uiLabels.checkResult }}  </button>
     </div>
     <button  class="hostButtons" v-if="gameIsFinished" v-on:click="finishGame()">
-      <router-link class="routerLink" v-bind:to="'/finished/'+pollId+'/'+lang">Finished</router-link> <!-- uiLabels.createPoll-->
+      <router-link class="routerLink" v-bind:to="'/finished/'+pollId+'/'+lang">{{uiLabels.finishTheGame}}</router-link> <!-- uiLabels.createPoll-->
     </button>
     <div>
 
