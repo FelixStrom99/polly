@@ -99,6 +99,7 @@ export default {
     }
   },
   created: function () {
+    socket.emit("pageLoaded", {lang: this.lang});
     socket.on("init", (labels) => {
       this.uiLabels = labels
     })

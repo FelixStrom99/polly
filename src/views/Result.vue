@@ -14,7 +14,6 @@
 
   <h1> {{uiLabels.results}}</h1>
  <h2> {{ locationQuestion }} </h2>
-hej{{locationData}}
 
   <h3> {{uiLabels.resultsInfo}}</h3>
   <div id="boxResult">
@@ -72,6 +71,7 @@ export default {
   created: function () {
     this.pollId = this.$route.params.id
     this.lang = this.$route.params.lang;
+    document.title = "Mapquiz"
 
     socket.emit("pageLoaded", {lang: this.lang, id: this.pollId});
     socket.on("init", (labels) => {
