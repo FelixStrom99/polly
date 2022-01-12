@@ -62,7 +62,7 @@ Data.prototype.checkIfNewGame = function (pollId) {
 
 Data.prototype.addQuestion = function (pollId, q) {
     const poll = this.polls[pollId];
-    console.log("question added to", pollId, q, "Här kommer questions arrayen", poll.questions);
+    console.log("question added to", pollId, q);
     if (typeof poll !== 'undefined') {
         poll.questionSequence.push(q)
     }
@@ -74,7 +74,7 @@ Data.prototype.addToUsers = function (pollId, d) {
         poll.users.push(d)
 
     }
-    console.log("User added to", pollId, "Här kommer Userarrayen", poll.users);
+    console.log("User added to", pollId,poll.users);
 }
 Data.prototype.setZoom = function (pollId, d) {
     const poll = this.polls[pollId];
@@ -82,7 +82,6 @@ Data.prototype.setZoom = function (pollId, d) {
     if (typeof poll !== 'undefined') {
 
         poll.mapView = d
-        console.log("glöggkrök", poll.mapView)
 
     } else {
         poll.mapview = {zoom: 0, center: [0, 0]}
@@ -145,7 +144,7 @@ Data.prototype.submitAnswer = function (pollId, answer,title) {
     if (typeof poll !== 'undefined') {
         let answers = poll.answers[poll.currentQuestion];
             for (let i = 0; i < answers.length; i++) {
-                if (answers[i].question == title) {
+                if (answers[i].question == title && answers[i][answer] !=='undefined') {
                     answers[i][answer] += 1
                     break
                 }
@@ -153,15 +152,8 @@ Data.prototype.submitAnswer = function (pollId, answer,title) {
         }
         console.log("answers looks like",poll.answers[poll.currentQuestion])
 }
-/*   answers[answer] = 1;
-   poll.answers.push(answers);
-} else if (typeof answers[answer] === 'undefined')
-   answers[answer] = 1;
-else
-   answers[answer] += 1
-console.log("answers looks like ", answers, typeof answers);
-}
-}*/
+
+
 Data.prototype.submitLocationAnswer = function (pollId, answer) {
     const poll = this.polls[pollId];
     console.log("answer submitted for ", pollId, answer);
@@ -204,7 +196,6 @@ Data.prototype.getUsers = function (pollId) {
     if (typeof poll !== 'undefined') {
 
         if (typeof poll.users !== 'undefined') {
-            console.log("Hämtad")
             return {users: poll.users};
         }
     }

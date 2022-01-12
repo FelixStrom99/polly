@@ -81,15 +81,11 @@ export default {
       this.createAnswerArray(update)
 
 
-      /*  this.data = update.a;
-      this.question = update.q;*/
-
     });
     socket.on("newQuestion", update => {
       this.question=[]
       this.followUpData = [];
       this.locationQuestion = update.lq
-      //* this.locationData={}
       this.updateZoom += 1
       this.correctLocation = update.location
 
