@@ -96,6 +96,7 @@ export default {
 
     socket.on("locationDataUpdate", update => {
       this.locationData = update.la
+
       this.updateZoom += 1
     });
 

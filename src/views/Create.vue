@@ -169,7 +169,8 @@
             <button class="playButtons save-button-create"
                     v-on:click="editQuestion(this.currentLQ, currentMQ); getResponseButton() ">{{ uiLabels.save }}</button>
 
-            <span v-if="showResponseButton===true" class="hideMe">Your location is saved!</span>
+            <span> <p v-if="showResponseButton===true" class="hideMe">{{uiLabels.questionSaved}}</p>
+            </span>
             </span>
         </div>
         <div style="position: relative; top: 6em" v-if="firstStage!=true">
@@ -236,16 +237,19 @@
 
 
   <div id="host-view-buttons">
+    {{currentLQ}}
+    {{gameIsFinished}}
+
     <div v-if="gameStarted===true">
       <button class="hostButtons" v-on:click="startGame">{{ uiLabels.startGame }}</button>
       <button class="hostButtons" v-on:click="goBackEdit">Go back to editing</button>
     </div>
-    <div v-else-if="gameStarted===false && currentLQ < questionSequence.length-1">
+    <div v-else-if="gameStarted===false && gameIsFinished == false">
       <button class="hostButtons" v-on:click="runQuestion" v-if="questionRunning===false">{{uiLabels.runQuestion }}</button>
       <button class="hostButtons" v-on:click="checkResult()" v-else-if="isUserInGame===false">{{ uiLabels.checkResult }}  </button>
     </div>
-    <button  class="hostButtons" v-if="currentLQ == questionSequence.length-1">
-      <router-link class="routerLink" v-bind:to="'/finished/'+lang">{{ uiLabels.create }}</router-link> <!-- uiLabels.createPoll-->
+    <button  class="hostButtons" v-if="gameIsFinished">
+      <router-link class="routerLink" v-bind:to="'/finished/'+pollId+'/'+lang">Finished</router-link> <!-- uiLabels.createPoll-->
     </button>
     <div>
 
@@ -383,6 +387,7 @@ export default {
       boolTimerStart:         false,
       isQuestionNotWaitingRoom:true,
       isUserInGame            :false,
+      gameIsFinished: false,
     }
   },
 
@@ -518,8 +523,8 @@ export default {
       this.questionSequence.push(newQuestion)
       this.pollQuestionIndex += 1
       this.savedLocation= {
-        x: null,
-        y: null
+        x: 500,
+        y: 500
       }
       this.currentLQ = this.questionSequence.length-1
       this.showLocationQuestion()
@@ -705,8 +710,13 @@ export default {
       socket.emit('sendToResult', {pollId: this.pollId})
       clearInterval(this.timerInterval);
       this.questionRunning=false
-      this.currentLQ += 1;
-      this.previewQuestion()
+      if (this.currentLQ == this.questionSequence.length-1) {
+        this.gameIsFinished = true;
+      }
+      else {
+        this.currentLQ += 1;
+        this.previewQuestion()
+      }
     },
 
     onTimesUp() {
