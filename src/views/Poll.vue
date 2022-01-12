@@ -70,7 +70,7 @@
           </svg>
           <span class="base-timer__label">{{ formattedTimeLeft }}</span>
         </div>
-    <div class="openlayers-map" id="guess-map">
+    <div class="openlayers-map-poll" id="guess-map">
       <MapContainer :geojson="geojson" v-bind:key=updateZoom v-bind:correctLocation="LocationQuestion.location" v-bind:mapView="mapView" v-on:userLocation="userLocation=$event"> </MapContainer>
     </div>
     <div class="move">
@@ -119,7 +119,7 @@
 
     <div class="map-result" v-if="displayLocationQuestion===true">
       <header class="waiting-result-room-header">{{ uiLabels.locationResult }}</header>
-      <div class="openlayers-map" id="result-map">
+      <div class="openlayers-map-poll" id="result-map">
         <MapContainerPollResult :geojson="geojson" v-bind:key=updateZoom v-bind:correctLocation="LocationQuestion.location" v-bind:mapView="mapView" v-bind:userLocation="userLocation" v-bind:distance="distance" > </MapContainerPollResult>
       </div>
     </div>
@@ -674,7 +674,7 @@ waitingroom-users p{
 }
 
 
-.openlayers-map {
+.openlayers-map-poll {
   position: relative;
   height: 30em;
   width: 100%;

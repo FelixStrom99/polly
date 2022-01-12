@@ -117,7 +117,7 @@
           <input class="participateInput" style="width: 40%" type="text" v-bind:placeholder=uiLabels.enterLocationQuestion v-model="locationQuestion" autocomplete="off">
         </div>
         <h3>{{uiLabels.createInfo}}</h3>
-        <div id="openlayers-map">
+        <div id="openlayers-map-create">
           <MapContainerCreate :geojson="geojson"
                               v-on:location="location=$event" v-bind:key="updateZoom" v-bind:mapView="mapView" v-bind:location="savedLocation"  id="mapLq-and-q">
           </MapContainerCreate>
@@ -208,14 +208,14 @@
     <p v-if="isUserInGame===true">{{uiLabels.hostTimeLeft}}</p>
     <p v-if="isUserInGame===false">{{uiLabels.hostGameNot}}</p>
 
-    <div v-if="gameStarted===false" class="base-timer" id="timer-location">
+    <div v-if="gameStarted===false" class="base-timer-create" id="timer-location">
 
       <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <g class="base-timer__circle">
-          <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+        <g class="base-timer__circle-create">
+          <circle class="base-timer__path-elapsed-create" cx="50" cy="50" r="45"></circle>
           <path
               :stroke-dasharray="circleDasharray"
-              class="base-timer__path-remaining"
+              class="base-timer__path-remaining-create"
               :class="remainingPathColor"
               d="
             M 50, 50
@@ -226,7 +226,7 @@
           ></path>
         </g>
       </svg>
-      <span class="base-timer__label">{{ formattedTimeLeft }}</span>
+      <span class="base-timer__label-create">{{ formattedTimeLeft }}</span>
       </div>
     </div>
 
@@ -1156,7 +1156,7 @@ textbox:hover {
 }
 
 
-#openlayers-map {
+#openlayers-map-create {
   display: flex;
   border-radius: 6px;
   justify-content: center;
@@ -1342,24 +1342,24 @@ font-size: 15px;*/
   justify-content: left;
 }
 
-.base-timer {
+.base-timer-create {
   position: relative;
   left: 4.5vw;
   width: 100px;
   height: 100px;
 }
 
-.base-timer__circle {
+.base-timer__circle-create {
   fill: none;
   stroke: none;
 }
 
-.base-timer__path-elapsed {
+.base-timer__path-elapsed-create {
   stroke-width: 7px;
   stroke: rgba(89, 187, 148, 0.58);
 }
 
-.base-timer__path-remaining {
+.base-timer__path-remaining-create {
   stroke-width: 7px;
   stroke-linecap: round;
   transform: rotate(90deg);
@@ -1369,19 +1369,19 @@ font-size: 15px;*/
   stroke: currentColor;
 }
 
-.base-timer__path-remaining.green {
+.base-timer__path-remaining-create.green {
   color: #41B853;
 }
 
-.base-timer__path-remaining.orange {
+.base-timer__path-remaining-create.orange {
   color: #EFA500;
 }
 
-.base-timer__path-remaining.red {
+.base-timer__path-remaining-create.red {
   color: #F40058;
 }
 
-.base-timer__label {
+.base-timer__label-create {
   color: white;
   position: absolute;
   width: 50%;

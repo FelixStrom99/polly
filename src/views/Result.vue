@@ -16,7 +16,7 @@
  <h2 style="text-decoration-line: underline"> {{ locationQuestion }} </h2>
   <h3> {{uiLabels.resultsInfo}}</h3>
   <div id="boxResult">
-    <div id="openlayers-map">
+    <div id="openlayers-map-result">
       <MapContainerResults :geojson="geojson" v-bind:key=updateZoom  v-bind:locationData="locationData" v-bind:correctLocation="correctLocation" v-bind:mapView="mapView"> </MapContainerResults>
     </div>
   </div>
@@ -138,7 +138,7 @@ export default {
   display:flex;
   justify-content:space-evenly;
 }
-#openlayers-map {
+#openlayers-map-result {
   position: relative;
   margin: 0;
   padding: 0;
