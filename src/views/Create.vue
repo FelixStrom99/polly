@@ -78,8 +78,8 @@
       <h1>{{uiLabels.overView}}</h1>
       <span>{{ uiLabels.expand }}: </span>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
-        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i);removeResponse()">
-          <div v-if="questionSequence[i][3] == ''">{{this.uiLabels.newQuestion}}</div>
+        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i);removeResponse(); showLocationQuestion()">
+          <div v-if="questionSequence[i][3] == ''">{{this.uiLabels.newQuestion + " " + (i+1)}}</div>
           <div v-else>{{questionSequence[i][3]}}</div>
         </div>
         <div class="content">
@@ -493,6 +493,8 @@ export default {
         this.questionSequence[firstIndex][4].x = this.location.x
         this.questionSequence[firstIndex][4].y = this.location.y
       }
+      if(!this.createMultipleChoiceQuestion)
+      this.expandAndCollapseBox(this.currentLQ)
     },
 
     addNewPollQuestion: function () {
@@ -512,14 +514,15 @@ export default {
       })
       this.questionSequence.push(newQuestion)
       this.pollQuestionIndex += 1
-      this.currentLQ = (this.questionSequence.length - 1)
       this.savedLocation= {
         x: null,
         y: null
       }
       if(this.questionSequence.length > 1) {
+        this.expandAndCollapseBox(this.questionSequence.length-1)
         this.showLocationQuestion()
       }
+
     },
     nextSection: function () {
       console.log(this.showResponseButton)
@@ -530,12 +533,6 @@ export default {
       this.secondStage = false
     },
     finishQuizFinal: function () {
-      /*for (var j = 0; j <= this.questionSequence.length; j++) {
-        if (this.questionSequence[j][4].x == 0 && this.questionSequence[j][4].y == 0){
-          alert(this.questionSequence[j][3]+" doesn't have a location clicked ")
-          return
-        }
-      }*/
       this.firstStage = true
       this.currentLQ = 0
         for (var i = 0; i <= this.questionSequence.length; i++) {
@@ -617,7 +614,6 @@ export default {
     },
     expandAndCollapseBox: function (imp) {
       this.currentLQ = imp
-      this.showLocationQuestion()
       var coll = document.getElementsByClassName("collapsible");
       var content
       var j
