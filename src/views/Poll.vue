@@ -305,6 +305,9 @@ export default {
     socket.on("checkResult",result => {
       this.sendToResult(result)
     })
+    socket.on("finishGame",finish => {
+      this.sendToFinish(finish)
+    })
 
     socket.on("checkIfNewGame",newGame => {
       this.checkIfNewGame(newGame)
@@ -512,6 +515,9 @@ export default {
     },
     sendToResult: function () {
       this.$router.push({ path: `/result/${this.pollId}/`+this.lang })
+    },
+    sendToFinish: function () {
+      this.$router.push({ path: `/finished/${this.pollId}/`+this.lang })
     },
 
   }

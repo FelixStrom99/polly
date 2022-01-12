@@ -248,7 +248,7 @@
       <button class="hostButtons" v-on:click="runQuestion" v-if="questionRunning===false">{{uiLabels.runQuestion }}</button>
       <button class="hostButtons" v-on:click="checkResult()" v-else-if="isUserInGame===false">{{ uiLabels.checkResult }}  </button>
     </div>
-    <button  class="hostButtons" v-if="gameIsFinished">
+    <button  class="hostButtons" v-if="gameIsFinished" v-on:click="finishGame()">
       <router-link class="routerLink" v-bind:to="'/finished/'+pollId+'/'+lang">Finished</router-link> <!-- uiLabels.createPoll-->
     </button>
     <div>
@@ -717,6 +717,9 @@ export default {
         this.currentLQ += 1;
         this.previewQuestion()
       }
+    },
+    finishGame: function (){
+      socket.emit('sendToFinish', {pollId: this.pollId})
     },
 
     onTimesUp() {
