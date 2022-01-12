@@ -167,7 +167,7 @@
     </section>
 
   </main>
-
+{{questions}}
 </template>
 
 <script scoped>
@@ -370,6 +370,7 @@ export default {
 
     startTimer() {
       this.timerInterval = setInterval(() => (this.timePassed += 1), 1000);
+      console.log("timer",this.timerInterval)
     },
     waitingRoomTimer: function(){
       if(this.isQuestionNotWaitingRoom===true){
@@ -377,8 +378,9 @@ export default {
 
       }
       else if (this.isQuestionNotWaitingRoom===false) {
+        if(this.index==this.questions.length){
+          clearInterval(this.timerInterval)        }
         this.isQuestionNotWaitingRoom=true
-
       }
 
       if(TIME_LIMIT==10 && this.isQuestionNotWaitingRoom==false){
@@ -402,7 +404,7 @@ export default {
         this.startTimer()
       }
 
-      if(this.isQuestionNotWaitingRoom===true){
+      if(this.isQuestionNotWaitingRoom===true && this.index !== this.questions.length){
 
         this.isSubmittedAnswer=false
         this.resetTimer()
