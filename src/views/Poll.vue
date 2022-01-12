@@ -167,7 +167,6 @@
     </section>
 
   </main>
-{{questions}}
 </template>
 
 <script scoped>

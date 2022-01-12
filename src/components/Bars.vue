@@ -4,14 +4,22 @@
   <h6>{{title}}</h6>
     </div>
     <div class="result-Boxes">
-      <div class="bar" v-for="(item, key) in data" v-bind:key="key">
+      <div class="bar" v-for="(item, key,i) in data" v-bind:key="key">
         <div class="answer-counter" v-bind:style="{height: item*2.3 + 'vh'}">
           <span> {{item}} </span>
         </div>
         <div id="answer-alternative-text">
-          <p v-if="correct[key]>0" style="color: #41B853">{{key}}</p>
-          <p v-if="correct[key]<1" style="vertical-align: middle">{{key}}</p>
+          <p v-if="correct[i]==true" style="color: #41B853">{{key}}</p>
+          <p v-if="correct[i]==false" style="vertical-align: middle">{{key}}</p>
         </div>
+        <p>
+          {{"item: " + item}}
+          {{"key: " + key}}
+          {{"i: " + i}}
+        </p>
+
+
+
       </div>
     </div>
   </div>

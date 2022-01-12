@@ -115,8 +115,11 @@ export default {
         this.question.push((answerData.answers)[i].question)
        let keys=Object.keys((answerData.answers)[i])
         let answers={}
-        for (let index = 1; index < keys.length; index++) {
-          answers[keys[index]]=(answerData.answers)[i][keys[index]]
+        for (let index = 0; index < keys.length; index++) {
+          if ((answerData.answers)[i][keys[index]] !== (answerData.answers)[i].question)
+          {
+            answers[keys[index]] = (answerData.answers)[i][keys[index]]
+          }
         }
         this.followUpData.push(answers)
         this.correct.push((answerData.correct)[i][i])
