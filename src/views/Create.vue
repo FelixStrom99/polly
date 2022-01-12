@@ -1267,9 +1267,7 @@ textbox:hover {
   padding-top: 0.5em;
   margin-top: 0;
   border-radius: 7px;
-  background-color: #161B40;
-  text-decoration: underline;
-
+  font-size: 120%;
 }
 
 

@@ -12,7 +12,7 @@
     <li></li>
   </ul>
 
-<h1> Thank you for playing this game: <span style="color: #43BEE5" >{{ pollId }}</span> </h1>
+<h1 id="finished"> Thank you for playing this game: <span style="color: #43BEE5" >{{ pollId }}</span> </h1>
   <div>
   <button  class="playButtons">
     <router-link class="routerLink" v-bind:to="'/'">{{uiLabels.backMain}} </router-link>
@@ -49,7 +49,19 @@ data: function () {
 </script>
 
 <style scoped>
+#finished{
+  margin:8vh;
+}
+#finished h1{
+  font-size: 250%;
+}
 
+footer {
+  font-size: 125%;
+  position: absolute;
+  bottom: 3vh;
+  width: 100%;
+}
 .circles{
   z-index: -1;
   position: absolute;
