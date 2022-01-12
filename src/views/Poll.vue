@@ -138,7 +138,7 @@
 
 
     <div class="waiting-result-room-info">
-      <div v-if="(index+1)===questions.length">
+      <div v-if="(index+1)===questions.length && displayLocationQuestion===false">
         <p>{{uiLabels.userWait}}</p>
 
         <div class="lds-ripple"><div></div><div></div></div>
@@ -162,7 +162,6 @@
     <footer>
       <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
     </footer>
-
 
   </main>
 
@@ -424,6 +423,7 @@ export default {
       this.LocationQuestion.lq=Data.lq
       this.LocationQuestion.location=Data.location
       this.correctans=Data.correct
+      socket.emit('submitQuestions',{questions:this.questions,pollId:this.pollId})
 
 
 
@@ -547,7 +547,7 @@ footer {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  opacity: 85%;
+  opacity: 0.85;
   height: 50vh;
   width: 50%;
   background-color: #2d3572;

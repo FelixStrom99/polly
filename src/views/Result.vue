@@ -27,10 +27,20 @@
       <Bars class="result-bar-item" v-for="(title,i) in question"
             v-bind:key="title"
             v-bind:title="title"
+            v-bind:correct="correct[i]"
             v-bind:data="followUpData[i]"/>
     </div>
   </div>
 
+
+
+
+
+
+
+
+
+>>>>>>> addeTestarFinal2.0
 </template>
 
 <script>
@@ -51,6 +61,7 @@ export default {
       lang: "",
       uiLabels: {},
       question: [],
+      correct:[],
       followUpData:[],
       correctLocation: {
         x: 0,
@@ -75,6 +86,8 @@ export default {
     socket.emit('joinPoll', this.pollId)
     socket.on("dataUpdate", (update) => {
       this.createAnswerArray(update)
+
+
       /*  this.data = update.a;
       this.question = update.q;*/
 
@@ -107,14 +120,15 @@ export default {
   methods: {
 
     createAnswerArray: function (answerData) {
-      for (let i = 0; i < answerData.length; i++) {
-        this.question.push((answerData[i].q))
-       let keys=Object.keys(answerData[i])
+      for (let i = 0; i < (answerData.answers).length; i++) {
+        this.question.push((answerData.answers)[i].question)
+       let keys=Object.keys((answerData.answers)[i])
         let answers={}
         for (let index = 1; index < keys.length; index++) {
-          answers[keys[index]]=answerData[i][keys[index]]
+          answers[keys[index]]=(answerData.answers)[i][keys[index]]
         }
         this.followUpData.push(answers)
+        this.correct.push((answerData.correct)[i][i])
       }
 
     },
