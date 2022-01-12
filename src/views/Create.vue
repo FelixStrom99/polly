@@ -78,7 +78,7 @@
       <h1>{{uiLabels.overView}}</h1>
       <span>{{ uiLabels.expand }}: </span>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
-        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i);removeResponse(); showLocationQuestion()">
+        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i);removeResponse(); showLocationQuestion(),updateZoom+=1">
           <div v-if="questionSequence[i][3] == ''">{{this.uiLabels.newQuestion + " " + (i+1)}}</div>
           <div v-else>{{questionSequence[i][3]}}</div>
         </div>
@@ -119,7 +119,7 @@
         <h3>{{uiLabels.createInfo}}</h3>
         <div id="openlayers-map">
           <MapContainerCreate :geojson="geojson"
-                              v-on:location="location=$event" v-bind:mapView="mapView" v-bind:location="savedLocation"  id="mapLq-and-q">
+                              v-on:location="location=$event" v-bind:key="updateZoom" v-bind:mapView="mapView" v-bind:location="savedLocation"  id="mapLq-and-q">
           </MapContainerCreate>
         </div>
         <div>
@@ -385,7 +385,11 @@ export default {
       boolTimerStart:         false,
       isQuestionNotWaitingRoom:true,
       isUserInGame            :false,
+<<<<<<< HEAD
+      updateZoom:0
+=======
       gameIsFinished: false,
+>>>>>>> e8dd956d2865e3d2ccacb96a0201102a830e5adf
     }
   },
 
@@ -504,6 +508,7 @@ export default {
     },
 
     addNewPollQuestion: function () {
+      this.updateZoom+=1
       var newQuestion = []
       this.indexArray.push([0])
       this.finalQuestion.push([])
