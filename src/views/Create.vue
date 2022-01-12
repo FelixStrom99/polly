@@ -169,7 +169,8 @@
             <button class="playButtons save-button-create"
                     v-on:click="editQuestion(this.currentLQ, currentMQ); getResponseButton() ">{{ uiLabels.save }}</button>
 
-            <span v-if="showResponseButton===true" class="hideMe">Your location is saved!</span>
+            <span> <p v-if="showResponseButton===true" class="hideMe">{{uiLabels.questionSaved}}</p>
+            </span>
             </span>
         </div>
         <div style="position: relative; top: 6em" v-if="firstStage!=true">

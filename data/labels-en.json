@@ -49,7 +49,7 @@
 	"createInfo": "Click the map below to pin a location!",
 	"hostView": "Host view",
 	"startGame": "Start the game",
-	"runQuestion": "Run selected question",
+	"runQuestion": "Run next question",
 	"checkResult": "Check result",
 	"updatePlayers": "Update player-list",
 	"playersConnected": "Players connected",
@@ -69,6 +69,6 @@
 	"backMain": " Back to start",
 	"seconds": "seconds",
 	"hostTimeLeft": "Time until all players have answered the chosen question:",
-	"hostGameNot": "No question is running"
+	"hostGameNot": "No question is running",
 
 }
