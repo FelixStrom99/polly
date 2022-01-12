@@ -303,7 +303,7 @@ const FULL_DASH_ARRAY = 283;
 var TIME_LIMIT = 0;
 const WARNING_THRESHOLD = TIME_LIMIT/2;
 const ALERT_THRESHOLD = TIME_LIMIT/4;
-console.log("hej")
+
 
 
 const COLOR_CODES = {
@@ -379,12 +379,7 @@ export default {
       isUserInGame            :false,
     }
   },
-  /*mounted() {
-    socket.on("userUpdate",(user) =>{
-      console.log("snälla",user)
-    } )
 
-  },*/
   computed: {
     circleDasharray() {
       return `${(this.timeFraction * FULL_DASH_ARRAY).toFixed(0)} 283`;
@@ -400,7 +395,7 @@ export default {
     },
 
     timeLeft() {
-      console.log(TIME_LIMIT - this.timePassed)
+
       return TIME_LIMIT - this.timePassed;
     },
 
@@ -449,7 +444,7 @@ export default {
     )
     socket.on("pollCreated", (data) =>
         this.data = data)
-    socket.on("brakrök", (user) => {
+    socket.on("playersUpdate", (user) => {
       this.userList = user
     })
   },
@@ -527,7 +522,6 @@ export default {
       }
     },
     nextSection: function () {
-      console.log(this.showResponseButton)
       this.secondStage = false
     },
     goBackEdit: function () {
@@ -690,7 +684,7 @@ export default {
 
 
     updatePlayers: function () {
-      socket.emit('test', {pollId: this.pollId})
+      socket.emit('retrievePlayers', {pollId: this.pollId})
     },
     startGame: function () {
       socket.emit('startGame', {pollId: this.pollId})
