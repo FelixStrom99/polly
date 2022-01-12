@@ -255,7 +255,6 @@ export default {
     },
 
     timeLeft() {
-      console.log(TIME_LIMIT - this.timePassed)
       return TIME_LIMIT - this.timePassed;
     },
 
@@ -293,7 +292,6 @@ export default {
     socket.on("newQuestion", q =>
         this.createQuestionArray(q),
 
-        console.log("TESTEST")
     )
     socket.on("userUpdate",update => {
       this.userList=update;
@@ -351,7 +349,6 @@ export default {
     },
 
     onTimesUp() {
-      console.log(TIME_LIMIT)
       clearInterval(this.timerInterval);
       if(this.displayFollowupQuestion===true && this.isQuestionNotWaitingRoom===false){
         this.index += 1}
@@ -368,11 +365,11 @@ export default {
     waitingRoomTimer: function(){
       if(this.isQuestionNotWaitingRoom===true){
         this.isQuestionNotWaitingRoom=false
-        console.log("this.isQuestionNotWaitingRoom=false")
+
       }
       else if (this.isQuestionNotWaitingRoom===false) {
         this.isQuestionNotWaitingRoom=true
-        console.log("this.isQuestionNotWaitingRoom=true")
+
       }
 
       if(TIME_LIMIT==10 && this.isQuestionNotWaitingRoom==false){
@@ -384,13 +381,12 @@ export default {
         this.timePassed=15
         this.startTimer()
       }
-      console.log(TIME_LIMIT + "this is the timeledt before if statement")
+
       if(TIME_LIMIT==40 && this.isQuestionNotWaitingRoom==false){
-        console.log("timePassed = 35 test")
+
         this.timePassed=35
         this.startTimer()
-        console.log(this.timePassed + "this is the time passed")
-        console.log(TIME_LIMIT + " this is the time left when timer started")
+
       }
       if(TIME_LIMIT==60 && this.isQuestionNotWaitingRoom==false){
         this.timePassed=55
@@ -398,7 +394,7 @@ export default {
       }
 
       if(this.isQuestionNotWaitingRoom===true){
-        console.log( )
+
         this.isSubmittedAnswer=false
         this.resetTimer()
         this.switchToWaitingRoom()
@@ -449,7 +445,6 @@ export default {
     },
 
     submitAnswer: function (answer, title) {
-      console.log(title)
       this.displayRanOutTime = false
       this.switchToWaitingRoom()
       this.isSubmittedAnswer=true
@@ -490,7 +485,7 @@ export default {
       this.isWaitingroom = false;
       this.boolTimerStart=true;
       this.resetTimer()
-      console.log("första start")
+
     },
     switchToWaitingRoom: function () {
       if(this.displayAnswer===true){

@@ -36,11 +36,6 @@
 
 
 
-
-
-
-
->>>>>>> addeTestarFinal2.0
 </template>
 
 <script>
@@ -87,9 +82,6 @@ export default {
     socket.on("dataUpdate", (update) => {
       this.createAnswerArray(update)
 
-
-      /*  this.data = update.a;
-      this.question = update.q;*/
 
     });
     socket.on("newQuestion", update => {

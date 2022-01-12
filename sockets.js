@@ -37,8 +37,8 @@ function sockets(io, socket, data) {
         socket.emit('dataUpdate', data.getAnswers(pollId))
 
     });
-    socket.on('test', function (d) {
-        socket.emit('brakrök', data.getUsers(d.pollId))
+    socket.on('retrievePlayers', function (d) {
+        socket.emit('playersUpdate', data.getUsers(d.pollId))
     })
     socket.on('addUser', function (d) {
         data.addToUsers(d.pollId, d.users);
@@ -58,7 +58,7 @@ function sockets(io, socket, data) {
 
     socket.on('submitAnswer', function (d) {
         data.submitAnswer(d.pollId, d.answer,d.title);
-       //* io.to(d.pollId).emit('dataUpdate', data.getAnswers(d.pollId));
+
     });
 
     socket.on('submitLocationAnswer', function (d) {
@@ -67,9 +67,7 @@ function sockets(io, socket, data) {
     });
     socket.on('mapView', function (d) {
         data.setZoom(d.pollId, {zoom: d.zoom, center: d.center});
-        //*io.to(d.pollId).emit('userMapView', d);
 
-        /*   io.to(lq.pollId).emit('dataUpdate', data.getAnswers(lq.pollId));*/
     });
 
     socket.on('resetAll', () => {
