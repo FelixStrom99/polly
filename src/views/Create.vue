@@ -237,7 +237,6 @@
 
 
   <div id="host-view-buttons">
-
     <div v-if="gameStarted===true">
       <button class="hostButtons" v-on:click="startGame">{{ uiLabels.startGame }}</button>
       <button class="hostButtons" v-on:click="goBackEdit">Go back to editing</button>
@@ -245,10 +244,12 @@
     <div v-else-if="gameStarted===false && gameIsFinished == false">
       <button class="hostButtons" v-on:click="runQuestion" v-if="questionRunning===false">{{uiLabels.runQuestion }}</button>
       <button class="hostButtons" v-on:click="checkResult()" v-else-if="isUserInGame===false">{{ uiLabels.checkResult }}  </button>
+      <p v-if="questionRunning==false">Players are checking result...</p>
     </div>
     <button  class="hostButtons" v-if="gameIsFinished" v-on:click="finishGame()">
       <router-link class="routerLink" v-bind:to="'/finished/'+pollId+'/'+lang">{{uiLabels.finishTheGame}}</router-link> <!-- uiLabels.createPoll-->
     </button>
+    <p v-if="questionRunning==false && gameIsFinished">Players are checking result...</p>
     <div>
 
     </div>
@@ -767,10 +768,12 @@ export default {
 /* Section Create quiz // Left Bar */
 .overview-left-side {
   background-color: #2d3572;
-  border: 0.3em solid #EFA500;
+  border: 0.2em solid #EFA500;
+  border-radius: 0 5px 5px 0;
   flex-basis: 15%;
   justify-content: space-evenly;
   overflow: scroll;
+  padding: 0.3em;
 }
 
 /* Section Create quiz // Middle */
@@ -879,9 +882,11 @@ export default {
 
 .alternative-right-side {
   background-color: #2d3572;
-  border: 0.3em solid #EFA500;
+  border: 0.2em solid #EFA500;
+  border-radius: 5px 0 0 5px;
   justify-content: space-evenly;
   flex-basis: 15%;
+  padding: 0.3em;
 }
 
 .animation_rubberband {
@@ -951,7 +956,8 @@ export default {
 }
 
 .collapsible {
-  background-color: #43BEE5;
+  background-color: #EFA500;
+  /*background-color: #43BEE5;*/
   color: #444;
   text-align: center;
   cursor: pointer;
@@ -966,7 +972,8 @@ export default {
 }
 
 .active, .collapsible:hover {
-  background-color: #7fc5de;
+  background-color: #ffc544;
+  /*background-color: #7fc5de;*/
 }
 
 .content {
