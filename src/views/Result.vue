@@ -34,13 +34,6 @@
 
 
 
-
-
-
-
-
-
->>>>>>> addeTestarFinal2.0
 </template>
 
 <script>
