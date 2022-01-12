@@ -159,7 +159,7 @@ export default {
 .result-bar-item {
   height: 100vw;
   background-color: #2d3572;
-  opacity: 95%;
+  opacity: 0.95;
 
 }
 
