@@ -120,11 +120,13 @@
     </div>
 
       <div v-if="result === 'true' && displayFollowupQuestion===true && isSubmittedAnswer===true" >
-        <header class="waiting-result-room-header"><h1 style="color: #41B853">{{ uiLabels.correctAns}}</h1></header>
+        <header class="waiting-result-room-header" id="correkt-header"><h1 style="color: #41B853">{{ uiLabels.correctAns}}</h1></header>
+        <div class="checkmark-wrapper">
         <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
           <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
           <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
         </svg>
+        </div>
       </div>
       <div v-if="result === 'false' && displayFollowupQuestion===true" >
         <header v-if="displayRanOutTime===true && isSubmittedAnswer===false" class="waiting-result-room-header" ><h1>{{ uiLabels.timeEnd }}</h1></header>
@@ -863,7 +865,7 @@ waitingroom-users p{
     z-index: 100;
   }
   #map-question-wrapper{
-    margin-top: 25vw;
+    margin-top: 30vw;
   }
 
   .poll-container{
@@ -880,9 +882,12 @@ waitingroom-users p{
     font-size: 5vw;
   }
 
-
   #question-counter{
     margin-top: 12vw;
+  }
+
+  .checkmark-wrapper {
+    padding-bottom: 20vw;
   }
 
 
