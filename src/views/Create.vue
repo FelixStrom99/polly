@@ -1347,6 +1347,8 @@ font-size: 15px;*/
   left: 4.5vw;
   width: 100px;
   height: 100px;
+  margin-top: 3vw;
+
 }
 
 .base-timer__circle-create {
