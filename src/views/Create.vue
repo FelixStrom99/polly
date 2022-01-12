@@ -239,19 +239,18 @@
   <div id="host-view-buttons">
     <div v-if="gameStarted===true">
       <button class="hostButtons" v-on:click="startGame">{{ uiLabels.startGame }}</button>
-      <button class="hostbuttons" v-on:click="goBackEdit">Go back to editing</button>
+      <button class="hostButtons" v-on:click="goBackEdit">Go back to editing</button>
     </div>
     <div v-else-if="gameStarted===false">
       <button class="hostButtons" v-on:click="runQuestion" v-if="questionRunning===false">{{uiLabels.runQuestion }}</button>
-      <button class="hostButtons" v-on:click="checkResult()" v-else-if="questionRunning===true">{{ uiLabels.checkResult }}  </button>
+      <button class="hostButtons" v-on:click="checkResult()" v-else-if="/*questionRunning===true &&*/ isUserInGame===false">{{ uiLabels.checkResult }}  </button>
     </div>
-
-    <button class="hostButtons" v-on:click="updatePlayers">{{uiLabels.updatePlayers }}</button>
   </div>
 
     <div id="run-question-wrapper">
       <div class="run-question waitingroom">
         <h3>{{ uiLabels.playersConnected }}</h3>
+        <button v-if="gameStarted" v-on:click="updatePlayers">{{uiLabels.updatePlayers }}</button>
         <div id="run-question-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i"
              style="  color: white;font-size:20px;">
           <p>{{ u }}</p>
@@ -709,7 +708,6 @@ export default {
     },
 
     onTimesUp() {
-        console.log("ska stannaaaaa")
       this.isUserInGame=false;
       clearInterval(this.timerInterval);
 
