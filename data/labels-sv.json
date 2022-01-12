@@ -69,5 +69,6 @@
 	"backMain": "Tillbaka till start",
 	"seconds": "sekunder",
 	"hostTimeLeft": "Tid kvar till alla spelare svarat på vald fråga:",
-	"hostGameNot": "Ingen fråga är igång"
+	"hostGameNot": "Ingen fråga är igång",
+	"followupInfo": "Här ser du vad andra spelare har svarat"
 }

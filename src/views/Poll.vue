@@ -45,7 +45,7 @@
       </header>
 
       <div id="map-question-wrapper">
-        <p style="font-weight: bold; color: white">{{ uiLabels.pinLocation }}</p>
+        <p id="locationQ-info" >{{ uiLabels.pinLocation }}</p>
         <div class="base-timer" id="timer-location">
           <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
             <g class="base-timer__circle">
@@ -516,6 +516,11 @@ export default {
 /* General CSS for Poll.vue */
 
 /* Choose username */
+#locationQ-info{
+  font-weight: bold;
+  font-size: 1vw;
+  color: white;
+}
 
 footer {
   position: absolute;
@@ -651,6 +656,7 @@ waitingroom-users p{
   justify-content: center;
 
 }
+
 
 .openlayers-map {
   position: relative;
@@ -840,6 +846,11 @@ waitingroom-users p{
 /* loading icon end*/
 
 @media only screen and (max-width: 600px) {
+  #locationQ-info{
+    font-weight: bold;
+    font-size: 3vw;
+    color: white;
+  }
 
   .waiting-result-room-header h1{
     font-size: 8vw;
@@ -865,7 +876,7 @@ waitingroom-users p{
     z-index: 100;
   }
   #map-question-wrapper{
-    margin-top: 30vw;
+    margin-top: 35vw;
   }
 
   .poll-container{

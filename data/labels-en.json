@@ -69,6 +69,7 @@
 	"backMain": " Back to start",
 	"seconds": "seconds",
 	"hostTimeLeft": "Time until all players have answered the chosen question:",
-	"hostGameNot": "No question is running"
+	"hostGameNot": "No question is running",
+	"followupInfo": "Here you can see how users answered"
 
 }

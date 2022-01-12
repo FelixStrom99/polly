@@ -1,5 +1,5 @@
 <template>
-  <ul class="circles">
+  <ul class="circles" style="height:">
     <li></li>
     <li></li>
     <li></li>
@@ -13,8 +13,7 @@
   </ul>
 
   <h1> {{uiLabels.results}}</h1>
- <h2> {{ locationQuestion }} </h2>
-
+ <h2 style="text-decoration-line: underline"> {{ locationQuestion }} </h2>
   <h3> {{uiLabels.resultsInfo}}</h3>
   <div id="boxResult">
     <div id="openlayers-map">
@@ -22,7 +21,8 @@
     </div>
   </div>
   <div class="result-bar-container">
-    <h2> {{uiLabels.followUpQuestion}}</h2>
+    <h2 style="text-decoration-line: underline"> {{uiLabels.followUpQuestion}}</h2>
+    <h3> {{uiLabels.followupInfo}}</h3>
     <div class="result-bar-wrapper">
       <Bars class="result-bar-item" v-for="(title,i) in question"
             v-bind:key="title"
@@ -138,29 +138,34 @@ export default {
 
 #boxResult{
   display:flex;
-  justify-content: center;
+  justify-content:space-evenly;
 }
 #openlayers-map {
   position: relative;
   margin: 0;
   padding: 0;
-  height: 20em;
+  height: 30em;
   width: 90%;
 }
 .result-bar-container {
-  margin-top: 1vw;
-  background-color: #2d3572;
-  border: 0.3em solid #EFA500;
+  margin-top: 3vw;
   height:auto;
 }
 .result-bar-wrapper{
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  gap: 1vw;
   width: 100%;
   flex-wrap: wrap;
-
 }
 .result-bar-item {
+  height: 100vw;
+  background-color: #2d3572;
+  opacity: 95%;
+
+}
+
+@media only screen and (max-width: 600px) {
 
 }
 </style>
