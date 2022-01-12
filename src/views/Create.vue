@@ -237,13 +237,22 @@
 
 
   <div id="host-view-buttons">
+    {{currentLQ}}
+    {{gameIsFinished}}
+
     <div v-if="gameStarted===true">
       <button class="hostButtons" v-on:click="startGame">{{ uiLabels.startGame }}</button>
       <button class="hostButtons" v-on:click="goBackEdit">Go back to editing</button>
     </div>
-    <div v-else-if="gameStarted===false">
+    <div v-else-if="gameStarted===false && gameIsFinished == false">
       <button class="hostButtons" v-on:click="runQuestion" v-if="questionRunning===false">{{uiLabels.runQuestion }}</button>
-      <button class="hostButtons" v-on:click="checkResult()" v-else-if="/*questionRunning===true &&*/ isUserInGame===false">{{ uiLabels.checkResult }}  </button>
+      <button class="hostButtons" v-on:click="checkResult()" v-else-if="isUserInGame===false">{{ uiLabels.checkResult }}  </button>
+    </div>
+    <button  class="hostButtons" v-if="gameIsFinished" v-on:click="finishGame()">
+      <router-link class="routerLink" v-bind:to="'/finished/'+pollId+'/'+lang">Finished</router-link> <!-- uiLabels.createPoll-->
+    </button>
+    <div>
+
     </div>
   </div>
 
@@ -378,6 +387,7 @@ export default {
       boolTimerStart:         false,
       isQuestionNotWaitingRoom:true,
       isUserInGame            :false,
+      gameIsFinished: false,
     }
   },
 
@@ -700,8 +710,16 @@ export default {
       socket.emit('sendToResult', {pollId: this.pollId})
       clearInterval(this.timerInterval);
       this.questionRunning=false
-      this.currentLQ += 1;
-      this.previewQuestion()
+      if (this.currentLQ == this.questionSequence.length-1) {
+        this.gameIsFinished = true;
+      }
+      else {
+        this.currentLQ += 1;
+        this.previewQuestion()
+      }
+    },
+    finishGame: function (){
+      socket.emit('sendToFinish', {pollId: this.pollId})
     },
 
     onTimesUp() {

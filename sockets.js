@@ -47,6 +47,9 @@ function sockets(io, socket, data) {
   socket.on('sendToResult', function (d) {
     io.to(d.pollId).emit('checkResult',true)
   });
+    socket.on('sendToFinish', function (d) {
+        io.to(d.pollId).emit('finishGame',true)
+    });
     socket.on('runQuestion', function (d) {
         io.to(d.pollId).emit('sendToPoll',d.lang)
         io.to(d.pollId).emit('newQuestion', data.getQuestion(d.pollId, d.questionNumber));
