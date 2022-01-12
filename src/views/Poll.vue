@@ -676,12 +676,12 @@ waitingroom-users p{
 
 .openlayers-map-poll {
   position: relative;
-  height: 30em;
+  height: 60vh;
   width: 100%;
 }
 .openlayers-map-poll-result {
   position: relative;
-  height: 30em;
+  height: 60vh;
   width: 100%;
 }
 

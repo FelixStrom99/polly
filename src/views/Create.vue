@@ -1161,7 +1161,7 @@ textbox:hover {
   border-radius: 6px;
   justify-content: center;
   position: relative;
-  height: 25rem;
+  height: 50vh;
   width: 100%;
 
 }

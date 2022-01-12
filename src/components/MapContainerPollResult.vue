@@ -121,6 +121,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.uiLabels)
     this.vectorLayer = new VectorLayer({
       source: new VectorSource({
         features: [], // the vector layer is now created empty

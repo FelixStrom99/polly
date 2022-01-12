@@ -142,7 +142,7 @@ export default {
   position: relative;
   margin: 0;
   padding: 0;
-  height: 30em;
+  height: 60vh;
   width: 90%;
 }
 .result-bar-container {
