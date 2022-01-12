@@ -78,7 +78,7 @@
       <h1>{{uiLabels.overView}}</h1>
       <span>{{ uiLabels.expand }}: </span>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
-        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i);removeResponse(); showLocationQuestion()">
+        <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i);removeResponse(); showLocationQuestion(),updateZoom+=1">
           <div v-if="questionSequence[i][3] == ''">{{this.uiLabels.newQuestion + " " + (i+1)}}</div>
           <div v-else>{{questionSequence[i][3]}}</div>
         </div>
@@ -119,7 +119,7 @@
         <h3>{{uiLabels.createInfo}}</h3>
         <div id="openlayers-map">
           <MapContainerCreate :geojson="geojson"
-                              v-on:location="location=$event" v-bind:mapView="mapView" v-bind:location="savedLocation"  id="mapLq-and-q">
+                              v-on:location="location=$event" v-bind:key="updateZoom" v-bind:mapView="mapView" v-bind:location="savedLocation"  id="mapLq-and-q">
           </MapContainerCreate>
         </div>
         <div>
@@ -169,7 +169,8 @@
             <button class="playButtons save-button-create"
                     v-on:click="editQuestion(this.currentLQ, currentMQ); getResponseButton() ">{{ uiLabels.save }}</button>
 
-            <span v-if="showResponseButton===true" class="hideMe">Your location is saved!</span>
+            <span> <p v-if="showResponseButton===true" class="hideMe">{{uiLabels.questionSaved}}</p>
+            </span>
             </span>
         </div>
         <div style="position: relative; top: 6em" v-if="firstStage!=true">
@@ -236,13 +237,20 @@
 
 
   <div id="host-view-buttons">
+
     <div v-if="gameStarted===true">
       <button class="hostButtons" v-on:click="startGame">{{ uiLabels.startGame }}</button>
       <button class="hostButtons" v-on:click="goBackEdit">Go back to editing</button>
     </div>
-    <div v-else-if="gameStarted===false">
+    <div v-else-if="gameStarted===false && gameIsFinished == false">
       <button class="hostButtons" v-on:click="runQuestion" v-if="questionRunning===false">{{uiLabels.runQuestion }}</button>
-      <button class="hostButtons" v-on:click="checkResult()" v-else-if="/*questionRunning===true &&*/ isUserInGame===false">{{ uiLabels.checkResult }}  </button>
+      <button class="hostButtons" v-on:click="checkResult()" v-else-if="isUserInGame===false">{{ uiLabels.checkResult }}  </button>
+    </div>
+    <button  class="hostButtons" v-if="gameIsFinished" v-on:click="finishGame()">
+      <router-link class="routerLink" v-bind:to="'/finished/'+pollId+'/'+lang">{{uiLabels.finishTheGame}}</router-link> <!-- uiLabels.createPoll-->
+    </button>
+    <div>
+
     </div>
   </div>
 
@@ -263,14 +271,16 @@
         </div>
       </div> -->
 
-      <div class="run-question preview">
+      <div class="run-question preview" style="overflow: scroll">
         <h3>{{uiLabels.questionPreview}}</h3>
         <div class="preview-question">
           <p>{{uiLabels.locationQuestion}}:</p>
-          {{ questionSequence[currentLQ][3] }}
-          <p>{{uiLabels.followUpQuestion}}:</p>
-          <div v-for="(ans,i) in questionSequence[currentLQ][0]" v-bind:key="'ans'+i">
-            {{ ans[i] }}
+          <div class="preview-question-text">
+            {{ questionSequence[currentLQ][3] }}
+            <p>{{uiLabels.followUpQuestion}}:</p>
+            <div v-for="(ans,i) in questionSequence[currentLQ][0]" v-bind:key="'ans'+i" style="word-wrap: break-word; margin-bottom: 1em;">
+              {{ ans[i] }}
+            </div>
           </div>
         </div>
         <div v-if="questionSequence.length > 1 && currentLQ+1 !== questionSequence.length">
@@ -279,7 +289,7 @@
             <p>{{uiLabels.locationQuestion}}:</p>
             {{ questionSequence[currentLQ+1][3] }}
             <p>{{uiLabels.followUpQuestion}}:</p>
-            <div v-for="(ans,i) in questionSequence[currentLQ+1][0]" v-bind:key="'ans'+i">
+            <div v-for="(ans,i) in questionSequence[currentLQ+1][0]" v-bind:key="'ans'+i" style="word-wrap: break-word; margin-bottom: 1em;">
               {{ ans[i] }}
             </div>
           </div>
@@ -301,7 +311,7 @@ const FULL_DASH_ARRAY = 283;
 var TIME_LIMIT = 0;
 const WARNING_THRESHOLD = TIME_LIMIT/2;
 const ALERT_THRESHOLD = TIME_LIMIT/4;
-console.log("hej")
+
 
 
 const COLOR_CODES = {
@@ -375,14 +385,11 @@ export default {
       boolTimerStart:         false,
       isQuestionNotWaitingRoom:true,
       isUserInGame            :false,
+      updateZoom:              0,
+      gameIsFinished:          false,
     }
   },
-  /*mounted() {
-    socket.on("userUpdate",(user) =>{
-      console.log("snälla",user)
-    } )
 
-  },*/
   computed: {
     circleDasharray() {
       return `${(this.timeFraction * FULL_DASH_ARRAY).toFixed(0)} 283`;
@@ -398,7 +405,7 @@ export default {
     },
 
     timeLeft() {
-      console.log(TIME_LIMIT - this.timePassed)
+
       return TIME_LIMIT - this.timePassed;
     },
 
@@ -436,6 +443,7 @@ export default {
 
   created: function () {
     this.lang = this.$route.params.lang;
+    document.title = "Mapquiz"
     this.addNewPollQuestion()
     socket.emit("pageLoaded", {lang: this.lang, id: this.pollId});
     socket.on("init", (labels) => {
@@ -446,7 +454,7 @@ export default {
     )
     socket.on("pollCreated", (data) =>
         this.data = data)
-    socket.on("brakrök", (user) => {
+    socket.on("playersUpdate", (user) => {
       this.userList = user
     })
   },
@@ -497,6 +505,7 @@ export default {
     },
 
     addNewPollQuestion: function () {
+      this.updateZoom+=1
       var newQuestion = []
       this.indexArray.push([0])
       this.finalQuestion.push([])
@@ -514,17 +523,16 @@ export default {
       this.questionSequence.push(newQuestion)
       this.pollQuestionIndex += 1
       this.savedLocation= {
-        x: null,
-        y: null
+        x: 500,
+        y: 500
       }
+      this.currentLQ = this.questionSequence.length-1
+      this.showLocationQuestion()
       if(this.questionSequence.length > 1) {
         this.expandAndCollapseBox(this.questionSequence.length-1)
-        this.showLocationQuestion()
       }
-
     },
     nextSection: function () {
-      console.log(this.showResponseButton)
       this.secondStage = false
     },
     goBackEdit: function () {
@@ -687,7 +695,7 @@ export default {
 
 
     updatePlayers: function () {
-      socket.emit('test', {pollId: this.pollId})
+      socket.emit('retrievePlayers', {pollId: this.pollId})
     },
     startGame: function () {
       socket.emit('startGame', {pollId: this.pollId})
@@ -702,8 +710,16 @@ export default {
       socket.emit('sendToResult', {pollId: this.pollId})
       clearInterval(this.timerInterval);
       this.questionRunning=false
-      this.currentLQ += 1;
-      this.previewQuestion()
+      if (this.currentLQ == this.questionSequence.length-1) {
+        this.gameIsFinished = true;
+      }
+      else {
+        this.currentLQ += 1;
+        this.previewQuestion()
+      }
+    },
+    finishGame: function (){
+      socket.emit('sendToFinish', {pollId: this.pollId})
     },
 
     onTimesUp() {
@@ -1188,6 +1204,10 @@ textbox:hover {
   flex-direction: row;
   justify-content: center;
 }
+#host-view-buttons button {
+  margin-left: 0.5em;
+}
+
 .hostButtons{
   flex-shrink: 2;
   color: white;
@@ -1258,6 +1278,14 @@ textbox:hover {
   color: white;
   min-height: 10em;
   border-radius: 7px;
+  padding: 1em;
+}
+
+.preview-question p {
+  padding-top: 0.5em;
+  margin-top: 0;
+  border-radius: 7px;
+  font-size: 120%;
 }
 
 

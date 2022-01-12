@@ -17,8 +17,9 @@
     <div id="choose-username-wrapper">
     <h1> {{ uiLabels.username }}:</h1>
     <div>
-      <input class="participateInput" type="text" v-model="userID" placeholder="Enter username..." autocomplete="off">
+      <input class="participateInput" type="text" v-model="userID" v-bind:placeholder=uiLabels.enterUsername autocomplete="off">
     </div>
+      <p v-if="validUsername===false" style="color: #c01313"> {{uiLabels.needUsername}} </p>
     <button style="margin-top: 7%" class ="playButtons" v-on:click="displayWaitingroom">
       {{ uiLabels.save }}
     </button>
@@ -28,14 +29,18 @@
   <section class="waitingroom" v-if="isWaitingroom">
     <div id="waitingroom-wrapper">
       <h1 id="waitingroom-text">{{ uiLabels.waitingRoom }}</h1>
+      <h3>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </h3>
       <h2>{{ uiLabels.hostWait }}</h2>
+
       <div id="waitingroom-item">
         <h1>{{uiLabels.players}}:</h1>
         <div id="waitingroom-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i" style="  color: white;font-size:20px;">
           <p>{{u}}</p>
         </div>
+
       </div>
     </div>
+
   </section>
 
   <main>
@@ -161,10 +166,6 @@
 
     </section>
 
-    <footer>
-      <p>{{ uiLabels.pollID }}: <span style="color: #43BEE5" >{{ pollId }}</span> </p>
-    </footer>
-
   </main>
 
 </template>
@@ -221,7 +222,7 @@ export default {
       pollId:                 "inactive poll",
       userID:                 "",
       userList:               [],
-      userLocation:           {x: 0, y: 0},
+      userLocation:           {x: 500, y: 500},
       mapView:                {zoom: 0, center: [0,0]},
       updateZoom:             0,
       distance:               0,
@@ -236,6 +237,8 @@ export default {
       boolTimerStart:         false,
       isSubmittedAnswer:      false,
       isQuestionNotWaitingRoom:true,
+      locationAnswerSubmitted:false,
+      validUsername:null
     }
 
   },
@@ -257,7 +260,6 @@ export default {
     },
 
     timeLeft() {
-      console.log(TIME_LIMIT - this.timePassed)
       return TIME_LIMIT - this.timePassed;
     },
 
@@ -282,6 +284,7 @@ export default {
   created: function () {
     this.pollId = this.$route.params.id;
     this.lang = this.$route.params.lang;
+    document.title = "Mapquiz"
 
     socket.emit("pageLoaded", {lang: this.lang, id: this.pollId});
     socket.on("init", (labels) => {
@@ -295,13 +298,15 @@ export default {
     socket.on("newQuestion", q =>
         this.createQuestionArray(q),
 
-        console.log("TESTEST")
     )
     socket.on("userUpdate",update => {
       this.userList=update;
     })
     socket.on("checkResult",result => {
       this.sendToResult(result)
+    })
+    socket.on("finishGame",finish => {
+      this.sendToFinish(finish)
     })
 
     socket.on("checkIfNewGame",newGame => {
@@ -353,7 +358,6 @@ export default {
     },
 
     onTimesUp() {
-      console.log(TIME_LIMIT)
       clearInterval(this.timerInterval);
       if(this.displayFollowupQuestion===true && this.isQuestionNotWaitingRoom===false){
         this.index += 1}
@@ -370,11 +374,11 @@ export default {
     waitingRoomTimer: function(){
       if(this.isQuestionNotWaitingRoom===true){
         this.isQuestionNotWaitingRoom=false
-        console.log("this.isQuestionNotWaitingRoom=false")
+
       }
       else if (this.isQuestionNotWaitingRoom===false) {
         this.isQuestionNotWaitingRoom=true
-        console.log("this.isQuestionNotWaitingRoom=true")
+
       }
 
       if(TIME_LIMIT==10 && this.isQuestionNotWaitingRoom==false){
@@ -386,13 +390,12 @@ export default {
         this.timePassed=15
         this.startTimer()
       }
-      console.log(TIME_LIMIT + "this is the timeledt before if statement")
+
       if(TIME_LIMIT==40 && this.isQuestionNotWaitingRoom==false){
-        console.log("timePassed = 35 test")
+
         this.timePassed=35
         this.startTimer()
-        console.log(this.timePassed + "this is the time passed")
-        console.log(TIME_LIMIT + " this is the time left when timer started")
+
       }
       if(TIME_LIMIT==60 && this.isQuestionNotWaitingRoom==false){
         this.timePassed=55
@@ -400,7 +403,7 @@ export default {
       }
 
       if(this.isQuestionNotWaitingRoom===true){
-        console.log( )
+
         this.isSubmittedAnswer=false
         this.resetTimer()
         this.switchToWaitingRoom()
@@ -451,7 +454,6 @@ export default {
     },
 
     submitAnswer: function (answer, title) {
-      console.log(title)
       this.displayRanOutTime = false
       this.switchToWaitingRoom()
       this.isSubmittedAnswer=true
@@ -473,26 +475,37 @@ export default {
 
 
     submitLocationAnswer: function () {
+      this.locationAnswerSubmitted=true
       socket.emit("submitLocationAnswer", {pollId: this.pollId, locationAnswer: this.userLocation})
     },
 
     switchQuestionType: function () {
       if (this.displayLocationQuestion === true && this.displayFollowupQuestion === false) {
+        if(this.locationAnswerSubmitted==false){
+          socket.emit("submitLocationAnswer", {pollId: this.pollId, locationAnswer: this.userLocation})
+        }
         this.displayLocationQuestion = false
         this.displayFollowupQuestion = true
       }
     },
     displayWaitingroom: function (){
-      socket.emit("addUser", {pollId: this.pollId, users: this.userID})
-      this.isChooseusername = false;
-      this.isWaitingroom = true;
+      if(this.userID!==""){
+        socket.emit("addUser", {pollId: this.pollId, users: this.userID})
+        this.isChooseusername = false;
+        this.isWaitingroom = true;
+        this.validUsername=true;
+      }
+      else{
+        this.validUsername=false
+      }
+
     },
     skipWaitingroomTemporary: function() {
       this.displayLocationQuestion = true;
       this.isWaitingroom = false;
       this.boolTimerStart=true;
       this.resetTimer()
-      console.log("första start")
+
     },
     switchToWaitingRoom: function () {
       if(this.displayAnswer===true){
@@ -502,6 +515,9 @@ export default {
     },
     sendToResult: function () {
       this.$router.push({ path: `/result/${this.pollId}/`+this.lang })
+    },
+    sendToFinish: function () {
+      this.$router.push({ path: `/finished/${this.pollId}/`+this.lang })
     },
 
   }

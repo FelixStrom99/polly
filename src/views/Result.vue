@@ -1,5 +1,5 @@
 <template>
-  <ul class="circles" style="height:">
+  <ul class="circles">
     <li></li>
     <li></li>
     <li></li>
@@ -71,6 +71,7 @@ export default {
   created: function () {
     this.pollId = this.$route.params.id
     this.lang = this.$route.params.lang;
+    document.title = "Mapquiz"
 
     socket.emit("pageLoaded", {lang: this.lang, id: this.pollId});
     socket.on("init", (labels) => {
@@ -81,15 +82,11 @@ export default {
       this.createAnswerArray(update)
 
 
-      /*  this.data = update.a;
-      this.question = update.q;*/
-
     });
     socket.on("newQuestion", update => {
       this.question=[]
       this.followUpData = [];
       this.locationQuestion = update.lq
-      //* this.locationData={}
       this.updateZoom += 1
       this.correctLocation = update.location
 
@@ -99,6 +96,7 @@ export default {
 
     socket.on("locationDataUpdate", update => {
       this.locationData = update.la
+
       this.updateZoom += 1
     });
 
