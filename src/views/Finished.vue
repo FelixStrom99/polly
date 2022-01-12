@@ -175,4 +175,13 @@ footer {
   animation-delay: 0s;
   animation-duration: 11s;
 }
+
+@media only screen and (max-width: 600px) {
+ #finished-header{
+   font-size: 5vw;
+ }
+  footer{
+    font-size: 3vw;
+  }
+}
 </style>

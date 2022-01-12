@@ -79,8 +79,8 @@
       <span>{{ uiLabels.expand }}: </span>
       <div class="question-boxes" v-for="(_,i) in questionSequence" v-bind:key="'boxes'+i">
         <div type="button" class="collapsible" v-on:click="expandAndCollapseBox(i);removeResponse(); showLocationQuestion(),updateZoom+=1">
-          <div v-if="questionSequence[i][3] == ''">{{this.uiLabels.newQuestion + " " + (i+1)}}</div>
-          <div v-else>{{questionSequence[i][3]}}</div>
+          <div v-if="questionSequence[i][3] == ''" style="color:white">{{this.uiLabels.locationQuestion + " " + (i+1)}}</div>
+          <div v-else style="color:white">{{questionSequence[i][3]}}</div>
         </div>
         <div class="content">
           <div class="content-mq" v-for="(_,j) in questionSequence[i][0]" v-bind:key="'answers'+j">
@@ -112,12 +112,12 @@
     </div>
     <div class="create lq-and-q">
       <div class="location-question" v-if="createLocationQuestion">
-        <h1>{{ uiLabels.create }} {{uiLabels.locationQuestion}} {{this.currentLQ+1}}</h1>
+        <h1>{{uiLabels.locationQuestion}} {{this.currentLQ+1}}</h1>
         <div>
           <input class="participateInput" style="width: 40%" type="text" v-bind:placeholder=uiLabels.enterLocationQuestion v-model="locationQuestion" autocomplete="off">
         </div>
         <h3>{{uiLabels.createInfo}}</h3>
-        <div id="openlayers-map">
+        <div id="openlayers-map-create">
           <MapContainerCreate :geojson="geojson"
                               v-on:location="location=$event" v-bind:key="updateZoom" v-bind:mapView="mapView" v-bind:location="savedLocation"  id="mapLq-and-q">
           </MapContainerCreate>
@@ -136,7 +136,7 @@
       </div>
 
       <div class="create theme" v-if="createMultipleChoiceQuestion">
-        <h1>{{ uiLabels.create }} {{uiLabels.followUpQuestion}} {{this.currentMQ+1}}</h1>
+        <h1>{{uiLabels.followUpQuestion}} {{this.currentMQ+1}}</h1>
         <input class="participateInput" style="width: 40%" type="text" v-bind:placeholder=uiLabels.enterFollowUp v-model="question">
         <div class="question-multiple">
           <div class="Answer-box-wrapper">
@@ -208,14 +208,14 @@
     <p v-if="isUserInGame===true">{{uiLabels.hostTimeLeft}}</p>
     <p v-if="isUserInGame===false">{{uiLabels.hostGameNot}}</p>
 
-    <div v-if="gameStarted===false" class="base-timer" id="timer-location">
+    <div v-if="gameStarted===false" class="base-timer-create" id="timer-location">
 
       <svg  viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <g class="base-timer__circle">
-          <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+        <g class="base-timer__circle-create">
+          <circle class="base-timer__path-elapsed-create" cx="50" cy="50" r="45"></circle>
           <path
               :stroke-dasharray="circleDasharray"
-              class="base-timer__path-remaining"
+              class="base-timer__path-remaining-create"
               :class="remainingPathColor"
               d="
             M 50, 50
@@ -226,7 +226,7 @@
           ></path>
         </g>
       </svg>
-      <span class="base-timer__label">{{ formattedTimeLeft }}</span>
+      <span class="base-timer__label-create">{{ formattedTimeLeft }}</span>
       </div>
     </div>
 
@@ -256,7 +256,7 @@
   </div>
 
     <div id="run-question-wrapper">
-      <div class="run-question waitingroom">
+      <div class="run-question waitingroom" style="overflow: scroll">
         <h3>{{ uiLabels.playersConnected }}</h3>
         <button v-if="gameStarted" v-on:click="updatePlayers">{{uiLabels.updatePlayers }}</button>
         <div id="run-question-users" v-for="(u,i) in userList.users" v-bind:key="'user'+i"
@@ -635,7 +635,7 @@ export default {
       coll[imp].classList.toggle("active");
       content = coll[imp].nextElementSibling;
       if (content.style.maxHeight && !this.currentLQ) {
-        content.style.maxHeight = null;
+          content.style.maxHeight = null;
       } else {
         content.style.maxHeight = content.scrollHeight + 40 + "px";
       }
@@ -1156,12 +1156,12 @@ textbox:hover {
 }
 
 
-#openlayers-map {
+#openlayers-map-create {
   display: flex;
   border-radius: 6px;
   justify-content: center;
   position: relative;
-  height: 25rem;
+  height: 50vh;
   width: 100%;
 
 }
@@ -1272,6 +1272,7 @@ textbox:hover {
 .run-question waitingroom {
   min-width: 10%;
   margin-left: 5%;
+
 }
 
 .run-question preview{
@@ -1342,24 +1343,26 @@ font-size: 15px;*/
   justify-content: left;
 }
 
-.base-timer {
+.base-timer-create {
   position: relative;
   left: 4.5vw;
   width: 100px;
   height: 100px;
+  margin-top: 3vw;
+
 }
 
-.base-timer__circle {
+.base-timer__circle-create {
   fill: none;
   stroke: none;
 }
 
-.base-timer__path-elapsed {
+.base-timer__path-elapsed-create {
   stroke-width: 7px;
   stroke: rgba(89, 187, 148, 0.58);
 }
 
-.base-timer__path-remaining {
+.base-timer__path-remaining-create {
   stroke-width: 7px;
   stroke-linecap: round;
   transform: rotate(90deg);
@@ -1369,19 +1372,19 @@ font-size: 15px;*/
   stroke: currentColor;
 }
 
-.base-timer__path-remaining.green {
+.base-timer__path-remaining-create.green {
   color: #41B853;
 }
 
-.base-timer__path-remaining.orange {
+.base-timer__path-remaining-create.orange {
   color: #EFA500;
 }
 
-.base-timer__path-remaining.red {
+.base-timer__path-remaining-create.red {
   color: #F40058;
 }
 
-.base-timer__label {
+.base-timer__label-create {
   color: white;
   position: absolute;
   width: 50%;

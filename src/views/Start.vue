@@ -7,7 +7,7 @@
         <object data="/svg_files/Language_symbol/language-symbol.svg" type="image/svg+xml" style="float: left" >
         </object>
         </div>
-        <div style="position: relative;top:20%">
+        <div id="fontSizeLangButton">
         {{uiLabels.changeLanguage}}
         </div>
       </button>
@@ -245,16 +245,18 @@ button:hover{
   #langIcon{
     display: none ;
   }
+  #fontSizeLangButton{
+    font-size: 3vw;
+  }
   #LangButtonContainer {
-    border: none;
     color: white;
-    border-radius: 50%;
+    border: 0.05em solid white;
+    padding: 0;
     background:none;
     width:8%;
     height: 5%;
     font-size:100%;
     text-align: center;
-
     border-radius: 6px;
     position: absolute;
     top: 20px;
